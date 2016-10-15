@@ -1,0 +1,5 @@
+--5
+CREATE TABLE STRANGER_STRINGS.Compra(
+Id_Compra INT IDENTITY(1,1) PRIMARY KEY,
+Fecha_Compra datetime,
+Id_Paciente INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Paciente(Id_Paciente))

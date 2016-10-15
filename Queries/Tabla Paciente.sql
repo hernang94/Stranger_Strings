@@ -1,0 +1,20 @@
+--4
+CREATE TABLE STRANGER_STRINGS.Paciente(
+Id_Paciente INT IDENTITY(1,1) PRIMARY KEY,
+Num_Afiliado_Raiz NUMERIC(20,0) UNIQUE,
+Num_Afiliado_Resto NUMERIC(2,0) UNIQUE,
+Nombre VARCHAR(255),
+Apellido VARCHAR(255),
+Tipo_Doc VARCHAR(10),
+Num_Doc NUMERIC(8,1),
+Id_Direccion INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Direccion(Id_Direccion),
+Telefono NUMERIC(18,0),
+Mail VARCHAR(255),
+Fecha_Nac DATETIME,
+Sexo CHAR(1) CHECK(Sexo = 'F' OR Sexo = 'M'),
+Estado_Civil VARCHAR(15),
+Familiares_A_Cargo INT,
+Id_Plan INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Plan_Medico(Id_Plan),
+Cantidad_Consulta INT,
+Id_Usuario INT  FOREIGN KEY REFERENCES STRANGER_STRINGS.Usuario(Id_Usuario),
+)

@@ -1,6 +1,6 @@
 --1er Consulta
 CREATE TABLE STRANGER_STRINGS.Direccion(
-Id_Direccion INT IDENTITY(1,1) CONSTRAINT PK_Id_Direccion PRIMARY KEY,
+Id_Direccion INT IDENTITY(1,1) PRIMARY KEY,
 Calle varchar(255),
 Numero numeric(5,0),
 Piso numeric(2,0),
