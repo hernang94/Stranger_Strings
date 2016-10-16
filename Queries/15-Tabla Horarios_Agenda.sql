@@ -1,0 +1,7 @@
+--15
+CREATE TABLE STRANGER_STRINGS.Horarios_Agenda(
+Id_Horario INT IDENTITY(1,1) PRIMARY KEY,
+Dia SMALLINT,
+Hora_Desde TIME,
+Hora_Hasta TIME,
+Id_Especialidad INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Especialidad(Id_Especialidad))
