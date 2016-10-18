@@ -1,0 +1,72 @@
+--Selecciono BD
+
+USE GD2C2016
+GO
+
+--Si no existe el esquema lo creo
+
+IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'STRANGER_STRINGS')
+BEGIN
+    EXEC ('CREATE SCHEMA STRANGER_STRINGS AUTHORIZATION gd')
+END
+GO
+
+--Si existen las tablas las dropeo
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Baja_Paciente'))
+    DROP TABLE STRANGER_STRINGS.Baja_Paciente
+	
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Bono'))
+    DROP TABLE STRANGER_STRINGS.Bono
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Cambio_Plan'))
+    DROP TABLE STRANGER_STRINGS.Cambio_Plan
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Cancelacion_Turno'))
+    DROP TABLE STRANGER_STRINGS.Cancelacion_Turno
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Compra'))
+    DROP TABLE STRANGER_STRINGS.Compra
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Consulta'))
+    DROP TABLE STRANGER_STRINGS.Consulta
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Direccion'))
+    DROP TABLE STRANGER_STRINGS.Direccion
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Especialidad'))
+    DROP TABLE STRANGER_STRINGS.Especialidad
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Especialidad_X_Medico'))
+    DROP TABLE STRANGER_STRINGS.Especialidad_X_Medico
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Funcionalidad'))
+    DROP TABLE STRANGER_STRINGS.Funcionalidad
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Funcionalidad_X_Rol'))
+    DROP TABLE STRANGER_STRINGS.Funcionalidad_X_Rol
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Horarios_Agenda'))
+    DROP TABLE STRANGER_STRINGS.Horarios_Agenda
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Medico'))
+    DROP TABLE STRANGER_STRINGS.Medico
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Paciente'))
+    DROP TABLE STRANGER_STRINGS.Paciente
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Plan_Medico'))
+    DROP TABLE STRANGER_STRINGS.Plan_Medico
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Rol'))
+    DROP TABLE STRANGER_STRINGS.Rol
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Rol_X_Usuario'))
+    DROP TABLE STRANGER_STRINGS.Rol_X_Usuario
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Turno'))
+    DROP TABLE STRANGER_STRINGS.Turno
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Usuario'))
+    DROP TABLE STRANGER_STRINGS.Usuario
+
