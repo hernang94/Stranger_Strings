@@ -1,0 +1,3 @@
+INSERT INTO STRANGER_STRINGS.Usuario (Usuario,Password) values ('Pepe',HASHBYTES('SHA2_256','Judios'))
+SELECT * FROM STRANGER_STRINGS.Usuario u
+WHERE u.Password LIKE HASHBYTES('SHA2_256','Judios')
