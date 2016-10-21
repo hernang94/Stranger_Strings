@@ -72,7 +72,7 @@ IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRI
 --Creacion de tablas 
 
 CREATE TABLE STRANGER_STRINGS.Plan_Medico(
-Id_Plan INT IDENTITY(1,1) PRIMARY KEY,
+Codigo_Plan INT PRIMARY KEY,
 Descripcion VARCHAR(255),
 Precio_Bono_Consulta NUMERIC(18,0),
 Precio_Bono_Farmacia NUMERIC(18,0)
@@ -87,8 +87,8 @@ Cantidad_Intentos SMALLINT,
 -----------------------------------------------------------
 CREATE TABLE STRANGER_STRINGS.Paciente(
 Id_Paciente INT IDENTITY(1,1) PRIMARY KEY,
-Num_Afiliado_Raiz NUMERIC(20,0) UNIQUE,
-Num_Afiliado_Resto NUMERIC(2,0) UNIQUE,
+Num_Afiliado_Raiz NUMERIC(20,0),
+Num_Afiliado_Resto NUMERIC(2,0),
 Nombre VARCHAR(255),
 Apellido VARCHAR(255),
 Tipo_Doc VARCHAR(10),
@@ -97,10 +97,10 @@ Direccion VARCHAR(255),
 Telefono NUMERIC(18,0),
 Mail VARCHAR(255),
 Fecha_Nac DATETIME,
-Sexo CHAR(1) CHECK(Sexo = 'F' OR Sexo = 'M'),
+Sexo CHAR(1) CHECK(Sexo = 'F' OR Sexo = 'M' OR Sexo IS NULL),
 Estado_Civil VARCHAR(15),
 Familiares_A_Cargo INT,
-Id_Plan INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Plan_Medico(Id_Plan),
+Codigo_Plan INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Plan_Medico(Codigo_Plan),
 Cantidad_Consulta INT,
 Id_Usuario INT  FOREIGN KEY REFERENCES STRANGER_STRINGS.Usuario(Id_Usuario),
 )
@@ -119,8 +119,8 @@ CREATE TABLE STRANGER_STRINGS.Cambio_Plan(
 Id_Cambio INT IDENTITY(1,1)PRIMARY KEY,
 Id_Paciente INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Paciente(Id_Paciente),
 Motivo VARCHAR(255),
-Id_Plan_Viejo INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Plan_Medico(Id_Plan),
-Id_Plan_Nuevo INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Plan_Medico(Id_Plan))
+Codigo_Plan_Viejo INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Plan_Medico(Codigo_Plan),
+Codigo_Plan_Nuevo INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Plan_Medico(Codigo_Plan))
 -----------------------------------------------------------
 CREATE TABLE STRANGER_STRINGS.Funcionalidad(
 Id_Funcionalidad INT IDENTITY(1,1) PRIMARY KEY,
@@ -154,7 +154,7 @@ Direccion VARCHAR(255),
 Telefono NUMERIC(18,0),
 Mail VARCHAR(225),
 Fecha_Nac DATETIME,
-Sexo CHAR(1) CHECK(Sexo = 'F' OR Sexo = 'M'),
+Sexo CHAR(1) CHECK(Sexo = 'F' OR Sexo = 'M' OR Sexo IS NULL),
 Id_Usuario INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Usuario(Id_Usuario))
 -----------------------------------------------------------
 CREATE TABLE STRANGER_STRINGS.Especialidad(
@@ -184,7 +184,7 @@ Fecha_Compra DATETIME,
 Fecha_Impresion DATETIME,
 Id_Paciente_Compro INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Paciente(Id_Paciente),
 Id_Paciente_Uso INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Paciente(Id_Paciente),
-Id_Plan INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Plan_Medico(Id_Plan),
+Codigo_Plan INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Plan_Medico(Codigo_Plan),
 Numero_Consulta INT,
 Id_Compra INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Compra(Id_Compra))
 -----------------------------------------------------------
@@ -211,3 +211,33 @@ Id_Horario INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Horarios_Agenda(Id_Horari
 -----------------------------------------------------------
 
 --Fin de creacion de tablas
+
+--Migracion
+
+------------------------------------------------
+INSERT INTO STRANGER_STRINGS.Especialidad
+SELECT DISTINCT m.Especialidad_Codigo, m.Especialidad_Descripcion, m.Tipo_Especialidad_Codigo, m.Tipo_Especialidad_Codigo
+FROM gd_esquema.Maestra m
+WHERE m.Especialidad_Codigo IS NOT NULL
+ORDER BY 1 ASC
+------------------------------------------------
+INSERT INTO STRANGER_STRINGS.Medico(Nombre,Apellido,Num_Doc,Direccion,Telefono,Mail,Fecha_Nac)
+SELECT DISTINCT m.Medico_Nombre,m.Medico_Apellido,m.Medico_Dni,m.Medico_Direccion,m.Medico_Telefono,m.Medico_Mail,m.Medico_Fecha_Nac
+FROM gd_esquema.Maestra m
+WHERE m.Medico_Nombre IS NOT NULL
+UPDATE STRANGER_STRINGS.Medico 
+SET Tipo_Doc='DNI'
+------------------------------------------------
+INSERT INTO STRANGER_STRINGS.Especialidad_X_Medico(Id_Medico,Especialidad_Codigo)
+SELECT DISTINCT m.Id_Medico, e.Especialidad_Codigo
+FROM STRANGER_STRINGS.Medico m JOIN gd_esquema.Maestra e ON (m.Num_Doc=e.Medico_Dni)
+------------------------------------------------
+INSERT INTO STRANGER_STRINGS.Plan_Medico(Codigo_Plan,Descripcion,Precio_Bono_Consulta,Precio_Bono_Farmacia)
+SELECT DISTINCT e.Plan_Med_Codigo,e.Plan_med_Descripcion,e.Plan_Med_Precio_Bono_Consulta,e.Plan_Med_Precio_Bono_Farmacia
+FROM gd_esquema.Maestra e
+------------------------------------------------
+INSERT INTO STRANGER_STRINGS.Paciente(Nombre,Apellido,Num_Doc,Direccion,Telefono,Mail,Fecha_Nac,Codigo_Plan)
+SELECT DISTINCT e.Paciente_Nombre,e.Paciente_Apellido,e.Paciente_Dni,e.Paciente_Direccion,e.Paciente_Telefono,e.Paciente_Mail,e.Paciente_Fecha_Nac,e.Plan_Med_Codigo
+FROM gd_esquema.Maestra e
+WHERE e.Paciente_Nombre IS NOT NULL
+------------------------------------------------
