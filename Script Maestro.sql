@@ -240,4 +240,16 @@ INSERT INTO STRANGER_STRINGS.Paciente(Nombre,Apellido,Num_Doc,Direccion,Telefono
 SELECT DISTINCT e.Paciente_Nombre,e.Paciente_Apellido,e.Paciente_Dni,e.Paciente_Direccion,e.Paciente_Telefono,e.Paciente_Mail,e.Paciente_Fecha_Nac,e.Plan_Med_Codigo
 FROM gd_esquema.Maestra e
 WHERE e.Paciente_Nombre IS NOT NULL
+UPDATE STRANGER_STRINGS.Paciente
+SET Tipo_Doc='DNI'
+UPDATE STRANGER_STRINGS.Paciente
+SET Cantidad_Consulta = 0
 ------------------------------------------------
+SET IDENTITY_INSERT STRANGER_STRINGS.Turno ON
+GO
+INSERT INTO STRANGER_STRINGS.Turno(Turno_Numero,Turno_Fecha,Id_Paciente)
+SELECT DISTINCT e.Turno_Numero, e.Turno_Fecha,m.Id_Paciente
+FROM STRANGER_STRINGS.Paciente m JOIN gd_esquema.Maestra e ON(m.Num_Doc=e.Paciente_Dni)
+WHERE Turno_Numero IS NOT NULL 
+SET IDENTITY_INSERT STRANGER_STRINGS.Turno OFF
+GO
