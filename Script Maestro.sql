@@ -247,9 +247,10 @@ SET Cantidad_Consulta = 0
 ------------------------------------------------
 SET IDENTITY_INSERT STRANGER_STRINGS.Turno ON
 GO
-INSERT INTO STRANGER_STRINGS.Turno(Turno_Numero,Turno_Fecha,Id_Paciente)
-SELECT DISTINCT e.Turno_Numero, e.Turno_Fecha,m.Id_Paciente
-FROM STRANGER_STRINGS.Paciente m JOIN gd_esquema.Maestra e ON(m.Num_Doc=e.Paciente_Dni)
+INSERT INTO STRANGER_STRINGS.Turno(Turno_Numero,Turno_Fecha,Id_Paciente,Id_Medico)
+SELECT DISTINCT e.Turno_Numero, e.Turno_Fecha,m.Id_Paciente,d.Id_Medico
+FROM STRANGER_STRINGS.Paciente m JOIN gd_esquema.Maestra e ON(m.Num_Doc=e.Paciente_Dni) JOIN STRANGER_STRINGS.Medico d ON(e.Medico_Dni=d.Num_Doc)
 WHERE Turno_Numero IS NOT NULL 
 SET IDENTITY_INSERT STRANGER_STRINGS.Turno OFF
 GO
+SELECT * FROM STRANGER_STRINGS.Turno t JOIN STRANGER_STRINGS.Medico m ON(t.Id_Medico=m.Id_Medico)
