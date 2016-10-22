@@ -13,14 +13,14 @@ GO
 
 --Si existen las tablas las dropeo
 
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Cancelacion_Turno'))
+    DROP TABLE STRANGER_STRINGS.Cancelacion_Turno
+
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Turno'))
     DROP TABLE STRANGER_STRINGS.Turno
 
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Consulta'))
     DROP TABLE STRANGER_STRINGS.Consulta
-
-IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Cancelacion_Turno'))
-    DROP TABLE STRANGER_STRINGS.Cancelacion_Turno
 
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Bono'))
     DROP TABLE STRANGER_STRINGS.Bono
@@ -188,11 +188,6 @@ Codigo_Plan INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Plan_Medico(Codigo_Plan)
 Numero_Consulta INT,
 Id_Compra INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Compra(Id_Compra))
 -----------------------------------------------------------
-CREATE TABLE STRANGER_STRINGS.Cancelacion_Turno(
-Id_Cancelacion INT IDENTITY(1,1) PRIMARY KEY,
-Tipo_Cancelacion CHAR(1) CHECK(Tipo_Cancelacion = 'A' OR Tipo_Cancelacion = 'M'),
-Motivo VARCHAR(225))
------------------------------------------------------------
 CREATE TABLE STRANGER_STRINGS.Consulta(
 Id_Consulta INT IDENTITY(1,1) PRIMARY KEY,
 Fecha_Y_Hora DATETIME,
@@ -206,8 +201,16 @@ Turno_Fecha DATETIME,
 Id_Paciente INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Paciente(Id_Paciente),
 Id_Medico INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Medico(Id_Medico),
 Id_Consulta INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Consulta(Id_Consulta),
-Id_Cancelacion INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Cancelacion_Turno(Id_Cancelacion),
+--Cambio la FK a la tabla de Cancelación. La cancelación tiene que tener obligatoriamente el turno que se
+--cancela, en cambio los turnos no tienen porque tener una fk porque no siempre son cancelados
+--Id_Cancelacion INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Cancelacion_Turno(Id_Cancelacion),
 Id_Horario INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Horarios_Agenda(Id_Horario))
+-----------------------------------------------------------
+CREATE TABLE STRANGER_STRINGS.Cancelacion_Turno(
+Id_Cancelacion INT IDENTITY(1,1) PRIMARY KEY,
+Id_Turno INT FOREIGN KEY REFERENCES STRANGER_STRINGS.TURNO(Turno_Numero),
+Tipo_Cancelacion CHAR(1) CHECK(Tipo_Cancelacion = 'A' OR Tipo_Cancelacion = 'M'),
+Motivo VARCHAR(225))
 -----------------------------------------------------------
 
 --Fin de creacion de tablas
@@ -216,7 +219,7 @@ Id_Horario INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Horarios_Agenda(Id_Horari
 
 ------------------------------------------------
 INSERT INTO STRANGER_STRINGS.Especialidad
-SELECT DISTINCT m.Especialidad_Codigo, m.Especialidad_Descripcion, m.Tipo_Especialidad_Codigo, m.Tipo_Especialidad_Codigo
+SELECT DISTINCT m.Especialidad_Codigo, m.Especialidad_Descripcion, m.Tipo_Especialidad_Codigo, m.Tipo_Especialidad_Descripcion
 FROM gd_esquema.Maestra m
 WHERE m.Especialidad_Codigo IS NOT NULL
 ORDER BY 1 ASC

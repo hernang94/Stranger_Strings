@@ -1,2 +1,4 @@
 SELECT * FROM STRANGER_STRINGS.Paciente
 SELECT * FROM STRANGER_STRINGS.Medico
+SELECT Turno_Numero FROM gd_esquema.Maestra WHERE Consulta_Sintomas IS NOT NULL
+SELECT * FROM STRANGER_STRINGS.Especialidad
