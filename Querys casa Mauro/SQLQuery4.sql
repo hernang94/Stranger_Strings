@@ -18,3 +18,12 @@ FROM STRANGER_STRINGS.Paciente m JOIN gd_esquema.Maestra e ON(m.Num_Doc=e.Pacien
 WHERE Turno_Numero IS NOT NULL 
 ORDER BY 1
 SELECT * FROM gd_esquema.Maestra
+
+SELECT * FROM STRANGER_STRINGS.Bono
+
+SELECT m.Consulta_Sintomas,m.Consulta_Enfermedades,b.Id_Bono
+FROM gd_esquema.Maestra m, STRANGER_STRINGS.Bono b
+WHERE m.Bono_Consulta_Numero=b.Id_Bono and m.Consulta_Sintomas IS NOT NULL
+ORDER BY b.Id_Bono
+
+SELECT * FROM STRANGER_STRINGS.Consulta ORDER BY Id_Consulta
