@@ -80,8 +80,12 @@ Precio_Bono_Farmacia NUMERIC(18,0)
 -----------------------------------------------------------
 CREATE TABLE STRANGER_STRINGS.Usuario(
 Id_Usuario INT IDENTITY(1,1) PRIMARY KEY,
+--Por default en la migración defino como usuario el dni
 Usuario VARCHAR(255),
-Password VARCHAR(255),
+--Le saque la segunda s porque lo tomaba como una palabra reservada ponele
+--Por default es el apellido en la migración
+--Con varybinary se ve joya el hash y se guarda como corresponde
+Pasword VARBINARY(255),
 Cantidad_Intentos SMALLINT,
 )
 -----------------------------------------------------------
@@ -278,3 +282,13 @@ INSERT INTO STRANGER_STRINGS.Compra (Fecha_Compra,Id_Paciente)
 SELECT DISTINCT Fecha_Impresion,Id_Paciente_Uso
 FROM STRANGER_STRINGS.Bono
 ORDER BY Id_Paciente_Uso
+------------------------------------------------
+INSERT INTO STRANGER_STRINGS.Usuario(Usuario,Pasword)
+SELECT CONVERT(VARCHAR(18),Num_Doc) As Usuario, HASHBYTES('SHA2_256',Apellido)
+FROM STRANGER_STRINGS.Paciente
+INSERT INTO STRANGER_STRINGS.Usuario(Usuario,Pasword)
+SELECT CONVERT(VARCHAR(18),Num_Doc) As Usuario, HASHBYTES('SHA2_256',Apellido)
+FROM STRANGER_STRINGS.Medico
+UPDATE STRANGER_STRINGS.Usuario
+SET Cantidad_Intentos=3
+

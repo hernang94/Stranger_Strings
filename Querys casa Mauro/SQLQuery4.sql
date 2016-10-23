@@ -27,3 +27,6 @@ WHERE m.Bono_Consulta_Numero=b.Id_Bono and m.Consulta_Sintomas IS NOT NULL
 ORDER BY b.Id_Bono
 
 SELECT * FROM STRANGER_STRINGS.Consulta ORDER BY Id_Consulta
+
+SELECT CONVERT(VARCHAR(18),Num_Doc) As Usuario FROM STRANGER_STRINGS.Paciente ORDER BY Num_Doc
+SELECT * FROM STRANGER_STRINGS.Usuario
