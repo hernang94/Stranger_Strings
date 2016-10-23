@@ -260,8 +260,8 @@ GO
 ------------------------------------------------
 SET IDENTITY_INSERT STRANGER_STRINGS.Bono ON
 GO
-INSERT INTO STRANGER_STRINGS.Bono(Id_Bono,Fecha_Compra,Fecha_Impresion,Id_Paciente_Compro,Id_Paciente_Uso,Codigo_Plan)
-SELECT DISTINCT e.Bono_Consulta_Numero, e.Bono_Consulta_Fecha_Impresion,e.Bono_Consulta_Fecha_Impresion, p.Id_Paciente, p.Id_Paciente, e.Plan_Med_Codigo
+INSERT INTO STRANGER_STRINGS.Bono(Id_Bono,Fecha_Impresion,Id_Paciente_Uso,Codigo_Plan)
+SELECT DISTINCT e.Bono_Consulta_Numero,e.Bono_Consulta_Fecha_Impresion, p.Id_Paciente, e.Plan_Med_Codigo
 FROM gd_esquema.Maestra e JOIN STRANGER_STRINGS.Paciente p on(e.Paciente_Dni=p.Num_Doc)
 WHERE e.Bono_Consulta_Numero IS NOT NULL AND e.Consulta_Sintomas IS NOT NULL 
 ORDER BY Bono_Consulta_Numero ASC
@@ -273,3 +273,8 @@ SELECT m.Consulta_Sintomas,m.Consulta_Enfermedades,b.Id_Bono
 FROM gd_esquema.Maestra m, STRANGER_STRINGS.Bono b
 WHERE m.Bono_Consulta_Numero=b.Id_Bono and m.Consulta_Sintomas IS NOT NULL
 ORDER BY b.Id_Bono
+------------------------------------------------
+INSERT INTO STRANGER_STRINGS.Compra (Fecha_Compra,Id_Paciente)
+SELECT DISTINCT Fecha_Impresion,Id_Paciente_Uso
+FROM STRANGER_STRINGS.Bono
+ORDER BY Id_Paciente_Uso
