@@ -256,4 +256,20 @@ FROM STRANGER_STRINGS.Paciente m JOIN gd_esquema.Maestra e ON(m.Num_Doc=e.Pacien
 WHERE Turno_Numero IS NOT NULL 
 SET IDENTITY_INSERT STRANGER_STRINGS.Turno OFF
 GO
-SELECT * FROM STRANGER_STRINGS.Turno t JOIN STRANGER_STRINGS.Medico m ON(t.Id_Medico=m.Id_Medico)
+--SELECT * FROM STRANGER_STRINGS.Turno t JOIN STRANGER_STRINGS.Medico m ON(t.Id_Medico=m.Id_Medico
+------------------------------------------------
+SET IDENTITY_INSERT STRANGER_STRINGS.Bono ON
+GO
+INSERT INTO STRANGER_STRINGS.Bono(Id_Bono,Fecha_Compra,Fecha_Impresion,Id_Paciente_Compro,Id_Paciente_Uso,Codigo_Plan)
+SELECT DISTINCT e.Bono_Consulta_Numero, e.Bono_Consulta_Fecha_Impresion,e.Bono_Consulta_Fecha_Impresion, p.Id_Paciente, p.Id_Paciente, e.Plan_Med_Codigo
+FROM gd_esquema.Maestra e JOIN STRANGER_STRINGS.Paciente p on(e.Paciente_Dni=p.Num_Doc)
+WHERE e.Bono_Consulta_Numero IS NOT NULL AND e.Consulta_Sintomas IS NOT NULL 
+ORDER BY Bono_Consulta_Numero ASC
+SET IDENTITY_INSERT STRANGER_STRINGS.Bono OFF
+GO
+------------------------------------------------
+INSERT INTO STRANGER_STRINGS.Consulta(Sintomas,Enfermedades,Bono_Consulta_Id)
+SELECT m.Consulta_Sintomas,m.Consulta_Enfermedades,b.Id_Bono
+FROM gd_esquema.Maestra m, STRANGER_STRINGS.Bono b
+WHERE m.Bono_Consulta_Numero=b.Id_Bono and m.Consulta_Sintomas IS NOT NULL
+ORDER BY b.Id_Bono
