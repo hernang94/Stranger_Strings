@@ -45,11 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abm Afiliado\ABM Afiliado.cs">
+    <Compile Include="Abm Afiliado\ABM_Afiliado.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Abm Afiliado\ABM Afiliado.Designer.cs">
-      <DependentUpon>ABM Afiliado.cs</DependentUpon>
+    <Compile Include="Abm Afiliado\ABM_Afiliado.Designer.cs">
+      <DependentUpon>ABM_Afiliado.cs</DependentUpon>
     </Compile>
     <Compile Include="Abm Especialidades Medicas\Form1.cs">
       <SubType>Form</SubType>
@@ -75,6 +75,9 @@
     <Compile Include="AbmRol\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="BD\BDStranger_Strings.cs" />
+    <Compile Include="BD\EntidadesDAL\UsuarioDAL.cs" />
+    <Compile Include="BD\Entidades\Usuario.cs" />
     <Compile Include="Cancelar Atencion\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,6 +89,12 @@
     </Compile>
     <Compile Include="Compra Bono\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Funcionalidades.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Funcionalidades.Designer.cs">
+      <DependentUpon>Funcionalidades.cs</DependentUpon>
     </Compile>
     <Compile Include="Inicio.cs">
       <SubType>Form</SubType>
@@ -125,15 +134,11 @@
     <Compile Include="Registro Resultado\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Seleccion de Rol.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Seleccion de Rol.Designer.cs">
-      <DependentUpon>Seleccion de Rol.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Usuario.cs" />
-    <EmbeddedResource Include="Abm Afiliado\ABM Afiliado.resx">
-      <DependentUpon>ABM Afiliado.cs</DependentUpon>
+    <EmbeddedResource Include="Abm Afiliado\ABM_Afiliado.resx">
+      <DependentUpon>ABM_Afiliado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Funcionalidades.resx">
+      <DependentUpon>Funcionalidades.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Inicio.resx">
       <DependentUpon>Inicio.cs</DependentUpon>
@@ -147,9 +152,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Seleccion de Rol.resx">
-      <DependentUpon>Seleccion de Rol.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

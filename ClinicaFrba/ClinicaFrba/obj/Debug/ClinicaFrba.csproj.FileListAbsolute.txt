@@ -16,3 +16,14 @@ C:\Users\ABM\Downloads\TP CLINICA FRBA 1.0 - 2C 2016\Aplicacion Desktop\ClinicaF
 C:\Users\ABM\Downloads\TP CLINICA FRBA 1.0 - 2C 2016\Aplicacion Desktop\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Abm_Afiliado.Form1.resources
 C:\Users\ABM\Downloads\TP CLINICA FRBA 1.0 - 2C 2016\Aplicacion Desktop\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Inicio.resources
 C:\Users\ABM\Downloads\TP CLINICA FRBA 1.0 - 2C 2016\Aplicacion Desktop\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Seleccion_de_Rol.resources
+C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\bin\Debug\ClinicaFrba.exe.config
+C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.exe
+C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.pdb
+C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\bin\Debug\ClinicaFrba.exe
+C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\bin\Debug\ClinicaFrba.pdb
+C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.csprojResolveAssemblyReference.cache
+C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Abm_Afiliado.Form1.resources
+C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Inicio.resources
+C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Properties.Resources.resources
+C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.csproj.GenerateResource.Cache
+C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Funcionalidades.resources

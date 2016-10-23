@@ -29,23 +29,27 @@
         private void InitializeComponent()
         {
             this.tbABMAfiliado = new System.Windows.Forms.TabControl();
-            this.tpBajaModif = new System.Windows.Forms.TabPage();
-            this.lbConjunto = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox7 = new System.Windows.Forms.TextBox();
             this.tpAlta = new System.Windows.Forms.TabPage();
+            this.btVolver = new System.Windows.Forms.Button();
+            this.btIngresar = new System.Windows.Forms.Button();
+            this.dateFechaNac = new System.Windows.Forms.DateTimePicker();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.textBox10 = new System.Windows.Forms.TextBox();
             this.textBox11 = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.dateFechaNac = new System.Windows.Forms.DateTimePicker();
-            this.btIngresar = new System.Windows.Forms.Button();
-            this.btVolver = new System.Windows.Forms.Button();
+            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.lbConjunto = new System.Windows.Forms.Label();
+            this.tpBajaModif = new System.Windows.Forms.TabPage();
+            this.button7 = new System.Windows.Forms.Button();
+            this.dtgCliente = new System.Windows.Forms.DataGridView();
+            this.btnBuscar = new System.Windows.Forms.Button();
+            this.btnLimpiar = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.textBox14 = new System.Windows.Forms.TextBox();
@@ -54,13 +58,9 @@
             this.textBox17 = new System.Windows.Forms.TextBox();
             this.textBox18 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.dtgCliente = new System.Windows.Forms.DataGridView();
-            this.btnBuscar = new System.Windows.Forms.Button();
-            this.btnLimpiar = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
             this.tbABMAfiliado.SuspendLayout();
-            this.tpBajaModif.SuspendLayout();
             this.tpAlta.SuspendLayout();
+            this.tpBajaModif.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgCliente)).BeginInit();
             this.SuspendLayout();
             // 
@@ -75,89 +75,6 @@
             this.tbABMAfiliado.Size = new System.Drawing.Size(522, 410);
             this.tbABMAfiliado.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tbABMAfiliado.TabIndex = 0;
-            // 
-            // tpBajaModif
-            // 
-            this.tpBajaModif.Controls.Add(this.button7);
-            this.tpBajaModif.Controls.Add(this.dtgCliente);
-            this.tpBajaModif.Controls.Add(this.btnBuscar);
-            this.tpBajaModif.Controls.Add(this.btnLimpiar);
-            this.tpBajaModif.Controls.Add(this.button1);
-            this.tpBajaModif.Controls.Add(this.button2);
-            this.tpBajaModif.Controls.Add(this.textBox14);
-            this.tpBajaModif.Controls.Add(this.textBox15);
-            this.tpBajaModif.Controls.Add(this.textBox16);
-            this.tpBajaModif.Controls.Add(this.textBox17);
-            this.tpBajaModif.Controls.Add(this.textBox18);
-            this.tpBajaModif.Controls.Add(this.label1);
-            this.tpBajaModif.Location = new System.Drawing.Point(4, 22);
-            this.tpBajaModif.Name = "tpBajaModif";
-            this.tpBajaModif.Padding = new System.Windows.Forms.Padding(3);
-            this.tpBajaModif.Size = new System.Drawing.Size(514, 384);
-            this.tpBajaModif.TabIndex = 1;
-            this.tpBajaModif.Text = "Baja/Modificación";
-            this.tpBajaModif.UseVisualStyleBackColor = true;
-            // 
-            // lbConjunto
-            // 
-            this.lbConjunto.AutoSize = true;
-            this.lbConjunto.Location = new System.Drawing.Point(92, 21);
-            this.lbConjunto.Name = "lbConjunto";
-            this.lbConjunto.Size = new System.Drawing.Size(150, 299);
-            this.lbConjunto.TabIndex = 1;
-            this.lbConjunto.Text = "Nombre\r\n\r\nApellido\r\n\r\nNro. Documento\r\n\r\nTipo Documento\r\n\r\nDirección\r\n\r\nTeléfono\r\n" +
-    "\r\nMail\r\n\r\nFecha de Nacimiento\r\n\r\nSexo\r\n\r\nEstado Civil\r\n\r\nCantidad de familiares " +
-    "a Cargo\r\n\r\nPlan Médico\r\n";
-            this.lbConjunto.Click += new System.EventHandler(this.label1_Click_1);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(291, 18);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 2;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(291, 44);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
-            this.textBox2.TabIndex = 3;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(291, 70);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 20);
-            this.textBox3.TabIndex = 4;
-            // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(291, 96);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(100, 20);
-            this.textBox4.TabIndex = 5;
-            // 
-            // textBox5
-            // 
-            this.textBox5.Location = new System.Drawing.Point(291, 122);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(100, 20);
-            this.textBox5.TabIndex = 6;
-            // 
-            // textBox6
-            // 
-            this.textBox6.Location = new System.Drawing.Point(291, 148);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(100, 20);
-            this.textBox6.TabIndex = 7;
-            // 
-            // textBox7
-            // 
-            this.textBox7.Location = new System.Drawing.Point(291, 174);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(100, 20);
-            this.textBox7.TabIndex = 8;
             // 
             // tpAlta
             // 
@@ -185,30 +102,35 @@
             this.tpAlta.UseVisualStyleBackColor = true;
             this.tpAlta.Click += new System.EventHandler(this.tpAlta_Click);
             // 
-            // textBox10
+            // btVolver
             // 
-            this.textBox10.Location = new System.Drawing.Point(291, 304);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(100, 20);
-            this.textBox10.TabIndex = 13;
+            this.btVolver.Location = new System.Drawing.Point(144, 343);
+            this.btVolver.Name = "btVolver";
+            this.btVolver.Size = new System.Drawing.Size(75, 23);
+            this.btVolver.TabIndex = 19;
+            this.btVolver.Text = "Volver";
+            this.btVolver.UseVisualStyleBackColor = true;
+            this.btVolver.Click += new System.EventHandler(this.btVolver_Click);
             // 
-            // textBox11
+            // btIngresar
             // 
-            this.textBox11.Location = new System.Drawing.Point(291, 278);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(100, 20);
-            this.textBox11.TabIndex = 12;
+            this.btIngresar.Location = new System.Drawing.Point(291, 343);
+            this.btIngresar.Name = "btIngresar";
+            this.btIngresar.Size = new System.Drawing.Size(75, 23);
+            this.btIngresar.TabIndex = 18;
+            this.btIngresar.Text = "Ingresar";
+            this.btIngresar.UseVisualStyleBackColor = true;
+            this.btIngresar.Click += new System.EventHandler(this.button1_Click);
             // 
-            // comboBox1
+            // dateFechaNac
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Masculino",
-            "Femenino"});
-            this.comboBox1.Location = new System.Drawing.Point(291, 226);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(100, 21);
-            this.comboBox1.TabIndex = 15;
+            this.dateFechaNac.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateFechaNac.Location = new System.Drawing.Point(291, 200);
+            this.dateFechaNac.Name = "dateFechaNac";
+            this.dateFechaNac.Size = new System.Drawing.Size(100, 20);
+            this.dateFechaNac.TabIndex = 17;
+            this.dateFechaNac.Value = new System.DateTime(2016, 10, 21, 16, 15, 55, 0);
+            this.dateFechaNac.ValueChanged += new System.EventHandler(this.dateFechaNac_ValueChanged);
             // 
             // comboBox2
             // 
@@ -224,35 +146,149 @@
             this.comboBox2.Size = new System.Drawing.Size(100, 21);
             this.comboBox2.TabIndex = 16;
             // 
-            // dateFechaNac
+            // comboBox1
             // 
-            this.dateFechaNac.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateFechaNac.Location = new System.Drawing.Point(291, 200);
-            this.dateFechaNac.Name = "dateFechaNac";
-            this.dateFechaNac.Size = new System.Drawing.Size(100, 20);
-            this.dateFechaNac.TabIndex = 17;
-            this.dateFechaNac.Value = new System.DateTime(2016, 10, 21, 16, 15, 55, 0);
-            this.dateFechaNac.Visible = false;
-            this.dateFechaNac.ValueChanged += new System.EventHandler(this.dateFechaNac_ValueChanged);
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Masculino",
+            "Femenino"});
+            this.comboBox1.Location = new System.Drawing.Point(291, 226);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(100, 21);
+            this.comboBox1.TabIndex = 15;
             // 
-            // btIngresar
+            // textBox10
             // 
-            this.btIngresar.Location = new System.Drawing.Point(291, 343);
-            this.btIngresar.Name = "btIngresar";
-            this.btIngresar.Size = new System.Drawing.Size(75, 23);
-            this.btIngresar.TabIndex = 18;
-            this.btIngresar.Text = "Ingresar";
-            this.btIngresar.UseVisualStyleBackColor = true;
-            this.btIngresar.Click += new System.EventHandler(this.button1_Click);
+            this.textBox10.Location = new System.Drawing.Point(291, 304);
+            this.textBox10.Name = "textBox10";
+            this.textBox10.Size = new System.Drawing.Size(100, 20);
+            this.textBox10.TabIndex = 13;
             // 
-            // btVolver
+            // textBox11
             // 
-            this.btVolver.Location = new System.Drawing.Point(144, 343);
-            this.btVolver.Name = "btVolver";
-            this.btVolver.Size = new System.Drawing.Size(75, 23);
-            this.btVolver.TabIndex = 19;
-            this.btVolver.Text = "Volver";
-            this.btVolver.UseVisualStyleBackColor = true;
+            this.textBox11.Location = new System.Drawing.Point(291, 278);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.Size = new System.Drawing.Size(100, 20);
+            this.textBox11.TabIndex = 12;
+            // 
+            // textBox7
+            // 
+            this.textBox7.Location = new System.Drawing.Point(291, 174);
+            this.textBox7.Name = "textBox7";
+            this.textBox7.Size = new System.Drawing.Size(100, 20);
+            this.textBox7.TabIndex = 8;
+            // 
+            // textBox6
+            // 
+            this.textBox6.Location = new System.Drawing.Point(291, 148);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(100, 20);
+            this.textBox6.TabIndex = 7;
+            // 
+            // textBox5
+            // 
+            this.textBox5.Location = new System.Drawing.Point(291, 122);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(100, 20);
+            this.textBox5.TabIndex = 6;
+            // 
+            // textBox4
+            // 
+            this.textBox4.Location = new System.Drawing.Point(291, 96);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(100, 20);
+            this.textBox4.TabIndex = 5;
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(291, 70);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(100, 20);
+            this.textBox3.TabIndex = 4;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(291, 44);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(100, 20);
+            this.textBox2.TabIndex = 3;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(291, 18);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 2;
+            // 
+            // lbConjunto
+            // 
+            this.lbConjunto.AutoSize = true;
+            this.lbConjunto.Location = new System.Drawing.Point(92, 21);
+            this.lbConjunto.Name = "lbConjunto";
+            this.lbConjunto.Size = new System.Drawing.Size(150, 299);
+            this.lbConjunto.TabIndex = 1;
+            this.lbConjunto.Text = "Nombre\r\n\r\nApellido\r\n\r\nNro. Documento\r\n\r\nTipo Documento\r\n\r\nDirección\r\n\r\nTeléfono\r\n" +
+    "\r\nMail\r\n\r\nFecha de Nacimiento\r\n\r\nSexo\r\n\r\nEstado Civil\r\n\r\nCantidad de familiares " +
+    "a Cargo\r\n\r\nPlan Médico\r\n";
+            this.lbConjunto.Click += new System.EventHandler(this.label1_Click_1);
+            // 
+            // tpBajaModif
+            // 
+            this.tpBajaModif.Controls.Add(this.button7);
+            this.tpBajaModif.Controls.Add(this.dtgCliente);
+            this.tpBajaModif.Controls.Add(this.btnBuscar);
+            this.tpBajaModif.Controls.Add(this.btnLimpiar);
+            this.tpBajaModif.Controls.Add(this.button1);
+            this.tpBajaModif.Controls.Add(this.button2);
+            this.tpBajaModif.Controls.Add(this.textBox14);
+            this.tpBajaModif.Controls.Add(this.textBox15);
+            this.tpBajaModif.Controls.Add(this.textBox16);
+            this.tpBajaModif.Controls.Add(this.textBox17);
+            this.tpBajaModif.Controls.Add(this.textBox18);
+            this.tpBajaModif.Controls.Add(this.label1);
+            this.tpBajaModif.Location = new System.Drawing.Point(4, 22);
+            this.tpBajaModif.Name = "tpBajaModif";
+            this.tpBajaModif.Padding = new System.Windows.Forms.Padding(3);
+            this.tpBajaModif.Size = new System.Drawing.Size(514, 384);
+            this.tpBajaModif.TabIndex = 1;
+            this.tpBajaModif.Text = "Baja/Modificación";
+            this.tpBajaModif.UseVisualStyleBackColor = true;
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(400, 292);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(94, 23);
+            this.button7.TabIndex = 45;
+            this.button7.Text = "Modificar";
+            this.button7.UseVisualStyleBackColor = true;
+            // 
+            // dtgCliente
+            // 
+            this.dtgCliente.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtgCliente.Location = new System.Drawing.Point(30, 168);
+            this.dtgCliente.Name = "dtgCliente";
+            this.dtgCliente.Size = new System.Drawing.Size(345, 149);
+            this.dtgCliente.TabIndex = 37;
+            this.dtgCliente.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgCliente_CellContentClick);
+            // 
+            // btnBuscar
+            // 
+            this.btnBuscar.Location = new System.Drawing.Point(400, 166);
+            this.btnBuscar.Name = "btnBuscar";
+            this.btnBuscar.Size = new System.Drawing.Size(94, 23);
+            this.btnBuscar.TabIndex = 36;
+            this.btnBuscar.Text = "Buscar";
+            this.btnBuscar.UseVisualStyleBackColor = true;
+            // 
+            // btnLimpiar
+            // 
+            this.btnLimpiar.Location = new System.Drawing.Point(400, 209);
+            this.btnLimpiar.Name = "btnLimpiar";
+            this.btnLimpiar.Size = new System.Drawing.Size(94, 23);
+            this.btnLimpiar.TabIndex = 35;
+            this.btnLimpiar.Text = "Limpiar";
+            this.btnLimpiar.UseVisualStyleBackColor = true;
             // 
             // button1
             // 
@@ -262,6 +298,7 @@
             this.button1.TabIndex = 34;
             this.button1.Text = "Volver";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // button2
             // 
@@ -316,42 +353,6 @@
             this.label1.TabIndex = 20;
             this.label1.Text = "Nombre\r\n\r\nApellido\r\n\r\nNro. Afiliado\r\n\r\nNro. Documento\r\n\r\nPlan Médico\r\n";
             // 
-            // dtgCliente
-            // 
-            this.dtgCliente.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtgCliente.Location = new System.Drawing.Point(30, 168);
-            this.dtgCliente.Name = "dtgCliente";
-            this.dtgCliente.Size = new System.Drawing.Size(345, 149);
-            this.dtgCliente.TabIndex = 37;
-            this.dtgCliente.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgCliente_CellContentClick);
-            // 
-            // btnBuscar
-            // 
-            this.btnBuscar.Location = new System.Drawing.Point(400, 166);
-            this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(94, 23);
-            this.btnBuscar.TabIndex = 36;
-            this.btnBuscar.Text = "Buscar";
-            this.btnBuscar.UseVisualStyleBackColor = true;
-            // 
-            // btnLimpiar
-            // 
-            this.btnLimpiar.Location = new System.Drawing.Point(400, 209);
-            this.btnLimpiar.Name = "btnLimpiar";
-            this.btnLimpiar.Size = new System.Drawing.Size(94, 23);
-            this.btnLimpiar.TabIndex = 35;
-            this.btnLimpiar.Text = "Limpiar";
-            this.btnLimpiar.UseVisualStyleBackColor = true;
-            // 
-            // button7
-            // 
-            this.button7.Location = new System.Drawing.Point(400, 292);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(94, 23);
-            this.button7.TabIndex = 45;
-            this.button7.Text = "Modificar";
-            this.button7.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -362,10 +363,10 @@
             this.Text = "ABM Afiliado";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tbABMAfiliado.ResumeLayout(false);
-            this.tpBajaModif.ResumeLayout(false);
-            this.tpBajaModif.PerformLayout();
             this.tpAlta.ResumeLayout(false);
             this.tpAlta.PerformLayout();
+            this.tpBajaModif.ResumeLayout(false);
+            this.tpBajaModif.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgCliente)).EndInit();
             this.ResumeLayout(false);
 

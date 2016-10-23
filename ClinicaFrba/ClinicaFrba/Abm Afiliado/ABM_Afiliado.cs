@@ -12,8 +12,11 @@ namespace ClinicaFrba.Abm_Afiliado
 {
     public partial class Form1 : Form
     {
-        public Form1()
+        public Funcionalidades fun;
+
+        public Form1(Funcionalidades fun)
         {
+            this.fun=fun;
             InitializeComponent();
         }
 
@@ -65,6 +68,18 @@ namespace ClinicaFrba.Abm_Afiliado
         private void dtgCliente_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void btVolver_Click(object sender, EventArgs e)
+        {
+            fun.Show();
+            this.Close();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            fun.Show();
+            this.Close();
         }
     }
 }
