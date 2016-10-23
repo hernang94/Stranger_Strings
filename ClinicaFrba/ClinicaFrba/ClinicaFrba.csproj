@@ -83,6 +83,7 @@
     </Compile>
     <Compile Include="BD\BDStranger_Strings.cs" />
     <Compile Include="BD\EntidadesDAL\UsuarioDAL.cs" />
+    <Compile Include="BD\Entidades\Rol.cs" />
     <Compile Include="BD\Entidades\Usuario.cs" />
     <Compile Include="Cancelar Atencion\Form1.cs">
       <SubType>Form</SubType>
