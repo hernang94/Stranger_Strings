@@ -40,7 +40,7 @@ namespace ClinicaFrba.BD
             List<SqlParameter> paramList = new List<SqlParameter>();
             paramList.Add(new SqlParameter("@intentos_login", Cantidad_Intentos - 1));
             paramList.Add(new SqlParameter("@nombre", Nombre));
-            BDStranger_Strings.ExecStoredProcedure("STRANGER_STRINGS.descontarIntento", paramList);
+            BDStranger_Strings.WriteInBase("UPDATE STRANGER_STRINGS.Usuario SET Cantidad_Intentos=@intentos_login WHERE Usuario=@nombre", "T", paramList);
         }
 
         public void ReiniciarCantidadIntentos()

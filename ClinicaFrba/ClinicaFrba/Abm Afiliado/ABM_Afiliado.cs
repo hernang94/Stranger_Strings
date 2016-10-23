@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
+
 
 namespace ClinicaFrba.Abm_Afiliado
 {
@@ -94,6 +96,26 @@ namespace ClinicaFrba.Abm_Afiliado
                 }
             
             //Codigo magico donde se guardan los datos del afiliado original.
+        }
+
+        private void cargar_Datos_Afiliados()
+        {
+            List<SqlParameter> lista = new List<SqlParameter>();
+            lista.Add(new SqlParameter("@nombre", txtNombre.Text));
+            lista.Add(new SqlParameter("@apellido", txtApellido.Text));
+            lista.Add(new SqlParameter("@tipo_Doc", txtTipoDoc.Text));
+            lista.Add(new SqlParameter("@nro_Doc", txtNroDoc.Text));
+            lista.Add(new SqlParameter("@direccion", txtDirec.Text));
+            lista.Add(new SqlParameter("@tel", txtTel.Text));
+            lista.Add(new SqlParameter("@mail",txtMail.Text));
+            lista.Add(new SqlParameter("@fecha_Nac", dateFechaNac.Value));
+            lista.Add(new SqlParameter("@nombre", txtNombre.Text));
+            lista.Add(new SqlParameter("@sexo", cbSexo.Text));
+            lista.Add(new SqlParameter("@estado_Civil", cbEstadoCivil.Text));
+            lista.Add(new SqlParameter("@cant_Familiares", txtCantFamilia.Text));
+            lista.Add(new SqlParameter("@plan_Med", txtPlanMedico.Text));
+
+            
         }
 
         private void dtgCliente_CellContentClick(object sender, DataGridViewCellEventArgs e)
