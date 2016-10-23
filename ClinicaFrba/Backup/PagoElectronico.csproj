@@ -1,0 +1,351 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1A425235-25E0-4A09-B3C4-84F19D9A2184}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PagoElectronico</RootNamespace>
+    <AssemblyName>PagoElectronico</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ABM Cliente\FormABMCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM Cliente\FormABMCliente.Designer.cs">
+      <DependentUpon>FormABMCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM Cliente\FormAltaCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM Cliente\FormAltaCliente.Designer.cs">
+      <DependentUpon>FormAltaCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM Cliente\FormModifTarjet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM Cliente\FormModifTarjet.Designer.cs">
+      <DependentUpon>FormModifTarjet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM Cuenta\FormABMCuenta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM Cuenta\FormABMCuenta.Designer.cs">
+      <DependentUpon>FormABMCuenta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM Cuenta\FormAltaCuenta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM Cuenta\FormAltaCuenta.Designer.cs">
+      <DependentUpon>FormAltaCuenta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM Rol\AltaRol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM Rol\AltaRol.Designer.cs">
+      <DependentUpon>AltaRol.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM Rol\FormABMRol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM Rol\FormABMRol.Designer.cs">
+      <DependentUpon>FormABMRol.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Consulta Saldos\FormConsultaSaldo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Consulta Saldos\FormConsultaSaldo.Designer.cs">
+      <DependentUpon>FormConsultaSaldo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Depositos\FormDepositos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Depositos\FormDepositos.Designer.cs">
+      <DependentUpon>FormDepositos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Facturacion\FormBusqueda.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Facturacion\FormBusqueda.Designer.cs">
+      <DependentUpon>FormBusqueda.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Facturacion\FormFacturacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Facturacion\FormFacturacion.Designer.cs">
+      <DependentUpon>FormFacturacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormPrincipal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPrincipal.Designer.cs">
+      <DependentUpon>FormPrincipal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Listados\FormListados.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Listados\FormListados.Designer.cs">
+      <DependentUpon>FormListados.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Login\FormLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login\FormLogin.Designer.cs">
+      <DependentUpon>FormLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BO\Banco.cs" />
+    <Compile Include="Models\BO\Cheque.cs" />
+    <Compile Include="Models\BO\Cliente.cs" />
+    <Compile Include="Models\BO\Factura.cs" />
+    <Compile Include="Models\BO\Cuenta.cs" />
+    <Compile Include="Models\BO\Deposito.cs" />
+    <Compile Include="Models\BO\Emisor.cs" />
+    <Compile Include="Models\BO\EstadoCuenta.cs" />
+    <Compile Include="Models\BO\Funcionalidad.cs" />
+    <Compile Include="Models\BO\Retiro.cs" />
+    <Compile Include="Models\BO\Rol.cs" />
+    <Compile Include="Models\BO\Tarjeta.cs" />
+    <Compile Include="Models\BO\TipoCuenta.cs" />
+    <Compile Include="Models\BO\TipoDocumento.cs" />
+    <Compile Include="Models\BO\Moneda.cs" />
+    <Compile Include="Models\BO\IBO.cs" />
+    <Compile Include="Models\BO\Pais.cs" />
+    <Compile Include="Models\BO\Transferencia.cs" />
+    <Compile Include="Models\DAO\DAOFactura.cs" />
+    <Compile Include="Models\DAO\DAOCheque.cs" />
+    <Compile Include="Models\DAO\DAOCuenta.cs" />
+    <Compile Include="Models\DAO\DAOBanco.cs" />
+    <Compile Include="Models\DAO\DAOBase.cs" />
+    <Compile Include="Models\DAO\DAOCliente.cs" />
+    <Compile Include="Models\DAO\DAODeposito.cs" />
+    <Compile Include="Models\DAO\DAOEmisor.cs" />
+    <Compile Include="Models\DAO\DAOEstado_Cuenta.cs" />
+    <Compile Include="Models\DAO\DAOFuncionalidad.cs" />
+    <Compile Include="Models\DAO\DAOMoneda.cs" />
+    <Compile Include="Models\DAO\DAOPais.cs" />
+    <Compile Include="Models\DAO\DAORetiro.cs" />
+    <Compile Include="Models\DAO\DAORol.cs" />
+    <Compile Include="Models\DAO\DAOTarjeta.cs" />
+    <Compile Include="Models\DAO\DAOTipo_Cuenta.cs" />
+    <Compile Include="Models\DAO\DAOTipo_Documento.cs" />
+    <Compile Include="Models\DAO\DAOTransferencia.cs" />
+    <Compile Include="Models\DataBase\DBAcess.cs" />
+    <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Models\Utils\DB.cs" />
+    <Compile Include="Models\Utils\MyException.cs" />
+    <Compile Include="Models\Utils\Utils.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ABM Cliente\FormABMCliente.resx">
+      <DependentUpon>FormABMCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM Cliente\FormAltaCliente.resx">
+      <DependentUpon>FormAltaCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM Cliente\FormModifTarjet.resx">
+      <DependentUpon>FormModifTarjet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM Cuenta\FormABMCuenta.resx">
+      <DependentUpon>FormABMCuenta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM Cuenta\FormAltaCuenta.resx">
+      <DependentUpon>FormAltaCuenta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM Rol\AltaRol.resx">
+      <DependentUpon>AltaRol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM Rol\FormABMRol.resx">
+      <DependentUpon>FormABMRol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Consulta Saldos\FormConsultaSaldo.resx">
+      <DependentUpon>FormConsultaSaldo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Depositos\FormDepositos.resx">
+      <DependentUpon>FormDepositos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Facturacion\FormBusqueda.resx">
+      <DependentUpon>FormBusqueda.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Facturacion\FormFacturacion.resx">
+      <DependentUpon>FormFacturacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPrincipal.resx">
+      <DependentUpon>FormPrincipal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Listados\FormListados.resx">
+      <DependentUpon>FormListados.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login\FormLogin.resx">
+      <DependentUpon>FormLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Retiros\FormRetiros.resx">
+      <DependentUpon>FormRetiros.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Retiros\IngresarDNI.resx">
+      <DependentUpon>IngresarDNI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Shared\BuscadorCliente.resx">
+      <DependentUpon>BuscadorCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transferencias\FormTransferencias.resx">
+      <DependentUpon>FormTransferencias.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="App.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Retiros\FormRetiros.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Retiros\FormRetiros.Designer.cs">
+      <DependentUpon>FormRetiros.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Retiros\IngresarDNI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Retiros\IngresarDNI.Designer.cs">
+      <DependentUpon>IngresarDNI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\BuscadorCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Shared\BuscadorCliente.Designer.cs">
+      <DependentUpon>BuscadorCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\UIUtils.cs" />
+    <Compile Include="Transferencias\FormTransferencias.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transferencias\FormTransferencias.Designer.cs">
+      <DependentUpon>FormTransferencias.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ABM de Usuario\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -36,48 +36,58 @@ namespace ClinicaFrba
                 if (txtUsuario.Text != "" && txtContraseña.Text != "")
                 {
                     Usuario user = new Usuario(txtUsuario.Text);
-                    if(txtUsuario.Text == "admin" && txtContraseña.Text=="123"){
-                        /*
-                    if (txtUsuario.Text == "admin")
+                    if (txtUsuario.Text == "admin" && txtContraseña.Text == "123")
                     {
-                        // Pass hashing
-                        UTF8Encoding encoderHash = new UTF8Encoding();
-                        SHA256Managed hasher = new SHA256Managed();
-                        byte[] bytesDeHasheo = hasher.ComputeHash(encoderHash.GetBytes(txtContraseña.Text));
-                        string pass = bytesDeHasheoToString(bytesDeHasheo);
 
-                        if (!user.Password.Equals(pass))
+                        //Encontro usuario? ------------------------------------------------------------
+                        if (user.Nombre != null)
                         {
-                            // llamar a VIDA_ESTATICA.updateIntentos
-                           //user.ActualizarFallidos();
-                            MessageBox.Show("Usuario y contraseña no validos", "Error!", MessageBoxButtons.OK);
-                            txtContraseña.Text = "";
+                            // Pass hashing
+                            UTF8Encoding encoderHash = new UTF8Encoding();
+                            SHA256Managed hasher = new SHA256Managed();
+                            byte[] bytesDeHasheo = hasher.ComputeHash(encoderHash.GetBytes(txtContraseña.Text));
+                            string pass = bytesDeHasheoToString(bytesDeHasheo);
+
+                            if (!user.Contrasena.Equals(pass))
+                            {
+                                //Descontar Cantidad_Intentos--------------------------------------------
+                                user.DescontarIntento();
+                                MessageBox.Show("Usuario y contraseña no validos", "Error!", MessageBoxButtons.OK);
+                                txtContraseña.Text = "";
+                            }
+                            else
+                            {
+                                // Está activo?
+                                if (user.Cantidad_Intentos == 0)
+                                    MessageBox.Show("Usuario inactivo para acceder al sistema", "Error!", MessageBoxButtons.OK);
+                                else
+                                {
+
+                                    user.ReiniciarCantidadIntentos();
+
+                                    // Pasa al form Funcionalidades ------------------------------------
+                                    Funcionalidades fmFuncionalidades = new Funcionalidades(user);
+                                    this.Hide();
+                                    fmFuncionalidades.Show();
+                                }
+
+                            }
                         }
                         else
                         {
-                            // Está activo?
-                            if (!user.Activo)
-                                MessageBox.Show("Usuario inactivo para acceder al sistema", "Error!", MessageBoxButtons.OK);
-                            else
-                            {
-                               // user.ReiniciarFallidos();
-                        */
-                                // Pasa al form Funcionalidades
-                               Funcionalidades fmFuncionalidades = new Funcionalidades(user);
-                               this.Hide();
-                               fmFuncionalidades.Show();
-                            }
-                        
-                    
+                            lbContraseñaIncorrecta.Visible = true;
+                            txtContraseña.Text = "";
+                        }
+
+                    }
                     else
                     {
-                        lbContraseñaIncorrecta.Visible = true;
-                        txtContraseña.Text = "";
+                        MessageBox.Show("Complete todos los campos", "Error!", MessageBoxButtons.OK);
                     }
-
                 }
-                else MessageBox.Show("Complete todos los campos", "Error!", MessageBoxButtons.OK);
-            } catch { 
+            }
+            catch
+            {
                 MessageBox.Show("Usuario y contraseña no validos", "Error!", MessageBoxButtons.OK);
                 txtContraseña.Text = "";
             }

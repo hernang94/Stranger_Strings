@@ -28,3 +28,15 @@ C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug
 C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.csproj.GenerateResource.Cache
 C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Funcionalidades.resources
 C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Abm_Afiliado.A_Familia.resources
+A:\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\bin\Debug\ClinicaFrba.exe.config
+A:\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.exe
+A:\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.pdb
+A:\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\bin\Debug\ClinicaFrba.exe
+A:\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\bin\Debug\ClinicaFrba.pdb
+A:\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.csprojResolveAssemblyReference.cache
+A:\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Abm_Afiliado.Form1.resources
+A:\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Abm_Afiliado.A_Familia.resources
+A:\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Funcionalidades.resources
+A:\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Inicio.resources
+A:\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Properties.Resources.resources
+A:\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.csproj.GenerateResource.Cache

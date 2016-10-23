@@ -61,20 +61,38 @@ namespace ClinicaFrba.Abm_Afiliado
         }
 
         private void button1_Click(object sender, EventArgs e)
-        {
-            //Si esta casado o en concubinato o tiene familiares a cargo
-            if (cbEstadoCivil.SelectedIndex == 1 || cbEstadoCivil.SelectedIndex == 2 || int.Parse(txtCantFamilia.Text) > 0)
-            {
-                DialogResult resultadomge= MessageBox.Show("¿Desea asociar a su conyugue/concubinato o familiares a cargo?", "Consulta", MessageBoxButtons.YesNo);
-                if (resultadomge == DialogResult.Yes)
+        {          
+                DialogResult resultadomge1 = DialogResult.No;
+                DialogResult resultadomge2 = DialogResult.No;
+
+                //Si esta casado o en concubinato --------------------------------------------------
+                if (cbEstadoCivil.SelectedIndex == 1 || cbEstadoCivil.SelectedIndex == 2)
+                {
+                    resultadomge1 = MessageBox.Show("¿Desea asociar a su conyugue/concubinato?", "Consulta", MessageBoxButtons.YesNo);
+                }
+
+                //Si tiene familiares a cargo ------------------------------------------------------
+                if (int.Parse(txtCantFamilia.Text)>0)
+                {
+                    resultadomge2 = MessageBox.Show("¿Desea asociar a sus familiares a cargo?", "Consulta", MessageBoxButtons.YesNo);
+                }
+                
+                if (resultadomge1 == DialogResult.Yes && resultadomge2 == DialogResult.Yes)
                 {
                     A_Familia af = new A_Familia(int.Parse(txtCantFamilia.Text)+1);
                     af.Show();
-
                 }
-
-            }
-
+                else if (resultadomge1 == DialogResult.Yes && resultadomge2 == DialogResult.No)
+                {
+                    A_Familia af = new A_Familia(1);
+                    af.Show();
+                }
+                else if (resultadomge1 == DialogResult.No && resultadomge2 == DialogResult.Yes)
+                {
+                    A_Familia af = new A_Familia(int.Parse(txtCantFamilia.Text));
+                    af.Show();
+                }
+            
             //Codigo magico donde se guardan los datos del afiliado original.
         }
 
