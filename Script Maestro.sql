@@ -112,6 +112,8 @@ Id_Usuario INT  FOREIGN KEY REFERENCES STRANGER_STRINGS.Usuario(Id_Usuario),
 CREATE TABLE STRANGER_STRINGS.Compra(
 Id_Compra INT IDENTITY(1,1) PRIMARY KEY,
 Fecha_Compra datetime,
+Cantidad_Bonos INT,
+Importe_Total NUMERIC(7,2),
 Id_Paciente INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Paciente(Id_Paciente))
 -----------------------------------------------------------
 CREATE TABLE STRANGER_STRINGS.Baja_Paciente(
@@ -272,16 +274,18 @@ ORDER BY Bono_Consulta_Numero ASC
 SET IDENTITY_INSERT STRANGER_STRINGS.Bono OFF
 GO
 ------------------------------------------------
-INSERT INTO STRANGER_STRINGS.Consulta(Sintomas,Enfermedades,Bono_Consulta_Id)
-SELECT m.Consulta_Sintomas,m.Consulta_Enfermedades,b.Id_Bono
+INSERT INTO STRANGER_STRINGS.Consulta(Sintomas,Enfermedades,Fecha_Y_Hora,Bono_Consulta_Id)
+SELECT m.Consulta_Sintomas,m.Consulta_Enfermedades,m.Bono_Consulta_Fecha_Impresion,b.Id_Bono
 FROM gd_esquema.Maestra m, STRANGER_STRINGS.Bono b
 WHERE m.Bono_Consulta_Numero=b.Id_Bono and m.Consulta_Sintomas IS NOT NULL
 ORDER BY b.Id_Bono
 ------------------------------------------------
-INSERT INTO STRANGER_STRINGS.Compra (Fecha_Compra,Id_Paciente)
-SELECT DISTINCT Fecha_Impresion,Id_Paciente_Uso
-FROM STRANGER_STRINGS.Bono
-ORDER BY Id_Paciente_Uso
+INSERT INTO STRANGER_STRINGS.Compra (Fecha_Compra,Id_Paciente,Cantidad_Bonos,Importe_Total)
+SELECT DISTINCT b.Fecha_Impresion,b.Id_Paciente_Uso,COUNT(b.Id_Bono), SUM(p.Precio_Bono_Consulta)
+FROM STRANGER_STRINGS.Bono b, STRANGER_STRINGS.Plan_Medico p
+WHERE b.Codigo_Plan=p.Codigo_Plan
+GROUP BY b.Fecha_Impresion,b.Id_Paciente_Uso
+ORDER BY b.Id_Paciente_Uso,b.Fecha_Impresion
 ------------------------------------------------
 INSERT INTO STRANGER_STRINGS.Usuario(Usuario,Pasword)
 SELECT CONVERT(VARCHAR(18),Num_Doc) As Usuario, HASHBYTES('SHA2_256',Apellido)
