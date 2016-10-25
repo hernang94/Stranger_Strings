@@ -13,7 +13,7 @@ namespace ClinicaFrba
         public static SqlConnection ObtenerConexion()
         {
             //Cambiar respecto del servidor: Mica y Mauro ABM-PC\SQL....
-            SqlConnection con = new SqlConnection(@"Data source=ABM-PC\SQLSERVER2012; Initial Catalog=GD2C2016; User Id=gd; Password=gd2016");
+            SqlConnection con = new SqlConnection(@"Data source=TOMÁS-PC\SQLSERVER2012; Initial Catalog=GD2C2016; User Id=gd; Password=gd2016");
             con.Open();
             return con;
         }
