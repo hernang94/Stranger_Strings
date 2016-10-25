@@ -286,13 +286,60 @@ FROM STRANGER_STRINGS.Bono b, STRANGER_STRINGS.Plan_Medico p
 WHERE b.Codigo_Plan=p.Codigo_Plan
 GROUP BY b.Fecha_Impresion,b.Id_Paciente_Uso
 ORDER BY b.Id_Paciente_Uso,b.Fecha_Impresion
-------------------------------------------------
+------------------------------------------------ FIN MIGRACION
+
+--SETEO DE USUARIOS
+INSERT INTO STRANGER_STRINGS.Usuario(Usuario,Pasword) VALUES ('admin',HASHBYTES('SHA2_256','w23e'))
+INSERT INTO STRANGER_STRINGS.Rol_X_Usuario (r.Id_Rol,u.Id_Usuario)
+SELECT r.Id_Rol,u.Id_Usuario
+FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Usuario u
+WHERE r.Descripcion LIKE 'Administrador' AND u.Usuario LIKE 'admin' AND u.Pasword=HASHBYTES('SHA2_256','w23e')
+
+
 INSERT INTO STRANGER_STRINGS.Usuario(Usuario,Pasword)
-SELECT CONVERT(VARCHAR(18),Num_Doc) As Usuario, HASHBYTES('SHA2_256',Apellido)
-FROM STRANGER_STRINGS.Paciente
+SELECT CONVERT(VARCHAR,p.Num_Doc) As Usuario, HASHBYTES('SHA2_256',p.Apellido)
+FROM STRANGER_STRINGS.Paciente p
+
+INSERT INTO STRANGER_STRINGS.Rol_X_Usuario(Id_Rol,Id_Usuario)
+SELECT r.Id_Rol,u.Id_Usuario
+FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Usuario u JOIN STRANGER_STRINGS.Paciente p ON(p.Num_Doc=u.Usuario)
+WHERE r.Descripcion LIKE 'Afiliado'
+
 INSERT INTO STRANGER_STRINGS.Usuario(Usuario,Pasword)
-SELECT CONVERT(VARCHAR(18),Num_Doc) As Usuario, HASHBYTES('SHA2_256',Apellido)
+SELECT CONVERT(VARCHAR,Num_Doc) As Usuario, HASHBYTES('SHA2_256',Apellido)
 FROM STRANGER_STRINGS.Medico
+
+INSERT INTO STRANGER_STRINGS.Rol_X_Usuario(Id_Rol,Id_Usuario)
+SELECT r.Id_Rol,u.Id_Usuario
+FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Usuario u JOIN STRANGER_STRINGS.Medico m ON(m.Num_Doc=u.Usuario)
+WHERE r.Descripcion LIKE 'Profesional'
+
 UPDATE STRANGER_STRINGS.Usuario
 SET Cantidad_Intentos=3
+--FIN SETEO DE USUARIOS
 
+
+
+--***STORED PROCEDURE LOGIN(PENDIENTE DE REVISION)***
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_LOGIN')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_LOGIN
+GO
+CREATE PROCEDURE STRANGER_STRINGS.SP_LOGIN
+@Usuario varchar(255), 
+@Pass varchar(255),
+@Bit INT OUTPUT
+AS
+BEGIN
+IF EXISTS(
+SELECT u.Usuario,u.Pasword
+FROM STRANGER_STRINGS.Usuario u JOIN STRANGER_STRINGS.Rol_X_Usuario r ON(u.Id_Usuario=r.Id_Usuario)
+WHERE @Usuario=u.Usuario AND HASHBYTES('SHA2_256',@Pass)=u.Pasword)
+SET @Bit=1
+ELSE
+SET @Bit=0
+END
+GO
+-----------------------------------------
