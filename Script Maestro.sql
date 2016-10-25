@@ -288,7 +288,26 @@ GROUP BY b.Fecha_Impresion,b.Id_Paciente_Uso
 ORDER BY b.Id_Paciente_Uso,b.Fecha_Impresion
 ------------------------------------------------ FIN MIGRACION
 
---SETEO DE USUARIOS Y ROLES
+--SETEO DE USUARIOS, ROLES y FUNCIONALIDADES
+--FUNCIONALIDADES
+INSERT INTO STRANGER_STRINGS.Funcionalidad(Descripcion)
+VALUES('ABM de Afiliado')
+INSERT INTO STRANGER_STRINGS.Funcionalidad(Descripcion)
+VALUES('ABM de Rol')
+INSERT INTO STRANGER_STRINGS.Funcionalidad(Descripcion)
+VALUES('Compra de Bonos')
+INSERT INTO STRANGER_STRINGS.Funcionalidad(Descripcion)
+VALUES('Solicitar Turno')
+INSERT INTO STRANGER_STRINGS.Funcionalidad(Descripcion)
+VALUES('Registro de Llegada')
+INSERT INTO STRANGER_STRINGS.Funcionalidad(Descripcion)
+VALUES('Registro de Resultado')
+INSERT INTO STRANGER_STRINGS.Funcionalidad(Descripcion)
+VALUES('Cancelar Atención Médica')
+INSERT INTO STRANGER_STRINGS.Funcionalidad(Descripcion)
+VALUES('Listado Estadístico')
+
+--ROLES
 INSERT INTO STRANGER_STRINGS.Rol(Descripcion)
 VALUES('Administrador')
 INSERT INTO STRANGER_STRINGS.Rol(Descripcion)
@@ -296,6 +315,23 @@ VALUES('Afiliado')
 INSERT INTO STRANGER_STRINGS.Rol(Descripcion)
 VALUES('Profesional')
 
+--FUNCIONALIDADES X ROL
+INSERT INTO STRANGER_STRINGS.Funcionalidad_X_Rol(Id_Rol,Id_Funcionalidad)
+SELECT r.Id_Rol, f.Id_Funcionalidad
+FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Funcionalidad f
+WHERE r.Descripcion='Administrador' AND f.Descripcion in ('ABM de Afiliado','ABM de Rol','Registro de Llegada','Listado Estadístico')
+
+INSERT INTO STRANGER_STRINGS.Funcionalidad_X_Rol(Id_Rol,Id_Funcionalidad)
+SELECT r.Id_Rol, f.Id_Funcionalidad
+FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Funcionalidad f
+WHERE r.Descripcion='Afiliado' AND f.Descripcion in ('Compra de Bonos','Solicitar Turno','Cancelar Atención Médica')
+
+INSERT INTO STRANGER_STRINGS.Funcionalidad_X_Rol(Id_Rol,Id_Funcionalidad)
+SELECT r.Id_Rol, f.Id_Funcionalidad
+FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Funcionalidad f
+WHERE r.Descripcion='Profesional' AND f.Descripcion in ('Cancelar Atención Médica','Registro de Resultado')
+
+--USUARIOS Y ROLES X USUARIO
 INSERT INTO STRANGER_STRINGS.Usuario(Usuario,Pasword) VALUES ('admin',HASHBYTES('SHA2_256','w23e'))
 INSERT INTO STRANGER_STRINGS.Rol_X_Usuario (r.Id_Rol,u.Id_Usuario)
 SELECT r.Id_Rol,u.Id_Usuario

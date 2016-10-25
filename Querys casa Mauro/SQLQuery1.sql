@@ -18,3 +18,5 @@ WHERE e.Bono_Consulta_Numero IS NOT NULL AND e.Consulta_Sintomas IS NOT NULL
 ORDER BY Bono_Consulta_Numero ASC
 SELECT Distinct e.Paciente_Nombre, DBO.FX_Numero_Consulta_X_Paciente(e.Paciente_Dni,e.Bono_Consulta_Numero) AS Num_Consulta
 FROM gd_esquema.Maestra e
+
+SELECT * FROM STRANGER_STRINGS.Funcionalidad
