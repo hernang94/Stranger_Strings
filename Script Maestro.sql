@@ -288,7 +288,14 @@ GROUP BY b.Fecha_Impresion,b.Id_Paciente_Uso
 ORDER BY b.Id_Paciente_Uso,b.Fecha_Impresion
 ------------------------------------------------ FIN MIGRACION
 
---SETEO DE USUARIOS
+--SETEO DE USUARIOS Y ROLES
+INSERT INTO STRANGER_STRINGS.Rol(Descripcion)
+VALUES('Administrador')
+INSERT INTO STRANGER_STRINGS.Rol(Descripcion)
+VALUES('Afiliado')
+INSERT INTO STRANGER_STRINGS.Rol(Descripcion)
+VALUES('Profesional')
+
 INSERT INTO STRANGER_STRINGS.Usuario(Usuario,Pasword) VALUES ('admin',HASHBYTES('SHA2_256','w23e'))
 INSERT INTO STRANGER_STRINGS.Rol_X_Usuario (r.Id_Rol,u.Id_Usuario)
 SELECT r.Id_Rol,u.Id_Usuario
@@ -302,7 +309,7 @@ FROM STRANGER_STRINGS.Paciente p
 
 INSERT INTO STRANGER_STRINGS.Rol_X_Usuario(Id_Rol,Id_Usuario)
 SELECT r.Id_Rol,u.Id_Usuario
-FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Usuario u JOIN STRANGER_STRINGS.Paciente p ON(p.Num_Doc=u.Usuario)
+FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Usuario u JOIN STRANGER_STRINGS.Paciente p ON(CONVERT(VARCHAR,p.Num_Doc)=u.Usuario)
 WHERE r.Descripcion LIKE 'Afiliado'
 
 INSERT INTO STRANGER_STRINGS.Usuario(Usuario,Pasword)
@@ -311,7 +318,7 @@ FROM STRANGER_STRINGS.Medico
 
 INSERT INTO STRANGER_STRINGS.Rol_X_Usuario(Id_Rol,Id_Usuario)
 SELECT r.Id_Rol,u.Id_Usuario
-FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Usuario u JOIN STRANGER_STRINGS.Medico m ON(m.Num_Doc=u.Usuario)
+FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Usuario u JOIN STRANGER_STRINGS.Medico m ON(CONVERT(VARCHAR,m.Num_Doc)=u.Usuario)
 WHERE r.Descripcion LIKE 'Profesional'
 
 UPDATE STRANGER_STRINGS.Usuario
