@@ -12,7 +12,7 @@ namespace ClinicaFrba.BD
     {
         public string Nombre { get; set; }
         public string Contrasena { get; set; }
-        public decimal Cantidad_Intentos { get; set; }
+        public Int16 Cantidad_Intentos { get; set; }
 
         public Usuario() { }
 
@@ -24,16 +24,22 @@ namespace ClinicaFrba.BD
             SqlDataReader lector = BDStranger_Strings.GetDataReader("SELECT * FROM STRANGER_STRINGS.Usuario WHERE Usuario=@userName", "T", paramList);
             if (lector.HasRows)
             {
-                lector.Read();
-                Nombre = user;
-                Contrasena = ((string)lector["Password"]).ToUpper();
-                Cantidad_Intentos = (decimal)lector["Cantidad_Intentos"];
+                while (lector.Read())
+                {
+                    Inicio i = new Inicio();
+                    Nombre = user;
+                    Cantidad_Intentos = lector.GetInt16(3);
+                    Contrasena = i.bytesDeHasheoToString(lector.GetByte(2));
+;
+                }
+                
             }
             else
             {
                 Nombre = null;
             }
         }
+
 
         public void DescontarIntento()
         {

@@ -31,69 +31,68 @@ namespace ClinicaFrba
 
         private void btIniciarSesión_Click(object sender, EventArgs e)
         {
-            try
-            {
+           // try
+            //{
                 if (txtUsuario.Text != "" && txtContraseña.Text != "")
                 {
                     Usuario user = new Usuario(txtUsuario.Text);
-                    if (txtUsuario.Text == "admin" && txtContraseña.Text == "123")
+
+                    //Encontro usuario? ------------------------------------------------------------
+                    if (user.Nombre != null)
                     {
+                        // Pass hashing
+                        UTF8Encoding encoderHash = new UTF8Encoding();
+                        SHA256Managed hasher = new SHA256Managed();
+                        byte[] bytesDeHasheo = hasher.ComputeHash(encoderHash.GetBytes(txtContraseña.Text));
+                        string pass = bytesDeHasheoToString(bytesDeHasheo);
 
-                        //Encontro usuario? ------------------------------------------------------------
-                        if (user.Nombre != null)
+                        if (!user.Contrasena.Equals(pass))
                         {
-                            // Pass hashing
-                            UTF8Encoding encoderHash = new UTF8Encoding();
-                            SHA256Managed hasher = new SHA256Managed();
-                            byte[] bytesDeHasheo = hasher.ComputeHash(encoderHash.GetBytes(txtContraseña.Text));
-                            string pass = bytesDeHasheoToString(bytesDeHasheo);
-
-                            if (!user.Contrasena.Equals(pass))
-                            {
-                                //Descontar Cantidad_Intentos--------------------------------------------
-                                user.DescontarIntento();
-                                MessageBox.Show("Usuario y contraseña no validos", "Error!", MessageBoxButtons.OK);
-                                txtContraseña.Text = "";
-                            }
-                            else
-                            {
-                                // Está activo?
-                                if (user.Cantidad_Intentos == 0)
-                                    MessageBox.Show("Usuario inactivo para acceder al sistema", "Error!", MessageBoxButtons.OK);
-                                else
-                                {
-
-                                    user.ReiniciarCantidadIntentos();
-
-                                    // Pasa al form Funcionalidades ------------------------------------
-                                    Funcionalidades fmFuncionalidades = new Funcionalidades(user);
-                                    this.Hide();
-                                    fmFuncionalidades.Show();
-                                }
-
-                            }
+                            //Descontar Cantidad_Intentos--------------------------------------------
+                            user.DescontarIntento();
+                            MessageBox.Show("Usuario y contraseña no validos", "Error!", MessageBoxButtons.OK);
+                            txtContraseña.Text = "";
                         }
                         else
                         {
-                            lbContraseñaIncorrecta.Visible = true;
-                            txtContraseña.Text = "";
-                        }
+                            // Está activo?
+                            if (user.Cantidad_Intentos == 0)
+                                MessageBox.Show("Usuario inactivo para acceder al sistema", "Error!", MessageBoxButtons.OK);
+                            else
+                            {
 
+                                user.ReiniciarCantidadIntentos();
+
+                                // Pasa al form Funcionalidades ------------------------------------
+                                Funcionalidades fmFuncionalidades = new Funcionalidades(user);
+                                this.Hide();
+                                fmFuncionalidades.Show();
+                            }
+
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("Complete todos los campos", "Error!", MessageBoxButtons.OK);
+                        lbContraseñaIncorrecta.Visible = true;
+                        txtContraseña.Text = "";
                     }
+
                 }
-            }
-            catch
-            {
-                MessageBox.Show("Usuario y contraseña no validos", "Error!", MessageBoxButtons.OK);
-                txtContraseña.Text = "";
-            }
+                else
+                {
+                    MessageBox.Show("Complete todos los campos", "Error!", MessageBoxButtons.OK);
+                }
+        //    }
+
+      //      catch
+        //    {
+         //       MessageBox.Show("Usuario y contraseña no validos", "Error!", MessageBoxButtons.OK);
+         //       txtContraseña.Text = "";
+           // }
         }
+        
         // Transformar lo hasheado a string
-        private string bytesDeHasheoToString(byte[] array)
+        public string bytesDeHasheoToString(byte[] array)
         {
             StringBuilder salida = new StringBuilder("");
             for (int i = 0; i < array.Length; i++)

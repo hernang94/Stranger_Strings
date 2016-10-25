@@ -30,13 +30,12 @@
         {
             this.tbABMAfiliado = new System.Windows.Forms.TabControl();
             this.tpAlta = new System.Windows.Forms.TabPage();
+            this.cbPlanMedico = new System.Windows.Forms.ComboBox();
             this.btVolver = new System.Windows.Forms.Button();
             this.btIngresar = new System.Windows.Forms.Button();
             this.dateFechaNac = new System.Windows.Forms.DateTimePicker();
             this.cbEstadoCivil = new System.Windows.Forms.ComboBox();
             this.cbSexo = new System.Windows.Forms.ComboBox();
-            this.txtPlanMedico = new System.Windows.Forms.TextBox();
-            this.txtCantFamilia = new System.Windows.Forms.TextBox();
             this.txtMail = new System.Windows.Forms.TextBox();
             this.txtTel = new System.Windows.Forms.TextBox();
             this.txtDirec = new System.Windows.Forms.TextBox();
@@ -58,10 +57,12 @@
             this.textBox17 = new System.Windows.Forms.TextBox();
             this.textBox18 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.nupCantFamilia = new System.Windows.Forms.NumericUpDown();
             this.tbABMAfiliado.SuspendLayout();
             this.tpAlta.SuspendLayout();
             this.tpBajaModif.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgCliente)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nupCantFamilia)).BeginInit();
             this.SuspendLayout();
             // 
             // tbABMAfiliado
@@ -78,13 +79,13 @@
             // 
             // tpAlta
             // 
+            this.tpAlta.Controls.Add(this.nupCantFamilia);
+            this.tpAlta.Controls.Add(this.cbPlanMedico);
             this.tpAlta.Controls.Add(this.btVolver);
             this.tpAlta.Controls.Add(this.btIngresar);
             this.tpAlta.Controls.Add(this.dateFechaNac);
             this.tpAlta.Controls.Add(this.cbEstadoCivil);
             this.tpAlta.Controls.Add(this.cbSexo);
-            this.tpAlta.Controls.Add(this.txtPlanMedico);
-            this.tpAlta.Controls.Add(this.txtCantFamilia);
             this.tpAlta.Controls.Add(this.txtMail);
             this.tpAlta.Controls.Add(this.txtTel);
             this.tpAlta.Controls.Add(this.txtDirec);
@@ -101,6 +102,18 @@
             this.tpAlta.Text = "Alta";
             this.tpAlta.UseVisualStyleBackColor = true;
             this.tpAlta.Click += new System.EventHandler(this.tpAlta_Click);
+            // 
+            // cbPlanMedico
+            // 
+            this.cbPlanMedico.FormattingEnabled = true;
+            this.cbPlanMedico.Items.AddRange(new object[] {
+            "Básico",
+            "Intermedio",
+            "Avanzado"});
+            this.cbPlanMedico.Location = new System.Drawing.Point(291, 304);
+            this.cbPlanMedico.Name = "cbPlanMedico";
+            this.cbPlanMedico.Size = new System.Drawing.Size(100, 21);
+            this.cbPlanMedico.TabIndex = 20;
             // 
             // btVolver
             // 
@@ -156,20 +169,6 @@
             this.cbSexo.Name = "cbSexo";
             this.cbSexo.Size = new System.Drawing.Size(100, 21);
             this.cbSexo.TabIndex = 15;
-            // 
-            // txtPlanMedico
-            // 
-            this.txtPlanMedico.Location = new System.Drawing.Point(291, 304);
-            this.txtPlanMedico.Name = "txtPlanMedico";
-            this.txtPlanMedico.Size = new System.Drawing.Size(100, 20);
-            this.txtPlanMedico.TabIndex = 13;
-            // 
-            // txtCantFamilia
-            // 
-            this.txtCantFamilia.Location = new System.Drawing.Point(291, 278);
-            this.txtCantFamilia.Name = "txtCantFamilia";
-            this.txtCantFamilia.Size = new System.Drawing.Size(100, 20);
-            this.txtCantFamilia.TabIndex = 12;
             // 
             // txtMail
             // 
@@ -353,6 +352,13 @@
             this.label1.TabIndex = 20;
             this.label1.Text = "Nombre\r\n\r\nApellido\r\n\r\nNro. Afiliado\r\n\r\nNro. Documento\r\n\r\nPlan Médico\r\n";
             // 
+            // nupCantFamilia
+            // 
+            this.nupCantFamilia.Location = new System.Drawing.Point(291, 278);
+            this.nupCantFamilia.Name = "nupCantFamilia";
+            this.nupCantFamilia.Size = new System.Drawing.Size(100, 20);
+            this.nupCantFamilia.TabIndex = 21;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -368,6 +374,7 @@
             this.tpBajaModif.ResumeLayout(false);
             this.tpBajaModif.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgCliente)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nupCantFamilia)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -380,8 +387,6 @@
         private System.Windows.Forms.DateTimePicker dateFechaNac;
         private System.Windows.Forms.ComboBox cbEstadoCivil;
         private System.Windows.Forms.ComboBox cbSexo;
-        private System.Windows.Forms.TextBox txtPlanMedico;
-        private System.Windows.Forms.TextBox txtCantFamilia;
         private System.Windows.Forms.TextBox txtMail;
         private System.Windows.Forms.TextBox txtTel;
         private System.Windows.Forms.TextBox txtDirec;
@@ -404,5 +409,7 @@
         private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.ComboBox cbPlanMedico;
+        private System.Windows.Forms.NumericUpDown nupCantFamilia;
     }
 }

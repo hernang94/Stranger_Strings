@@ -33,8 +33,6 @@
             this.dateFechaNac = new System.Windows.Forms.DateTimePicker();
             this.cbEstadoCivil = new System.Windows.Forms.ComboBox();
             this.cbSexo = new System.Windows.Forms.ComboBox();
-            this.txtPlanMedico = new System.Windows.Forms.TextBox();
-            this.txtCantFamilia = new System.Windows.Forms.TextBox();
             this.txtMail = new System.Windows.Forms.TextBox();
             this.txtTel = new System.Windows.Forms.TextBox();
             this.txtDirec = new System.Windows.Forms.TextBox();
@@ -44,6 +42,7 @@
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.lbConjunto = new System.Windows.Forms.Label();
             this.lvlFamilia = new System.Windows.Forms.Label();
+            this.cbPlanMedico = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // btVolver
@@ -100,20 +99,6 @@
             this.cbSexo.Size = new System.Drawing.Size(100, 21);
             this.cbSexo.TabIndex = 30;
             // 
-            // txtPlanMedico
-            // 
-            this.txtPlanMedico.Location = new System.Drawing.Point(233, 325);
-            this.txtPlanMedico.Name = "txtPlanMedico";
-            this.txtPlanMedico.Size = new System.Drawing.Size(100, 20);
-            this.txtPlanMedico.TabIndex = 29;
-            // 
-            // txtCantFamilia
-            // 
-            this.txtCantFamilia.Location = new System.Drawing.Point(233, 299);
-            this.txtCantFamilia.Name = "txtCantFamilia";
-            this.txtCantFamilia.Size = new System.Drawing.Size(100, 20);
-            this.txtCantFamilia.TabIndex = 28;
-            // 
             // txtMail
             // 
             this.txtMail.Location = new System.Drawing.Point(233, 195);
@@ -168,11 +153,10 @@
             this.lbConjunto.AutoSize = true;
             this.lbConjunto.Location = new System.Drawing.Point(34, 42);
             this.lbConjunto.Name = "lbConjunto";
-            this.lbConjunto.Size = new System.Drawing.Size(150, 299);
+            this.lbConjunto.Size = new System.Drawing.Size(108, 273);
             this.lbConjunto.TabIndex = 20;
             this.lbConjunto.Text = "Nombre\r\n\r\nApellido\r\n\r\nNro. Documento\r\n\r\nTipo Documento\r\n\r\nDirección\r\n\r\nTeléfono\r\n" +
-    "\r\nMail\r\n\r\nFecha de Nacimiento\r\n\r\nSexo\r\n\r\nEstado Civil\r\n\r\nCantidad de familiares " +
-    "a Cargo\r\n\r\nPlan Médico\r\n";
+    "\r\nMail\r\n\r\nFecha de Nacimiento\r\n\r\nSexo\r\n\r\nEstado Civil\r\n\r\nPlan Médico";
             // 
             // lvlFamilia
             // 
@@ -184,19 +168,30 @@
             this.lvlFamilia.TabIndex = 35;
             this.lvlFamilia.Text = "Asocie a un familiar:";
             // 
+            // cbPlanMedico
+            // 
+            this.cbPlanMedico.FormattingEnabled = true;
+            this.cbPlanMedico.Items.AddRange(new object[] {
+            "Básico",
+            "Intermedio",
+            "Avanzado"});
+            this.cbPlanMedico.Location = new System.Drawing.Point(233, 300);
+            this.cbPlanMedico.Name = "cbPlanMedico";
+            this.cbPlanMedico.Size = new System.Drawing.Size(100, 21);
+            this.cbPlanMedico.TabIndex = 36;
+            // 
             // A_Familia
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(376, 396);
+            this.Controls.Add(this.cbPlanMedico);
             this.Controls.Add(this.lvlFamilia);
             this.Controls.Add(this.btVolver);
             this.Controls.Add(this.btIngresar);
             this.Controls.Add(this.dateFechaNac);
             this.Controls.Add(this.cbEstadoCivil);
             this.Controls.Add(this.cbSexo);
-            this.Controls.Add(this.txtPlanMedico);
-            this.Controls.Add(this.txtCantFamilia);
             this.Controls.Add(this.txtMail);
             this.Controls.Add(this.txtTel);
             this.Controls.Add(this.txtDirec);
@@ -220,8 +215,6 @@
         private System.Windows.Forms.DateTimePicker dateFechaNac;
         private System.Windows.Forms.ComboBox cbEstadoCivil;
         private System.Windows.Forms.ComboBox cbSexo;
-        private System.Windows.Forms.TextBox txtPlanMedico;
-        private System.Windows.Forms.TextBox txtCantFamilia;
         private System.Windows.Forms.TextBox txtMail;
         private System.Windows.Forms.TextBox txtTel;
         private System.Windows.Forms.TextBox txtDirec;
@@ -231,5 +224,6 @@
         private System.Windows.Forms.TextBox txtNombre;
         private System.Windows.Forms.Label lbConjunto;
         private System.Windows.Forms.Label lvlFamilia;
+        private System.Windows.Forms.ComboBox cbPlanMedico;
     }
 }

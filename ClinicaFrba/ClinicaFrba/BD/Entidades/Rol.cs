@@ -9,6 +9,5 @@ namespace ClinicaFrba.BD.Entidades
     class Rol
     {
         public string Nombre { set; get; }
-        public List<>
     }
 }
