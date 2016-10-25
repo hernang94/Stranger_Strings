@@ -309,6 +309,12 @@ GROUP BY Id_Paciente) as tabla1
 WHERE tabla1.Id_Paciente=p.Id_Paciente)
 FROM STRANGER_STRINGS.Paciente p
 
+UPDATE STRANGER_STRINGS.Turno
+SET Id_Consulta=
+(SELECT c.Id_Consulta 
+FROM STRANGER_STRINGS.Consulta c
+WHERE c.Fecha_Y_Hora=t.Turno_Fecha AND t.Id_Paciente=c.Id_Paciente AND c.Bono_Consulta_Id=b.Id_Bono)
+FROM STRANGER_STRINGS.Turno t JOIN STRANGER_STRINGS.Bono b ON(b.Id_Paciente_Uso=t.Id_Paciente)
 
 
 ------------------------------------------------ FIN MIGRACION
