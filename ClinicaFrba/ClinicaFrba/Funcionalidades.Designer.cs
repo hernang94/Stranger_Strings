@@ -37,7 +37,7 @@
             this.btABMProfesional = new System.Windows.Forms.Button();
             this.btABMAfiliado = new System.Windows.Forms.Button();
             this.btRegistroUsuario = new System.Windows.Forms.Button();
-            this.btCancelarAtencion = new System.Windows.Forms.Button();
+            this.btCancelarAtencionAfiliado = new System.Windows.Forms.Button();
             this.btRegistrarResultado = new System.Windows.Forms.Button();
             this.btPedirTurno = new System.Windows.Forms.Button();
             this.btCompraBono = new System.Windows.Forms.Button();
@@ -46,6 +46,7 @@
             this.cbSeleccionRol = new System.Windows.Forms.ComboBox();
             this.gbFuncioAfiliado = new System.Windows.Forms.GroupBox();
             this.gbFuncProf = new System.Windows.Forms.GroupBox();
+            this.btCancelarAtencionMedico = new System.Windows.Forms.Button();
             this.gBFuncionalidadesAdmin.SuspendLayout();
             this.gbFuncioAfiliado.SuspendLayout();
             this.gbFuncProf.SuspendLayout();
@@ -155,15 +156,16 @@
             this.btRegistroUsuario.UseVisualStyleBackColor = true;
             this.btRegistroUsuario.Visible = false;
             // 
-            // btCancelarAtencion
+            // btCancelarAtencionAfiliado
             // 
-            this.btCancelarAtencion.Location = new System.Drawing.Point(100, 19);
-            this.btCancelarAtencion.Name = "btCancelarAtencion";
-            this.btCancelarAtencion.Size = new System.Drawing.Size(142, 30);
-            this.btCancelarAtencion.TabIndex = 11;
-            this.btCancelarAtencion.Text = "Cancelar Atención Médica";
-            this.btCancelarAtencion.UseVisualStyleBackColor = true;
-            this.btCancelarAtencion.Visible = false;
+            this.btCancelarAtencionAfiliado.Location = new System.Drawing.Point(100, 19);
+            this.btCancelarAtencionAfiliado.Name = "btCancelarAtencionAfiliado";
+            this.btCancelarAtencionAfiliado.Size = new System.Drawing.Size(142, 30);
+            this.btCancelarAtencionAfiliado.TabIndex = 11;
+            this.btCancelarAtencionAfiliado.Text = "Cancelar Atención Médica";
+            this.btCancelarAtencionAfiliado.UseVisualStyleBackColor = true;
+            this.btCancelarAtencionAfiliado.Visible = false;
+            this.btCancelarAtencionAfiliado.Click += new System.EventHandler(this.btCancelarAtencionAfiliado_Click);
             // 
             // btRegistrarResultado
             // 
@@ -184,6 +186,7 @@
             this.btPedirTurno.Text = "Pedir Turno";
             this.btPedirTurno.UseVisualStyleBackColor = true;
             this.btPedirTurno.Visible = false;
+            this.btPedirTurno.Click += new System.EventHandler(this.btPedirTurno_Click);
             // 
             // btCompraBono
             // 
@@ -230,7 +233,7 @@
             // gbFuncioAfiliado
             // 
             this.gbFuncioAfiliado.Controls.Add(this.btCompraBono);
-            this.gbFuncioAfiliado.Controls.Add(this.btCancelarAtencion);
+            this.gbFuncioAfiliado.Controls.Add(this.btCancelarAtencionAfiliado);
             this.gbFuncioAfiliado.Controls.Add(this.btPedirTurno);
             this.gbFuncioAfiliado.Location = new System.Drawing.Point(19, 165);
             this.gbFuncioAfiliado.Name = "gbFuncioAfiliado";
@@ -241,6 +244,7 @@
             // 
             // gbFuncProf
             // 
+            this.gbFuncProf.Controls.Add(this.btCancelarAtencionMedico);
             this.gbFuncProf.Controls.Add(this.btRegistrarResultado);
             this.gbFuncProf.Location = new System.Drawing.Point(19, 232);
             this.gbFuncProf.Name = "gbFuncProf";
@@ -248,6 +252,16 @@
             this.gbFuncProf.TabIndex = 13;
             this.gbFuncProf.TabStop = false;
             this.gbFuncProf.Text = "Funcionalidades Profesional";
+            // 
+            // btCancelarAtencionMedico
+            // 
+            this.btCancelarAtencionMedico.Location = new System.Drawing.Point(238, 21);
+            this.btCancelarAtencionMedico.Name = "btCancelarAtencionMedico";
+            this.btCancelarAtencionMedico.Size = new System.Drawing.Size(142, 30);
+            this.btCancelarAtencionMedico.TabIndex = 12;
+            this.btCancelarAtencionMedico.Text = "Cancelar Atención Médica";
+            this.btCancelarAtencionMedico.UseVisualStyleBackColor = true;
+            this.btCancelarAtencionMedico.Visible = false;
             // 
             // Funcionalidades
             // 
@@ -279,7 +293,7 @@
         private System.Windows.Forms.Button btRegistroUsuario;
         private System.Windows.Forms.Button btEspMedicas;
         private System.Windows.Forms.Button btPlan;
-        private System.Windows.Forms.Button btCancelarAtencion;
+        private System.Windows.Forms.Button btCancelarAtencionAfiliado;
         private System.Windows.Forms.Button btRegistrarResultado;
         private System.Windows.Forms.Button btRegistroLlegada;
         private System.Windows.Forms.Button btPedirTurno;
@@ -290,5 +304,6 @@
         private System.Windows.Forms.ComboBox cbSeleccionRol;
         private System.Windows.Forms.GroupBox gbFuncioAfiliado;
         private System.Windows.Forms.GroupBox gbFuncProf;
+        private System.Windows.Forms.Button btCancelarAtencionMedico;
     }
 }

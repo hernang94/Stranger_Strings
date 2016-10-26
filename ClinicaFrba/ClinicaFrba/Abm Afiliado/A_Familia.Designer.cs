@@ -164,9 +164,9 @@
             this.lvlFamilia.Font = new System.Drawing.Font("Georgia", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvlFamilia.Location = new System.Drawing.Point(33, 9);
             this.lvlFamilia.Name = "lvlFamilia";
-            this.lvlFamilia.Size = new System.Drawing.Size(186, 23);
+            this.lvlFamilia.Size = new System.Drawing.Size(180, 23);
             this.lvlFamilia.TabIndex = 35;
-            this.lvlFamilia.Text = "Asocie a un familiar:";
+            this.lvlFamilia.Text = "Asocie a un familiar";
             // 
             // cbPlanMedico
             // 

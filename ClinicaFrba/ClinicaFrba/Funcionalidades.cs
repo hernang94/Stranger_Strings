@@ -61,9 +61,10 @@ namespace ClinicaFrba
                 btRegistroLlegada.Visible = true;
                 btEspMedicas.Visible = true;
 
-                btCancelarAtencion.Visible = false;
+                btCancelarAtencionMedico.Visible = false;
                 btRegistrarResultado.Visible = false;
 
+                btCancelarAtencionAfiliado.Visible = false;
                 btPedirTurno.Visible = false;
                 btCompraBono.Visible = false;
 
@@ -72,7 +73,7 @@ namespace ClinicaFrba
             else if (cbSeleccionRol.SelectedIndex == 1)
             {
                 btPedirTurno.Visible = true;
-                btCancelarAtencion.Visible = true;
+                btCancelarAtencionAfiliado.Visible = true;
                 btCompraBono.Visible = true;
 
                 btEspMedicas.Visible = false;
@@ -86,16 +87,18 @@ namespace ClinicaFrba
                 btRegistroLlegada.Visible = false;
 
                 btRegistrarResultado.Visible = false;
+                btCancelarAtencionMedico.Visible = false;
             }
             //Selecciono Profesional
             else if (cbSeleccionRol.SelectedIndex == 2)
             {
-                btCancelarAtencion.Visible = true;
+                btCancelarAtencionMedico.Visible = true;
                 btRegistrarResultado.Visible = true;
 
                 btEspMedicas.Visible = false;
                 btPedirTurno.Visible = false;
                 btCompraBono.Visible = false;
+                btCancelarAtencionAfiliado.Visible = false;
 
                 btABMRol.Visible = false;
                 btABMAfiliado.Visible = false;
@@ -134,6 +137,20 @@ namespace ClinicaFrba
         {
             Abm_Afiliado.Form1 abmAfil = new Abm_Afiliado.Form1(this);
             abmAfil.Show();
+            this.Hide();
+        }
+
+        private void btPedirTurno_Click(object sender, EventArgs e)
+        {
+            Pedir_Turno.formSolicitarTurno pedir_Turno = new Pedir_Turno.formSolicitarTurno(this);
+            pedir_Turno.Show();
+            this.Hide();
+        }
+
+        private void btCancelarAtencionAfiliado_Click(object sender, EventArgs e)
+        {
+            Cancelar_Atencion.CancelarAtencionAfiliado cancelar_Afiliado = new Cancelar_Atencion.CancelarAtencionAfiliado(this);
+            cancelar_Afiliado.Show();
             this.Hide();
         }
     }

@@ -31,8 +31,8 @@ namespace ClinicaFrba
 
         private void btIniciarSesión_Click(object sender, EventArgs e)
         {
-           // try
-            //{
+           try
+            {
                 if (txtUsuario.Text != "" && txtContraseña.Text != "")
                 {
                     Usuario user = new Usuario(txtUsuario.Text);
@@ -50,7 +50,7 @@ namespace ClinicaFrba
                         {
                             //Descontar Cantidad_Intentos--------------------------------------------
                             user.DescontarIntento();
-                            MessageBox.Show("Usuario y contraseña no validos", "Error!", MessageBoxButtons.OK);
+                            lbContraseñaIncorrecta.Visible = true;
                             txtContraseña.Text = "";
                         }
                         else
@@ -82,13 +82,13 @@ namespace ClinicaFrba
                 {
                     MessageBox.Show("Complete todos los campos", "Error!", MessageBoxButtons.OK);
                 }
-        //    }
+             }
 
-      //      catch
-        //    {
-         //       MessageBox.Show("Usuario y contraseña no validos", "Error!", MessageBoxButtons.OK);
-         //       txtContraseña.Text = "";
-           // }
+            catch
+            {
+                MessageBox.Show("Ups, ha ocurrido un problema", "Error!", MessageBoxButtons.OK);
+                txtContraseña.Text = "";
+            }
         }
         
         // Transformar lo hasheado a string
