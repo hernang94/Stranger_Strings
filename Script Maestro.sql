@@ -646,3 +646,20 @@ FROM STRANGER_STRINGS.Paciente p, inserted i
 WHERE p.Id_Paciente=i.Id_Paciente
 END
 --------------------------------------------------------
+
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_PEDIR_TURNOS')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNOS
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNOS
+@Num_Doc NUMERIC(18,0)
+AS
+BEGIN 
+SELECT t.Turno_Fecha,m.Apellido,e.Especialidad_Descripcion
+FROM STRANGER_STRINGS.Turno t JOIN STRANGER_STRINGS.Paciente p ON (p.Id_Paciente=t.Id_Paciente), STRANGER_STRINGS.Medico m JOIN STRANGER_STRINGS.Especialidad_X_Medico es ON(m.Id_Medico=es.Id_Medico) JOIN STRANGER_STRINGS.Especialidad e ON(e.Especialidad_Codigo=es.Especialidad_Codigo)
+WHERE p.Num_Doc=@Num_Doc AND t.Id_Medico=m.Id_Medico
+END 
+GO
