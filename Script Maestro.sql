@@ -658,8 +658,39 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNOS
 @Num_Doc NUMERIC(18,0)
 AS
 BEGIN 
-SELECT t.Turno_Fecha,m.Apellido,e.Especialidad_Descripcion
+SELECT tablaAux.Turno_Fecha,tablaAux.Apellido,tablaAux.Especialidad_Descripcion FROM (SELECT t.Turno_Numero,t.Turno_Fecha,m.Apellido,e.Especialidad_Descripcion
 FROM STRANGER_STRINGS.Turno t JOIN STRANGER_STRINGS.Paciente p ON (p.Id_Paciente=t.Id_Paciente), STRANGER_STRINGS.Medico m JOIN STRANGER_STRINGS.Especialidad_X_Medico es ON(m.Id_Medico=es.Id_Medico) JOIN STRANGER_STRINGS.Especialidad e ON(e.Especialidad_Codigo=es.Especialidad_Codigo)
-WHERE p.Num_Doc=@Num_Doc AND t.Id_Medico=m.Id_Medico
+WHERE p.Num_Doc=@Num_Doc AND t.Id_Medico=m.Id_Medico) AS tablaAux JOIN STRANGER_STRINGS.Cancelacion_Turno c ON(tablaAux.Turno_Numero!=c.Id_Turno)
 END 
 GO
+--------------------------------------------------------
+
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_CANCELAR_TURNOS')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_CANCELAR_TURNOS
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_CANCELAR_TURNO
+--Variables que manda la app
+@Turno_Fecha DATETIME,
+@Num_Doc NUMERIC(18,0),
+@Apellido_Profesional VARCHAR(255),
+@Especialidad VARCHAR(225),
+@Tipo_Cancelacion CHAR(1),
+@Motivo VARCHAR(225)
+AS
+BEGIN
+--Variables necesarias para realizar la cancelación
+DECLARE @Id_Especialidad INT= (SELECT Especialidad_Codigo FROM STRANGER_STRINGS.Especialidad WHERE Especialidad_Descripcion LIKE '%'+@Especialidad+'%')
+DECLARE @Id_Paciente INT= (SELECT Id_Paciente FROM STRANGER_STRINGS.Paciente WHERE Num_Doc=@Num_Doc)
+DECLARE @Id_Profesional INT= (SELECT m.Id_Medico FROM STRANGER_STRINGS.Medico m WHERE m.Apellido=@Apellido_Profesional AND m.Id_Medico in(SELECT e.Id_Medico FROM STRANGER_STRINGS.Especialidad_X_Medico e WHERE e.Especialidad_Codigo=@Id_Especialidad))
+INSERT INTO STRANGER_STRINGS.Cancelacion_Turno(Id_Turno,Tipo_Cancelacion,Motivo)
+VALUES((SELECT t.Turno_Numero
+		FROM STRANGER_STRINGS.Turno t
+		WHERE t.Turno_Fecha=@Turno_Fecha AND t.Id_Paciente=@Id_Paciente AND t.Id_Medico=@Id_Profesional),@Tipo_Cancelacion,@Motivo)
+END
+
+
+
