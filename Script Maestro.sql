@@ -630,3 +630,19 @@ INSERT INTO STRANGER_STRINGS.Horarios_Agenda(Dia, Hora_Desde, Hora_Hasta, Id_Esp
 
 DROP TABLE STRANGER_STRINGS.#Medicos_x_Especialidad_AUX
 GO
+--------------------------------------------------------
+--TRIGGER ACTUALIZAR CANT CONSULTAS PACIENTE
+IF OBJECT_ID ('STRANGER_STRINGS.TG_ACTUALIZAR_CONSULTAS', 'TR') IS NOT NULL  
+   DROP TRIGGER STRANGER_STRINGS.TG_ACTUALIZAR_CONSULTAS; 
+GO
+CREATE TRIGGER STRANGER_STRINGS.TG_ACTUALIZAR_CONSULTAS
+ON STRANGER_STRINGS.Consulta
+FOR INSERT
+AS 
+BEGIN
+UPDATE STRANGER_STRINGS.Paciente
+SET Cantidad_Consulta +=1
+FROM STRANGER_STRINGS.Paciente p, inserted i
+WHERE p.Id_Paciente=i.Id_Paciente
+END
+--------------------------------------------------------
