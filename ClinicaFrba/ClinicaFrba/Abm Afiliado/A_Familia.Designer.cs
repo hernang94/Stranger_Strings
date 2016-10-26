@@ -172,9 +172,11 @@
             // 
             this.cbPlanMedico.FormattingEnabled = true;
             this.cbPlanMedico.Items.AddRange(new object[] {
-            "Básico",
-            "Intermedio",
-            "Avanzado"});
+            "110",
+            "120",
+            "130",
+            "140",
+            "150"});
             this.cbPlanMedico.Location = new System.Drawing.Point(233, 300);
             this.cbPlanMedico.Name = "cbPlanMedico";
             this.cbPlanMedico.Size = new System.Drawing.Size(100, 21);

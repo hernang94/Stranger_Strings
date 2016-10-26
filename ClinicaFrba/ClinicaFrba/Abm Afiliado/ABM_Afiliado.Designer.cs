@@ -30,6 +30,7 @@
         {
             this.tbABMAfiliado = new System.Windows.Forms.TabControl();
             this.tpAlta = new System.Windows.Forms.TabPage();
+            this.nupCantFamilia = new System.Windows.Forms.NumericUpDown();
             this.cbPlanMedico = new System.Windows.Forms.ComboBox();
             this.btVolver = new System.Windows.Forms.Button();
             this.btIngresar = new System.Windows.Forms.Button();
@@ -57,12 +58,11 @@
             this.textBox17 = new System.Windows.Forms.TextBox();
             this.textBox18 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.nupCantFamilia = new System.Windows.Forms.NumericUpDown();
             this.tbABMAfiliado.SuspendLayout();
             this.tpAlta.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nupCantFamilia)).BeginInit();
             this.tpBajaModif.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgCliente)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nupCantFamilia)).BeginInit();
             this.SuspendLayout();
             // 
             // tbABMAfiliado
@@ -103,13 +103,22 @@
             this.tpAlta.UseVisualStyleBackColor = true;
             this.tpAlta.Click += new System.EventHandler(this.tpAlta_Click);
             // 
+            // nupCantFamilia
+            // 
+            this.nupCantFamilia.Location = new System.Drawing.Point(291, 278);
+            this.nupCantFamilia.Name = "nupCantFamilia";
+            this.nupCantFamilia.Size = new System.Drawing.Size(100, 20);
+            this.nupCantFamilia.TabIndex = 21;
+            // 
             // cbPlanMedico
             // 
             this.cbPlanMedico.FormattingEnabled = true;
             this.cbPlanMedico.Items.AddRange(new object[] {
-            "Básico",
-            "Intermedio",
-            "Avanzado"});
+            "110",
+            "120",
+            "130",
+            "140",
+            "150"});
             this.cbPlanMedico.Location = new System.Drawing.Point(291, 304);
             this.cbPlanMedico.Name = "cbPlanMedico";
             this.cbPlanMedico.Size = new System.Drawing.Size(100, 21);
@@ -352,13 +361,6 @@
             this.label1.TabIndex = 20;
             this.label1.Text = "Nombre\r\n\r\nApellido\r\n\r\nNro. Afiliado\r\n\r\nNro. Documento\r\n\r\nPlan Médico\r\n";
             // 
-            // nupCantFamilia
-            // 
-            this.nupCantFamilia.Location = new System.Drawing.Point(291, 278);
-            this.nupCantFamilia.Name = "nupCantFamilia";
-            this.nupCantFamilia.Size = new System.Drawing.Size(100, 20);
-            this.nupCantFamilia.TabIndex = 21;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -371,10 +373,10 @@
             this.tbABMAfiliado.ResumeLayout(false);
             this.tpAlta.ResumeLayout(false);
             this.tpAlta.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nupCantFamilia)).EndInit();
             this.tpBajaModif.ResumeLayout(false);
             this.tpBajaModif.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgCliente)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nupCantFamilia)).EndInit();
             this.ResumeLayout(false);
 
         }
