@@ -219,7 +219,7 @@ namespace ClinicaFrba.Abm_Afiliado
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             List<BD.Entidades.Paciente> listaPaciente = new List<BD.Entidades.Paciente>();
-            if (txtBMApellido.Text == "" || txtBMDoc.Text == "" || txtBMNombre.Text == "" || txtBMNroAfiliado.Text == "" || txtBMPlanMedico.Text == "")
+            if (txtBMDoc.Text == "")
             {
                 MessageBox.Show("Todos los campos son obligatorios.", "Error", MessageBoxButtons.OK);
             }
@@ -244,11 +244,9 @@ namespace ClinicaFrba.Abm_Afiliado
                         paciente.Fecha_Nac = (DateTime)lector["Fecha_Nac"];
                         //paciente.Sexo = (string)lector["Sexo"];
                         //paciente.Estado_Civil = (string)lector["Estado_Civil"];
-                        paciente.Familiares_A_Cargo = (decimal)lector["Familiares_A_Cargo"];
+                        //paciente.Familiares_A_Cargo = (decimal)lector["Familiares_A_Cargo"];
                         paciente.PlanMedico = (string)lector["Descripcion"];
                        
-                        
-
                         listaPaciente.Add(paciente);
                     }
                 }
@@ -258,11 +256,7 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
-            txtBMApellido.Clear();
             txtBMDoc.Clear();
-            txtBMNombre.Clear();
-            txtBMNroAfiliado.Clear();
-            txtBMPlanMedico.Clear();
             dtgCliente.DataSource = null;
         }
     }

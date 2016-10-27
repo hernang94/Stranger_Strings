@@ -327,6 +327,15 @@ SET Id_Horario = (SELECT Id_Horario FROM STRANGER_STRINGS.Horarios_Agenda h
 WHERE h.Id_Especialidad_Medico=t.Id_Medico_x_Esp AND h.Dia=DATEPART(DW,t.Turno_Fecha) AND CONVERT(TIME,t.Turno_Fecha) BETWEEN h.Hora_Desde AND h.Hora_Hasta)
 FROM STRANGER_STRINGS.Turno t
 
+UPDATE STRANGER_STRINGS.Paciente
+SET Sexo = 'M'
+
+UPDATE STRANGER_STRINGS.Paciente
+SET Estado_Civil = 'Soltero/a'
+
+UPDATE STRANGER_STRINGS.Paciente
+SET Familiares_A_Cargo = 0
+
 ------------------------------------------------ FIN MIGRACION
 
 --SETEO DE USUARIOS, ROLES y FUNCIONALIDADES
