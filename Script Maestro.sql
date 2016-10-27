@@ -760,3 +760,36 @@ END
 			VALUES ((SELECT p.Id_Paciente FROM STRANGER_STRINGS.Paciente p WHERE p.Num_Doc=@Num_Doc),GETDATE())
 			END
 			GO
+
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_MODIFICAR_AFILIADO')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_MODIFICAR_AFILIADO
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_MODIFICAR_AFILIADO
+@Nombre VARCHAR(255),
+@Apellido VARCHAR(255),
+@Tipo_Doc VARCHAR(10),
+@Num_Doc NUMERIC(18,0),
+@Direccion VARCHAR(255),
+@Telefono NUMERIC(18,0),
+@Mail VARCHAR(255),
+@Fecha_Nac DATETIME,
+@Sexo CHAR(1),
+@Estado_Civil VARCHAR(15),
+@Familiares_A_Cargo INT
+AS
+BEGIN
+IF NOT EXISTS(SELECT * FROM STRANGER_STRINGS.Paciente p
+			WHERE p.Num_Doc=@Num_Doc)
+			BEGIN
+RAISERROR('Paciente no encontrado',10,1)
+RETURN
+END
+UPDATE STRANGER_STRINGS.Paciente
+SET Direccion=@Direccion,Telefono=@Telefono,Mail=@Mail,Fecha_Nac=@Fecha_Nac,Estado_Civil=@Estado_Civil
+WHERE Num_Doc=@Num_Doc
+END 
+GO
