@@ -72,7 +72,7 @@ namespace ClinicaFrba.Abm_Afiliado
             }
             else
             {
-                int num_raiz = cargar_Datos_Afiliados();
+                decimal num_raiz = cargar_Datos_Afiliados();
 
                 DialogResult resultadomge1 = DialogResult.No;
                 DialogResult resultadomge2 = DialogResult.No;
@@ -107,7 +107,7 @@ namespace ClinicaFrba.Abm_Afiliado
             }
         }
 
-        private int cargar_Datos_Afiliados()
+        private decimal cargar_Datos_Afiliados()
         {
             List<SqlParameter> lista = new List<SqlParameter>();
             lista.Add(new SqlParameter("@nombre", txtNombre.Text));
@@ -125,11 +125,11 @@ namespace ClinicaFrba.Abm_Afiliado
             lista.Add(new SqlParameter("@num_Raiz", null));
             lista.Add(new SqlParameter("@num_resto", 1));
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_ALTA_AFILIADO", "SP", lista);
-            int num_afiliado_raiz=0;
+            decimal num_afiliado_raiz=0;
             if (lector.HasRows)
             {
                 lector.Read();
-                num_afiliado_raiz = (int)lector["num_afiliado_resto"];
+                num_afiliado_raiz = (decimal)lector["num_afiliado_resto"];
             }
             return num_afiliado_raiz;
         }
@@ -185,14 +185,14 @@ namespace ClinicaFrba.Abm_Afiliado
             colFecha.DataPropertyName = "fecha";
             colFecha.HeaderText = "Fecha Nac.";
             colFecha.Width = 25;
-            DataGridViewTextBoxColumn colSexoo = new DataGridViewTextBoxColumn();
+            /*DataGridViewTextBoxColumn colSexoo = new DataGridViewTextBoxColumn();
             colSexoo.DataPropertyName = "sexo";
             colSexoo.HeaderText = "Sexo";
             colSexoo.Width = 15;
             DataGridViewTextBoxColumn colEstadoCivil = new DataGridViewTextBoxColumn();
             colEstadoCivil.DataPropertyName = "estado_Civil";
             colEstadoCivil.HeaderText = "Estado civil";
-            colEstadoCivil.Width = 30;
+            colEstadoCivil.Width = 30;*/
             DataGridViewTextBoxColumn colPlanMedico = new DataGridViewTextBoxColumn();
             colPlanMedico.DataPropertyName = "plan_Medico";
             colPlanMedico.HeaderText = "Plan medico";
@@ -210,8 +210,8 @@ namespace ClinicaFrba.Abm_Afiliado
             dtgCliente.Columns.Add(colTelefono);
             dtgCliente.Columns.Add(colMail);
             dtgCliente.Columns.Add(colFecha);
-            dtgCliente.Columns.Add(colSexoo);
-            dtgCliente.Columns.Add(colEstadoCivil);
+            //dtgCliente.Columns.Add(colSexoo);
+            //dtgCliente.Columns.Add(colEstadoCivil);
             dtgCliente.Columns.Add(colPlanMedico);
             dtgCliente.Columns.Add(colFamiliaresACargo);
         }
@@ -233,18 +233,22 @@ namespace ClinicaFrba.Abm_Afiliado
                     while (lector.Read())
                     {
                         BD.Entidades.Paciente paciente = new BD.Entidades.Paciente();
-                        paciente.lNombre = (string)lector["Nombre"];
+
+                        paciente.Nombre = (string)lector["Nombre"];
                         paciente.Apellido = (string)lector["Apellido"];
-                        paciente.TipoDoc = (string)lector["Tipo_Doc"];
-                        paciente.NumDoc = (double)lector["Num_Doc"];
+                        paciente.Tipo_Doc = (string)lector["Tipo_Doc"];
+                        paciente.Num_Doc = (decimal)lector["Num_Doc"];
                         paciente.Direccion = (string)lector["Direccion"];
-                        paciente.Telefono = (double)lector["Telefono"];
+                        paciente.Telefono = (decimal) lector["Telefono"];
                         paciente.Mail = (string)lector["Mail"];
-                        paciente.Fecha = (DateTime)lector["Fecha"];
-                        paciente.Sexo = (string)lector["Sexo"];
-                        paciente.EstadoCivil = (string)lector["EstadoCivil"];
-                        paciente.PlanMedico = (double)lector["PlanMedico"];
-                        paciente.FamiliaresACargo = (double)lector["FamiliaresACargo"];
+                        paciente.Fecha_Nac = (DateTime)lector["Fecha_Nac"];
+                        //paciente.Sexo = (string)lector["Sexo"];
+                        //paciente.Estado_Civil = (string)lector["Estado_Civil"];
+                        paciente.Familiares_A_Cargo = (decimal)lector["Familiares_A_Cargo"];
+                        paciente.PlanMedico = (string)lector["Descripcion"];
+                       
+                        
+
                         listaPaciente.Add(paciente);
                     }
                 }

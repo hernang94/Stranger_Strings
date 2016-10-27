@@ -8,17 +8,17 @@ namespace ClinicaFrba.BD.Entidades
 {
     class Paciente
     {
-        public string lNombre {get; set;}
+        public string Nombre {get; set;}
         public string Apellido {get; set;}
-        public string TipoDoc {get; set;}
-        public int NumDoc {get; set;}
+        public string Tipo_Doc {get; set;}
+        public decimal Num_Doc {get; set;}
         public string Direccion {get; set;}
-        public int Telefono {get; set;}
+        public decimal Telefono { get; set; }
         public string Mail {get; set;}
-        public DateTime Fecha {get; set;}
-        public string Sexo {get; set;}
-        public string EstadoCivil {get; set;}
-        public int PlanMedico{get; set;}
-        public int FamiliaresACargo { get; set; }
+        public DateTime Fecha_Nac {get; set;}
+       // public string Sexo {get; set;}
+       // public string Estado_Civil {get; set;}
+        public string PlanMedico{get; set;}
+        public decimal Familiares_A_Cargo { get; set; }
     }
 }

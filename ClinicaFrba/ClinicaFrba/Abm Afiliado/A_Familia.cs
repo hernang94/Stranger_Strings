@@ -14,9 +14,9 @@ namespace ClinicaFrba.Abm_Afiliado
     public partial class A_Familia : Form
     {
         public int cantFamilia;
-        public int num_raiz;
+        public decimal num_raiz;
 
-        public A_Familia(int cantFamilia, int num_raiz)
+        public A_Familia(int cantFamilia, decimal num_raiz)
         {
             this.cantFamilia = cantFamilia;
             this.num_raiz = num_raiz;
