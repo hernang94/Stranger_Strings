@@ -103,7 +103,7 @@ Mail VARCHAR(255),
 Fecha_Nac DATETIME,
 Sexo CHAR(1) CHECK(Sexo = 'F' OR Sexo = 'M' OR Sexo IS NULL),
 Estado_Civil VARCHAR(15),
-Familiares_A_Cargo INT,
+Familiares_A_Cargo NUMERIC(10,0),
 Codigo_Plan INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Plan_Medico(Codigo_Plan),
 Cantidad_Consulta INT,
 Id_Usuario INT  FOREIGN KEY REFERENCES STRANGER_STRINGS.Usuario(Id_Usuario),
@@ -729,3 +729,34 @@ FROM STRANGER_STRINGS.Paciente p JOIN STRANGER_STRINGS.Plan_Medico pm ON(p.Codig
 WHERE p.Num_Doc=@Num_Doc
 END 
 GO
+
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_BAJA_AFILIADO')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_BAJA_AFILIADO
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_BAJA_AFILIADO
+@Num_Doc NUMERIC(18,0)
+AS
+BEGIN
+IF NOT EXISTS(SELECT * FROM STRANGER_STRINGS.Paciente p
+			WHERE p.Num_Doc=@Num_Doc)
+			BEGIN
+RAISERROR('Paciente no encontrado',10,1)
+RETURN
+END
+IF EXISTS (SELECT * FROM Baja_Paciente b WHERE b.Id_Paciente=(SELECT p.Id_Paciente FROM STRANGER_STRINGS.Paciente p WHERE p.Num_Doc=@Num_Doc))
+BEGIN
+RAISERROR('Paciente dado de baja anteriormente',10,1)
+RETURN
+END
+			UPDATE STRANGER_STRINGS.Paciente
+			SET Estado_Afiliado = 'D'
+			WHERE Num_Doc=@Num_Doc
+			
+			INSERT INTO STRANGER_STRINGS.Baja_Paciente(Id_Paciente,Fecha_Baja)
+			VALUES ((SELECT p.Id_Paciente FROM STRANGER_STRINGS.Paciente p WHERE p.Num_Doc=@Num_Doc),GETDATE())
+			END
+			GO
