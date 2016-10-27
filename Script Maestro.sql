@@ -258,6 +258,8 @@ UPDATE STRANGER_STRINGS.Paciente
 SET Cantidad_Consulta = 0
 UPDATE STRANGER_STRINGS.Paciente
 SET Estado_Afiliado = 'A'
+CREATE NONCLUSTERED INDEX IX_DNI_PACIENTE ON STRANGER_STRINGS.Paciente(Num_Doc)
+GO
 ------------------------------------------------
 SET IDENTITY_INSERT STRANGER_STRINGS.Turno ON
 GO
@@ -722,7 +724,7 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_BUSCAR_AFILIADO
 @Num_Doc NUMERIC(18,0)
 AS
 BEGIN 
-SELECT p.Nombre, p.Apellido, p.Tipo_Doc, p.Num_Doc, p.Direccion, p.Telefono, p.Mail, p.Fecha_Nac, p.Sexo, p.Estado_Civil, p.Familiares_A_Cargo, pm.Descripcion
+SELECT p.Nombre, p.Apellido, p.Tipo_Doc, p.Num_Doc, p.Direccion, p.Telefono, p.Mail, p.Fecha_Nac, p.Sexo, p.Estado_Civil,pm.Descripcion, p.Familiares_A_Cargo
 FROM STRANGER_STRINGS.Paciente p JOIN STRANGER_STRINGS.Plan_Medico pm ON(p.Codigo_Plan=pm.Codigo_Plan)
 WHERE p.Num_Doc=@Num_Doc
 END 
