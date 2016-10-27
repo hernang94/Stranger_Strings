@@ -44,6 +44,7 @@
             // dtgTurnos
             // 
             this.dtgTurnos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtgTurnos.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dtgTurnos.Location = new System.Drawing.Point(41, 42);
             this.dtgTurnos.Name = "dtgTurnos";
             this.dtgTurnos.Size = new System.Drawing.Size(456, 149);

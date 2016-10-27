@@ -735,7 +735,7 @@ AS
 BEGIN 
 SELECT p.Nombre, p.Apellido, p.Tipo_Doc, p.Num_Doc, p.Direccion, p.Telefono, p.Mail, p.Fecha_Nac, p.Sexo, p.Estado_Civil,p.Familiares_A_Cargo, pm.Descripcion 
 FROM STRANGER_STRINGS.Paciente p JOIN STRANGER_STRINGS.Plan_Medico pm ON(p.Codigo_Plan=pm.Codigo_Plan)
-WHERE p.Num_Doc=@Num_Doc
+WHERE p.Num_Doc=@Num_Doc AND p.Estado_Afiliado!='D'
 END 
 GO
 

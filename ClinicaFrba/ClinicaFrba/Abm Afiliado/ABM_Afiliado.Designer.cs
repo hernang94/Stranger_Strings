@@ -46,6 +46,7 @@
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.lbConjunto = new System.Windows.Forms.Label();
             this.tpBajaModif = new System.Windows.Forms.TabPage();
+            this.lbIngreseNroDoc = new System.Windows.Forms.Label();
             this.button7 = new System.Windows.Forms.Button();
             this.dtgCliente = new System.Windows.Forms.DataGridView();
             this.btnBuscar = new System.Windows.Forms.Button();
@@ -53,7 +54,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.txtBMDoc = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.tbABMAfiliado.SuspendLayout();
             this.tpAlta.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nupCantFamilia)).BeginInit();
@@ -238,6 +238,7 @@
             // 
             // tpBajaModif
             // 
+            this.tpBajaModif.Controls.Add(this.lbIngreseNroDoc);
             this.tpBajaModif.Controls.Add(this.button7);
             this.tpBajaModif.Controls.Add(this.dtgCliente);
             this.tpBajaModif.Controls.Add(this.btnBuscar);
@@ -245,7 +246,6 @@
             this.tpBajaModif.Controls.Add(this.button1);
             this.tpBajaModif.Controls.Add(this.button2);
             this.tpBajaModif.Controls.Add(this.txtBMDoc);
-            this.tpBajaModif.Controls.Add(this.label1);
             this.tpBajaModif.Location = new System.Drawing.Point(4, 22);
             this.tpBajaModif.Name = "tpBajaModif";
             this.tpBajaModif.Padding = new System.Windows.Forms.Padding(3);
@@ -254,9 +254,20 @@
             this.tpBajaModif.Text = "Baja/Modificación";
             this.tpBajaModif.UseVisualStyleBackColor = true;
             // 
+            // lbIngreseNroDoc
+            // 
+            this.lbIngreseNroDoc.AutoSize = true;
+            this.lbIngreseNroDoc.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbIngreseNroDoc.Location = new System.Drawing.Point(8, 70);
+            this.lbIngreseNroDoc.Name = "lbIngreseNroDoc";
+            this.lbIngreseNroDoc.Size = new System.Drawing.Size(232, 15);
+            this.lbIngreseNroDoc.TabIndex = 46;
+            this.lbIngreseNroDoc.Text = "Ingrese el Nro. de documento del afiliado";
+            this.lbIngreseNroDoc.Click += new System.EventHandler(this.label2_Click);
+            // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(400, 292);
+            this.button7.Location = new System.Drawing.Point(45, 209);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(94, 23);
             this.button7.TabIndex = 45;
@@ -265,16 +276,18 @@
             // 
             // dtgCliente
             // 
+            this.dtgCliente.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dtgCliente.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtgCliente.Location = new System.Drawing.Point(30, 168);
+            this.dtgCliente.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dtgCliente.Location = new System.Drawing.Point(3, 114);
             this.dtgCliente.Name = "dtgCliente";
-            this.dtgCliente.Size = new System.Drawing.Size(345, 149);
+            this.dtgCliente.Size = new System.Drawing.Size(505, 64);
             this.dtgCliente.TabIndex = 37;
             this.dtgCliente.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgCliente_CellContentClick);
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(400, 166);
+            this.btnBuscar.Location = new System.Drawing.Point(400, 67);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(94, 23);
             this.btnBuscar.TabIndex = 36;
@@ -284,7 +297,7 @@
             // 
             // btnLimpiar
             // 
-            this.btnLimpiar.Location = new System.Drawing.Point(400, 209);
+            this.btnLimpiar.Location = new System.Drawing.Point(364, 209);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(94, 23);
             this.btnLimpiar.TabIndex = 35;
@@ -294,7 +307,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(30, 340);
+            this.button1.Location = new System.Drawing.Point(204, 284);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(91, 23);
             this.button1.TabIndex = 34;
@@ -304,28 +317,20 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(400, 249);
+            this.button2.Location = new System.Drawing.Point(204, 209);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(94, 23);
             this.button2.TabIndex = 33;
             this.button2.Text = "Borrar";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // txtBMDoc
             // 
-            this.txtBMDoc.Location = new System.Drawing.Point(242, 102);
+            this.txtBMDoc.Location = new System.Drawing.Point(264, 69);
             this.txtBMDoc.Name = "txtBMDoc";
             this.txtBMDoc.Size = new System.Drawing.Size(100, 20);
             this.txtBMDoc.TabIndex = 24;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(113, 105);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(85, 13);
-            this.label1.TabIndex = 20;
-            this.label1.Text = "Nro. Documento\r\n";
             // 
             // Form1
             // 
@@ -368,12 +373,12 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TextBox txtBMDoc;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dtgCliente;
         private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.ComboBox cbPlanMedico;
         private System.Windows.Forms.NumericUpDown nupCantFamilia;
+        private System.Windows.Forms.Label lbIngreseNroDoc;
     }
 }

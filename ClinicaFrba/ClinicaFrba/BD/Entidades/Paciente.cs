@@ -16,9 +16,9 @@ namespace ClinicaFrba.BD.Entidades
         public decimal Telefono { get; set; }
         public string Mail {get; set;}
         public DateTime Fecha_Nac {get; set;}
-       // public decimal Familiares_A_Cargo { get; set; }
+        public string Sexo { get; set; }
+        public string Estado_Civil { get; set; }
+        public decimal Familiares_A_Cargo { get; set; }
         public string PlanMedico { get; set; }
-       // public string Sexo {get; set;}
-       // public string Estado_Civil {get; set;}
     }
 }

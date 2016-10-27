@@ -21,7 +21,6 @@ namespace ClinicaFrba.Abm_Afiliado
         {
             this.fun=fun;
             InitializeComponent();
-            crearGrilla();
         }
 
         private void tpModificacion_Click(object sender, EventArgs e)
@@ -154,53 +153,53 @@ namespace ClinicaFrba.Abm_Afiliado
         private void crearGrilla()
         {
             DataGridViewTextBoxColumn colNombre = new DataGridViewTextBoxColumn();
-            colNombre.DataPropertyName = "nombre";
+            colNombre.DataPropertyName = "Nombre";
             colNombre.HeaderText = "Nombre";
-            colNombre.Width = 75;
+            colNombre.Width = 100;
             DataGridViewTextBoxColumn colApellido = new DataGridViewTextBoxColumn();
-            colApellido.DataPropertyName = "apellido";
+            colApellido.DataPropertyName = "Apellido";
             colApellido.HeaderText = "Apellido";
-            colApellido.Width = 75;
+            colApellido.Width = 100;
             DataGridViewTextBoxColumn colTipoDoc = new DataGridViewTextBoxColumn();
-            colTipoDoc.DataPropertyName = "tipo_doc";
-            colTipoDoc.HeaderText = "Tipo Doc";
-            colTipoDoc.Width = 10;
+            colTipoDoc.DataPropertyName = "Tipo_Doc";
+            colTipoDoc.HeaderText = "Tipo_de_documento";
+            colTipoDoc.Width = 100;
             DataGridViewTextBoxColumn colNumDoc = new DataGridViewTextBoxColumn();
-            colNumDoc.DataPropertyName = "num_doc";
-            colNumDoc.HeaderText = "Nro. Doc";
-            colNumDoc.Width = 25;
+            colNumDoc.DataPropertyName = "Num_Doc";
+            colNumDoc.HeaderText = "Nro_de_documento";
+            colNumDoc.Width = 100;
             DataGridViewTextBoxColumn colDireccion = new DataGridViewTextBoxColumn();
-            colDireccion.DataPropertyName = "direccino";
+            colDireccion.DataPropertyName = "Direccion";
             colDireccion.HeaderText = "Direccion";
             colDireccion.Width = 100;
             DataGridViewTextBoxColumn colTelefono = new DataGridViewTextBoxColumn();
-            colTelefono.DataPropertyName = "telefono";
+            colTelefono.DataPropertyName = "Telefono";
             colTelefono.HeaderText = "Telefono";
-            colTelefono.Width = 20;
+            colTelefono.Width = 100;
             DataGridViewTextBoxColumn colMail = new DataGridViewTextBoxColumn();
-            colMail.DataPropertyName = "mail";
+            colMail.DataPropertyName = "Mail";
             colMail.HeaderText = "Mail";
             colMail.Width = 100;
             DataGridViewTextBoxColumn colFecha = new DataGridViewTextBoxColumn();
-            colFecha.DataPropertyName = "fecha";
-            colFecha.HeaderText = "Fecha Nac.";
-            colFecha.Width = 25;
-            /*DataGridViewTextBoxColumn colSexoo = new DataGridViewTextBoxColumn();
-            colSexoo.DataPropertyName = "sexo";
+            colFecha.DataPropertyName = "Fecha_Nac";
+            colFecha.HeaderText = "Fecha_de_Nacimiento";
+            colFecha.Width = 100;
+            DataGridViewTextBoxColumn colSexoo = new DataGridViewTextBoxColumn();
+            colSexoo.DataPropertyName = "Sexo";
             colSexoo.HeaderText = "Sexo";
-            colSexoo.Width = 15;
+            colSexoo.Width = 100;
             DataGridViewTextBoxColumn colEstadoCivil = new DataGridViewTextBoxColumn();
-            colEstadoCivil.DataPropertyName = "estado_Civil";
-            colEstadoCivil.HeaderText = "Estado civil";
-            colEstadoCivil.Width = 30;*/
+            colEstadoCivil.DataPropertyName = "Estado_Civil";
+            colEstadoCivil.HeaderText = "Estado_civil";
+            colEstadoCivil.Width = 100;
             DataGridViewTextBoxColumn colPlanMedico = new DataGridViewTextBoxColumn();
-            colPlanMedico.DataPropertyName = "plan_Medico";
-            colPlanMedico.HeaderText = "Plan medico";
-            colPlanMedico.Width = 20;
+            colPlanMedico.DataPropertyName = "PlanMedico";
+            colPlanMedico.HeaderText = "Plan_medico";
+            colPlanMedico.Width = 100;
             DataGridViewTextBoxColumn colFamiliaresACargo = new DataGridViewTextBoxColumn();
-            colFamiliaresACargo.DataPropertyName = "fam_Cargo";
-            colFamiliaresACargo.HeaderText = "Familiares a cargo";
-            colFamiliaresACargo.Width = 20;
+            colFamiliaresACargo.DataPropertyName = "Familiares_A_Cargo";
+            colFamiliaresACargo.HeaderText = "Familiares_a_cargo";
+            colFamiliaresACargo.Width = 100;
 
             dtgCliente.Columns.Add(colNombre);
             dtgCliente.Columns.Add(colApellido);
@@ -210,8 +209,8 @@ namespace ClinicaFrba.Abm_Afiliado
             dtgCliente.Columns.Add(colTelefono);
             dtgCliente.Columns.Add(colMail);
             dtgCliente.Columns.Add(colFecha);
-            //dtgCliente.Columns.Add(colSexoo);
-            //dtgCliente.Columns.Add(colEstadoCivil);
+            dtgCliente.Columns.Add(colSexoo);
+            dtgCliente.Columns.Add(colEstadoCivil);
             dtgCliente.Columns.Add(colPlanMedico);
             dtgCliente.Columns.Add(colFamiliaresACargo);
         }
@@ -221,10 +220,12 @@ namespace ClinicaFrba.Abm_Afiliado
             List<BD.Entidades.Paciente> listaPaciente = new List<BD.Entidades.Paciente>();
             if (txtBMDoc.Text == "")
             {
-                MessageBox.Show("Todos los campos son obligatorios.", "Error", MessageBoxButtons.OK);
+                MessageBox.Show("Debe ingresar un número de documento.", "Error", MessageBoxButtons.OK);
             }
             else
             {
+                dtgCliente.DataSource = null;
+                crearGrilla();
                 List<SqlParameter> paramlist = new List<SqlParameter>();
                 paramlist.Add(new SqlParameter("@Num_Doc", txtBMDoc.Text));
                 SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_BUSCAR_AFILIADO", "SP", paramlist);
@@ -242,9 +243,9 @@ namespace ClinicaFrba.Abm_Afiliado
                         paciente.Telefono = (decimal) lector["Telefono"];
                         paciente.Mail = (string)lector["Mail"];
                         paciente.Fecha_Nac = (DateTime)lector["Fecha_Nac"];
-                        //paciente.Sexo = (string)lector["Sexo"];
-                        //paciente.Estado_Civil = (string)lector["Estado_Civil"];
-                        //paciente.Familiares_A_Cargo = (decimal)lector["Familiares_A_Cargo"];
+                        paciente.Sexo = (string)lector["Sexo"];
+                        paciente.Estado_Civil = (string)lector["Estado_Civil"];
+                        paciente.Familiares_A_Cargo = (decimal)lector["Familiares_A_Cargo"];
                         paciente.PlanMedico = (string)lector["Descripcion"];
                        
                         listaPaciente.Add(paciente);
@@ -259,5 +260,17 @@ namespace ClinicaFrba.Abm_Afiliado
             txtBMDoc.Clear();
             dtgCliente.DataSource = null;
         }
+
+       private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+       private void button2_Click(object sender, EventArgs e)
+       {
+           List<SqlParameter> paramlist = new List<SqlParameter>();
+           paramlist.Add(new SqlParameter("@Num_Doc", txtBMDoc.Text));
+           BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_BAJA_AFILIADO", "SP", paramlist);
+       }
     }
 }
