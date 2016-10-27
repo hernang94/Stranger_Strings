@@ -83,7 +83,9 @@
     </Compile>
     <Compile Include="BD\BDStranger_Strings.cs" />
     <Compile Include="BD\EntidadesDAL\UsuarioDAL.cs" />
+    <Compile Include="BD\Entidades\Paciente.cs" />
     <Compile Include="BD\Entidades\Rol.cs" />
+    <Compile Include="BD\Entidades\Turno.cs" />
     <Compile Include="BD\Entidades\Usuario.cs" />
     <Compile Include="Cancelar Atencion\CancelarAtencionMedico.cs">
       <SubType>Form</SubType>
@@ -155,6 +157,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Cancelar Atencion\CancelarAtencionAfiliado.resx">
       <DependentUpon>CancelarAtencionAfiliado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cancelar Atencion\CancelarAtencionMedico.resx">
+      <DependentUpon>CancelarAtencionMedico.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Funcionalidades.resx">
       <DependentUpon>Funcionalidades.cs</DependentUpon>

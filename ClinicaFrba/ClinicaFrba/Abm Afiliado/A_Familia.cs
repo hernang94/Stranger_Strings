@@ -63,7 +63,7 @@ namespace ClinicaFrba.Abm_Afiliado
             lista.Add(new SqlParameter("@plan_Med", cbPlanMedico.SelectedIndex));
             lista.Add(new SqlParameter("@num_raiz", num_raiz));
             lista.Add(new SqlParameter("@num_resto",numero));
-            BDStranger_Strings.WriteInBase("INSERT INTO STRANGER_STRINGS.Paciente (Nombre, Apellido, Tipo_Doc, Num_Doc, Direccion, Telefono, Mail, Fecha_Nac, Sexo, Estado_Civil, Familiares_A_Cargo, Codigo_Plan, Num_Afiliado_Raiz, Num_Afiliado_Resto) VALUES (@nombre,@apellido,@tipo_doc, @nro_doc,@direccion,@tel, @mail, @fecha_Nac,@sexo,@estado_Civil, NULL ,@plan_Med,@num_raiz, @num_resto", "T", lista);
+            BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_ALTA_FAMILIA", "SP", lista);
         }
     }
 }

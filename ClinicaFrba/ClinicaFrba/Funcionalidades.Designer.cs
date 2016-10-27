@@ -262,6 +262,7 @@
             this.btCancelarAtencionMedico.Text = "Cancelar Atención Médica";
             this.btCancelarAtencionMedico.UseVisualStyleBackColor = true;
             this.btCancelarAtencionMedico.Visible = false;
+            this.btCancelarAtencionMedico.Click += new System.EventHandler(this.btCancelarAtencionMedico_Click);
             // 
             // Funcionalidades
             // 

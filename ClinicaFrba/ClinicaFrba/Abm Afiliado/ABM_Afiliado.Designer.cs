@@ -52,11 +52,11 @@
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.textBox14 = new System.Windows.Forms.TextBox();
-            this.textBox15 = new System.Windows.Forms.TextBox();
-            this.textBox16 = new System.Windows.Forms.TextBox();
-            this.textBox17 = new System.Windows.Forms.TextBox();
-            this.textBox18 = new System.Windows.Forms.TextBox();
+            this.txtBMPlanMedico = new System.Windows.Forms.TextBox();
+            this.txtBMDoc = new System.Windows.Forms.TextBox();
+            this.txtBMNroAfiliado = new System.Windows.Forms.TextBox();
+            this.txtBMApellido = new System.Windows.Forms.TextBox();
+            this.txtBMNombre = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tbABMAfiliado.SuspendLayout();
             this.tpAlta.SuspendLayout();
@@ -248,11 +248,11 @@
             this.tpBajaModif.Controls.Add(this.btnLimpiar);
             this.tpBajaModif.Controls.Add(this.button1);
             this.tpBajaModif.Controls.Add(this.button2);
-            this.tpBajaModif.Controls.Add(this.textBox14);
-            this.tpBajaModif.Controls.Add(this.textBox15);
-            this.tpBajaModif.Controls.Add(this.textBox16);
-            this.tpBajaModif.Controls.Add(this.textBox17);
-            this.tpBajaModif.Controls.Add(this.textBox18);
+            this.tpBajaModif.Controls.Add(this.txtBMPlanMedico);
+            this.tpBajaModif.Controls.Add(this.txtBMDoc);
+            this.tpBajaModif.Controls.Add(this.txtBMNroAfiliado);
+            this.tpBajaModif.Controls.Add(this.txtBMApellido);
+            this.tpBajaModif.Controls.Add(this.txtBMNombre);
             this.tpBajaModif.Controls.Add(this.label1);
             this.tpBajaModif.Location = new System.Drawing.Point(4, 22);
             this.tpBajaModif.Name = "tpBajaModif";
@@ -288,6 +288,7 @@
             this.btnBuscar.TabIndex = 36;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // btnLimpiar
             // 
@@ -297,6 +298,7 @@
             this.btnLimpiar.TabIndex = 35;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.UseVisualStyleBackColor = true;
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
             // button1
             // 
@@ -317,40 +319,40 @@
             this.button2.Text = "Borrar";
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // textBox14
+            // txtBMPlanMedico
             // 
-            this.textBox14.Location = new System.Drawing.Point(242, 128);
-            this.textBox14.Name = "textBox14";
-            this.textBox14.Size = new System.Drawing.Size(100, 20);
-            this.textBox14.TabIndex = 25;
+            this.txtBMPlanMedico.Location = new System.Drawing.Point(242, 128);
+            this.txtBMPlanMedico.Name = "txtBMPlanMedico";
+            this.txtBMPlanMedico.Size = new System.Drawing.Size(100, 20);
+            this.txtBMPlanMedico.TabIndex = 25;
             // 
-            // textBox15
+            // txtBMDoc
             // 
-            this.textBox15.Location = new System.Drawing.Point(242, 102);
-            this.textBox15.Name = "textBox15";
-            this.textBox15.Size = new System.Drawing.Size(100, 20);
-            this.textBox15.TabIndex = 24;
+            this.txtBMDoc.Location = new System.Drawing.Point(242, 102);
+            this.txtBMDoc.Name = "txtBMDoc";
+            this.txtBMDoc.Size = new System.Drawing.Size(100, 20);
+            this.txtBMDoc.TabIndex = 24;
             // 
-            // textBox16
+            // txtBMNroAfiliado
             // 
-            this.textBox16.Location = new System.Drawing.Point(242, 76);
-            this.textBox16.Name = "textBox16";
-            this.textBox16.Size = new System.Drawing.Size(100, 20);
-            this.textBox16.TabIndex = 23;
+            this.txtBMNroAfiliado.Location = new System.Drawing.Point(242, 76);
+            this.txtBMNroAfiliado.Name = "txtBMNroAfiliado";
+            this.txtBMNroAfiliado.Size = new System.Drawing.Size(100, 20);
+            this.txtBMNroAfiliado.TabIndex = 23;
             // 
-            // textBox17
+            // txtBMApellido
             // 
-            this.textBox17.Location = new System.Drawing.Point(242, 50);
-            this.textBox17.Name = "textBox17";
-            this.textBox17.Size = new System.Drawing.Size(100, 20);
-            this.textBox17.TabIndex = 22;
+            this.txtBMApellido.Location = new System.Drawing.Point(242, 50);
+            this.txtBMApellido.Name = "txtBMApellido";
+            this.txtBMApellido.Size = new System.Drawing.Size(100, 20);
+            this.txtBMApellido.TabIndex = 22;
             // 
-            // textBox18
+            // txtBMNombre
             // 
-            this.textBox18.Location = new System.Drawing.Point(242, 24);
-            this.textBox18.Name = "textBox18";
-            this.textBox18.Size = new System.Drawing.Size(100, 20);
-            this.textBox18.TabIndex = 21;
+            this.txtBMNombre.Location = new System.Drawing.Point(242, 24);
+            this.txtBMNombre.Name = "txtBMNombre";
+            this.txtBMNombre.Size = new System.Drawing.Size(100, 20);
+            this.txtBMNombre.TabIndex = 21;
             // 
             // label1
             // 
@@ -401,11 +403,11 @@
         private System.Windows.Forms.Button btVolver;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TextBox textBox14;
-        private System.Windows.Forms.TextBox textBox15;
-        private System.Windows.Forms.TextBox textBox16;
-        private System.Windows.Forms.TextBox textBox17;
-        private System.Windows.Forms.TextBox textBox18;
+        private System.Windows.Forms.TextBox txtBMPlanMedico;
+        private System.Windows.Forms.TextBox txtBMDoc;
+        private System.Windows.Forms.TextBox txtBMNroAfiliado;
+        private System.Windows.Forms.TextBox txtBMApellido;
+        private System.Windows.Forms.TextBox txtBMNombre;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dtgCliente;
         private System.Windows.Forms.Button btnBuscar;

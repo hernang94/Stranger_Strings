@@ -153,5 +153,12 @@ namespace ClinicaFrba
             cancelar_Afiliado.Show();
             this.Hide();
         }
+
+        private void btCancelarAtencionMedico_Click(object sender, EventArgs e)
+        {
+            Cancelar_Atencion.CancelarAtencionMedico cancelar_Medico = new Cancelar_Atencion.CancelarAtencionMedico(this);
+            cancelar_Medico.Show();
+            this.Hide();
+        }
     }
 }
