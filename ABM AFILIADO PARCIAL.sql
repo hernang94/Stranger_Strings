@@ -1,0 +1,23 @@
+--ABM PACIENTE
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_ALTA_AFILIADO_TITULAR
+@Nombre VARCHAR(255),
+@Apellido VARCHAR(255),
+@Tipo_Doc VARCHAR(10),
+@Num_Doc NUMERIC(18,0),
+@Direccion VARCHAR(255),
+@Telefono NUMERIC(18,0),
+@Mail VARCHAR(255),
+@Fecha_Nac DATETIME,
+@Sexo CHAR(1),
+@Estado_Civil VARCHAR(15),
+@Familiares_A_Cargo INT,
+@Codigo_Plan INT,
+@Num_Afiliado_Raiz NUMERIC(20,0),
+@Num_Afiliado NUMERIC(20,0) OUTPUT
+
+AS
+BEGIN
+
+END
+GO

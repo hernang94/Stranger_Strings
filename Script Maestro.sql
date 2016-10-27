@@ -317,6 +317,10 @@ FROM STRANGER_STRINGS.Consulta c
 WHERE c.Fecha_Y_Hora=t.Turno_Fecha AND t.Id_Paciente=c.Id_Paciente AND c.Bono_Consulta_Id=b.Id_Bono)
 FROM STRANGER_STRINGS.Turno t JOIN STRANGER_STRINGS.Bono b ON(b.Id_Paciente_Uso=t.Id_Paciente)
 
+UPDATE STRANGER_STRINGS.TURNO
+SET Id_Horario = (SELECT Id_Horario FROM STRANGER_STRINGS.Horarios_Agenda h
+WHERE h.Id_Especialidad_Medico=t.Id_Medico_x_Esp AND h.Dia=DATEPART(DW,t.Turno_Fecha) AND CONVERT(TIME,t.Turno_Fecha) BETWEEN h.Hora_Desde AND h.Hora_Hasta)
+FROM STRANGER_STRINGS.Turno t
 
 ------------------------------------------------ FIN MIGRACION
 
