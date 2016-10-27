@@ -13,11 +13,11 @@ GO
 
 --Si existen las tablas las dropeo
 
-IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Cancelacion_Turno'))
-    DROP TABLE STRANGER_STRINGS.Cancelacion_Turno
-
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Turno'))
     DROP TABLE STRANGER_STRINGS.Turno
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Cancelacion_Turno'))
+    DROP TABLE STRANGER_STRINGS.Cancelacion_Turno
 
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Consulta'))
     DROP TABLE STRANGER_STRINGS.Consulta
@@ -202,23 +202,24 @@ Enfermedades VARCHAR(225),
 Bono_Consulta_Id INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Bono(Id_Bono),
 Id_Paciente INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Paciente(Id_Paciente))
 -----------------------------------------------------------
+CREATE TABLE STRANGER_STRINGS.Cancelacion_Turno(
+Id_Cancelacion INT IDENTITY(1,1) PRIMARY KEY,
+Tipo_Cancelacion CHAR(1) CHECK(Tipo_Cancelacion = 'A' OR Tipo_Cancelacion = 'M'),
+Motivo VARCHAR(225))
+
+-----------------------------------------------------------
 CREATE TABLE STRANGER_STRINGS.Turno(
 Turno_Numero INT IDENTITY(1,1) PRIMARY KEY,
 Turno_Fecha DATETIME,
 Id_Paciente INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Paciente(Id_Paciente),
-Id_Medico INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Medico(Id_Medico),
+Id_Medico_x_Esp INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Especialidad_X_Medico(Id),
 Id_Consulta INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Consulta(Id_Consulta),
 --Cambio la FK a la tabla de Cancelación. La cancelación tiene que tener obligatoriamente el turno que se
 --cancela, en cambio los turnos no tienen porque tener una fk porque no siempre son cancelados
---Id_Cancelacion INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Cancelacion_Turno(Id_Cancelacion),
+Id_Cancelacion INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Cancelacion_Turno(Id_Cancelacion),
 Id_Horario INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Horarios_Agenda(Id_Horario))
 -----------------------------------------------------------
-CREATE TABLE STRANGER_STRINGS.Cancelacion_Turno(
-Id_Cancelacion INT IDENTITY(1,1) PRIMARY KEY,
-Id_Turno INT FOREIGN KEY REFERENCES STRANGER_STRINGS.TURNO(Turno_Numero),
-Tipo_Cancelacion CHAR(1) CHECK(Tipo_Cancelacion = 'A' OR Tipo_Cancelacion = 'M'),
-Motivo VARCHAR(225))
------------------------------------------------------------
+
 
 --Fin de creacion de tablas
 
@@ -257,8 +258,8 @@ SET Cantidad_Consulta = 0
 ------------------------------------------------
 SET IDENTITY_INSERT STRANGER_STRINGS.Turno ON
 GO
-INSERT INTO STRANGER_STRINGS.Turno(Turno_Numero,Turno_Fecha,Id_Paciente,Id_Medico)
-SELECT DISTINCT e.Turno_Numero, e.Turno_Fecha,m.Id_Paciente,d.Id_Medico
+INSERT INTO STRANGER_STRINGS.Turno(Turno_Numero,Turno_Fecha,Id_Paciente,Id_Medico_x_Esp)
+SELECT DISTINCT e.Turno_Numero, e.Turno_Fecha,m.Id_Paciente,(SELECT Id FROM STRANGER_STRINGS.Especialidad_X_Medico es WHERE es.Especialidad_Codigo=e.Especialidad_Codigo AND es.Id_Medico=d.Id_Medico) as Id_Medico
 FROM STRANGER_STRINGS.Paciente m JOIN gd_esquema.Maestra e ON(m.Num_Doc=e.Paciente_Dni) JOIN STRANGER_STRINGS.Medico d ON(e.Medico_Dni=d.Num_Doc)
 WHERE Turno_Numero IS NOT NULL 
 SET IDENTITY_INSERT STRANGER_STRINGS.Turno OFF
@@ -632,10 +633,10 @@ DROP TABLE STRANGER_STRINGS.#Medicos_x_Especialidad_AUX
 GO
 --------------------------------------------------------
 --TRIGGER ACTUALIZAR CANT CONSULTAS PACIENTE
-IF OBJECT_ID ('STRANGER_STRINGS.TG_ACTUALIZAR_CONSULTAS', 'TR') IS NOT NULL  
-   DROP TRIGGER STRANGER_STRINGS.TG_ACTUALIZAR_CONSULTAS; 
+IF OBJECT_ID ('STRANGER_STRINGS.TR_ACTUALIZAR_CONSULTAS', 'TR') IS NOT NULL  
+   DROP TRIGGER STRANGER_STRINGS.TR_ACTUALIZAR_CONSULTAS; 
 GO
-CREATE TRIGGER STRANGER_STRINGS.TG_ACTUALIZAR_CONSULTAS
+CREATE TRIGGER STRANGER_STRINGS.TR_ACTUALIZAR_CONSULTAS
 ON STRANGER_STRINGS.Consulta
 FOR INSERT
 AS 
@@ -645,7 +646,10 @@ SET Cantidad_Consulta +=1
 FROM STRANGER_STRINGS.Paciente p, inserted i
 WHERE p.Id_Paciente=i.Id_Paciente
 END
+GO
 --------------------------------------------------------
+
+
 
 IF EXISTS(SELECT  *
             FROM    sys.objects
@@ -658,12 +662,15 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNOS
 @Num_Doc NUMERIC(18,0)
 AS
 BEGIN 
-SELECT tablaAux.Turno_Fecha,tablaAux.Apellido,tablaAux.Especialidad_Descripcion FROM (SELECT t.Turno_Numero,t.Turno_Fecha,m.Apellido,e.Especialidad_Descripcion
-FROM STRANGER_STRINGS.Turno t JOIN STRANGER_STRINGS.Paciente p ON (p.Id_Paciente=t.Id_Paciente), STRANGER_STRINGS.Medico m JOIN STRANGER_STRINGS.Especialidad_X_Medico es ON(m.Id_Medico=es.Id_Medico) JOIN STRANGER_STRINGS.Especialidad e ON(e.Especialidad_Codigo=es.Especialidad_Codigo)
-WHERE p.Num_Doc=@Num_Doc AND t.Id_Medico=m.Id_Medico) AS tablaAux JOIN STRANGER_STRINGS.Cancelacion_Turno c ON(tablaAux.Turno_Numero!=c.Id_Turno)
+SELECT t.Turno_Numero,t.Turno_Fecha,m.Apellido,e.Especialidad_Descripcion
+FROM STRANGER_STRINGS.Turno t JOIN STRANGER_STRINGS.Paciente p ON (p.Id_Paciente=t.Id_Paciente),STRANGER_STRINGS.Medico m ,
+STRANGER_STRINGS.Especialidad e
+WHERE p.Num_Doc = @Num_Doc 
+AND m.Id_Medico=(SELECT Id_Medico FROM STRANGER_STRINGS.Especialidad_X_Medico es WHERE es.Id=t.Id_Medico_x_Esp) 
+AND e.Especialidad_Codigo=(SELECT es.Especialidad_Codigo FROM STRANGER_STRINGS.Especialidad_X_Medico es WHERE es.Id=t.Id_Medico_x_Esp)
+AND t.Id_Cancelacion IS NULL
 END 
 GO
---------------------------------------------------------
 
 IF EXISTS(SELECT  *
             FROM    sys.objects
@@ -686,11 +693,12 @@ BEGIN
 DECLARE @Id_Especialidad INT= (SELECT Especialidad_Codigo FROM STRANGER_STRINGS.Especialidad WHERE Especialidad_Descripcion LIKE '%'+@Especialidad+'%')
 DECLARE @Id_Paciente INT= (SELECT Id_Paciente FROM STRANGER_STRINGS.Paciente WHERE Num_Doc=@Num_Doc)
 DECLARE @Id_Profesional INT= (SELECT m.Id_Medico FROM STRANGER_STRINGS.Medico m WHERE m.Apellido=@Apellido_Profesional AND m.Id_Medico in(SELECT e.Id_Medico FROM STRANGER_STRINGS.Especialidad_X_Medico e WHERE e.Especialidad_Codigo=@Id_Especialidad))
-INSERT INTO STRANGER_STRINGS.Cancelacion_Turno(Id_Turno,Tipo_Cancelacion,Motivo)
-VALUES((SELECT t.Turno_Numero
-		FROM STRANGER_STRINGS.Turno t
-		WHERE t.Turno_Fecha=@Turno_Fecha AND t.Id_Paciente=@Id_Paciente AND t.Id_Medico=@Id_Profesional),@Tipo_Cancelacion,@Motivo)
+DECLARE @Id_Insert INT
+INSERT INTO STRANGER_STRINGS.Cancelacion_Turno(Tipo_Cancelacion,Motivo)
+VALUES(@Tipo_Cancelacion,@Motivo)
+SET @Id_Insert= SCOPE_IDENTITY()
+UPDATE STRANGER_STRINGS.Turno
+SET Id_Cancelacion=@Id_Insert
+WHERE Id_Paciente=@Id_Paciente AND Turno_Fecha=convert(datetime, @Turno_Fecha, 120)
 END
-
-
-
+GO
