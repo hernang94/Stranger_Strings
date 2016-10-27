@@ -107,6 +107,7 @@ Familiares_A_Cargo INT,
 Codigo_Plan INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Plan_Medico(Codigo_Plan),
 Cantidad_Consulta INT,
 Id_Usuario INT  FOREIGN KEY REFERENCES STRANGER_STRINGS.Usuario(Id_Usuario),
+Estado_Afiliado CHAR(1) CHECK(Estado_Afiliado = 'A' OR Estado_Afiliado = 'D' OR Estado_Afiliado IS NULL),
 )
 -----------------------------------------------------------
 CREATE TABLE STRANGER_STRINGS.Compra(
@@ -255,6 +256,8 @@ UPDATE STRANGER_STRINGS.Paciente
 SET Tipo_Doc='DNI'
 UPDATE STRANGER_STRINGS.Paciente
 SET Cantidad_Consulta = 0
+UPDATE STRANGER_STRINGS.Paciente
+SET Estado_Afiliado = 'A'
 ------------------------------------------------
 SET IDENTITY_INSERT STRANGER_STRINGS.Turno ON
 GO
