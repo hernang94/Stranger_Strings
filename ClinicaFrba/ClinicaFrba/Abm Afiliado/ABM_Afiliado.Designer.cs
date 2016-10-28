@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tbABMAfiliado = new System.Windows.Forms.TabControl();
             this.tpAlta = new System.Windows.Forms.TabPage();
             this.nupCantFamilia = new System.Windows.Forms.NumericUpDown();
@@ -46,6 +47,7 @@
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.lbConjunto = new System.Windows.Forms.Label();
             this.tpBajaModif = new System.Windows.Forms.TabPage();
+            this.lbBorradoModificado = new System.Windows.Forms.Label();
             this.lbIngreseNroDoc = new System.Windows.Forms.Label();
             this.button7 = new System.Windows.Forms.Button();
             this.dtgCliente = new System.Windows.Forms.DataGridView();
@@ -54,6 +56,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.txtBMDoc = new System.Windows.Forms.TextBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.tbABMAfiliado.SuspendLayout();
             this.tpAlta.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nupCantFamilia)).BeginInit();
@@ -238,6 +241,7 @@
             // 
             // tpBajaModif
             // 
+            this.tpBajaModif.Controls.Add(this.lbBorradoModificado);
             this.tpBajaModif.Controls.Add(this.lbIngreseNroDoc);
             this.tpBajaModif.Controls.Add(this.button7);
             this.tpBajaModif.Controls.Add(this.dtgCliente);
@@ -253,6 +257,19 @@
             this.tpBajaModif.TabIndex = 1;
             this.tpBajaModif.Text = "Baja/Modificación";
             this.tpBajaModif.UseVisualStyleBackColor = true;
+            // 
+            // lbBorradoModificado
+            // 
+            this.lbBorradoModificado.AutoSize = true;
+            this.lbBorradoModificado.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbBorradoModificado.ForeColor = System.Drawing.Color.Green;
+            this.lbBorradoModificado.Location = new System.Drawing.Point(105, 251);
+            this.lbBorradoModificado.Name = "lbBorradoModificado";
+            this.lbBorradoModificado.Size = new System.Drawing.Size(273, 16);
+            this.lbBorradoModificado.TabIndex = 47;
+            this.lbBorradoModificado.Text = "Afiliado Borrado/Modificado con éxito.";
+            this.lbBorradoModificado.Visible = false;
+            this.lbBorradoModificado.Click += new System.EventHandler(this.lbBorradoModificado_Click);
             // 
             // lbIngreseNroDoc
             // 
@@ -273,6 +290,7 @@
             this.button7.TabIndex = 45;
             this.button7.Text = "Modificar";
             this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // dtgCliente
             // 
@@ -332,6 +350,11 @@
             this.txtBMDoc.Size = new System.Drawing.Size(100, 20);
             this.txtBMDoc.TabIndex = 24;
             // 
+            // timer1
+            // 
+            this.timer1.Interval = 5000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -380,5 +403,7 @@
         private System.Windows.Forms.ComboBox cbPlanMedico;
         private System.Windows.Forms.NumericUpDown nupCantFamilia;
         private System.Windows.Forms.Label lbIngreseNroDoc;
+        private System.Windows.Forms.Label lbBorradoModificado;
+        private System.Windows.Forms.Timer timer1;
     }
 }

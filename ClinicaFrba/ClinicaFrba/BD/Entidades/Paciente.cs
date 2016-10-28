@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClinicaFrba.BD.Entidades
 {
-    class Paciente
+    public class Paciente
     {
         public string Nombre {get; set;}
         public string Apellido {get; set;}
@@ -20,5 +20,7 @@ namespace ClinicaFrba.BD.Entidades
         public string Estado_Civil { get; set; }
         public decimal Familiares_A_Cargo { get; set; }
         public string PlanMedico { get; set; }
+
+        public Paciente() { }
     }
 }

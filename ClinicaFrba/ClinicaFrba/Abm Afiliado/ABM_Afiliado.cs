@@ -15,7 +15,7 @@ namespace ClinicaFrba.Abm_Afiliado
     public partial class Form1 : Form
     {
         public Funcionalidades fun;
-        
+        public BD.Entidades.Paciente paciente = new BD.Entidades.Paciente();
 
         public Form1(Funcionalidades fun)
         {
@@ -233,7 +233,7 @@ namespace ClinicaFrba.Abm_Afiliado
                 {
                     while (lector.Read())
                     {
-                        BD.Entidades.Paciente paciente = new BD.Entidades.Paciente();
+                        
 
                         paciente.Nombre = (string)lector["Nombre"];
                         paciente.Apellido = (string)lector["Apellido"];
@@ -268,9 +268,42 @@ namespace ClinicaFrba.Abm_Afiliado
 
        private void button2_Click(object sender, EventArgs e)
        {
-           List<SqlParameter> paramlist = new List<SqlParameter>();
-           paramlist.Add(new SqlParameter("@Num_Doc", txtBMDoc.Text));
-           BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_BAJA_AFILIADO", "SP", paramlist);
+           if (dtgCliente.SelectedRows == null)
+           {
+               MessageBox.Show("Debe seleccionar un afiliado.", "Error", MessageBoxButtons.OK);
+           }
+           else
+           {
+               List<SqlParameter> paramlist = new List<SqlParameter>();
+               paramlist.Add(new SqlParameter("@Num_Doc", txtBMDoc.Text));
+               BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_BAJA_AFILIADO", "SP", paramlist);
+               dtgCliente.DataSource = null;
+               lbBorradoModificado.Visible = true;
+               timer1.Enabled = true;
+           }
+       }
+
+       private void lbBorradoModificado_Click(object sender, EventArgs e)
+       {
+
+       }
+
+       private void timer1_Tick(object sender, EventArgs e)
+       {
+           if (timer1.Enabled == true)
+           {
+               lbBorradoModificado.Visible = false;
+           }
+       }
+
+       private void button7_Click(object sender, EventArgs e)
+       {
+           Abm_Afiliado.ModificacionAfiliado mod = new Abm_Afiliado.ModificacionAfiliado(fun, paciente, lbBorradoModificado, timer1, dtgCliente);
+           mod.Show();
+
+           //MessageBox.Show("Modifique el campo que desee y luego haga 'Enter' para realizar la modificación.", "Instrucciones de modificado", MessageBoxButtons.OK);
+           //dtgCliente.EditMode = DataGridViewEditMode.EditOnEnter;
+
        }
     }
 }

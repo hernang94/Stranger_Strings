@@ -46,3 +46,4 @@ A:\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Cancela
 C:\Users\Tomás\Desktop\ClinicaFrba\ClinicaFrba\bin\Debug\ClinicaFrba.exe.config
 C:\Users\Tomás\Desktop\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.exe
 C:\Users\Tomás\Desktop\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.pdb
+A:\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Abm_Afiliado.ModificacionAfiliado.resources
