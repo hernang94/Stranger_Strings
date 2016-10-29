@@ -649,6 +649,7 @@ IF EXISTS(SELECT  *
                     AND type IN ( N'P', N'PC' ) )
 DROP PROCEDURE STRANGER_STRINGS.SP_LOGIN
 GO
+
 CREATE PROCEDURE STRANGER_STRINGS.SP_LOGIN
 @Usuario varchar(255), 
 @Pass varchar(255),
@@ -662,6 +663,40 @@ WHERE @Usuario=u.Usuario AND HASHBYTES('SHA2_256',@Pass)=u.Pasword)
 SET @Bit=1
 ELSE
 SET @Bit=0
+END
+GO
+-----------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_ACTUALIZAR_INTENTOS')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_ACTUALIZAR_INTENTOS
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_ACTUALIZAR_INTENTOS
+@Usuario varchar(255)
+AS
+BEGIN
+UPDATE STRANGER_STRINGS.Usuario
+SET Cantidad_Intentos=Cantidad_Intentos-1
+WHERE Usuario=@Usuario
+END
+GO
+-----------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_REINICIAR_INTENTOS')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_REINICIAR_INTENTOS
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_REINICIAR_INTENTOS
+@Usuario varchar(255)
+AS
+BEGIN
+UPDATE STRANGER_STRINGS.Usuario
+SET Cantidad_Intentos=3
+WHERE Usuario=@Usuario
 END
 GO
 -----------------------------------------
