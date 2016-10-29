@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClinicaFrba.BD.Entidades
 {
-    class Rol
+    public class Rol
     {
         public string Nombre { set; get; }
     }

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Security.Cryptography;
 using ClinicaFrba.BD;
+using System.Data.SqlClient;
 
 namespace ClinicaFrba
 {
@@ -62,9 +63,15 @@ namespace ClinicaFrba
                             {
 
                                 user.ReiniciarCantidadIntentos();
+                                List<SqlParameter> paramlist = new List<SqlParameter>();
+                                paramlist.Add(new SqlParameter("@Usuario", user.Nombre));
+                                SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_GET_ROLES", "SP", paramlist);
 
+                                List<BD.Entidades.Rol> rolesXusario = new List<BD.Entidades.Rol>();
+                                obtenerRoles(lector, rolesXusario);
+                                
                                 // Pasa al form Funcionalidades ------------------------------------
-                                Funcionalidades fmFuncionalidades = new Funcionalidades(user);
+                                Funcionalidades fmFuncionalidades = new Funcionalidades(user,rolesXusario);
                                 this.Hide();
                                 fmFuncionalidades.Show();
                             }
@@ -88,6 +95,19 @@ namespace ClinicaFrba
             {
                 MessageBox.Show("Ups, ha ocurrido un problema", "Error!", MessageBoxButtons.OK);
                 txtContraseña.Text = "";
+            }
+        }
+
+        public void obtenerRoles(SqlDataReader lector, List<BD.Entidades.Rol> rolesXusuario)
+        {
+            if (lector.HasRows)
+            {
+                while (lector.Read())
+                {
+                    BD.Entidades.Rol rol = new BD.Entidades.Rol();
+                    rol.Nombre=((string)lector["Descripcion"]);
+                    rolesXusuario.Add(rol);
+                }
             }
         }
         

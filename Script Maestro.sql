@@ -386,7 +386,7 @@ INSERT INTO STRANGER_STRINGS.Usuario(Usuario,Pasword) VALUES ('admin',HASHBYTES(
 INSERT INTO STRANGER_STRINGS.Rol_X_Usuario (r.Id_Rol,u.Id_Usuario)
 SELECT r.Id_Rol,u.Id_Usuario
 FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Usuario u
-WHERE r.Descripcion LIKE 'Administrador' AND u.Usuario LIKE 'admin' AND u.Pasword=HASHBYTES('SHA2_256','w23e')
+WHERE r.Descripcion IN ('Administrador','Afiliado','Profesional') AND u.Usuario LIKE 'admin' AND u.Pasword=HASHBYTES('SHA2_256','w23e')
 
 
 INSERT INTO STRANGER_STRINGS.Usuario(Usuario,Pasword)

@@ -220,10 +220,6 @@
             // cbSeleccionRol
             // 
             this.cbSeleccionRol.FormattingEnabled = true;
-            this.cbSeleccionRol.Items.AddRange(new object[] {
-            "Administrativo",
-            "Afiliado",
-            "Profesional"});
             this.cbSeleccionRol.Location = new System.Drawing.Point(169, 16);
             this.cbSeleccionRol.Name = "cbSeleccionRol";
             this.cbSeleccionRol.Size = new System.Drawing.Size(186, 21);
@@ -277,6 +273,7 @@
             this.Controls.Add(this.gbFuncProf);
             this.Name = "Funcionalidades";
             this.Text = "Funcionalidades";
+            this.Load += new System.EventHandler(this.Funcionalidades_Load);
             this.gBFuncionalidadesAdmin.ResumeLayout(false);
             this.gbFuncioAfiliado.ResumeLayout(false);
             this.gbFuncProf.ResumeLayout(false);

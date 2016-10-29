@@ -16,14 +16,54 @@ namespace ClinicaFrba
     {
 
         public Usuario user { get; set; }
-       // private Rol rol { get; set; }
-       // private List<Rol> lstRoles = new List<Rol>();
+        public List<BD.Entidades.Rol> rolesXusuario = new List<BD.Entidades.Rol>();
 
 
-        public Funcionalidades(Usuario usuario)
+        public Funcionalidades(Usuario usuario, List<BD.Entidades.Rol> rolesXusuario)
         {
             InitializeComponent();
             user = usuario;
+            this.rolesXusuario = rolesXusuario;
+        }
+
+        private void Funcionalidades_Load(object sender, EventArgs e)
+        {
+            if (rolesXusuario.Count == 1)
+            {
+                if (rolesXusuario[0].Nombre == "Administrador")
+                {
+                    cbSeleccionRol.Items.Add("Administrador");
+                    cbSeleccionRol.SelectedIndex = 0;
+                }
+                if (rolesXusuario[0].Nombre == "Afiliado")
+                {
+                    cbSeleccionRol.Items.Add("Afiliado");
+                    cbSeleccionRol.SelectedIndex = 0;
+                }
+                if (rolesXusuario[0].Nombre == "Profesional")
+                {
+                    cbSeleccionRol.Items.Add("Profesional");
+                    cbSeleccionRol.SelectedIndex = 0;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < rolesXusuario.Count(); i++)
+                {
+                    if (rolesXusuario[i].Nombre == "Administrador")
+                    {
+                        cbSeleccionRol.Items.Add("Administrador");
+                    }
+                    if (rolesXusuario[i].Nombre == "Afiliado")
+                    {
+                        cbSeleccionRol.Items.Add("Afiliado");
+                    }
+                    if (rolesXusuario[i].Nombre == "Profesional")
+                    {
+                        cbSeleccionRol.Items.Add("Profesional");
+                    }
+                }
+            }
         }
 
         private void btABMRol_Click(object sender, EventArgs e)
@@ -160,5 +200,6 @@ namespace ClinicaFrba
             cancelar_Medico.Show();
             this.Hide();
         }
+
     }
 }
