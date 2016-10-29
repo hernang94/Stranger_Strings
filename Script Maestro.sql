@@ -424,31 +424,6 @@ FROM STRANGER_STRINGS.Medico m
 
 --FIN SETEO DE USUARIOS
 
-
-
---***STORED PROCEDURE LOGIN(PENDIENTE DE REVISION)***
-IF EXISTS(SELECT  *
-            FROM    sys.objects
-            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_LOGIN')
-                    AND type IN ( N'P', N'PC' ) )
-DROP PROCEDURE STRANGER_STRINGS.SP_LOGIN
-GO
-CREATE PROCEDURE STRANGER_STRINGS.SP_LOGIN
-@Usuario varchar(255), 
-@Pass varchar(255),
-@Bit INT OUTPUT
-AS
-BEGIN
-IF EXISTS(
-SELECT u.Usuario,u.Pasword
-FROM STRANGER_STRINGS.Usuario u JOIN STRANGER_STRINGS.Rol_X_Usuario r ON(u.Id_Usuario=r.Id_Usuario)
-WHERE @Usuario=u.Usuario AND HASHBYTES('SHA2_256',@Pass)=u.Pasword)
-SET @Bit=1
-ELSE
-SET @Bit=0
-END
-GO
------------------------------------------
 --INSERT DE AGENDA--
 --CREO TABLA TEMPORAL
 SELECT me.Id,m.Num_Doc,e.Especialidad_Codigo
@@ -667,7 +642,46 @@ END
 GO
 --------------------------------------------------------
 
+--***STORED PROCEDURE LOGIN***
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_LOGIN')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_LOGIN
+GO
+CREATE PROCEDURE STRANGER_STRINGS.SP_LOGIN
+@Usuario varchar(255), 
+@Pass varchar(255),
+@Bit INT OUTPUT
+AS
+BEGIN
+IF EXISTS(
+SELECT u.Usuario,u.Pasword
+FROM STRANGER_STRINGS.Usuario u JOIN STRANGER_STRINGS.Rol_X_Usuario r ON(u.Id_Usuario=r.Id_Usuario)
+WHERE @Usuario=u.Usuario AND HASHBYTES('SHA2_256',@Pass)=u.Pasword)
+SET @Bit=1
+ELSE
+SET @Bit=0
+END
+GO
+-----------------------------------------
 
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_GET_ROLES')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_GET_ROLES
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_GET_ROLES
+@Usuario VARCHAR(255)
+AS
+BEGIN
+SELECT r.Descripcion FROM STRANGER_STRINGS.Rol r JOIN STRANGER_STRINGS.Rol_X_Usuario ru ON(r.Id_Rol=ru.Id_Rol) 
+JOIN STRANGER_STRINGS.Usuario u ON(u.Id_Usuario=ru.Id_Usuario)
+WHERE @Usuario=u.Usuario
+END
+GO
 
 IF EXISTS(SELECT  *
             FROM    sys.objects
@@ -675,6 +689,7 @@ IF EXISTS(SELECT  *
                     AND type IN ( N'P', N'PC' ) )
 DROP PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNOS
 GO
+-----------------------------------------
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNOS
 @Num_Doc NUMERIC(18,0)
@@ -802,3 +817,4 @@ SET Direccion=@Direccion,Telefono=@Telefono,Mail=@Mail,Fecha_Nac=@Fecha_Nac,Esta
 WHERE Num_Doc=@Num_Doc
 END 
 GO
+
