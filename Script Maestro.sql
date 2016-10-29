@@ -718,13 +718,13 @@ WHERE @Usuario=u.Usuario
 END
 GO
 
+-----------------------------------------
 IF EXISTS(SELECT  *
             FROM    sys.objects
             WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_PEDIR_TURNOS')
                     AND type IN ( N'P', N'PC' ) )
 DROP PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNOS
 GO
------------------------------------------
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNOS
 @Num_Doc NUMERIC(18,0)
@@ -740,14 +740,15 @@ AND t.Id_Cancelacion IS NULL
 END 
 GO
 
+-----------------------------------------
 IF EXISTS(SELECT  *
             FROM    sys.objects
-            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_CANCELAR_TURNO')
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_CANCELAR_TURNO_AFILIADO')
                     AND type IN ( N'P', N'PC' ) )
-DROP PROCEDURE STRANGER_STRINGS.SP_CANCELAR_TURNO
+DROP PROCEDURE STRANGER_STRINGS.SP_CANCELAR_TURNO_AFILIADO
 GO
 
-CREATE PROCEDURE STRANGER_STRINGS.SP_CANCELAR_TURNO
+CREATE PROCEDURE STRANGER_STRINGS.SP_CANCELAR_TURNO_AFILIADO
 --Variables que manda la app
 @Turno_Fecha DATETIME,
 @Num_Doc NUMERIC(18,0),
@@ -771,7 +772,65 @@ WHERE Id_Paciente=@Id_Paciente AND Turno_Fecha=convert(datetime, @Turno_Fecha, 1
 END
 GO
 
+-----------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_CANCELAR_TURNOS_DIA_PROFESIONAL')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_CANCELAR_TURNOS_DIA_PROFESIONAL
+GO
 
+CREATE PROCEDURE STRANGER_STRINGS.SP_CANCELAR_TURNOS_DIA_PROFESIONAL
+@Turno_Fecha DATETIME,
+@Num_Doc_Profesional NUMERIC(18,0),
+@Especialidad VARCHAR(255),
+@Tipo_Cancelacion CHAR(1),
+@Motivo VARCHAR(225)
+AS
+BEGIN
+DECLARE @Id_Insert INT
+DECLARE @Id_Medico_X_Especialidad INT = (SELECT em.Id FROM STRANGER_STRINGS.Especialidad e JOIN STRANGER_STRINGS.Especialidad_X_Medico em 
+ON(e.Especialidad_Codigo=em.Especialidad_Codigo) JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
+WHERE m.Num_Doc=@Num_Doc_Profesional AND e.Especialidad_Descripcion LIKE '%'+@Especialidad+'%')
+INSERT INTO STRANGER_STRINGS.Cancelacion_Turno(Tipo_Cancelacion,Motivo)
+VALUES(@Tipo_Cancelacion,@Motivo)
+SET @Id_Insert= SCOPE_IDENTITY()
+UPDATE STRANGER_STRINGS.Turno
+SET Id_Cancelacion=@Id_Insert
+WHERE Id_Medico_x_Esp=@Id_Medico_X_Especialidad AND Turno_Fecha=convert(datetime, @Turno_Fecha, 120)
+END
+GO
+-----------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_CANCELAR_TURNOS_RANGO_PROFESIONAL')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_CANCELAR_TURNOS_RANGO_PROFESIONAL
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_CANCELAR_TURNOS_RANGO_PROFESIONAL
+@Turno_Fecha DATETIME,
+@Tipo_Cancelacion CHAR(1),
+@Motivo VARCHAR(225),
+@Num_Doc_Profesional NUMERIC(18,0),
+@Especialidad VARCHAR(255),
+@Hora_Desde TIME,
+@Hora_Hasta TIME
+AS
+BEGIN
+DECLARE @Id_Insert INT
+DECLARE @Id_Medico_X_Especialidad INT = (SELECT em.Id FROM STRANGER_STRINGS.Especialidad e JOIN STRANGER_STRINGS.Especialidad_X_Medico em 
+ON(e.Especialidad_Codigo=em.Especialidad_Codigo) JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
+WHERE m.Num_Doc=@Num_Doc_Profesional AND e.Especialidad_Descripcion LIKE '%'+@Especialidad+'%')
+INSERT INTO STRANGER_STRINGS.Cancelacion_Turno(Tipo_Cancelacion,Motivo)
+VALUES(@Tipo_Cancelacion,@Motivo)
+SET @Id_Insert= SCOPE_IDENTITY()
+UPDATE STRANGER_STRINGS.Turno
+SET Id_Cancelacion=@Id_Insert
+WHERE Id_Medico_x_Esp=@Id_Medico_X_Especialidad AND CAST(@Turno_Fecha AS TIME(0)) BETWEEN @Hora_Desde AND @Hora_Hasta AND Turno_Fecha=@Turno_Fecha
+END
+GO
+-----------------------------------------
 IF EXISTS(SELECT  *
             FROM    sys.objects
             WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_BUSCAR_AFILIADO')
