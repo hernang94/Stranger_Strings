@@ -41,17 +41,21 @@ namespace ClinicaFrba.Cancelar_Atencion
             {
                 paramList.Add(new SqlParameter("@Fecha", monthCalendar1.SelectionRange));
                 paramList.Add(new SqlParameter("@num_Doc", int.Parse(fun.user.Nombre)));
-                //Hacer el SP ----------------------------------------------------------------
-                BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_CANCELAR_TURNOS_FECHA", "SP", paramList);
+                paramList.Add(new SqlParameter("@Tipo_Cancelacion", "M"));
+                paramList.Add(new SqlParameter("@Motivo", txtMotivo.Text));
+                
+                BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_CANCELAR_TURNOS_DIA_PROFESIONAL", "SP", paramList);
             }
             else
             {
                 paramList.Add(new SqlParameter("@Fecha", monthCalendar1.SelectionRange));
+                paramList.Add(new SqlParameter("@Tipo_Cancelacion", "M"));
+                paramList.Add(new SqlParameter("@Motivo", txtMotivo.Text));
+                paramList.Add(new SqlParameter("@num_Doc", int.Parse(fun.user.Nombre)));
                 paramList.Add(new SqlParameter("@Hora_Desde", nudDesde.Value));
                 paramList.Add(new SqlParameter("@Hora_Hasta", nudHasta.Value));
-                paramList.Add(new SqlParameter("@num_Doc", int.Parse(fun.user.Nombre)));
                 //HACER EL SP------------------------------------------------------------------
-                BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_CANCELAR_TURNOS_PERIODO", "SP", paramList);
+                BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_CANCELAR_TURNOS_PERIODO_PROFESIONAL", "SP", paramList);
             }
 
         }

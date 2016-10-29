@@ -37,7 +37,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cbDiaCompleto = new System.Windows.Forms.ComboBox();
             this.lbDiaCompleto = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtMotivo = new System.Windows.Forms.TextBox();
             this.gbMotivo = new System.Windows.Forms.GroupBox();
             this.btAceptar = new System.Windows.Forms.Button();
             this.btVolver = new System.Windows.Forms.Button();
@@ -149,17 +149,17 @@
             this.lbDiaCompleto.Text = "¿Cancelar día completo?";
             this.lbDiaCompleto.Click += new System.EventHandler(this.label1_Click);
             // 
-            // textBox1
+            // txtMotivo
             // 
-            this.textBox1.Location = new System.Drawing.Point(6, 19);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(238, 134);
-            this.textBox1.TabIndex = 3;
+            this.txtMotivo.Location = new System.Drawing.Point(6, 19);
+            this.txtMotivo.Multiline = true;
+            this.txtMotivo.Name = "txtMotivo";
+            this.txtMotivo.Size = new System.Drawing.Size(238, 134);
+            this.txtMotivo.TabIndex = 3;
             // 
             // gbMotivo
             // 
-            this.gbMotivo.Controls.Add(this.textBox1);
+            this.gbMotivo.Controls.Add(this.txtMotivo);
             this.gbMotivo.Location = new System.Drawing.Point(12, 279);
             this.gbMotivo.Name = "gbMotivo";
             this.gbMotivo.Size = new System.Drawing.Size(250, 159);
@@ -236,7 +236,7 @@
         private System.Windows.Forms.Label lbHoraHasta;
         private System.Windows.Forms.Label lbHoraDesde;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtMotivo;
         private System.Windows.Forms.GroupBox gbMotivo;
         private System.Windows.Forms.Button btAceptar;
         private System.Windows.Forms.Button btVolver;
