@@ -37,17 +37,16 @@ namespace ClinicaFrba.BD
 
         public void DescontarIntento()
         {
-            List<SqlParameter> paramList = new List<SqlParameter>();
-            paramList.Add(new SqlParameter("@intentos_login", Cantidad_Intentos - 1));
-            paramList.Add(new SqlParameter("@nombre", Nombre));
-            BDStranger_Strings.WriteInBase("UPDATE STRANGER_STRINGS.Usuario SET Cantidad_Intentos=@intentos_login WHERE Usuario=@nombre", "T", paramList);
+            List<SqlParameter> paramlist = new List<SqlParameter>();
+            paramlist.Add(new SqlParameter("@Usuario", Nombre));
+            BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_ACTUALIZAR_INTENTOS","SP", paramlist);
         }
 
         public void ReiniciarCantidadIntentos()
         {
-            List<SqlParameter> paramList = new List<SqlParameter>();
-            paramList.Add(new SqlParameter("@nombre", Nombre));
-            BDStranger_Strings.WriteInBase("UPDATE STRANGER_STRINGS.Usuario SET Cantidad_Intentos=3 WHERE Usuario=@nombre", "T", paramList);
+            List<SqlParameter> paramlist = new List<SqlParameter>();
+            paramlist.Add(new SqlParameter("@Usuario", Nombre));
+            BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_ACTUALIZAR_INTENTOS","SP", paramlist);
         }
 
     }

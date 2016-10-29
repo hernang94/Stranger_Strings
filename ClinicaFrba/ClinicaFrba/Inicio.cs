@@ -53,11 +53,16 @@ namespace ClinicaFrba
                             user.DescontarIntento();
                             lbContraseñaIncorrecta.Visible = true;
                             txtContraseña.Text = "";
+                            
+                            if (user.Cantidad_Intentos == 0)
+                            {
+                                MessageBox.Show("Usuario inactivo para acceder al sistema", "Error!", MessageBoxButtons.OK);
+                            }
                         }
                         else
                         {
                             // Está activo?
-                            if (user.Cantidad_Intentos == 0)
+                            if (user.Cantidad_Intentos <= 0)
                                 MessageBox.Show("Usuario inactivo para acceder al sistema", "Error!", MessageBoxButtons.OK);
                             else
                             {

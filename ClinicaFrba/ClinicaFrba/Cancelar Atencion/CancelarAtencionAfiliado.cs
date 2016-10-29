@@ -105,7 +105,7 @@ namespace ClinicaFrba.Cancelar_Atencion
             paramList.Add(new SqlParameter("@Especialidad", Turno.especialidad));
             paramList.Add(new SqlParameter("@Tipo_Cancelacion", 'A'));
             paramList.Add(new SqlParameter("@Motivo", tbMotivo.Text));
-            BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_CANCELAR_TURNO", "SP", paramList);
+            BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_CANCELAR_TURNO_AFILIADO", "SP", paramList);
             listaTurnos.Clear();
             dtgTurnos.DataSource = null;
             crearGrilla();
