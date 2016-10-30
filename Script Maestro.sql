@@ -951,3 +951,22 @@ WHERE Num_Doc=@Num_Doc
 END 
 GO
 
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_REGISTRAR_RESULTADO_CONSULTA')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_REGISTRAR_RESULTADO_CONSULTA
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_REGISTRAR_RESULTADO_CONSULTA
+@Id_Consulta INT,
+@Fecha_Y_Hora_Atencion DATETIME,
+@Sintomas VARCHAR(255),
+@Diagnostico VARCHAR(255)
+AS 
+BEGIN
+UPDATE STRANGER_STRINGS.Consulta
+SET Fecha_Y_Hora_Atencion=@Fecha_Y_Hora_Atencion,Sintomas=@Sintomas, Enfermedades=@Diagnostico
+WHERE Id_Consulta=@Id_Consulta
+END
+GO
