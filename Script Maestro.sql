@@ -197,7 +197,8 @@ Id_Compra INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Compra(Id_Compra))
 -----------------------------------------------------------
 CREATE TABLE STRANGER_STRINGS.Consulta(
 Id_Consulta INT IDENTITY(1,1) PRIMARY KEY,
-Fecha_Y_Hora DATETIME,
+Fecha_Y_Hora_Llegada DATETIME,
+Fecha_Y_Hora_Atencion DATETIME,
 Sintomas VARCHAR(225),
 Enfermedades VARCHAR(225),
 Bono_Consulta_Id INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Bono(Id_Bono),
@@ -281,8 +282,8 @@ ORDER BY Bono_Consulta_Numero ASC
 SET IDENTITY_INSERT STRANGER_STRINGS.Bono OFF
 GO
 ------------------------------------------------
-INSERT INTO STRANGER_STRINGS.Consulta(Sintomas,Enfermedades,Fecha_Y_Hora,Bono_Consulta_Id,Id_Paciente)
-SELECT m.Consulta_Sintomas,m.Consulta_Enfermedades,m.Turno_Fecha,b.Id_Bono,b.Id_Paciente_Uso
+INSERT INTO STRANGER_STRINGS.Consulta(Sintomas,Enfermedades,Fecha_Y_Hora_Llegada,Fecha_Y_Hora_Atencion,Bono_Consulta_Id,Id_Paciente)
+SELECT m.Consulta_Sintomas,m.Consulta_Enfermedades,m.Turno_Fecha,m.Turno_Fecha,b.Id_Bono,b.Id_Paciente_Uso
 FROM gd_esquema.Maestra m, STRANGER_STRINGS.Bono b
 WHERE m.Bono_Consulta_Numero=b.Id_Bono and m.Consulta_Sintomas IS NOT NULL
 ORDER BY b.Id_Bono
@@ -301,7 +302,7 @@ WHERE b.Fecha_Impresion=c.Fecha_Compra
 
 UPDATE STRANGER_STRINGS.Bono
 SET Numero_Consulta=
-(SELECT tabla1.Fila FROM (SELECT ROW_NUMBER() OVER(ORDER BY c.Fecha_Y_Hora) AS Fila,c.Bono_Consulta_Id as nro_bono
+(SELECT tabla1.Fila FROM (SELECT ROW_NUMBER() OVER(ORDER BY c.Fecha_Y_Hora_Llegada) AS Fila,c.Bono_Consulta_Id as nro_bono
 FROM STRANGER_STRINGS.Consulta c
 WHERE c.Id_Paciente=bn.Id_Paciente_Uso ) As tabla1
 WHERE tabla1.nro_bono=bn.Id_Bono)
@@ -316,11 +317,11 @@ WHERE tabla1.Id_Paciente=p.Id_Paciente)
 FROM STRANGER_STRINGS.Paciente p
 
 UPDATE STRANGER_STRINGS.Turno
-SET Id_Consulta=
-(SELECT c.Id_Consulta 
-FROM STRANGER_STRINGS.Consulta c
-WHERE c.Fecha_Y_Hora=t.Turno_Fecha AND t.Id_Paciente=c.Id_Paciente AND c.Bono_Consulta_Id=b.Id_Bono)
-FROM STRANGER_STRINGS.Turno t JOIN STRANGER_STRINGS.Bono b ON(b.Id_Paciente_Uso=t.Id_Paciente)
+SET Id_Consulta=(SELECT TOP 1 id_cons FROM
+(SELECT c.Id_Consulta as id_cons, c.Id_Paciente as id_pas, c.Fecha_Y_Hora_Llegada as fecha 
+FROM STRANGER_STRINGS.Consulta c 
+JOIN STRANGER_STRINGS.Bono b ON(b.Id_Bono=c.Bono_Consulta_Id))As tablaAux
+WHERE  tablaAux.fecha=Turno_Fecha AND tablaAux.id_pas=Id_Paciente)
 
 UPDATE STRANGER_STRINGS.TURNO
 SET Id_Horario = (SELECT Id_Horario FROM STRANGER_STRINGS.Horarios_Agenda h
