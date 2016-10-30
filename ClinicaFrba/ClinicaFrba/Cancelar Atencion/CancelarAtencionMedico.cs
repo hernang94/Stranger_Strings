@@ -22,7 +22,7 @@ namespace ClinicaFrba.Cancelar_Atencion
             InitializeComponent();
             this.fun = fun;
             this.Especialidad = especialidad;
-            //PedirTurnosMedico();
+            PedirTurnosMedico();
         }
 
         private void btAceptar_Click(object sender, EventArgs e)

@@ -138,6 +138,7 @@
             this.Controls.Add(this.dtgTurnos);
             this.Name = "CancelarAtencionAfiliado";
             this.Text = "Cancelar atención";
+            this.Load += new System.EventHandler(this.CancelarAtencionAfiliado_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dtgTurnos)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

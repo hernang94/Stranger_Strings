@@ -81,7 +81,7 @@ namespace ClinicaFrba.Cancelar_Atencion
         {
             List<SqlParameter> paramList = new List<SqlParameter>();
             paramList.Add(new SqlParameter("@num_Doc", 72215288 /*int.Parse(fun.user.Nombre)*/));//72215288
-            SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_PEDIR_TURNOS", "SP", paramList);
+            SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_PEDIR_TURNOS_AFILIADO", "SP", paramList);
             if (lector.HasRows)
             {
                 while (lector.Read())
@@ -124,6 +124,11 @@ namespace ClinicaFrba.Cancelar_Atencion
         private void timer2_Tick(object sender, EventArgs e)
         {
             
+        }
+
+        private void CancelarAtencionAfiliado_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
