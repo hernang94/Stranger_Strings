@@ -55,7 +55,7 @@ namespace ClinicaFrba.Cancelar_Atencion
                 paramList.Add(new SqlParameter("@Tipo_Cancelacion", 'M'));
                 paramList.Add(new SqlParameter("@Motivo", txtMotivo.Text));
                 paramList.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Nombre)));
-                paramList.Add(new SqlParameter("@Especialidad", Especialidad));
+                paramList.Add(new SqlParameter("@Especialidad", Especialidad)); 
                 paramList.Add(new SqlParameter("@Hora_Desde", nudDesde.Value));
                 paramList.Add(new SqlParameter("@Hora_Hasta", nudHasta.Value));
                 BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_CANCELAR_TURNOS_RANGO_PROFESIONAL", "SP", paramList);

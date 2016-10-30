@@ -848,13 +848,13 @@ DROP PROCEDURE STRANGER_STRINGS.SP_CANCELAR_TURNOS_RANGO_PROFESIONAL
 GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_CANCELAR_TURNOS_RANGO_PROFESIONAL
-@Turno_Fecha DATETIME,
+@Turno_Fecha CHAR(10),
 @Tipo_Cancelacion CHAR(1),
 @Motivo VARCHAR(225),
 @Num_Doc NUMERIC(18,0),
 @Especialidad VARCHAR(255),
-@Hora_Desde TIME,
-@Hora_Hasta TIME
+@Hora_Desde INT,
+@Hora_Hasta INT
 AS
 BEGIN
 DECLARE @Id_Insert INT
@@ -866,7 +866,7 @@ VALUES(@Tipo_Cancelacion,@Motivo)
 SET @Id_Insert= SCOPE_IDENTITY()
 UPDATE STRANGER_STRINGS.Turno
 SET Id_Cancelacion=@Id_Insert
-WHERE Id_Medico_x_Esp=@Id_Medico_X_Especialidad AND CAST(@Turno_Fecha AS TIME(0)) BETWEEN @Hora_Desde AND @Hora_Hasta AND Turno_Fecha=@Turno_Fecha
+WHERE Id_Medico_x_Esp=@Id_Medico_X_Especialidad AND DATEPART(hh,Turno_Fecha) BETWEEN @Hora_Desde AND @Hora_Hasta AND CONVERT(DATE,Turno_Fecha)=CONVERT(DATETIME,RIGHT(@Turno_Fecha,4)+LEFT(@Turno_Fecha,2)+SUBSTRING(@Turno_Fecha,4,2))
 END
 GO
 -----------------------------------------
