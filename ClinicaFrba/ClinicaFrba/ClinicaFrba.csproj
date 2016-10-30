@@ -89,6 +89,7 @@
     </Compile>
     <Compile Include="BD\BDStranger_Strings.cs" />
     <Compile Include="BD\EntidadesDAL\UsuarioDAL.cs" />
+    <Compile Include="BD\Entidades\Especialidad.cs" />
     <Compile Include="BD\Entidades\Paciente.cs" />
     <Compile Include="BD\Entidades\Rol.cs" />
     <Compile Include="BD\Entidades\Turno.cs" />
@@ -104,6 +105,12 @@
     </Compile>
     <Compile Include="Cancelar Atencion\CancelarAtencionAfiliado.Designer.cs">
       <DependentUpon>CancelarAtencionAfiliado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cancelar Atencion\SeleccionEspecialidad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cancelar Atencion\SeleccionEspecialidad.Designer.cs">
+      <DependentUpon>SeleccionEspecialidad.cs</DependentUpon>
     </Compile>
     <Compile Include="Compra Bono\Form1.cs">
       <SubType>Form</SubType>
@@ -169,6 +176,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Cancelar Atencion\CancelarAtencionMedico.resx">
       <DependentUpon>CancelarAtencionMedico.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cancelar Atencion\SeleccionEspecialidad.resx">
+      <DependentUpon>SeleccionEspecialidad.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Funcionalidades.resx">
       <DependentUpon>Funcionalidades.cs</DependentUpon>

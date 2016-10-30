@@ -46,7 +46,7 @@ namespace ClinicaFrba.BD
         {
             List<SqlParameter> paramlist = new List<SqlParameter>();
             paramlist.Add(new SqlParameter("@Usuario", Nombre));
-            BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_ACTUALIZAR_INTENTOS","SP", paramlist);
+            BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_REINICIAR_INTENTOS","SP", paramlist);
         }
 
     }

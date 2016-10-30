@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace ClinicaFrba
 {
@@ -17,6 +18,7 @@ namespace ClinicaFrba
 
         public Usuario user { get; set; }
         public List<BD.Entidades.Rol> rolesXusuario = new List<BD.Entidades.Rol>();
+        public List<BD.Entidades.Especialidad> especXmedico = new List<BD.Entidades.Especialidad>();
 
 
         public Funcionalidades(Usuario usuario, List<BD.Entidades.Rol> rolesXusuario)
@@ -44,6 +46,7 @@ namespace ClinicaFrba
                 {
                     cbSeleccionRol.Items.Add("Profesional");
                     cbSeleccionRol.SelectedIndex = 0;
+                    pedir_Especilidades_Profesional();
                 }
             }
             else
@@ -89,7 +92,7 @@ namespace ClinicaFrba
         private void cbSeleccionRol_SelectedIndexChanged(object sender, EventArgs e)
         {
             //Selecciono Admin
-            if (cbSeleccionRol.SelectedIndex == 0)
+            if (cbSeleccionRol.SelectedItem=="Administrador")
             {
                 btABMRol.Visible = true;
                 btABMAfiliado.Visible = true;
@@ -110,7 +113,7 @@ namespace ClinicaFrba
 
             }
             //Selecciono Afiliado
-            else if (cbSeleccionRol.SelectedIndex == 1)
+            else if (cbSeleccionRol.SelectedItem == "Afiliado")
             {
                 btPedirTurno.Visible = true;
                 btCancelarAtencionAfiliado.Visible = true;
@@ -130,7 +133,7 @@ namespace ClinicaFrba
                 btCancelarAtencionMedico.Visible = false;
             }
             //Selecciono Profesional
-            else if (cbSeleccionRol.SelectedIndex == 2)
+            else if (cbSeleccionRol.SelectedItem == "Profesional")
             {
                 btCancelarAtencionMedico.Visible = true;
                 btRegistrarResultado.Visible = true;
@@ -196,10 +199,35 @@ namespace ClinicaFrba
 
         private void btCancelarAtencionMedico_Click(object sender, EventArgs e)
         {
-            Cancelar_Atencion.CancelarAtencionMedico cancelar_Medico = new Cancelar_Atencion.CancelarAtencionMedico(this);
-            cancelar_Medico.Show();
-            this.Hide();
+            if (especXmedico.Count() == 1)
+            {
+                Cancelar_Atencion.CancelarAtencionMedico cancelar_Medico = new Cancelar_Atencion.CancelarAtencionMedico(this, especXmedico[0].Especialidad_Descr);
+                cancelar_Medico.Show();
+                this.Hide();
+            }
+            else
+            {
+                Cancelar_Atencion.SeleccionEspecialidad seleccion_Especialidad = new Cancelar_Atencion.SeleccionEspecialidad(this,especXmedico);
+                seleccion_Especialidad.Show();
+                this.Hide();
+            }
         }
 
+        private void pedir_Especilidades_Profesional()
+        {
+            List<SqlParameter> paramlist = new List<SqlParameter>();
+            paramlist.Add(new SqlParameter("@Num_doc", int.Parse(user.Nombre)));
+            SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_GET_ESPECIALIDADES", "SP", paramlist);
+            if (lector.HasRows)
+            {
+                while (lector.Read())
+                {
+                    BD.Entidades.Especialidad esp = new BD.Entidades.Especialidad();
+                    esp.Especialidad_Descr = (string)lector["Especialidad_Descripcion"];
+                   
+                    this.especXmedico.Add(esp);
+                }
+            }
+        }
     }
 }

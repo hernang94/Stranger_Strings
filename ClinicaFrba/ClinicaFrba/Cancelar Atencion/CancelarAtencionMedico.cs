@@ -15,12 +15,14 @@ namespace ClinicaFrba.Cancelar_Atencion
     {
         Funcionalidades fun;
         List<DateTime> lista_turnos = new List<DateTime>();
+        string Especialidad;
 
-        public CancelarAtencionMedico(Funcionalidades fun)
+        public CancelarAtencionMedico(Funcionalidades fun, string especialidad)
         {
             InitializeComponent();
-            this.fun=fun;
-            PedirTurnosMedico();
+            this.fun = fun;
+            this.Especialidad = especialidad;
+            //PedirTurnosMedico();
         }
 
         private void btAceptar_Click(object sender, EventArgs e)
@@ -40,7 +42,8 @@ namespace ClinicaFrba.Cancelar_Atencion
             if (cbDiaCompleto.SelectedIndex==0)
             {
                 paramList.Add(new SqlParameter("@Fecha", monthCalendar1.SelectionRange));
-                paramList.Add(new SqlParameter("@num_Doc", int.Parse(fun.user.Nombre)));
+                paramList.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Nombre)));
+                paramList.Add(new SqlParameter("@Especialidad_Descripcion", Especialidad));
                 paramList.Add(new SqlParameter("@Tipo_Cancelacion", "M"));
                 paramList.Add(new SqlParameter("@Motivo", txtMotivo.Text));
                 
@@ -51,10 +54,10 @@ namespace ClinicaFrba.Cancelar_Atencion
                 paramList.Add(new SqlParameter("@Fecha", monthCalendar1.SelectionRange));
                 paramList.Add(new SqlParameter("@Tipo_Cancelacion", "M"));
                 paramList.Add(new SqlParameter("@Motivo", txtMotivo.Text));
-                paramList.Add(new SqlParameter("@num_Doc", int.Parse(fun.user.Nombre)));
+                paramList.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Nombre)));
+                paramList.Add(new SqlParameter("@Especialidad_Descripcion", Especialidad));
                 paramList.Add(new SqlParameter("@Hora_Desde", nudDesde.Value));
                 paramList.Add(new SqlParameter("@Hora_Hasta", nudHasta.Value));
-                //HACER EL SP------------------------------------------------------------------
                 BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_CANCELAR_TURNOS_PERIODO_PROFESIONAL", "SP", paramList);
             }
 
@@ -64,6 +67,7 @@ namespace ClinicaFrba.Cancelar_Atencion
         {
             List<SqlParameter> paramList = new List<SqlParameter>();
             paramList.Add(new SqlParameter("@num_Doc", int.Parse(fun.user.Nombre)));
+            paramList.Add(new SqlParameter("@Especialidad_Descripcion", Especialidad));
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_PEDIR_TURNOS_MEDICO","SP",paramList);
             if (lector.HasRows)
             {
