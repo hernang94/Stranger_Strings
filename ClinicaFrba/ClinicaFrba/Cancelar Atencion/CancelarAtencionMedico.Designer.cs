@@ -51,7 +51,7 @@
             // 
             // monthCalendar1
             // 
-            this.monthCalendar1.Location = new System.Drawing.Point(27, 27);
+            this.monthCalendar1.Location = new System.Drawing.Point(11, 25);
             this.monthCalendar1.MinDate = new System.DateTime(2000, 10, 27, 0, 0, 0, 0);
             this.monthCalendar1.Name = "monthCalendar1";
             this.monthCalendar1.TabIndex = 1;
