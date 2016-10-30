@@ -41,9 +41,9 @@ namespace ClinicaFrba.Cancelar_Atencion
             List<SqlParameter> paramList = new List<SqlParameter>();
             if (cbDiaCompleto.SelectedIndex==0)
             {
-                paramList.Add(new SqlParameter("@Fecha", monthCalendar1.SelectionRange));
+                paramList.Add(new SqlParameter("@Turno_Fecha", monthCalendar1.SelectionRange.Start));
                 paramList.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Nombre)));
-                paramList.Add(new SqlParameter("@Especialidad_Descripcion", Especialidad));
+                paramList.Add(new SqlParameter("@Especialidad", Especialidad));
                 paramList.Add(new SqlParameter("@Tipo_Cancelacion", "M"));
                 paramList.Add(new SqlParameter("@Motivo", txtMotivo.Text));
                 
@@ -51,14 +51,14 @@ namespace ClinicaFrba.Cancelar_Atencion
             }
             else
             {
-                paramList.Add(new SqlParameter("@Fecha", monthCalendar1.SelectionRange));
+                paramList.Add(new SqlParameter("@Turno_Fecha", monthCalendar1.SelectionRange.Start));
                 paramList.Add(new SqlParameter("@Tipo_Cancelacion", "M"));
                 paramList.Add(new SqlParameter("@Motivo", txtMotivo.Text));
                 paramList.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Nombre)));
-                paramList.Add(new SqlParameter("@Especialidad_Descripcion", Especialidad));
+                paramList.Add(new SqlParameter("@Especialidad", Especialidad));
                 paramList.Add(new SqlParameter("@Hora_Desde", nudDesde.Value));
                 paramList.Add(new SqlParameter("@Hora_Hasta", nudHasta.Value));
-                BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_CANCELAR_TURNOS_PERIODO_PROFESIONAL", "SP", paramList);
+                BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_CANCELAR_TURNOS_RANGO_PROFESIONAL", "SP", paramList);
             }
 
         }
@@ -73,7 +73,7 @@ namespace ClinicaFrba.Cancelar_Atencion
             {
                 while (lector.Read())
                 {
-                    lista_turnos.Add((DateTime)lector["Fecha"]);
+                    lista_turnos.Add((DateTime)lector["Turno_Fecha"]);
                 }
             }
         }
@@ -139,7 +139,20 @@ namespace ClinicaFrba.Cancelar_Atencion
 
         private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
         {
-
+            int i = 0;
+            int acierto = 0;
+            while (i<lista_turnos.Count() && acierto==0)
+            {
+                if (lista_turnos[i].Date.ToString() == monthCalendar1.SelectionRange.Start.ToString())
+                {
+                    acierto = 1;
+                }
+                i++;
+            }
+            if (acierto != 1)
+            {
+                MessageBox.Show("Seleccione una fecha valida de atención.", "Error", MessageBoxButtons.OK);
+            }
         }
     }
 }
