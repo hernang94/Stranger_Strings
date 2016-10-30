@@ -741,12 +741,12 @@ GO
 -----------------------------------------
 IF EXISTS(SELECT  *
             FROM    sys.objects
-            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_PEDIR_TURNOS')
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_PEDIR_TURNOS_AFILIADO')
                     AND type IN ( N'P', N'PC' ) )
-DROP PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNOS
+DROP PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNOS_AFILIADO
 GO
 
-CREATE PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNOS
+CREATE PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNOS_AFILIADO
 @Num_Doc NUMERIC(18,0)
 AS
 BEGIN 
@@ -759,7 +759,25 @@ AND e.Especialidad_Codigo=(SELECT es.Especialidad_Codigo FROM STRANGER_STRINGS.E
 AND t.Id_Cancelacion IS NULL
 END 
 GO
+-----------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_PEDIR_TURNOS_MEDICO')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNOS_MEDICO
+GO
 
+CREATE PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNOS_MEDICO
+@Num_Doc NUMERIC (18,0),
+@Especialidad VARCHAR(255)
+AS
+BEGIN
+SELECT t.Turno_Fecha FROM (SELECT em.Id FROM STRANGER_STRINGS.Especialidad e JOIN STRANGER_STRINGS.Especialidad_X_Medico em 
+ON(e.Especialidad_Codigo=em.Especialidad_Codigo) JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
+WHERE m.Num_Doc=@Num_Doc AND e.Especialidad_Descripcion LIKE '%'+@Especialidad+'%') AS TablaAux, STRANGER_STRINGS.Turno t
+WHERE TablaAux.Id=t.Id_Medico_x_Esp
+END
+GO
 -----------------------------------------
 IF EXISTS(SELECT  *
             FROM    sys.objects
