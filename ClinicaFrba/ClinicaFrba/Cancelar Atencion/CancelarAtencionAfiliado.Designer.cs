@@ -92,6 +92,7 @@
             this.lbTurnoCancelado.TabIndex = 42;
             this.lbTurnoCancelado.Text = "Su turno ha sido cancelado con éxito";
             this.lbTurnoCancelado.Visible = false;
+            this.lbTurnoCancelado.Click += new System.EventHandler(this.lbTurnoCancelado_Click);
             // 
             // timer1
             // 

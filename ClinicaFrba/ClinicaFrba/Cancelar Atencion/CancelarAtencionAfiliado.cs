@@ -130,5 +130,10 @@ namespace ClinicaFrba.Cancelar_Atencion
         {
 
         }
+
+        private void lbTurnoCancelado_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
