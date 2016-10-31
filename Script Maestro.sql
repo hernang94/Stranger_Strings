@@ -1037,3 +1037,30 @@ VALUES(@Dia_Semana,CAST(@Hora_Desde+':00'AS TIME(0)),CAST(@Hora_Hasta+':00' AS T
 END
 GO
 -----------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_SOLICITAR_TURNO')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_SOLICITAR_TURNO
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_SOLICITAR_TURNO
+@Fecha_Turno CHAR(10),
+@Num_Doc_Paciente NUMERIC(18,0),
+@Num_Doc_Profesional NUMERIC(18,0),
+@Especialidad_Descripcion VARCHAR(255)
+AS
+BEGIN
+DECLARE @Id_Paciente INT = (SELECT p.Id_paciente FROM STRANGER_STRINGS.Paciente p WHERE p.Num_Doc=@Num_Doc_Paciente)
+DECLARE @Id_Medico_X_Especialidad INT = (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em 
+JOIN STRANGER_STRINGS.Especialidad e ON(em.Especialidad_Codigo=e.Especialidad_Codigo) JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
+WHERE m.Num_Doc=@Num_Doc_Profesional AND e.Especialidad_Descripcion LIKE '%'+@Especialidad_Descripcion+'%')
+DECLARE @Fecha_Turno_Convertida DATETIME= CONVERT(DATETIME,RIGHT(@Fecha_Turno,4)+LEFT(@Fecha_Turno,2)+SUBSTRING(@Fecha_Turno,4,2))
+INSERT INTO STRANGER_STRINGS.Turno(Id_Paciente,Id_Medico_x_Esp,Turno_Fecha,Id_Horario)
+VALUES(@Id_Paciente,@Id_Medico_X_Especialidad,@Fecha_Turno_Convertida,
+(SELECT a.Id_Horario FROM STRANGER_STRINGS.Horarios_Agenda a 
+WHERE a.Dia=DATEPART(DW,@Fecha_Turno_Convertida) AND 
+CAST(@Fecha_Turno as Time(0)) BETWEEN a.Hora_Desde AND a.Hora_Hasta 
+AND a.Id_Especialidad_Medico=@Id_Medico_X_Especialidad))
+END
+GO
