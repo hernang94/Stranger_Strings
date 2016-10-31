@@ -224,7 +224,7 @@ namespace ClinicaFrba
 
         private void btRegistrarResultado_Click(object sender, EventArgs e)
         {
-            Cancelar_Atencion.SeleccionEspecialidad seleccion_Especialidad = new Cancelar_Atencion.SeleccionEspecialidad(this, especXmedico);
+            Registro_Resultado.SeleccionEspecialidad seleccion_Especialidad = new Registro_Resultado.SeleccionEspecialidad(this, especXmedico);
             seleccion_Especialidad.Show();
             this.Hide();
             

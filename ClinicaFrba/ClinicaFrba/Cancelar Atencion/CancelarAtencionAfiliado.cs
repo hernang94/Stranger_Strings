@@ -80,7 +80,7 @@ namespace ClinicaFrba.Cancelar_Atencion
         private void actualizarGrilla()
         {
             List<SqlParameter> paramList = new List<SqlParameter>();
-            paramList.Add(new SqlParameter("@num_Doc", 72215288 /*int.Parse(fun.user.Nombre)*/));//72215288
+            paramList.Add(new SqlParameter("@num_Doc", int.Parse(fun.user.Nombre)));
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_PEDIR_TURNOS_AFILIADO", "SP", paramList);
             if (lector.HasRows)
             {
@@ -100,7 +100,7 @@ namespace ClinicaFrba.Cancelar_Atencion
         {
             List<SqlParameter> paramList = new List<SqlParameter>();
             paramList.Add(new SqlParameter("@Turno_Fecha", Turno.fecha));
-            paramList.Add(new SqlParameter("@Num_Doc", 72215288 /*int.Parse(fun.user.Nombre)*/));
+            paramList.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Nombre)));
             paramList.Add(new SqlParameter("@Apellido_Profesional", Turno.apellido_Prof));
             paramList.Add(new SqlParameter("@Especialidad", Turno.especialidad));
             paramList.Add(new SqlParameter("@Tipo_Cancelacion", 'A'));

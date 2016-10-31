@@ -1,6 +1,6 @@
 ﻿namespace ClinicaFrba.Registro_Resultado
 {
-    partial class Form1
+    partial class RegistroResultado
     {
         /// <summary>
         /// Required designer variable.
@@ -28,49 +28,54 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btAceptar = new System.Windows.Forms.Button();
             this.gbMotivo = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtSintomas = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtMotivo = new System.Windows.Forms.TextBox();
+            this.txtEnfermedades = new System.Windows.Forms.TextBox();
             this.btVolver = new System.Windows.Forms.Button();
             this.gbFechayHora = new System.Windows.Forms.GroupBox();
             this.dtFechaHora = new System.Windows.Forms.DateTimePicker();
             this.lbRegistro = new System.Windows.Forms.Label();
+            this.ckPresento = new System.Windows.Forms.CheckBox();
+            this.lbConsultaRegistrada = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.gbMotivo.SuspendLayout();
             this.gbFechayHora.SuspendLayout();
             this.SuspendLayout();
             // 
             // btAceptar
             // 
-            this.btAceptar.Location = new System.Drawing.Point(244, 400);
+            this.btAceptar.Location = new System.Drawing.Point(259, 436);
             this.btAceptar.Name = "btAceptar";
             this.btAceptar.Size = new System.Drawing.Size(75, 23);
             this.btAceptar.TabIndex = 49;
             this.btAceptar.Text = "Aceptar";
             this.btAceptar.UseVisualStyleBackColor = true;
+            this.btAceptar.Click += new System.EventHandler(this.btAceptar_Click);
             // 
             // gbMotivo
             // 
-            this.gbMotivo.Controls.Add(this.textBox1);
+            this.gbMotivo.Controls.Add(this.txtSintomas);
             this.gbMotivo.Controls.Add(this.label2);
             this.gbMotivo.Controls.Add(this.label1);
-            this.gbMotivo.Controls.Add(this.txtMotivo);
+            this.gbMotivo.Controls.Add(this.txtEnfermedades);
             this.gbMotivo.Location = new System.Drawing.Point(9, 119);
             this.gbMotivo.Name = "gbMotivo";
-            this.gbMotivo.Size = new System.Drawing.Size(421, 267);
+            this.gbMotivo.Size = new System.Drawing.Size(421, 261);
             this.gbMotivo.TabIndex = 48;
             this.gbMotivo.TabStop = false;
             this.gbMotivo.Text = "Ingrese el diagnóstico del paciente";
             // 
-            // textBox1
+            // txtSintomas
             // 
-            this.textBox1.Location = new System.Drawing.Point(27, 158);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(368, 87);
-            this.textBox1.TabIndex = 6;
+            this.txtSintomas.Location = new System.Drawing.Point(27, 158);
+            this.txtSintomas.Multiline = true;
+            this.txtSintomas.Name = "txtSintomas";
+            this.txtSintomas.Size = new System.Drawing.Size(368, 87);
+            this.txtSintomas.TabIndex = 6;
             // 
             // label2
             // 
@@ -90,17 +95,17 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "Enfermedades";
             // 
-            // txtMotivo
+            // txtEnfermedades
             // 
-            this.txtMotivo.Location = new System.Drawing.Point(27, 43);
-            this.txtMotivo.Multiline = true;
-            this.txtMotivo.Name = "txtMotivo";
-            this.txtMotivo.Size = new System.Drawing.Size(368, 87);
-            this.txtMotivo.TabIndex = 3;
+            this.txtEnfermedades.Location = new System.Drawing.Point(27, 43);
+            this.txtEnfermedades.Multiline = true;
+            this.txtEnfermedades.Name = "txtEnfermedades";
+            this.txtEnfermedades.Size = new System.Drawing.Size(368, 87);
+            this.txtEnfermedades.TabIndex = 3;
             // 
             // btVolver
             // 
-            this.btVolver.Location = new System.Drawing.Point(92, 400);
+            this.btVolver.Location = new System.Drawing.Point(107, 436);
             this.btVolver.Name = "btVolver";
             this.btVolver.Size = new System.Drawing.Size(75, 23);
             this.btVolver.TabIndex = 47;
@@ -139,17 +144,45 @@
             this.lbRegistro.TabIndex = 45;
             this.lbRegistro.Text = "Registre resultado de atención médica:";
             // 
-            // Form1
+            // ckPresento
+            // 
+            this.ckPresento.AutoSize = true;
+            this.ckPresento.Location = new System.Drawing.Point(152, 386);
+            this.ckPresento.Name = "ckPresento";
+            this.ckPresento.Size = new System.Drawing.Size(155, 17);
+            this.ckPresento.TabIndex = 50;
+            this.ckPresento.Text = "El paciente no se presentó ";
+            this.ckPresento.UseVisualStyleBackColor = true;
+            // 
+            // lbConsultaRegistrada
+            // 
+            this.lbConsultaRegistrada.AutoSize = true;
+            this.lbConsultaRegistrada.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbConsultaRegistrada.ForeColor = System.Drawing.Color.Green;
+            this.lbConsultaRegistrada.Location = new System.Drawing.Point(105, 406);
+            this.lbConsultaRegistrada.Name = "lbConsultaRegistrada";
+            this.lbConsultaRegistrada.Size = new System.Drawing.Size(254, 15);
+            this.lbConsultaRegistrada.TabIndex = 51;
+            this.lbConsultaRegistrada.Text = "Consulta registrada satisfactoriamente";
+            this.lbConsultaRegistrada.Visible = false;
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // RegistroResultado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(444, 435);
+            this.ClientSize = new System.Drawing.Size(444, 474);
+            this.Controls.Add(this.lbConsultaRegistrada);
+            this.Controls.Add(this.ckPresento);
             this.Controls.Add(this.btAceptar);
             this.Controls.Add(this.gbMotivo);
             this.Controls.Add(this.btVolver);
             this.Controls.Add(this.gbFechayHora);
             this.Controls.Add(this.lbRegistro);
-            this.Name = "Form1";
+            this.Name = "RegistroResultado";
             this.Text = "Registro_Resultado";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.gbMotivo.ResumeLayout(false);
@@ -164,13 +197,16 @@
 
         private System.Windows.Forms.Button btAceptar;
         private System.Windows.Forms.GroupBox gbMotivo;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtSintomas;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtMotivo;
+        private System.Windows.Forms.TextBox txtEnfermedades;
         private System.Windows.Forms.Button btVolver;
         private System.Windows.Forms.GroupBox gbFechayHora;
         private System.Windows.Forms.DateTimePicker dtFechaHora;
         private System.Windows.Forms.Label lbRegistro;
+        private System.Windows.Forms.CheckBox ckPresento;
+        private System.Windows.Forms.Label lbConsultaRegistrada;
+        private System.Windows.Forms.Timer timer1;
     }
 }
