@@ -989,3 +989,29 @@ SELECT t.Turno_Fecha,p.Nombre,p.Apellido,t.Id_Consulta
 		AND DATEDIFF(day,@Fecha,t.Turno_Fecha)=0
 END
 GO
+
+
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_CAMBIO_PLAN')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_CAMBIO_PLAN
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_CAMBIO_PLAN
+@Num_Doc NUMERIC(18,0),
+@Motivo VARCHAR(255),
+@Descripcion_Plan_Viejo VARCHAR(30),
+@Descripcion_Plan_Nuevo VARCHAR(30)
+AS
+BEGIN
+DECLARE @Id_Afiliado INT= (SELECT p.Id_Paciente FROM STRANGER_STRINGS.Paciente p WHERE p.Num_Doc=@Num_Doc)
+DECLARE @Id_Plan_Viejo INT= (SELECT Codigo_Plan FROM STRANGER_STRINGS.Plan_Medico WHERE Descripcion=@Descripcion_Plan_Viejo)
+DECLARE @Id_Plan_Nuevo INT= (SELECT Codigo_Plan FROM STRANGER_STRINGS.Plan_Medico WHERE Descripcion=@Descripcion_Plan_Nuevo)
+INSERT INTO STRANGER_STRINGS.Cambio_Plan (Id_Paciente,Motivo,Codigo_Plan_Viejo,Codigo_Plan_Nuevo)
+VALUES(@Id_Afiliado,@Motivo,@Id_Plan_Viejo,@Id_Plan_Nuevo)
+UPDATE STRANGER_STRINGS.Paciente
+SET	Codigo_Plan=@Id_Plan_Nuevo
+WHERE Id_Paciente=@Id_Afiliado
+END
+GO
