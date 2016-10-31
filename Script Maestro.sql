@@ -1064,3 +1064,31 @@ CAST(@Fecha_Turno as Time(0)) BETWEEN a.Hora_Desde AND a.Hora_Hasta
 AND a.Id_Especialidad_Medico=@Id_Medico_X_Especialidad))
 END
 GO
+-----------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_TOP5_CANCELACIONES')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_TOP5_CANCELACIONES
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_TOP5_CANCELACIONES
+AS
+BEGIN
+SELECT COUNT(*) AS Cant, e.Especialidad_Descripcion
+FROM STRANGER_STRINGS.Turno t, STRANGER_STRINGS.Especialidad_X_Medico em JOIN STRANGER_STRINGS.Especialidad e ON(em.Especialidad_Codigo=e.Especialidad_Codigo)
+WHERE em.Id=t.Id_Medico_x_Esp AND t.Id_Cancelacion IS NOT NULL
+GROUP BY t.Id_Medico_x_Esp, e.Especialidad_Descripcion
+ORDER BY 1 DESC
+END
+GO
+
+-----------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_TOP5_PROF_CONSULTADOS')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_TOP5_CANCELACIONES
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_TOP5_CANCELACIONES
