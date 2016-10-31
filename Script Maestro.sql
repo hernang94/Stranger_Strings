@@ -769,13 +769,11 @@ DROP PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNOS_MEDICO
 GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNOS_MEDICO
-@Num_Doc NUMERIC (18,0),
-@Especialidad_Descripcion VARCHAR(255)
+@Num_Doc NUMERIC (18,0)
 AS
 BEGIN
-SELECT t.Turno_Fecha FROM (SELECT em.Id FROM STRANGER_STRINGS.Especialidad e JOIN STRANGER_STRINGS.Especialidad_X_Medico em 
-ON(e.Especialidad_Codigo=em.Especialidad_Codigo) JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
-WHERE m.Num_Doc=@Num_Doc AND e.Especialidad_Descripcion LIKE '%'+@Especialidad_Descripcion+'%') AS TablaAux, STRANGER_STRINGS.Turno t
+SELECT t.Turno_Fecha FROM (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
+WHERE m.Num_Doc=@Num_Doc) AS TablaAux, STRANGER_STRINGS.Turno t
 WHERE TablaAux.Id=t.Id_Medico_x_Esp
 END
 GO
@@ -822,21 +820,18 @@ GO
 CREATE PROCEDURE STRANGER_STRINGS.SP_CANCELAR_TURNOS_DIA_PROFESIONAL
 @Turno_Fecha CHAR(10),
 @Num_Doc NUMERIC(18,0),
-@Especialidad VARCHAR(255),
 @Tipo_Cancelacion CHAR(1),
 @Motivo VARCHAR(225)
 AS
 BEGIN
 DECLARE @Id_Insert INT
-DECLARE @Id_Medico_X_Especialidad INT = (SELECT em.Id FROM STRANGER_STRINGS.Especialidad e JOIN STRANGER_STRINGS.Especialidad_X_Medico em 
-ON(e.Especialidad_Codigo=em.Especialidad_Codigo) JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
-WHERE m.Num_Doc=@Num_Doc AND e.Especialidad_Descripcion LIKE '%'+@Especialidad+'%')
 INSERT INTO STRANGER_STRINGS.Cancelacion_Turno(Tipo_Cancelacion,Motivo)
 VALUES(@Tipo_Cancelacion,@Motivo)
 SET @Id_Insert= SCOPE_IDENTITY()
 UPDATE STRANGER_STRINGS.Turno
 SET Id_Cancelacion=@Id_Insert
-WHERE Id_Medico_x_Esp=@Id_Medico_X_Especialidad AND CONVERT(DATE,Turno_Fecha)=CONVERT(DATETIME,RIGHT(@Turno_Fecha,4)+LEFT(@Turno_Fecha,2)+SUBSTRING(@Turno_Fecha,4,2))
+WHERE Id_Medico_x_Esp IN (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
+WHERE m.Num_Doc=@Num_Doc) AND CONVERT(DATE,Turno_Fecha)=CONVERT(DATETIME,RIGHT(@Turno_Fecha,4)+LEFT(@Turno_Fecha,2)+SUBSTRING(@Turno_Fecha,4,2))
 END
 GO
 -----------------------------------------
@@ -858,15 +853,13 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_CANCELAR_TURNOS_RANGO_PROFESIONAL
 AS
 BEGIN
 DECLARE @Id_Insert INT
-DECLARE @Id_Medico_X_Especialidad INT = (SELECT em.Id FROM STRANGER_STRINGS.Especialidad e JOIN STRANGER_STRINGS.Especialidad_X_Medico em 
-ON(e.Especialidad_Codigo=em.Especialidad_Codigo) JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
-WHERE m.Num_Doc=@Num_Doc AND e.Especialidad_Descripcion LIKE '%'+@Especialidad+'%')
 INSERT INTO STRANGER_STRINGS.Cancelacion_Turno(Tipo_Cancelacion,Motivo)
 VALUES(@Tipo_Cancelacion,@Motivo)
 SET @Id_Insert= SCOPE_IDENTITY()
 UPDATE STRANGER_STRINGS.Turno
 SET Id_Cancelacion=@Id_Insert
-WHERE Id_Medico_x_Esp=@Id_Medico_X_Especialidad AND DATEPART(hh,Turno_Fecha) BETWEEN @Hora_Desde AND @Hora_Hasta AND CONVERT(DATE,Turno_Fecha)=CONVERT(DATETIME,RIGHT(@Turno_Fecha,4)+LEFT(@Turno_Fecha,2)+SUBSTRING(@Turno_Fecha,4,2))
+WHERE Id_Medico_x_Esp IN (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
+WHERE m.Num_Doc=@Num_Doc) AND DATEPART(hh,Turno_Fecha) BETWEEN @Hora_Desde AND @Hora_Hasta AND CONVERT(DATE,Turno_Fecha)=CONVERT(DATETIME,RIGHT(@Turno_Fecha,4)+LEFT(@Turno_Fecha,2)+SUBSTRING(@Turno_Fecha,4,2))
 END
 GO
 -----------------------------------------
