@@ -176,6 +176,7 @@
             this.btRegistrarResultado.Text = "Registrar resultado para atención médica";
             this.btRegistrarResultado.UseVisualStyleBackColor = true;
             this.btRegistrarResultado.Visible = false;
+            this.btRegistrarResultado.Click += new System.EventHandler(this.btRegistrarResultado_Click);
             // 
             // btPedirTurno
             // 

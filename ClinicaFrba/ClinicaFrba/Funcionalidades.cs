@@ -199,18 +199,10 @@ namespace ClinicaFrba
 
         private void btCancelarAtencionMedico_Click(object sender, EventArgs e)
         {
-            if (especXmedico.Count() == 1)
-            {
-                Cancelar_Atencion.CancelarAtencionMedico cancelar_Medico = new Cancelar_Atencion.CancelarAtencionMedico(this, especXmedico[0].Especialidad_Descr);
+                Cancelar_Atencion.CancelarAtencionMedico cancelar_Medico = new Cancelar_Atencion.CancelarAtencionMedico(this);
                 cancelar_Medico.Show();
                 this.Hide();
-            }
-            else
-            {
-                Cancelar_Atencion.SeleccionEspecialidad seleccion_Especialidad = new Cancelar_Atencion.SeleccionEspecialidad(this,especXmedico);
-                seleccion_Especialidad.Show();
-                this.Hide();
-            }
+          
         }
 
         private void pedir_Especilidades_Profesional()
@@ -228,6 +220,14 @@ namespace ClinicaFrba
                     this.especXmedico.Add(esp);
                 }
             }
+        }
+
+        private void btRegistrarResultado_Click(object sender, EventArgs e)
+        {
+            Cancelar_Atencion.SeleccionEspecialidad seleccion_Especialidad = new Cancelar_Atencion.SeleccionEspecialidad(this, especXmedico);
+            seleccion_Especialidad.Show();
+            this.Hide();
+            
         }
     }
 }

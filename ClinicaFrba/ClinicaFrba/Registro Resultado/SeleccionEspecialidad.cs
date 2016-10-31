@@ -24,8 +24,8 @@ namespace ClinicaFrba.Cancelar_Atencion
 
         private void btAceptar_Click(object sender, EventArgs e)
         {
-            Cancelar_Atencion.CancelarAtencionMedico cancelar_Medico = new Cancelar_Atencion.CancelarAtencionMedico(this.fun, cbEspecialidades.Text);
-            cancelar_Medico.Show();
+            Registro_Resultado.Form1 reg = new Registro_Resultado.Form1(this.fun, cbEspecialidades.Text, dtFecha.Text);
+            reg.Show();
             this.Hide();
         }
 
