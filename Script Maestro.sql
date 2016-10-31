@@ -832,6 +832,10 @@ UPDATE STRANGER_STRINGS.Turno
 SET Id_Cancelacion=@Id_Insert
 WHERE Id_Medico_x_Esp IN (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
 WHERE m.Num_Doc=@Num_Doc) AND CONVERT(DATE,Turno_Fecha)=CONVERT(DATETIME,RIGHT(@Turno_Fecha,4)+LEFT(@Turno_Fecha,2)+SUBSTRING(@Turno_Fecha,4,2))
+UPDATE STRANGER_STRINGS.Turno
+SET Id_Horario=NULL
+WHERE Id_Medico_x_Esp IN (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
+WHERE m.Num_Doc=@Num_Doc) AND CONVERT(DATE,Turno_Fecha)=CONVERT(DATETIME,RIGHT(@Turno_Fecha,4)+LEFT(@Turno_Fecha,2)+SUBSTRING(@Turno_Fecha,4,2))
 END
 GO
 -----------------------------------------
@@ -857,6 +861,10 @@ VALUES(@Tipo_Cancelacion,@Motivo)
 SET @Id_Insert= SCOPE_IDENTITY()
 UPDATE STRANGER_STRINGS.Turno
 SET Id_Cancelacion=@Id_Insert
+WHERE Id_Medico_x_Esp IN (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
+WHERE m.Num_Doc=@Num_Doc) AND Turno_Fecha BETWEEN CONVERT(DATETIME,RIGHT(@Fecha_Desde,4)+LEFT(@Fecha_Desde,2)+SUBSTRING(@Fecha_Desde,4,2)) AND CONVERT(DATETIME,RIGHT(@Fecha_Hasta,4)+LEFT(@Fecha_Hasta,2)+SUBSTRING(@Fecha_Hasta,4,2))
+UPDATE STRANGER_STRINGS.Turno
+SET Id_Horario=NULL
 WHERE Id_Medico_x_Esp IN (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
 WHERE m.Num_Doc=@Num_Doc) AND Turno_Fecha BETWEEN CONVERT(DATETIME,RIGHT(@Fecha_Desde,4)+LEFT(@Fecha_Desde,2)+SUBSTRING(@Fecha_Desde,4,2)) AND CONVERT(DATETIME,RIGHT(@Fecha_Hasta,4)+LEFT(@Fecha_Hasta,2)+SUBSTRING(@Fecha_Hasta,4,2))
 END
@@ -901,14 +909,14 @@ BEGIN
 RAISERROR('Paciente dado de baja anteriormente',10,1)
 RETURN
 END
-			UPDATE STRANGER_STRINGS.Paciente
-			SET Estado_Afiliado = 'D'
-			WHERE Num_Doc=@Num_Doc
+UPDATE STRANGER_STRINGS.Paciente
+SET Estado_Afiliado = 'D'
+WHERE Num_Doc=@Num_Doc
 			
-			INSERT INTO STRANGER_STRINGS.Baja_Paciente(Id_Paciente,Fecha_Baja)
-			VALUES ((SELECT p.Id_Paciente FROM STRANGER_STRINGS.Paciente p WHERE p.Num_Doc=@Num_Doc),GETDATE())
-			END
-			GO
+INSERT INTO STRANGER_STRINGS.Baja_Paciente(Id_Paciente,Fecha_Baja)
+VALUES ((SELECT p.Id_Paciente FROM STRANGER_STRINGS.Paciente p WHERE p.Num_Doc=@Num_Doc),GETDATE())
+END
+GO
 -----------------------------------------
 IF EXISTS(SELECT  *
             FROM    sys.objects
@@ -1067,6 +1075,37 @@ GO
 -----------------------------------------
 IF EXISTS(SELECT  *
             FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_OBTENER_ESPECIALIDADES')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_OBTENER_ESPECIALIDADES
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_OBTENER_ESPECIALIDADES
+AS
+BEGIN
+SELECT Especialidad_Descripcion FROM STRANGER_STRINGS.Especialidad
+END
+GO
+-----------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_OBTENER_MEDICOS')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_OBTENER_MEDICOS
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_OBTENER_MEDICOS
+@Especialidad_Descripcion VARCHAR(255)
+AS
+BEGIN
+SELECT m.Nombre, m.Apellido, m.Num_Doc FROM STRANGER_STRINGS.Especialidad_X_Medico em JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico) 
+JOIN STRANGER_STRINGS.Especialidad e ON(em.Especialidad_Codigo=e.Especialidad_Codigo)
+WHERE e.Especialidad_Descripcion LIKE '%'+@Especialidad_Descripcion+'%'
+END
+GO
+-----------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
             WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_TOP5_CANCELACIONES')
                     AND type IN ( N'P', N'PC' ) )
 DROP PROCEDURE STRANGER_STRINGS.SP_TOP5_CANCELACIONES
@@ -1084,11 +1123,4 @@ END
 GO
 
 -----------------------------------------
-IF EXISTS(SELECT  *
-            FROM    sys.objects
-            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_TOP5_PROF_CONSULTADOS')
-                    AND type IN ( N'P', N'PC' ) )
-DROP PROCEDURE STRANGER_STRINGS.SP_TOP5_CANCELACIONES
-GO
 
-CREATE PROCEDURE STRANGER_STRINGS.SP_TOP5_CANCELACIONES
