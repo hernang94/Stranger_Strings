@@ -953,7 +953,6 @@ DROP PROCEDURE STRANGER_STRINGS.SP_REGISTRAR_RESULTADO_CONSULTA
 GO
 
 
-
 CREATE PROCEDURE STRANGER_STRINGS.SP_REGISTRAR_RESULTADO_CONSULTA
 @Id_Consulta INT,
 @Fecha_Y_Hora_Atencion DATETIME,
@@ -967,18 +966,25 @@ WHERE Id_Consulta=@Id_Consulta
 END
 GO
 
-CREATE PROCEDURE STRANGER_STRINGS.PEDIR_TURNO_MEDICO_FECHA
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_PEDIR_TURNO_MEDICO_FECHA')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNO_MEDICO_FECHA
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNO_MEDICO_FECHA
 @Num_Doc INT,
-@Cod_Especialidad INT,
-@Fecha DATETIME
+@Especialidad VARCHAR(255),
+@Fecha CHAR(10)
 AS
 BEGIN
 SELECT t.Turno_Fecha,p.Nombre,p.Apellido,t.Id_Consulta
 		FROM STRANGER_STRINGS.Turno t JOIN Paciente p ON (p.Id_Paciente=t.Id_Paciente)
 		WHERE t.Id_Medico_x_Esp=(SELECT es.Id FROM STRANGER_STRINGS.Especialidad_X_Medico es 
-												WHERE es.Especialidad_Codigo=@Cod_Especialidad AND es.Id_Medico=(SELECT m.Id_Medico 
+												WHERE (SELECT e.Especialidad_Codigo  FROM STRANGER_STRINGS.Especialidad e WHERE Especialidad_Descripcion=@Especialidad)=es.Especialidad_Codigo AND es.Id_Medico=(SELECT m.Id_Medico 
 												FROM STRANGER_STRINGS.Medico m WHERE m.Num_Doc=@Num_Doc))
-		AND DATEDIFF(day,@Fecha,t.Turno_Fecha)=0
+		AND CONVERT(DATE,t.Turno_Fecha)=CONVERT(DATETIME,RIGHT(@Fecha,4)+LEFT(@Fecha,2)+SUBSTRING(@Fecha,4,2))
 END
 GO
 

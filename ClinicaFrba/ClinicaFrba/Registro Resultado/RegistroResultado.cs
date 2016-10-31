@@ -49,9 +49,9 @@ namespace ClinicaFrba.Registro_Resultado
 
                 List<SqlParameter> paramList = new List<SqlParameter>();
                 paramList.Add(new SqlParameter("@Id_Consulta", turno.id_Consulta));
-                paramList.Add(new SqlParameter("@Fecha_Y_Hora_Atencion", null));
-                paramList.Add(new SqlParameter("@Sintomas", null));
-                paramList.Add(new SqlParameter("@Enfermedades", null));
+                paramList.Add(new SqlParameter("@Fecha_Y_Hora_Atencion", DBNull.Value));
+                paramList.Add(new SqlParameter("@Sintomas", DBNull.Value));
+                paramList.Add(new SqlParameter("@Diagnostico", DBNull.Value));
                 BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_REGISTRAR_RESULTADO_CONSULTA", "SP", paramList);
             }
             else
@@ -60,7 +60,7 @@ namespace ClinicaFrba.Registro_Resultado
                 paramList.Add(new SqlParameter("@Id_Consulta", turno.id_Consulta));
                 paramList.Add(new SqlParameter("@Fecha_Y_Hora_Atencion", dtFechaHora.Value.ToString()));
                 paramList.Add(new SqlParameter("@Sintomas", txtSintomas.Text));
-                paramList.Add(new SqlParameter("@Enfermedades", txtEnfermedades.Text));
+                paramList.Add(new SqlParameter("@Diagnostico", txtEnfermedades.Text));
                 BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_REGISTRAR_RESULTADO_CONSULTA", "SP", paramList);
             }
           
@@ -72,6 +72,12 @@ namespace ClinicaFrba.Registro_Resultado
             {
                 lbConsultaRegistrada.Visible = false;
             }
+        }
+
+        private void btVolver_Click_1(object sender, EventArgs e)
+        {
+            sel.Show();
+            this.Close();
         }
     }
 }

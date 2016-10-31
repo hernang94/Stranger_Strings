@@ -38,7 +38,7 @@ namespace ClinicaFrba.Registro_Resultado
             DataGridViewTextBoxColumn colPaciente = new DataGridViewTextBoxColumn();
             colPaciente.DataPropertyName = "apellido_Pac";
             colPaciente.HeaderText = "Paciente";
-            colPaciente.Width = 75;
+            colPaciente.Width = 210;
             DataGridViewTextBoxColumn colNombre = new DataGridViewTextBoxColumn();
             colNombre.DataPropertyName = "nombre_Pac";
             colNombre.HeaderText = "Nombre";
@@ -55,7 +55,7 @@ namespace ClinicaFrba.Registro_Resultado
             paramList.Add(new SqlParameter("@Num_Doc", fun.user.Nombre ));
             paramList.Add(new SqlParameter("@Especialidad", Especialidad));
             paramList.Add(new SqlParameter("@Fecha", fecha));
-            SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_PEDIR_TURNOS_FECHA", "SP", paramList);
+            SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_PEDIR_TURNO_MEDICO_FECHA", "SP", paramList);
             if (lector.HasRows)
             {
                 while (lector.Read())
@@ -68,7 +68,10 @@ namespace ClinicaFrba.Registro_Resultado
                     listaTurnos.Add(turno);
                 }
             }
-            dtgTurnos.DataSource = listaTurnos;
+            dtgTurnos.DataSource= listaTurnos;
+            dtgTurnos.Columns["apellido_Prof"].Visible = false;
+            dtgTurnos.Columns["especialidad"].Visible = false;
+            dtgTurnos.Columns["id_Consulta"].Visible = false;
         }
 
         private void btAceptar_Click(object sender, EventArgs e)

@@ -31,7 +31,7 @@ namespace ClinicaFrba.Registro_Resultado
 
         private void btAceptar_Click_1(object sender, EventArgs e)
         {
-            Registro_Resultado.SeleccionTurno turno = new Registro_Resultado.SeleccionTurno(fun,this, cbEspecialidades.Text, dtFecha.Text);
+            Registro_Resultado.SeleccionTurno turno = new Registro_Resultado.SeleccionTurno(fun,this, cbEspecialidades.Text, dtFecha.Value.ToString());
             turno.Show();
             this.Hide();
         }
