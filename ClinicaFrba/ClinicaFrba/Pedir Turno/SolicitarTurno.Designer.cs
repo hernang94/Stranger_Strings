@@ -31,13 +31,13 @@
             this.lbEspecialidad = new System.Windows.Forms.Label();
             this.cbEspecialidad = new System.Windows.Forms.ComboBox();
             this.gbBuscarMedico = new System.Windows.Forms.GroupBox();
-            this.lbProfesionales = new System.Windows.Forms.Label();
             this.cbProfesionales = new System.Windows.Forms.ComboBox();
+            this.lbProfesionales = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lbFechasDisp = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.lbHorariosDisp = new System.Windows.Forms.Label();
             this.cbHorariosDisp = new System.Windows.Forms.ComboBox();
+            this.lbHorariosDisp = new System.Windows.Forms.Label();
+            this.cbFecha = new System.Windows.Forms.ComboBox();
+            this.lbFechasDisp = new System.Windows.Forms.Label();
             this.btAceptar = new System.Windows.Forms.Button();
             this.btCancelar = new System.Windows.Forms.Button();
             this.gbBuscarMedico.SuspendLayout();
@@ -61,6 +61,7 @@
             this.cbEspecialidad.Name = "cbEspecialidad";
             this.cbEspecialidad.Size = new System.Drawing.Size(121, 21);
             this.cbEspecialidad.TabIndex = 1;
+            this.cbEspecialidad.SelectedIndexChanged += new System.EventHandler(this.cbEspecialidad_SelectedIndexChanged);
             // 
             // gbBuscarMedico
             // 
@@ -75,6 +76,15 @@
             this.gbBuscarMedico.TabStop = false;
             this.gbBuscarMedico.Text = "Seleccione el profesional";
             // 
+            // cbProfesionales
+            // 
+            this.cbProfesionales.FormattingEnabled = true;
+            this.cbProfesionales.Location = new System.Drawing.Point(153, 63);
+            this.cbProfesionales.Name = "cbProfesionales";
+            this.cbProfesionales.Size = new System.Drawing.Size(121, 21);
+            this.cbProfesionales.TabIndex = 3;
+            this.cbProfesionales.SelectedIndexChanged += new System.EventHandler(this.cbProfesionales_SelectedIndexChanged);
+            // 
             // lbProfesionales
             // 
             this.lbProfesionales.AutoSize = true;
@@ -85,19 +95,11 @@
             this.lbProfesionales.Text = "Profesionales";
             this.lbProfesionales.Click += new System.EventHandler(this.label2_Click);
             // 
-            // cbProfesionales
-            // 
-            this.cbProfesionales.FormattingEnabled = true;
-            this.cbProfesionales.Location = new System.Drawing.Point(153, 63);
-            this.cbProfesionales.Name = "cbProfesionales";
-            this.cbProfesionales.Size = new System.Drawing.Size(121, 21);
-            this.cbProfesionales.TabIndex = 3;
-            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.cbHorariosDisp);
             this.groupBox1.Controls.Add(this.lbHorariosDisp);
-            this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Controls.Add(this.cbFecha);
             this.groupBox1.Controls.Add(this.lbFechasDisp);
             this.groupBox1.Location = new System.Drawing.Point(12, 137);
             this.groupBox1.Name = "groupBox1";
@@ -106,23 +108,14 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Seleccione el turno";
             // 
-            // lbFechasDisp
+            // cbHorariosDisp
             // 
-            this.lbFechasDisp.AutoSize = true;
-            this.lbFechasDisp.Location = new System.Drawing.Point(20, 26);
-            this.lbFechasDisp.Name = "lbFechasDisp";
-            this.lbFechasDisp.Size = new System.Drawing.Size(97, 13);
-            this.lbFechasDisp.TabIndex = 0;
-            this.lbFechasDisp.Text = "Fechas disponibles";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(153, 23);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 4;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged_1);
+            this.cbHorariosDisp.FormattingEnabled = true;
+            this.cbHorariosDisp.Location = new System.Drawing.Point(153, 61);
+            this.cbHorariosDisp.Name = "cbHorariosDisp";
+            this.cbHorariosDisp.Size = new System.Drawing.Size(121, 21);
+            this.cbHorariosDisp.TabIndex = 6;
+            this.cbHorariosDisp.SelectedIndexChanged += new System.EventHandler(this.cbHorariosDisp_SelectedIndexChanged);
             // 
             // lbHorariosDisp
             // 
@@ -134,13 +127,23 @@
             this.lbHorariosDisp.Text = "Horarios disponibles";
             this.lbHorariosDisp.Click += new System.EventHandler(this.label1_Click_1);
             // 
-            // cbHorariosDisp
+            // cbFecha
             // 
-            this.cbHorariosDisp.FormattingEnabled = true;
-            this.cbHorariosDisp.Location = new System.Drawing.Point(153, 61);
-            this.cbHorariosDisp.Name = "cbHorariosDisp";
-            this.cbHorariosDisp.Size = new System.Drawing.Size(121, 21);
-            this.cbHorariosDisp.TabIndex = 6;
+            this.cbFecha.FormattingEnabled = true;
+            this.cbFecha.Location = new System.Drawing.Point(153, 23);
+            this.cbFecha.Name = "cbFecha";
+            this.cbFecha.Size = new System.Drawing.Size(121, 21);
+            this.cbFecha.TabIndex = 4;
+            this.cbFecha.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged_1);
+            // 
+            // lbFechasDisp
+            // 
+            this.lbFechasDisp.AutoSize = true;
+            this.lbFechasDisp.Location = new System.Drawing.Point(20, 26);
+            this.lbFechasDisp.Name = "lbFechasDisp";
+            this.lbFechasDisp.Size = new System.Drawing.Size(97, 13);
+            this.lbFechasDisp.TabIndex = 0;
+            this.lbFechasDisp.Text = "Fechas disponibles";
             // 
             // btAceptar
             // 
@@ -173,6 +176,7 @@
             this.Controls.Add(this.gbBuscarMedico);
             this.Name = "formSolicitarTurno";
             this.Text = "Solicitar Turno";
+            this.Load += new System.EventHandler(this.formSolicitarTurno_Load);
             this.gbBuscarMedico.ResumeLayout(false);
             this.gbBuscarMedico.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -189,7 +193,7 @@
         private System.Windows.Forms.Label lbProfesionales;
         private System.Windows.Forms.ComboBox cbProfesionales;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cbFecha;
         private System.Windows.Forms.Label lbFechasDisp;
         private System.Windows.Forms.Label lbHorariosDisp;
         private System.Windows.Forms.ComboBox cbHorariosDisp;

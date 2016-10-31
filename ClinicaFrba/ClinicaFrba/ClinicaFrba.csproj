@@ -97,6 +97,7 @@
     <Compile Include="BD\EntidadesDAL\UsuarioDAL.cs" />
     <Compile Include="BD\Entidades\Especialidad.cs" />
     <Compile Include="BD\Entidades\Paciente.cs" />
+    <Compile Include="BD\Entidades\Profesional.cs" />
     <Compile Include="BD\Entidades\Rol.cs" />
     <Compile Include="BD\Entidades\Turno.cs" />
     <Compile Include="BD\Entidades\Usuario.cs" />
