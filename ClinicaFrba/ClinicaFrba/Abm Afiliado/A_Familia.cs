@@ -60,7 +60,7 @@ namespace ClinicaFrba.Abm_Afiliado
             lista.Add(new SqlParameter("@fecha_Nac", dateFechaNac.Value));
             lista.Add(new SqlParameter("@sexo", cbSexo.Text.Substring(0, 1)));
             lista.Add(new SqlParameter("@estado_Civil", cbEstadoCivil.Text));
-            lista.Add(new SqlParameter("@plan_Med", cbPlanMedico.SelectedIndex));
+            lista.Add(new SqlParameter("@plan_Med", "Plan Medico "+ cbPlanMedico.Text));
             lista.Add(new SqlParameter("@num_raiz", num_raiz));
             lista.Add(new SqlParameter("@num_resto",numero));
             BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_ALTA_FAMILIA", "SP", lista);

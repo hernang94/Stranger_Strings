@@ -88,6 +88,7 @@
             this.btVolver.TabIndex = 45;
             this.btVolver.Text = "Volver";
             this.btVolver.UseVisualStyleBackColor = true;
+            this.btVolver.Click += new System.EventHandler(this.btVolver_Click);
             // 
             // cbPlanMedico
             // 

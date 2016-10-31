@@ -55,7 +55,7 @@ namespace ClinicaFrba.Abm_Afiliado
             paramlist.Add(new SqlParameter("@Mail", txtMail.Text));
             paramlist.Add(new SqlParameter("@Fecha_Nac", dtpFechaNac.Value));
             paramlist.Add(new SqlParameter("@Sexo", paciente.Sexo));
-            paramlist.Add(new SqlParameter("@Estado_Civil", cbEstadoCivi.SelectedText));
+            paramlist.Add(new SqlParameter("@Estado_Civil", cbEstadoCivi.SelectedItem));
             paramlist.Add(new SqlParameter("@Familiares_A_Cargo", paciente.Familiares_A_Cargo));
             BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_MODIFICAR_AFILIADO", "SP", paramlist);
 
@@ -69,7 +69,6 @@ namespace ClinicaFrba.Abm_Afiliado
         {
             Abm_Afiliado.Cambio_De_Plan cp = new Abm_Afiliado.Cambio_De_Plan(fun,paciente);
             cp.Show();
-            this.Close();
         }
     }
 }

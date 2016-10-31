@@ -25,10 +25,13 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void Cambio_De_Plan_Load(object sender, EventArgs e)
         {
-            if(cbPlanMedico.Items.Contains(paciente.PlanMedico))
+            string plan;
+            plan = paciente.PlanMedico.Substring(12, 3);
+            if(cbPlanMedico.Items.Contains(plan))
             {
-                cbPlanMedico.Items.Remove(paciente.PlanMedico);
+                cbPlanMedico.Items.Remove(plan);
             }
+
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -43,13 +46,19 @@ namespace ClinicaFrba.Abm_Afiliado
         {
             List<SqlParameter> listParam = new List<SqlParameter>();
             listParam.Add(new SqlParameter("@Num_Doc", paciente.Num_Doc));
-            listParam.Add(new SqlParameter("@Motivo", lbMotivo));
+            listParam.Add(new SqlParameter("@Motivo", lbMotivo.Text));
             listParam.Add(new SqlParameter("@Descripcion_Plan_Viejo", paciente.PlanMedico));
-            listParam.Add(new SqlParameter("@Descripcion_Plan_Nuevo", cbPlanMedico.Text));
+            listParam.Add(new SqlParameter("@Descripcion_Plan_Nuevo", "Plan Medico "+cbPlanMedico.Text));
             BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_CAMBIO_PLAN", "SP", listParam);
 
             lbPlanMod.Visible = true;
             timer1.Enabled = true;
+            this.Close();
+        }
+
+        private void btVolver_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
