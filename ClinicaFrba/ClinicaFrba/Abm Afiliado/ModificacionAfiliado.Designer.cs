@@ -135,6 +135,7 @@
             this.btCambioPlan.TabIndex = 5;
             this.btCambioPlan.Text = "Cambio de Plan";
             this.btCambioPlan.UseVisualStyleBackColor = true;
+            this.btCambioPlan.Click += new System.EventHandler(this.btCambioPlan_Click);
             // 
             // ModificacionAfiliado
             // 
