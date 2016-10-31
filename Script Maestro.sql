@@ -321,7 +321,7 @@ SET Id_Consulta=(SELECT TOP 1 id_cons FROM
 (SELECT c.Id_Consulta as id_cons, c.Id_Paciente as id_pas, c.Fecha_Y_Hora_Llegada as fecha 
 FROM STRANGER_STRINGS.Consulta c 
 JOIN STRANGER_STRINGS.Bono b ON(b.Id_Bono=c.Bono_Consulta_Id))As tablaAux
-WHERE  tablaAux.fecha=Turno_Fecha AND tablaAux.id_pas=Id_Paciente)
+WHERE  tablaAux.id_pas=Id_Paciente AND tablaAux.fecha=Turno_Fecha )
 
 UPDATE STRANGER_STRINGS.TURNO
 SET Id_Horario = (SELECT Id_Horario FROM STRANGER_STRINGS.Horarios_Agenda h
