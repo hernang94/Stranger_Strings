@@ -106,10 +106,10 @@
     <Compile Include="Cancelar Atencion\CancelarAtencionAfiliado.Designer.cs">
       <DependentUpon>CancelarAtencionAfiliado.cs</DependentUpon>
     </Compile>
-    <Compile Include="Cancelar Atencion\SeleccionEspecialidad.cs">
+    <Compile Include="Registro Resultado\SeleccionEspecialidad.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Cancelar Atencion\SeleccionEspecialidad.Designer.cs">
+    <Compile Include="Registro Resultado\SeleccionEspecialidad.Designer.cs">
       <DependentUpon>SeleccionEspecialidad.cs</DependentUpon>
     </Compile>
     <Compile Include="Compra Bono\Form1.cs">
@@ -177,7 +177,7 @@
     <EmbeddedResource Include="Cancelar Atencion\CancelarAtencionMedico.resx">
       <DependentUpon>CancelarAtencionMedico.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Cancelar Atencion\SeleccionEspecialidad.resx">
+    <EmbeddedResource Include="Registro Resultado\SeleccionEspecialidad.resx">
       <DependentUpon>SeleccionEspecialidad.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Funcionalidades.resx">
@@ -198,6 +198,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Registro Resultado\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
