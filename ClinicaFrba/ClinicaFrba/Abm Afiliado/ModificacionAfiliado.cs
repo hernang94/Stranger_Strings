@@ -64,5 +64,12 @@ namespace ClinicaFrba.Abm_Afiliado
             dtgCliente.DataSource=null;
             this.Close();
         }
+
+        private void btCambioPlan_Click(object sender, EventArgs e)
+        {
+            Abm_Afiliado.Cambio_De_Plan cp = new Abm_Afiliado.Cambio_De_Plan(fun,paciente);
+            cp.Show();
+            this.Close();
+        }
     }
 }
