@@ -1106,6 +1106,44 @@ GO
 -----------------------------------------
 IF EXISTS(SELECT  *
             FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_OBTENER_FECHAS')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_OBTENER_FECHAS
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_OBTENER_FECHAS
+@Num_Doc NUMERIC(18,0),
+@Especialidad_Descripcion VARCHAR(255)
+AS
+BEGIN
+DECLARE @Id_Medico_X_Especialidad INT = (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em 
+JOIN STRANGER_STRINGS.Especialidad e ON(em.Especialidad_Codigo=e.Especialidad_Codigo) JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
+WHERE m.Num_Doc=@Num_Doc AND e.Especialidad_Descripcion LIKE '%'+@Especialidad_Descripcion+'%')
+SELECT Dia FROM STRANGER_STRINGS.Horarios_Agenda WHERE @Id_Medico_X_Especialidad=Id_Especialidad_Medico
+END
+GO
+-----------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_OBTENER_HORARIOS')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_OBTENER_HORARIOS
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_OBTENER_HORARIOS
+@Num_Doc NUMERIC(18,0),
+@Especialidad_Descripcion VARCHAR(255),
+@Fecha CHAR(10)
+AS
+BEGIN
+DECLARE @Id_Medico_X_Especialidad INT = (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em 
+JOIN STRANGER_STRINGS.Especialidad e ON(em.Especialidad_Codigo=e.Especialidad_Codigo) JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
+WHERE m.Num_Doc=@Num_Doc AND e.Especialidad_Descripcion LIKE '%'+@Especialidad_Descripcion+'%')
+END
+GO
+-----------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
             WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_TOP5_CANCELACIONES')
                     AND type IN ( N'P', N'PC' ) )
 DROP PROCEDURE STRANGER_STRINGS.SP_TOP5_CANCELACIONES
