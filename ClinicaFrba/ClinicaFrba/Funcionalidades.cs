@@ -229,5 +229,12 @@ namespace ClinicaFrba
             this.Hide();
             
         }
+
+        private void btCompraBono_Click(object sender, EventArgs e)
+        {
+            Compra_Bono.CompraBono compraBono = new Compra_Bono.CompraBono(this);
+            compraBono.Show();
+            this.Hide();
+        }
     }
 }

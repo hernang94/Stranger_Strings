@@ -198,6 +198,7 @@
             this.btCompraBono.Text = "Comprar Bono";
             this.btCompraBono.UseVisualStyleBackColor = true;
             this.btCompraBono.Visible = false;
+            this.btCompraBono.Click += new System.EventHandler(this.btCompraBono_Click);
             // 
             // btVolver
             // 

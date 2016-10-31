@@ -136,15 +136,20 @@ namespace ClinicaFrba.Pedir_Turno
             listParam.Add(new SqlParameter("@Num_Doc", prof.Dni));
             listParam.Add(new SqlParameter("@Especialidad_Descripcion", cbEspecialidad.SelectedItem));
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_OBTENER_FECHAS", "SP", listParam);
+            List<decimal> dias = new List<decimal>();
             if (lector.HasRows)
             {
                 while (lector.Read())
                 {
-                    cbFecha.Items.Add((DateTime)lector["Fecha"]);
+                    dias.Add((decimal)lector["Dia"]);
                 }
             }
-        }
+            for (int i = 0; i < dias.Count(); i++)
+            {
  
+            }
+        }
+
         public void obtenerYMostrarHorarios()
         {
             BD.Entidades.Profesional prof = obtenerProfesionalDeString(cbProfesionales.Text);

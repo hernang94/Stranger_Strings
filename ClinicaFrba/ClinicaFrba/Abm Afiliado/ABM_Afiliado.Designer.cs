@@ -232,11 +232,11 @@
             this.lbConjunto.AutoSize = true;
             this.lbConjunto.Location = new System.Drawing.Point(92, 21);
             this.lbConjunto.Name = "lbConjunto";
-            this.lbConjunto.Size = new System.Drawing.Size(150, 299);
+            this.lbConjunto.Size = new System.Drawing.Size(149, 299);
             this.lbConjunto.TabIndex = 1;
             this.lbConjunto.Text = "Nombre\r\n\r\nApellido\r\n\r\nNro. Documento\r\n\r\nTipo Documento\r\n\r\nDirección\r\n\r\nTeléfono\r\n" +
     "\r\nMail\r\n\r\nFecha de Nacimiento\r\n\r\nSexo\r\n\r\nEstado Civil\r\n\r\nCantidad de familiares " +
-    "a Cargo\r\n\r\nPlan Médico\r\n";
+    "a cargo\r\n\r\nPlan Médico\r\n";
             this.lbConjunto.Click += new System.EventHandler(this.label1_Click_1);
             // 
             // tpBajaModif
