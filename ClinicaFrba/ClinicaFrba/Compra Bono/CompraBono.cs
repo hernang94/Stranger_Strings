@@ -16,6 +16,8 @@ namespace ClinicaFrba.Compra_Bono
         Funcionalidades fun;
         decimal precio = 0;
         decimal unidades;
+        BD.Entidades.Paciente paciente = new BD.Entidades.Paciente(); 
+
 
         public CompraBono(Funcionalidades fun)
         {
@@ -40,16 +42,32 @@ namespace ClinicaFrba.Compra_Bono
 
         private void btCalcularPrecio_Click(object sender, EventArgs e)
         {
+            obtenerPlan();
             obtenerPrecioBonoSegunPlan();
             unidades = nudCantidadBonos.Value;
             lbPrecioTotal.Text = "$ " + (precio*unidades);
             lbPrecioTotal.Visible = true;
         }
 
-        private void obtenerPrecioBonoSegunPlan()
+        private void obtenerPlan() 
         {
             List<SqlParameter> paramlist = new List<SqlParameter>();
             paramlist.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Nombre)));
+            SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_BUSCAR_AFILIADO", "SP", paramlist);
+
+            if (lector.HasRows)
+            {
+                while (lector.Read())
+                {
+                    paciente.PlanMedico = (string)lector["Descripcion"];
+                }
+            }
+        }
+
+        private void obtenerPrecioBonoSegunPlan()
+        {
+            List<SqlParameter> paramlist = new List<SqlParameter>();
+            paramlist.Add(new SqlParameter("@Descripcion", paciente.PlanMedico));
 
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_GET_PRECIO_BONO", "SP", paramlist);
             if (lector.HasRows)

@@ -80,7 +80,7 @@
             this.lbPrecioTotal.AutoSize = true;
             this.lbPrecioTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbPrecioTotal.ForeColor = System.Drawing.Color.Blue;
-            this.lbPrecioTotal.Location = new System.Drawing.Point(97, 99);
+            this.lbPrecioTotal.Location = new System.Drawing.Point(107, 99);
             this.lbPrecioTotal.Name = "lbPrecioTotal";
             this.lbPrecioTotal.Size = new System.Drawing.Size(74, 20);
             this.lbPrecioTotal.TabIndex = 5;

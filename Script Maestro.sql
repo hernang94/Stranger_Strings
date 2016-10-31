@@ -973,6 +973,7 @@ WHERE Id_Consulta=@Id_Consulta
 END
 GO
 -----------------------------------------
+
 IF EXISTS(SELECT  *
             FROM    sys.objects
             WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_PEDIR_TURNO_MEDICO_FECHA')
@@ -1162,3 +1163,44 @@ GO
 
 -----------------------------------------
 
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_GET_PRECIO_BONO')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_GET_PRECIO_BONO
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_GET_PRECIO_BONO
+@Descripcion VARCHAR(255)
+AS
+BEGIN
+SELECT p.Precio_Bono_Consulta
+	FROM STRANGER_STRINGS.Plan_Medico p
+	WHERE p.Descripcion=@Descripcion
+END
+GO
+
+-----------------------------------------
+
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_COMPRA_BONOS')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_COMPRA_BONOS
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_COMPRA_BONOS
+@Num_Doc NUMERIC(18,0),
+@Fecha_Compra DATETIME,
+@Cantidad_Bonos INT,
+@Importe_Total NUMERIC(7,2)
+AS
+BEGIN
+DECLARE @Id_Compra INT= SCOPE_IDENTITY()
+
+UPDATE STRANGER_STRINGS.Compra
+SET Id_Compra=@Id_Compra,Fecha_Compra=@Fecha_Compra,Cantidad_Bonos=@Cantidad_Bonos,Importe_Total=@Importe_Total,Id_Paciente=@Num_Doc
+END
+GO
+
+-----------------------------------------
