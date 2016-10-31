@@ -878,7 +878,7 @@ FROM STRANGER_STRINGS.Paciente p JOIN STRANGER_STRINGS.Plan_Medico pm ON(p.Codig
 WHERE p.Num_Doc=@Num_Doc AND p.Estado_Afiliado!='D'
 END 
 GO
-
+-----------------------------------------
 IF EXISTS(SELECT  *
             FROM    sys.objects
             WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_BAJA_AFILIADO')
@@ -909,7 +909,7 @@ END
 			VALUES ((SELECT p.Id_Paciente FROM STRANGER_STRINGS.Paciente p WHERE p.Num_Doc=@Num_Doc),GETDATE())
 			END
 			GO
-
+-----------------------------------------
 IF EXISTS(SELECT  *
             FROM    sys.objects
             WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_MODIFICAR_AFILIADO')
@@ -942,8 +942,7 @@ SET Direccion=@Direccion,Telefono=@Telefono,Mail=@Mail,Fecha_Nac=@Fecha_Nac,Esta
 WHERE Num_Doc=@Num_Doc
 END 
 GO
-
-
+-----------------------------------------
 
 IF EXISTS(SELECT  *
             FROM    sys.objects
@@ -965,7 +964,7 @@ SET Fecha_Y_Hora_Atencion=@Fecha_Y_Hora_Atencion,Sintomas=@Sintomas, Enfermedade
 WHERE Id_Consulta=@Id_Consulta
 END
 GO
-
+-----------------------------------------
 IF EXISTS(SELECT  *
             FROM    sys.objects
             WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_PEDIR_TURNO_MEDICO_FECHA')
@@ -987,7 +986,7 @@ SELECT t.Turno_Fecha,p.Nombre,p.Apellido,t.Id_Consulta
 		AND CONVERT(DATE,t.Turno_Fecha)=CONVERT(DATETIME,RIGHT(@Fecha,4)+LEFT(@Fecha,2)+SUBSTRING(@Fecha,4,2))
 END
 GO
-
+-----------------------------------------
 
 IF EXISTS(SELECT  *
             FROM    sys.objects
@@ -1013,3 +1012,28 @@ SET	Codigo_Plan=@Id_Plan_Nuevo
 WHERE Id_Paciente=@Id_Afiliado
 END
 GO
+-----------------------------------------
+
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_ALTA_AGENDA')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_ALTA_AGENDA
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_ALTA_AGENDA
+@Num_Doc NUMERIC(18,0),
+@Especialidad_Descripcion VARCHAR(255),
+@Dia_Semana SMALLINT,
+@Hora_Desde CHAR(2),
+@Hora_Hasta CHAR(2)
+AS
+BEGIN
+DECLARE @Id_Medico_X_Especialidad INT= (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em 
+JOIN STRANGER_STRINGS.Especialidad e ON(em.Especialidad_Codigo=e.Especialidad_Codigo) JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
+WHERE m.Num_Doc=@Num_Doc AND e.Especialidad_Descripcion LIKE '%'+@Especialidad_Descripcion+'%')
+INSERT INTO STRANGER_STRINGS.Horarios_Agenda(Dia,Hora_Desde,Hora_Hasta,Id_Especialidad_Medico)
+VALUES(@Dia_Semana,CAST(@Hora_Desde+':00'AS TIME(0)),CAST(@Hora_Hasta+':00' AS TIME(0)),@Id_Medico_X_Especialidad)
+END
+GO
+-----------------------------------------
