@@ -1177,9 +1177,25 @@ GROUP BY t.Id_Medico_x_Esp, e.Especialidad_Descripcion
 ORDER BY 1 DESC
 END
 GO
-
 -----------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_TOP5_BONOS_ESPECIALIDAD')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_TOP5_BONOS_ESPECIALIDAD
+GO
 
+CREATE PROCEDURE STRANGER_STRINGS.SP_TOP5_BONOS_ESPECIALIDAD
+AS
+BEGIN
+SELECT COUNT(*) AS Cant, e.Especialidad_Descripcion
+FROM STRANGER_STRINGS.Turno t, STRANGER_STRINGS.Especialidad_X_Medico em JOIN STRANGER_STRINGS.Especialidad e ON(em.Especialidad_Codigo=e.Especialidad_Codigo)
+WHERE em.Id=t.Id_Medico_x_Esp AND t.Id_Consulta IS NOT NULL
+GROUP BY t.Id_Medico_x_Esp, e.Especialidad_Descripcion
+ORDER BY 1 DESC
+END
+GO
+-----------------------------------------
 IF EXISTS(SELECT  *
             FROM    sys.objects
             WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_GET_PRECIO_BONO')

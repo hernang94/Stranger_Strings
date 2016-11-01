@@ -1,4 +1,5 @@
 SELECT * FROM STRANGER_STRINGS.Cancelacion_Turno
+SELECT * FROM STRANGER_STRINGS.Turno
 
 SELECT * FROM gd_esquema.Maestra
 	WHERE Turno_Numero=192891
