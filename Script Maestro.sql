@@ -1204,3 +1204,67 @@ END
 GO
 
 -----------------------------------------
+
+IF EXISTS(SELECT *
+           FROM   sys.objects
+           WHERE  object_id = OBJECT_ID(N'STRANGER_STRINGS.FX_OBTENER_RESTO')
+                  AND type IN ( N'FN', N'IF', N'TF', N'FS', N'FT' ))
+DROP FUNCTION STRANGER_STRINGS.FX_OBTENER_RESTO
+GO
+
+CREATE FUNCTION STRANGER_STRINGS.FX_OBTENER_RESTO(@Num_Afiliado_Raiz NUMERIC(20,0))
+RETURNS NUMERIC(2,0)
+AS
+BEGIN
+DECLARE @Resto NUMERIC(2,0)
+SET @Resto=(SELECT TOP 1 (Num_Afiliado_Resto)+1 FROM STRANGER_STRINGS.Paciente p
+			WHERE p.Num_Afiliado_Raiz=@Num_Afiliado_Raiz
+			ORDER BY Num_Afiliado_Resto DESC)
+
+RETURN @Resto
+END
+GO
+
+-----------------------------------------------
+
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_ALTA_AFILIADO')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_ALTA_AFILIADO
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_ALTA_AFILIADO
+@Nombre VARCHAR(255),
+@Apellido VARCHAR(255),
+@Tipo_Doc VARCHAR(10),
+@Num_Doc NUMERIC(18,0),
+@Direccion VARCHAR(255),
+@Telefono NUMERIC(18,0),
+@Mail VARCHAR(255),
+@Fecha_Nac DATETIME,
+@Sexo CHAR(1),
+@Estado_Civil VARCHAR(15),
+@Familiares_A_Cargo INT,
+@Codigo_Plan INT,
+@Num_Afiliado_Raiz NUMERIC(20,0),
+@Num_Afiliado NUMERIC(20,0)=NULL OUTPUT
+
+AS
+BEGIN
+IF EXISTS( SELECT * FROM STRANGER_STRINGS.Paciente WHERE Num_Doc=@Num_Doc)
+BEGIN
+		RAISERROR('Paciente ya existente',10,1)
+		RETURN
+		END
+IF @Num_Afiliado_Raiz IS NULL
+BEGIN
+	INSERT INTO STRANGER_STRINGS.Paciente (Nombre,Apellido,Tipo_Doc,Num_Doc,Direccion,Telefono,Mail,Fecha_Nac,Sexo,Estado_Civil,Familiares_A_Cargo,Codigo_Plan,Num_Afiliado_Raiz,Num_Afiliado_Resto)
+	VALUES(@Nombre,@Apellido,@Tipo_Doc,@Num_Doc,@Direccion,@Telefono,@Mail,@Fecha_Nac,@Sexo,@Estado_Civil,@Familiares_A_Cargo,@Codigo_Plan,REVERSE(@Num_Doc),01)
+	SET @Num_Afiliado=REVERSE(@Num_Doc)
+	RETURN
+	END
+	INSERT INTO STRANGER_STRINGS.Paciente (Nombre,Apellido,Tipo_Doc,Num_Doc,Direccion,Telefono,Mail,Fecha_Nac,Sexo,Estado_Civil,Familiares_A_Cargo,Codigo_Plan,Num_Afiliado_Raiz,Num_Afiliado_Resto)
+	VALUES(@Nombre,@Apellido,@Tipo_Doc,@Num_Doc,@Direccion,@Telefono,@Mail,@Fecha_Nac,@Sexo,@Estado_Civil,@Familiares_A_Cargo,@Codigo_Plan,@Num_Afiliado_Raiz,STRANGER_STRINGS.FX_OBTENER_RESTO(@Num_Afiliado_Raiz))
+END
+GO
