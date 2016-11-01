@@ -1042,9 +1042,11 @@ DECLARE @Id_Medico INT= (SELECT Id_Medico FROM STRANGER_STRINGS.Medico WHERE Num
 DECLARE @Id_Medico_X_Especialidad INT= (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em 
 JOIN STRANGER_STRINGS.Especialidad e ON(em.Especialidad_Codigo=e.Especialidad_Codigo)
 WHERE em.Id_Medico=@Id_Medico AND e.Especialidad_Descripcion LIKE '%'+@Especialidad_Descripcion+'%')
-IF((SELECT SUM(DATEDIFF(HH,CONVERT(DATETIME,ha.Hora_Desde,120),CONVERT(DATETIME,ha.Hora_Hasta,120))) FROM STRANGER_STRINGS.Horarios_Agenda ha 
+DECLARE @Cant_Horas_A_Insertar INT= (DATEDIFF(HH,CONVERT(DATETIME,@Hora_Desde+':00',120),CONVERT(DATETIME,@Hora_Hasta+':00',120)))
+DECLARE @Cant_Horas_De_Trabajo INT= (SELECT SUM(DATEDIFF(HH,CONVERT(DATETIME,ha.Hora_Desde,120),CONVERT(DATETIME,ha.Hora_Hasta,120))) FROM STRANGER_STRINGS.Horarios_Agenda ha 
 JOIN STRANGER_STRINGS.Especialidad_X_Medico em ON(ha.Id_Especialidad_Medico=em.Id)
-WHERE em.Id_Medico=@Id_Medico)>48)
+WHERE em.Id_Medico=@Id_Medico)
+IF((@Cant_Horas_De_Trabajo+@Cant_Horas_A_Insertar)>48)
 BEGIN
 		RAISERROR('El profesional ya posee sus 48hs semanales de trabajo ocupadas',10,1)
 		RETURN
