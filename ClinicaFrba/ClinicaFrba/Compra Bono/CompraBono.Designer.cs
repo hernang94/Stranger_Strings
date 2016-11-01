@@ -28,12 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lbSeleccion = new System.Windows.Forms.Label();
             this.nudCantidadBonos = new System.Windows.Forms.NumericUpDown();
             this.btCalcularPrecio = new System.Windows.Forms.Button();
             this.btComprar = new System.Windows.Forms.Button();
             this.lbPrecioTotal = new System.Windows.Forms.Label();
             this.btCancelar = new System.Windows.Forms.Button();
+            this.lbCompraExito = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.nudCantidadBonos)).BeginInit();
             this.SuspendLayout();
             // 
@@ -97,11 +100,30 @@
             this.btCancelar.UseVisualStyleBackColor = true;
             this.btCancelar.Click += new System.EventHandler(this.button1_Click);
             // 
+            // lbCompraExito
+            // 
+            this.lbCompraExito.AutoSize = true;
+            this.lbCompraExito.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbCompraExito.ForeColor = System.Drawing.Color.Green;
+            this.lbCompraExito.Location = new System.Drawing.Point(42, 100);
+            this.lbCompraExito.Name = "lbCompraExito";
+            this.lbCompraExito.Size = new System.Drawing.Size(197, 16);
+            this.lbCompraExito.TabIndex = 7;
+            this.lbCompraExito.Text = "Compra realizada con éxito";
+            this.lbCompraExito.Visible = false;
+            this.lbCompraExito.Click += new System.EventHandler(this.lbCompraExito_Click);
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 500;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // CompraBono
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 197);
+            this.Controls.Add(this.lbCompraExito);
             this.Controls.Add(this.btCancelar);
             this.Controls.Add(this.lbPrecioTotal);
             this.Controls.Add(this.btComprar);
@@ -125,5 +147,7 @@
         private System.Windows.Forms.Button btComprar;
         private System.Windows.Forms.Label lbPrecioTotal;
         private System.Windows.Forms.Button btCancelar;
+        private System.Windows.Forms.Label lbCompraExito;
+        private System.Windows.Forms.Timer timer1;
     }
 }

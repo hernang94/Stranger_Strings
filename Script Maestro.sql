@@ -1196,10 +1196,9 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_COMPRA_BONOS
 @Importe_Total NUMERIC(7,2)
 AS
 BEGIN
-DECLARE @Id_Compra INT= SCOPE_IDENTITY()
-
-UPDATE STRANGER_STRINGS.Compra
-SET Id_Compra=@Id_Compra,Fecha_Compra=@Fecha_Compra,Cantidad_Bonos=@Cantidad_Bonos,Importe_Total=@Importe_Total,Id_Paciente=@Num_Doc
+DECLARE @Id_Paciente INT = (SELECT Id_Paciente FROM STRANGER_STRINGS.Paciente WHERE Num_Doc=@Num_Doc)
+INSERT INTO STRANGER_STRINGS.Compra (Fecha_Compra,Cantidad_Bonos,Importe_Total,Id_Paciente)
+VALUES (@Fecha_Compra,@Cantidad_Bonos,@Importe_Total,@Id_Paciente)
 END
 GO
 

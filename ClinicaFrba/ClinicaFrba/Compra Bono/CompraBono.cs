@@ -37,7 +37,8 @@ namespace ClinicaFrba.Compra_Bono
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            this.fun.Show();
+            this.Close();
         }
 
         private void btCalcularPrecio_Click(object sender, EventArgs e)
@@ -89,11 +90,29 @@ namespace ClinicaFrba.Compra_Bono
                 paramlist.Add(new SqlParameter("@Importe_Total", System.Convert.ToString(precio)));
 
                 BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_COMPRA_BONOS", "SP", paramlist);
+
+                nudCantidadBonos.Value = 0;
+                lbPrecioTotal.Visible = false;
+                lbCompraExito.Visible = true;
+                timer1.Enabled = true;
             }
             else
             {
                 nudCantidadBonos.Value = 0;
                 lbPrecioTotal.Visible = false;
+            }
+        }
+
+        private void lbCompraExito_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (timer1.Enabled)
+            {
+                lbCompraExito.Visible = false;
             }
         }
     }
