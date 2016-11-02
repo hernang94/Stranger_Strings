@@ -1216,7 +1216,7 @@ ORDER BY 1 DESC
 END
 GO
 -----------------------------------------
-/*F EXISTS(SELECT  *
+IF EXISTS(SELECT  *
             FROM    sys.objects
             WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_TOP5_PROFESIONALES_POCAS_HORAS')
                     AND type IN ( N'P', N'PC' ) )
@@ -1226,10 +1226,36 @@ GO
 CREATE PROCEDURE STRANGER_STRINGS.SP_TOP5_PROFESIONALES_POCAS_HORAS
 AS
 BEGIN
-SELEC
+SELECT COUNT(*)*0.5 AS Horas_Trabajadas,m.Nombre,m.Apellido,pm.Descripcion AS Tipo_De_Plan,e.Especialidad_Descripcion
+FROM STRANGER_STRINGS.Turno t JOIN STRANGER_STRINGS.Especialidad_X_Medico em ON(t.Id_Medico_x_Esp=em.Id)
+JOIN STRANGER_STRINGS.Medico m ON(m.Id_Medico=em.Id_Medico) JOIN STRANGER_STRINGS.Especialidad e ON(em.Especialidad_Codigo=e.Especialidad_Codigo) 
+JOIN STRANGER_STRINGS.Paciente p ON(t.Id_Paciente=p.Id_Paciente) JOIN STRANGER_STRINGS.Plan_Medico pm ON(p.Codigo_Plan=pm.Codigo_Plan)
+WHERE t.Id_Consulta IS NOT NULL
+GROUP BY m.Nombre,m.Apellido,pm.Descripcion,e.Especialidad_Descripcion
 ORDER BY 1 ASC
 END
-GO*/
+GO
+-----------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_TOP5_AFILIDOS_BONOS')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_TOP5_AFILIDOS_BONOS
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_TOP5_AFILIDOS_BONOS
+AS
+BEGIN
+SELECT COUNT(c.Cantidad_Bonos)AS Bonos_Comprados,p.Apellido,p.Nombre,
+CASE WHEN (p.Num_Afiliado_Resto=01 AND p.Familiares_A_Cargo!=0) THEN 'SI'
+	 WHEN (p.Num_Afiliado_Resto>01 AND p.Familiares_A_Cargo=0) THEN 'SI'
+	 ELSE 'NO'
+	 END AS Pertenece_A_Grupo_Familiar
+FROM STRANGER_STRINGS.Paciente p JOIN STRANGER_STRINGS.Compra c ON(p.Id_Paciente=c.Id_Paciente)
+GROUP BY p.Nombre,p.Apellido,p.Num_Afiliado_Resto,p.Familiares_A_Cargo
+ORDER BY 1 DESC
+END
+GO
 -----------------------------------------
 IF EXISTS(SELECT  *
             FROM    sys.objects
