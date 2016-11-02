@@ -1206,7 +1206,7 @@ GO
 CREATE PROCEDURE STRANGER_STRINGS.SP_TOP5_PROFESIONALES_CONSULTADOS
 AS
 BEGIN
-SELECT COUNT(*) AS Cantidad,m.Nombre,m.Apellido,pm.Descripcion,e.Especialidad_Descripcion
+SELECT COUNT(*) AS Cantidad,m.Nombre,m.Apellido,pm.Descripcion AS Tipo_De_Plan,e.Especialidad_Descripcion
 FROM STRANGER_STRINGS.Turno t JOIN STRANGER_STRINGS.Especialidad_X_Medico em ON(t.Id_Medico_x_Esp=em.Id)
 JOIN STRANGER_STRINGS.Medico m ON(m.Id_Medico=em.Id_Medico) JOIN STRANGER_STRINGS.Especialidad e ON(em.Especialidad_Codigo=e.Especialidad_Codigo) 
 JOIN STRANGER_STRINGS.Paciente p ON(t.Id_Paciente=p.Id_Paciente) JOIN STRANGER_STRINGS.Plan_Medico pm ON(p.Codigo_Plan=pm.Codigo_Plan)
@@ -1215,6 +1215,21 @@ GROUP BY m.Nombre,m.Apellido,pm.Descripcion,e.Especialidad_Descripcion
 ORDER BY 1 DESC
 END
 GO
+-----------------------------------------
+/*F EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_TOP5_PROFESIONALES_POCAS_HORAS')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_TOP5_PROFESIONALES_POCAS_HORAS
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_TOP5_PROFESIONALES_POCAS_HORAS
+AS
+BEGIN
+SELEC
+ORDER BY 1 ASC
+END
+GO*/
 -----------------------------------------
 IF EXISTS(SELECT  *
             FROM    sys.objects
