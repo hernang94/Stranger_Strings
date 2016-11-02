@@ -93,6 +93,11 @@
     <Compile Include="AbmRol\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="ArchivoConfiguracion.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>ArchivoConfiguracion.settings</DependentUpon>
+    </Compile>
     <Compile Include="BD\BDStranger_Strings.cs" />
     <Compile Include="BD\EntidadesDAL\UsuarioDAL.cs" />
     <Compile Include="BD\Entidades\Especialidad.cs" />
@@ -223,6 +228,11 @@
     <EmbeddedResource Include="Registro Resultado\SeleccionTurno.resx">
       <DependentUpon>SeleccionTurno.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="ArchivoConfiguracion.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>ArchivoConfiguracion.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

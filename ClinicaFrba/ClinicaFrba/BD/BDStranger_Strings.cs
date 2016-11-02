@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
+using System.Configuration;
+using System.Collections.Specialized;
 
 namespace ClinicaFrba
 {
@@ -12,8 +14,13 @@ namespace ClinicaFrba
     {
         public static SqlConnection ObtenerConexion()
         {
-            //Cambiar respecto del servidor: Mica y Mauro ABM-PC\SQL....
-            SqlConnection con = new SqlConnection(@"Data source=TOMÁS-PC\SQLSERVER2012; Initial Catalog=GD2C2016; User Id=gd; Password=gd2016");
+            //Obtengo datos de coneccion de ArchivoConfiguacion.settings ---------------------
+            string dataSource = ArchivoConfiguracion.Default.DataSource;
+            string initialCatalog = ArchivoConfiguracion.Default.InitialCatalog;
+            string user = ArchivoConfiguracion.Default.User;
+            string password = ArchivoConfiguracion.Default.Password;
+
+            SqlConnection con = new SqlConnection(@dataSource+initialCatalog+user+password);
             con.Open();
             return con;
         }
