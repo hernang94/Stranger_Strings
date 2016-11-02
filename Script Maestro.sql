@@ -1335,3 +1335,19 @@ BEGIN
 	VALUES(@Nombre,@Apellido,@Tipo_Doc,@Num_Doc,@Direccion,@Telefono,@Mail,@Fecha_Nac,@Sexo,@Estado_Civil,@Familiares_A_Cargo,@Codigo_Plan,@Num_Afiliado_Raiz,STRANGER_STRINGS.FX_OBTENER_RESTO(@Num_Afiliado_Raiz))
 END
 GO
+IF EXISTS(SELECT *
+           FROM   sys.objects
+           WHERE  object_id = OBJECT_ID(N'STRANGER_STRINGS.FX_OBTERNER_ID_PACIENTE')
+                  AND type IN ( N'FN', N'IF', N'TF', N'FS', N'FT' ))
+DROP FUNCTION STRANGER_STRINGS.FX_OBTERNER_ID_PACIENTE
+GO
+
+CREATE FUNCTION STRANGER_STRINGS.FX_OBTERNER_ID_PACIENTE(@Num_Doc NUMERIC(18,0))
+RETURNS INT
+AS
+BEGIN
+DECLARE @Id_Paciente INT
+SET @Id_Paciente=(SELECT Id_Paciente FROM STRANGER_STRINGS.Paciente WHERE Num_Doc=@Num_Doc)
+RETURN @Id_Paciente
+END
+GO
