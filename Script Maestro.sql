@@ -1377,3 +1377,59 @@ SET @Id_Paciente=(SELECT Id_Paciente FROM STRANGER_STRINGS.Paciente WHERE Num_Do
 RETURN @Id_Paciente
 END
 GO
+
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_BUSCAR_PROFESIONALES_SEGUN_CRITERIOS')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_BUSCAR_PROFESIONALES_SEGUN_CRITERIOS
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_BUSCAR_PROFESIONALES_SEGUN_CRITERIOS
+@Nombre VARCHAR(255),
+@Apellido VARCHAR(255), 
+@Cod_esp NUMERIC(18,0)
+AS
+BEGIN
+DECLARE @QueryCompleta NVARCHAR(1500)
+DECLARE @Query1 VARCHAR(500) = 'SELECT DISTINCT m.Id_Medico,m.Nombre,m.Apellido,e.Especialidad_Codigo,e.Especialidad_Descripcion
+								FROM STRANGER_STRINGS.Medico m JOIN STRANGER_STRINGS.Especialidad_X_Medico es ON (m.Id_Medico = 
+								es.Id_Medico) JOIN STRANGER_STRINGS.Especialidad e ON(es.Especialidad_Codigo = e.Especialidad_Codigo)
+								WHERE '
+DECLARE @Query2 VARCHAR(500) = ' '
+DECLARE @Query3 VARCHAR(500) = 'm.Nombre LIKE @Nombre AND m.Apellido LIKE @Apellido'
+DECLARE @Query4 VARCHAR(500) = ' ORDER BY m.Apellido,m.Nombre,m.Id_Medico,e.Especialidad_Descripcion ASC'
+
+IF @Cod_esp >0
+SET @Query2 = 'e.Especialidad_Codigo = @cod_esp AND '
+SET @Nombre = '%' + @Nombre + '%'
+SET @Apellido = '%' + @Apellido + '%'
+
+
+SET @QueryCompleta = @Query1 + @Query2 + @Query3 + @Query4
+
+EXEC sp_executesql @QueryCompleta, N'@Nombre VARCHAR(255), @Apellido VARCHAR(255),
+  @cod_esp NUMERIC(18,0)',@Nombre, @Apellido,@Cod_esp
+END
+GO
+
+
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_LISTAR_TURNOS_MEDICO')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_LISTAR_TURNOS_MEDICO
+GO
+CREATE PROCEDURE STRANGER_STRINGS.SP_LISTAR_TURNOS_MEDICO
+@Id_Medico INT,
+@Cod_Especialidad NUMERIC(18,0),
+@Fecha DATETIME
+AS
+BEGIN
+SELECT t.Turno_Numero, p.Nombre,p.Apellido,p.Num_Doc,CONVERT(TIME,t.Turno_Fecha,120)
+		FROM STRANGER_STRINGS.Turno t JOIN STRANGER_STRINGS.Paciente p ON(t.Id_Paciente=p.Id_Paciente)
+		WHERE t.Id_Medico_x_Esp = (SELECT Id FROM STRANGER_STRINGS.Especialidad_X_Medico WHERE Id_Medico=@Id_Medico
+		AND Especialidad_Codigo=@Cod_Especialidad) AND DATEDIFF(day,t.Turno_Fecha,@Fecha)=0
+		ORDER BY CONVERT(TIME,t.Turno_Fecha,120) ASC
+END
+GO
