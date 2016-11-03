@@ -1361,14 +1361,16 @@ BEGIN
 	VALUES(@Nombre,@Apellido,@Tipo_Doc,@Num_Doc,@Direccion,@Telefono,@Mail,@Fecha_Nac,@Sexo,@Estado_Civil,@Familiares_A_Cargo,@Codigo_Plan,@Num_Afiliado_Raiz,STRANGER_STRINGS.FX_OBTENER_RESTO(@Num_Afiliado_Raiz))
 END
 GO
+
+-----------------------------------------------
 IF EXISTS(SELECT *
            FROM   sys.objects
-           WHERE  object_id = OBJECT_ID(N'STRANGER_STRINGS.FX_OBTERNER_ID_PACIENTE')
+           WHERE  object_id = OBJECT_ID(N'STRANGER_STRINGS.FX_OBTENER_ID_PACIENTE')
                   AND type IN ( N'FN', N'IF', N'TF', N'FS', N'FT' ))
-DROP FUNCTION STRANGER_STRINGS.FX_OBTERNER_ID_PACIENTE
+DROP FUNCTION STRANGER_STRINGS.FX_OBTENER_ID_PACIENTE
 GO
 
-CREATE FUNCTION STRANGER_STRINGS.FX_OBTERNER_ID_PACIENTE(@Num_Doc NUMERIC(18,0))
+CREATE FUNCTION STRANGER_STRINGS.FX_OBTENER_ID_PACIENTE(@Num_Doc NUMERIC(18,0))
 RETURNS INT
 AS
 BEGIN
@@ -1377,7 +1379,7 @@ SET @Id_Paciente=(SELECT Id_Paciente FROM STRANGER_STRINGS.Paciente WHERE Num_Do
 RETURN @Id_Paciente
 END
 GO
-
+--------------------------------------------
 IF EXISTS(SELECT  *
             FROM    sys.objects
             WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_BUSCAR_PROFESIONALES_SEGUN_CRITERIOS')
@@ -1413,7 +1415,7 @@ EXEC sp_executesql @QueryCompleta, N'@Nombre VARCHAR(255), @Apellido VARCHAR(255
 END
 GO
 
-
+----------------------------------------------
 IF EXISTS(SELECT  *
             FROM    sys.objects
             WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_LISTAR_TURNOS_MEDICO')
@@ -1431,5 +1433,87 @@ SELECT t.Turno_Numero, p.Nombre,p.Apellido,p.Num_Doc,CONVERT(TIME,t.Turno_Fecha,
 		WHERE t.Id_Medico_x_Esp = (SELECT Id FROM STRANGER_STRINGS.Especialidad_X_Medico WHERE Id_Medico=@Id_Medico
 		AND Especialidad_Codigo=@Cod_Especialidad) AND DATEDIFF(day,t.Turno_Fecha,@Fecha)=0
 		ORDER BY CONVERT(TIME,t.Turno_Fecha,120) ASC
+END
+GO
+----------------------------------------------
+IF EXISTS(SELECT *
+           FROM   sys.objects
+           WHERE  object_id = OBJECT_ID(N'STRANGER_STRINGS.FX_OBTENER_BONO')
+                  AND type IN ( N'FN', N'IF', N'TF', N'FS', N'FT' ))
+DROP FUNCTION STRANGER_STRINGS.FX_OBTENER_BONO
+GO
+
+CREATE FUNCTION STRANGER_STRINGS.FX_OBTENER_BONO(@Num_Afiliado_Raiz NUMERIC(20,0),@Cod_Plan INT)
+RETURNS INT
+AS
+BEGIN
+DECLARE @Id_Bono INT = (SELECT Id_Bono FROM STRANGER_STRINGS.Bono 
+					WHERE Id_Paciente_Compro IN (SELECT Id_Paciente FROM STRANGER_STRINGS.Paciente 
+					WHERE Num_Afiliado_Raiz=@Num_Afiliado_Raiz) AND Numero_Consulta IS NULL 
+					AND Codigo_Plan=@Cod_Plan )
+RETURN @Id_Bono
+END
+GO
+-----------------------------------------------------
+IF EXISTS(SELECT *
+           FROM   sys.objects
+           WHERE  object_id = OBJECT_ID(N'STRANGER_STRINGS.FX_OBTENER_CANTIDAD_DE_BONOS')
+                  AND type IN ( N'FN', N'IF', N'TF', N'FS', N'FT' ))
+DROP FUNCTION STRANGER_STRINGS.FX_OBTENER_CANTIDAD_DE_BONOS
+GO
+
+CREATE FUNCTION STRANGER_STRINGS.FX_OBTENER_CANTIDAD_DE_BONOS(@Num_Afiliado_Raiz NUMERIC(20,0),@Cod_Plan INT)
+RETURNS INT 
+AS
+BEGIN
+DECLARE @Cantidad INT = (SELECT COUNT(Id_Bono) FROM STRANGER_STRINGS.Bono 
+					WHERE Id_Paciente_Compro IN (SELECT Id_Paciente FROM STRANGER_STRINGS.Paciente 
+					WHERE Num_Afiliado_Raiz=@Num_Afiliado_Raiz) AND Numero_Consulta IS NULL 
+					AND Codigo_Plan=@Cod_Plan )
+RETURN @Cantidad
+END
+GO
+----------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_CREAR_CONSULTA')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_CREAR_CONSULTA
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_CREAR_CONSULTA
+@Fecha DATETIME,
+@Num_Doc NUMERIC(18,0),
+@Nro_Turno INT,
+@Cantidad_Bonos INT OUTPUT
+AS
+BEGIN
+DECLARE @Id_Paciente INT
+SET @Id_Paciente = STRANGER_STRINGS.FX_OBTENER_ID_PACIENTE(@Num_Doc)
+DECLARE @Nro_Raiz_Paciente NUMERIC(20,0)=(SELECT Num_Afiliado_Raiz FROM STRANGER_STRINGS.Paciente WHERE Id_Paciente = @Id_Paciente)
+DECLARE @Cod_Plan_Paciente INT= (SELECT Codigo_Plan FROM STRANGER_STRINGS.Paciente WHERE Id_Paciente=@Id_Paciente)
+SET @Cantidad_Bonos = STRANGER_STRINGS.FX_OBTENER_CANTIDAD_DE_BONOS(@Nro_Raiz_Paciente,@Cod_Plan_Paciente)
+
+IF @Cantidad_Bonos > 0 
+BEGIN
+	BEGIN TRY
+		BEGIN TRANSACTION
+			DECLARE @Id_Bono INT=STRANGER_STRINGS.FX_OBTENER_BONO(@Nro_Raiz_Paciente,@Cod_Plan_Paciente)
+			INSERT INTO STRANGER_STRINGS.Consulta(Fecha_Y_Hora_Llegada,Bono_Consulta_Id,Id_Paciente)
+			VALUES(@Fecha,@Id_Bono,@Id_Paciente)
+			UPDATE STRANGER_STRINGS.Turno
+			SET Id_Consulta = SCOPE_IDENTITY()
+			WHERE Turno_Numero=@Nro_Turno
+			UPDATE STRANGER_STRINGS.Bono
+			SET Numero_Consulta = (SELECT Cantidad_Consulta FROM STRANGER_STRINGS.Paciente
+								 WHERE Id_Paciente=@Id_Paciente),Id_Paciente_Uso = @Id_Paciente
+			WHERE Id_Bono=@Id_Bono
+			COMMIT
+		END TRY
+		BEGIN CATCH
+		SET @Cantidad_Bonos=-2 --Significa que algo anduvo mal
+		ROLLBACK
+		END CATCH
+	END
 END
 GO
