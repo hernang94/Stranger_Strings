@@ -12,6 +12,8 @@ END
 GO
 
 --Si existen las tablas las dropeo
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Registro_Cancelacion_Medico'))
+    DROP TABLE STRANGER_STRINGS.Registro_Cancelacion_Medico
 
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'STRANGER_STRINGS.Turno'))
     DROP TABLE STRANGER_STRINGS.Turno
@@ -221,6 +223,15 @@ Id_Consulta INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Consulta(Id_Consulta),
 Id_Cancelacion INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Cancelacion_Turno(Id_Cancelacion),
 Id_Horario INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Horarios_Agenda(Id_Horario))
 -----------------------------------------------------------
+CREATE TABLE STRANGER_STRINGS.Registro_Cancelacion_Medico(
+Id_Registro INT IDENTITY(1,1) PRIMARY KEY,
+Id_Med_x_Esp INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Especialidad_X_Medico(Id),
+Fecha DATE,
+Hora_Desde TIME,
+Hora_Hasta TIME
+)
+
+-----------------------------------------------------------
 
 
 --Fin de creacion de tablas
@@ -335,7 +346,7 @@ UPDATE STRANGER_STRINGS.Paciente
 SET Estado_Civil = 'Soltero/a'
 
 UPDATE STRANGER_STRINGS.Paciente
-SET Familiares_A_Cargo = 0
+SET Familiares_A_Cargo = 0,Num_Afiliado_Raiz = REVERSE(Num_Doc),Num_Afiliado_Resto=01
 
 ------------------------------------------------ FIN MIGRACION
 
@@ -427,7 +438,7 @@ FROM STRANGER_STRINGS.Medico m
 
 --INSERT DE AGENDA--
 --CREO TABLA TEMPORAL
-SELECT me.Id,m.Num_Doc,e.Especialidad_Codigo
+/*SELECT me.Id,m.Num_Doc,e.Especialidad_Codigo
 INTO STRANGER_STRINGS.#Medicos_x_Especialidad_AUX
 FROM STRANGER_STRINGS.Especialidad_X_Medico me JOIN STRANGER_STRINGS.Medico m ON(m.Id_Medico=me.Id_Medico) 
 JOIN STRANGER_STRINGS.Especialidad e ON(me.Especialidad_Codigo=e.Especialidad_Codigo)
@@ -624,7 +635,7 @@ INSERT INTO STRANGER_STRINGS.Horarios_Agenda(Dia, Hora_Desde, Hora_Hasta, Id_Esp
 INSERT INTO STRANGER_STRINGS.Horarios_Agenda(Dia, Hora_Desde, Hora_Hasta, Id_Especialidad_Medico) VALUES	(6	,	CAST ('2016-10-01 10:00' AS TIME(0))	,	CAST ('2016-10-01 13:00' AS TIME(0))	,	(SELECT Id FROM STRANGER_STRINGS.#Medicos_x_Especialidad_AUX WHERE Num_Doc = 	85129809	AND Especialidad_Codigo =	10019	))
 
 DROP TABLE STRANGER_STRINGS.#Medicos_x_Especialidad_AUX
-GO
+GO*/
 --------------------------------------------------------
 --TRIGGER ACTUALIZAR CANT CONSULTAS PACIENTE
 IF OBJECT_ID ('STRANGER_STRINGS.TR_ACTUALIZAR_CONSULTAS', 'TR') IS NOT NULL  
@@ -1286,13 +1297,21 @@ GO
 CREATE PROCEDURE STRANGER_STRINGS.SP_COMPRA_BONOS
 @Num_Doc NUMERIC(18,0),
 @Fecha_Compra DATETIME,
-@Cantidad_Bonos INT,
-@Importe_Total NUMERIC(7,2)
+@Cantidad_Bonos INT
 AS
 BEGIN
-DECLARE @Id_Paciente INT = (SELECT Id_Paciente FROM STRANGER_STRINGS.Paciente WHERE Num_Doc=@Num_Doc)
+DECLARE @Id_Paciente INT = STRANGER_STRINGS.FX_OBTENER_ID_PACIENTE(@Num_Doc)
+DECLARE @Codigo_Plan INT = (SELECT Codigo_Plan FROM STRANGER_STRINGS.Paciente WHERE Id_Paciente=@Id_Paciente)
+DECLARE @Precio_Bono INT = (SELECT Precio_Bono_Consulta FROM STRANGER_STRINGS.Plan_Medico WHERE Codigo_Plan=@Codigo_Plan)
+DECLARE @Contador INT=0
 INSERT INTO STRANGER_STRINGS.Compra (Fecha_Compra,Cantidad_Bonos,Importe_Total,Id_Paciente)
-VALUES (@Fecha_Compra,@Cantidad_Bonos,@Importe_Total,@Id_Paciente)
+VALUES (@Fecha_Compra,@Cantidad_Bonos,(@Precio_Bono*@Cantidad_Bonos),@Id_Paciente)
+DECLARE @Id_Insert INT =SCOPE_IDENTITY()
+WHILE @Contador<@Cantidad_Bonos
+BEGIN
+INSERT INTO STRANGER_STRINGS.Bono(Fecha_Compra,Id_Paciente_Compro,Codigo_Plan,Id_Compra) VALUES(@Fecha_Compra,@Id_Paciente,@Codigo_Plan,@Id_Insert)
+SET @Contador+=1
+END
 END
 GO
 
@@ -1352,13 +1371,20 @@ BEGIN
 		END
 IF @Num_Afiliado_Raiz IS NULL
 BEGIN
-	INSERT INTO STRANGER_STRINGS.Paciente (Nombre,Apellido,Tipo_Doc,Num_Doc,Direccion,Telefono,Mail,Fecha_Nac,Sexo,Estado_Civil,Familiares_A_Cargo,Codigo_Plan,Num_Afiliado_Raiz,Num_Afiliado_Resto)
-	VALUES(@Nombre,@Apellido,@Tipo_Doc,@Num_Doc,@Direccion,@Telefono,@Mail,@Fecha_Nac,@Sexo,@Estado_Civil,@Familiares_A_Cargo,@Codigo_Plan,REVERSE(@Num_Doc),01)
+	INSERT INTO STRANGER_STRINGS.Paciente (Nombre,Apellido,Tipo_Doc,Num_Doc,Direccion,Telefono,Mail,Fecha_Nac,Sexo,Estado_Civil,Familiares_A_Cargo,Codigo_Plan,Num_Afiliado_Raiz,Num_Afiliado_Resto,Cantidad_Consulta,Estado_Afiliado)
+	VALUES(@Nombre,@Apellido,@Tipo_Doc,@Num_Doc,@Direccion,@Telefono,@Mail,@Fecha_Nac,@Sexo,@Estado_Civil,@Familiares_A_Cargo,@Codigo_Plan,REVERSE(@Num_Doc),01,0,'A')
 	SET @Num_Afiliado=REVERSE(@Num_Doc)
-	RETURN
 	END
-	INSERT INTO STRANGER_STRINGS.Paciente (Nombre,Apellido,Tipo_Doc,Num_Doc,Direccion,Telefono,Mail,Fecha_Nac,Sexo,Estado_Civil,Familiares_A_Cargo,Codigo_Plan,Num_Afiliado_Raiz,Num_Afiliado_Resto)
-	VALUES(@Nombre,@Apellido,@Tipo_Doc,@Num_Doc,@Direccion,@Telefono,@Mail,@Fecha_Nac,@Sexo,@Estado_Civil,@Familiares_A_Cargo,@Codigo_Plan,@Num_Afiliado_Raiz,STRANGER_STRINGS.FX_OBTENER_RESTO(@Num_Afiliado_Raiz))
+ELSE
+BEGIN
+	INSERT INTO STRANGER_STRINGS.Paciente (Nombre,Apellido,Tipo_Doc,Num_Doc,Direccion,Telefono,Mail,Fecha_Nac,Sexo,Estado_Civil,Familiares_A_Cargo,Codigo_Plan,Num_Afiliado_Raiz,Num_Afiliado_Resto,Cantidad_Consulta,Estado_Afiliado)
+	VALUES(@Nombre,@Apellido,@Tipo_Doc,@Num_Doc,@Direccion,@Telefono,@Mail,@Fecha_Nac,@Sexo,@Estado_Civil,@Familiares_A_Cargo,@Codigo_Plan,@Num_Afiliado_Raiz,STRANGER_STRINGS.FX_OBTENER_RESTO(@Num_Afiliado_Raiz),0,'A')
+END
+INSERT INTO STRANGER_STRINGS.Usuario (Usuario,Pasword,Cantidad_Intentos) VALUES (CONVERT(VARCHAR,@Num_Doc),HASHBYTES('SHA2_256',@Apellido),3)
+DECLARE @Id_Insert INT = SCOPE_IDENTITY()
+UPDATE STRANGER_STRINGS.Paciente
+SET Id_Usuario=@Id_Insert
+WHERE Num_Doc=@Num_Doc
 END
 GO
 
@@ -1501,8 +1527,9 @@ BEGIN
 			DECLARE @Id_Bono INT=STRANGER_STRINGS.FX_OBTENER_BONO(@Nro_Raiz_Paciente,@Cod_Plan_Paciente)
 			INSERT INTO STRANGER_STRINGS.Consulta(Fecha_Y_Hora_Llegada,Bono_Consulta_Id,Id_Paciente)
 			VALUES(@Fecha,@Id_Bono,@Id_Paciente)
+			DECLARE @Id_Insert INT = SCOPE_IDENTITY()
 			UPDATE STRANGER_STRINGS.Turno
-			SET Id_Consulta = SCOPE_IDENTITY()
+			SET Id_Consulta = @Id_Insert
 			WHERE Turno_Numero=@Nro_Turno
 			UPDATE STRANGER_STRINGS.Bono
 			SET Numero_Consulta = (SELECT Cantidad_Consulta FROM STRANGER_STRINGS.Paciente
