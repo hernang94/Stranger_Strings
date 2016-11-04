@@ -47,7 +47,7 @@
             // lbEspecialidad
             // 
             this.lbEspecialidad.AutoSize = true;
-            this.lbEspecialidad.Location = new System.Drawing.Point(20, 27);
+            this.lbEspecialidad.Location = new System.Drawing.Point(20, 71);
             this.lbEspecialidad.Name = "lbEspecialidad";
             this.lbEspecialidad.Size = new System.Drawing.Size(67, 13);
             this.lbEspecialidad.TabIndex = 0;
@@ -57,7 +57,7 @@
             // cbEspecialidad
             // 
             this.cbEspecialidad.FormattingEnabled = true;
-            this.cbEspecialidad.Location = new System.Drawing.Point(153, 24);
+            this.cbEspecialidad.Location = new System.Drawing.Point(153, 68);
             this.cbEspecialidad.Name = "cbEspecialidad";
             this.cbEspecialidad.Size = new System.Drawing.Size(121, 21);
             this.cbEspecialidad.TabIndex = 1;
@@ -66,8 +66,8 @@
             // gbBuscarMedico
             // 
             this.gbBuscarMedico.Controls.Add(this.cbProfesionales);
-            this.gbBuscarMedico.Controls.Add(this.lbProfesionales);
             this.gbBuscarMedico.Controls.Add(this.lbEspecialidad);
+            this.gbBuscarMedico.Controls.Add(this.lbProfesionales);
             this.gbBuscarMedico.Controls.Add(this.cbEspecialidad);
             this.gbBuscarMedico.Location = new System.Drawing.Point(12, 12);
             this.gbBuscarMedico.Name = "gbBuscarMedico";
@@ -79,7 +79,7 @@
             // cbProfesionales
             // 
             this.cbProfesionales.FormattingEnabled = true;
-            this.cbProfesionales.Location = new System.Drawing.Point(153, 63);
+            this.cbProfesionales.Location = new System.Drawing.Point(153, 25);
             this.cbProfesionales.Name = "cbProfesionales";
             this.cbProfesionales.Size = new System.Drawing.Size(121, 21);
             this.cbProfesionales.TabIndex = 3;
@@ -88,7 +88,7 @@
             // lbProfesionales
             // 
             this.lbProfesionales.AutoSize = true;
-            this.lbProfesionales.Location = new System.Drawing.Point(20, 66);
+            this.lbProfesionales.Location = new System.Drawing.Point(20, 28);
             this.lbProfesionales.Name = "lbProfesionales";
             this.lbProfesionales.Size = new System.Drawing.Size(70, 13);
             this.lbProfesionales.TabIndex = 2;
@@ -110,17 +110,18 @@
             // 
             // cbHorariosDisp
             // 
+            this.cbHorariosDisp.FormatString = "t";
             this.cbHorariosDisp.FormattingEnabled = true;
-            this.cbHorariosDisp.Location = new System.Drawing.Point(153, 61);
+            this.cbHorariosDisp.Location = new System.Drawing.Point(153, 74);
             this.cbHorariosDisp.Name = "cbHorariosDisp";
             this.cbHorariosDisp.Size = new System.Drawing.Size(121, 21);
             this.cbHorariosDisp.TabIndex = 6;
-            this.cbHorariosDisp.SelectedIndexChanged += new System.EventHandler(this.cbHorariosDisp_SelectedIndexChanged);
+            this.cbHorariosDisp.SelectedIndexChanged += new System.EventHandler(this.cbFecha_SelectedIndexChanged);
             // 
             // lbHorariosDisp
             // 
             this.lbHorariosDisp.AutoSize = true;
-            this.lbHorariosDisp.Location = new System.Drawing.Point(20, 64);
+            this.lbHorariosDisp.Location = new System.Drawing.Point(20, 77);
             this.lbHorariosDisp.Name = "lbHorariosDisp";
             this.lbHorariosDisp.Size = new System.Drawing.Size(101, 13);
             this.lbHorariosDisp.TabIndex = 5;
@@ -129,8 +130,9 @@
             // 
             // cbFecha
             // 
+            this.cbFecha.FormatString = "d";
             this.cbFecha.FormattingEnabled = true;
-            this.cbFecha.Location = new System.Drawing.Point(153, 23);
+            this.cbFecha.Location = new System.Drawing.Point(153, 30);
             this.cbFecha.Name = "cbFecha";
             this.cbFecha.Size = new System.Drawing.Size(121, 21);
             this.cbFecha.TabIndex = 4;
@@ -139,7 +141,7 @@
             // lbFechasDisp
             // 
             this.lbFechasDisp.AutoSize = true;
-            this.lbFechasDisp.Location = new System.Drawing.Point(20, 26);
+            this.lbFechasDisp.Location = new System.Drawing.Point(20, 33);
             this.lbFechasDisp.Name = "lbFechasDisp";
             this.lbFechasDisp.Size = new System.Drawing.Size(97, 13);
             this.lbFechasDisp.TabIndex = 0;

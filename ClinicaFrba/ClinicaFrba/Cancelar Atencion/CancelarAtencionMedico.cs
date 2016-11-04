@@ -49,12 +49,12 @@ namespace ClinicaFrba.Cancelar_Atencion
             }
             else
             {
-                paramList.Add(new SqlParameter("@Turno_Fecha", monthCalendar1.SelectionRange.Start));
                 paramList.Add(new SqlParameter("@Tipo_Cancelacion", 'M'));
                 paramList.Add(new SqlParameter("@Motivo", txtMotivo.Text));
                 paramList.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Nombre)));
-                paramList.Add(new SqlParameter("@Hora_Desde", nudDesde.Value));
-                paramList.Add(new SqlParameter("@Hora_Hasta", nudHasta.Value));
+                paramList.Add(new SqlParameter("@Fecha_Desde", dtpFechaDesde.Value));
+                paramList.Add(new SqlParameter("@Fecha_Hasta", dtpFechaHasta.Value));
+
                 BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_CANCELAR_TURNOS_RANGO_PROFESIONAL", "SP", paramList);
             }
 
@@ -94,9 +94,9 @@ namespace ClinicaFrba.Cancelar_Atencion
         }
 
         private void nudHasta_ValueChanged(object sender, EventArgs e)
+     
         {
-
-        }
+   }
 
         private void nudDesde_ValueChanged(object sender, EventArgs e)
         {
@@ -122,15 +122,22 @@ namespace ClinicaFrba.Cancelar_Atencion
         {
             if (cbDiaCompleto.SelectedIndex == 1)
             {
-                cbDiaCompleto.Visible = false;
-                lbDiaCompleto.Visible = false;
+                lbFechaDesde.Visible = true;
+                lbFechaHasta.Visible = true;
+                dtpFechaDesde.Visible = true;
+                dtpFechaHasta.Visible = true;
 
-                lbHoraDesde.Visible = true;
-                lbHoraHasta.Visible = true;
-                nudDesde.Visible = true;
-                nudHasta.Visible = true;
+                monthCalendar1.Visible = false;
             }
+            if(cbDiaCompleto.SelectedIndex == 0)
+            {
+                monthCalendar1.Visible = true;
 
+                lbFechaDesde.Visible = false;
+                lbFechaHasta.Visible = false;
+                dtpFechaDesde.Visible = false;
+                dtpFechaHasta.Visible = false;
+            }
         }
 
         private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
@@ -149,6 +156,26 @@ namespace ClinicaFrba.Cancelar_Atencion
             {
                 MessageBox.Show("Seleccione una fecha valida de atención.", "Error", MessageBoxButtons.OK);
             }
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtMotivo_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lbTurnosCancelados_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gbMotivo_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

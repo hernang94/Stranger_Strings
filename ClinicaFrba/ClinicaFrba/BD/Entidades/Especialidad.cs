@@ -9,5 +9,6 @@ namespace ClinicaFrba.BD.Entidades
     public class Especialidad
     {
         public string Especialidad_Descr { set; get; }
+        public decimal Especialidad_Cod { set; get; }
     }
 }

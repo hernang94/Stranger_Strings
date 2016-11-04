@@ -16,6 +16,7 @@ namespace ClinicaFrba.Pedir_Turno
     {
         public Funcionalidades fun;
         public List<BD.Entidades.Profesional> profesionales = new List<BD.Entidades.Profesional>();
+        public List<BD.Entidades.Especialidad> especialidades = new List<BD.Entidades.Especialidad>();
         public formSolicitarTurno(Funcionalidades fun)
         {
             this.fun = fun;
@@ -77,22 +78,22 @@ namespace ClinicaFrba.Pedir_Turno
         private void formSolicitarTurno_Load(object sender, EventArgs e)
         {
             cbEspecialidad.Items.Clear();
-            obtenerYMostrarEspecialidades();
+            obtenerYMostrarProfesionales();
         }
  
         private void cbEspecialidad_SelectedIndexChanged(object sender, EventArgs e)
         {
             cbProfesionales.Items.Clear();
-            obtenerYMostrarProfesionales();
+            obtenerYMostrarFechas();
         }
 
         private void cbProfesionales_SelectedIndexChanged(object sender, EventArgs e)
         {
             cbFecha.Items.Clear();
-            obtenerYMostrarFechas();
+            obtenerYMostrarEspecialidades();
         }
 
-        private void cbHorariosDisp_SelectedIndexChanged(object sender, EventArgs e)
+        private void cbFecha_SelectedIndexChanged(object sender, EventArgs e)
         {
             cbHorariosDisp.Items.Clear();
             obtenerYMostrarHorarios();
@@ -100,21 +101,27 @@ namespace ClinicaFrba.Pedir_Turno
        
         public void obtenerYMostrarEspecialidades()
         {
-            SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_OBTENER_ESPECIALIDADES", "SP", null);
+            BD.Entidades.Profesional profElegido = new BD.Entidades.Profesional();
+            profElegido = obtenerProfesionalDeString(cbProfesionales.SelectedValue.ToString());
+
+            List<SqlParameter> paramlist = new List<SqlParameter>();
+            paramlist.Add(new SqlParameter("@Num_Doc", profElegido.Dni));
+            SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_OBTENER_ESPECIALIDADES", "SP", paramlist);
             if (lector.HasRows)
             {
                 while (lector.Read())
                 {
-                    cbEspecialidad.Items.Add((string)lector["Especialidad_Descripcion"]);
+                    BD.Entidades.Especialidad especialidad = new BD.Entidades.Especialidad();
+                    especialidad.Especialidad_Descr = (string)lector["Especialidad_Descripcion"];
+                    especialidad.Especialidad_Cod = (decimal)lector["Especialidad_Codigo"];
+                    cbEspecialidad.Items.Add(especialidad.Especialidad_Descr);
                 }
             }
         }
 
         public void obtenerYMostrarProfesionales()
         {
-            List<SqlParameter> listParam = new List<SqlParameter>();
-            listParam.Add(new SqlParameter("@Especialidad_Descripcion", cbEspecialidad.SelectedItem));
-            SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_OBTENER_MEDICOS", "SP", listParam);
+            SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_OBTENER_MEDICOS", "SP", null);
             if (lector.HasRows)
             {
                 while (lector.Read())
@@ -132,40 +139,40 @@ namespace ClinicaFrba.Pedir_Turno
         public void obtenerYMostrarFechas()
         {
             BD.Entidades.Profesional prof= obtenerProfesionalDeString(cbProfesionales.Text);
+            decimal codigo = obtenerCodigoEspecialidad();
+
             List<SqlParameter> listParam = new List<SqlParameter>();
             listParam.Add(new SqlParameter("@Num_Doc", prof.Dni));
-            listParam.Add(new SqlParameter("@Especialidad_Descripcion", cbEspecialidad.SelectedItem));
+            listParam.Add(new SqlParameter("@Especialidad_Codigo", codigo));
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_OBTENER_FECHAS", "SP", listParam);
-            List<decimal> dias = new List<decimal>();
             if (lector.HasRows)
             {
                 while (lector.Read())
                 {
-                    dias.Add((decimal)lector["Dia"]);
+                    cbFecha.Items.Add((DateTime)lector["Turno_Fecha"]);
                 }
-            }
-            for (int i = 0; i < dias.Count(); i++)
-            {
- 
             }
         }
 
         public void obtenerYMostrarHorarios()
         {
             BD.Entidades.Profesional prof = obtenerProfesionalDeString(cbProfesionales.Text);
+            decimal codigo = obtenerCodigoEspecialidad();
+
             List<SqlParameter> listParam = new List<SqlParameter>();
             listParam.Add(new SqlParameter("@Num_Doc", prof.Dni));
-            listParam.Add(new SqlParameter("@Especialidad_Descripcion",cbEspecialidad.SelectedItem));
-            listParam.Add(new SqlParameter("@Fecha", cbFecha.SelectedItem));
+            listParam.Add(new SqlParameter("@Especialidad_Codigo",codigo));
+            listParam.Add(new SqlParameter("@Turno_Fecha", cbFecha.SelectedItem));
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_OBTENER_HORARIOS", "SP", listParam);
             if (lector.HasRows)
             {
                 while (lector.Read())
                 {
-                    cbHorariosDisp.Items.Add((DateTime)lector["Horarios"]);
+                    cbHorariosDisp.Items.Add((DateTime)lector["Turno_Fecha"]);
                 }
             }
         }
+
         public BD.Entidades.Profesional obtenerProfesionalDeString(string profesional)
         {
             int i = 0;
@@ -184,6 +191,11 @@ namespace ClinicaFrba.Pedir_Turno
                 }
             }
             return null;
+        }
+
+        public decimal obtenerCodigoEspecialidad()
+        { 
+            return especialidades[cbEspecialidad.SelectedIndex].Especialidad_Cod;
         }
     }
 }
