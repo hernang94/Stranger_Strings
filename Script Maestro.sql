@@ -137,7 +137,8 @@ Descripcion VARCHAR(225))
 -----------------------------------------------------------
 CREATE TABLE STRANGER_STRINGS.Rol(
 Id_Rol INT IDENTITY(1,1)PRIMARY KEY,
-Descripcion VARCHAR(225))
+Descripcion VARCHAR(225),
+Estado CHAR(1)CHECK(Estado = 'E' OR Estado = 'D' OR Estado IS NULL))
 -----------------------------------------------------------
 CREATE TABLE STRANGER_STRINGS.Funcionalidad_X_Rol(
 Id_Rol INT ,
@@ -369,12 +370,12 @@ INSERT INTO STRANGER_STRINGS.Funcionalidad(Descripcion)
 VALUES('Listado Estadístico')
 
 --ROLES
-INSERT INTO STRANGER_STRINGS.Rol(Descripcion)
-VALUES('Administrador')
-INSERT INTO STRANGER_STRINGS.Rol(Descripcion)
-VALUES('Afiliado')
-INSERT INTO STRANGER_STRINGS.Rol(Descripcion)
-VALUES('Profesional')
+INSERT INTO STRANGER_STRINGS.Rol(Descripcion,Estado)
+VALUES('Administrador','E')
+INSERT INTO STRANGER_STRINGS.Rol(Descripcion,Estado)
+VALUES('Afiliado','E')
+INSERT INTO STRANGER_STRINGS.Rol(Descripcion,Estado)
+VALUES('Profesional','E')
 
 --FUNCIONALIDADES X ROL
 INSERT INTO STRANGER_STRINGS.Funcionalidad_X_Rol(Id_Rol,Id_Funcionalidad)
@@ -1812,5 +1813,89 @@ IF NOT EXISTS ( SELECT * FROM STRANGER_STRINGS.Turno t
 			SET @Iterador+=1
 			END
 SELECT hora FROM #HorariosPosibles
+END
+GO
+----------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_GET_ESPECIALIDADES_ABM_ROL')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_GET_ESPECIALIDADES_ABM_ROL
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_GET_ESPECIALIDADES_ABM_ROL
+AS
+BEGIN
+SELECT Descripcion, Estado FROM STRANGER_STRINGS.Rol
+END
+GO
+----------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_MODIFICAR_NOMBRE_ROL')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_MODIFICAR_NOMBRE_ROL
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_MODIFICAR_NOMBRE_ROL
+@Nombre VARCHAR(255),
+@Rol_Descripcion VARCHAR(255)
+AS
+BEGIN
+UPDATE STRANGER_STRINGS.Rol
+SET Descripcion=@Nombre
+WHERE Id_Rol=(SELECT Id_Rol FROM STRANGER_STRINGS.Rol WHERE Descripcion=@Rol_Descripcion)
+END
+GO
+----------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_ELIMINAR_FUNCIONALIDAD_ROL')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_ELIMINAR_FUNCIONALIDAD_ROL
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_ELIMINAR_FUNCIONALIDAD_ROL
+@Rol VARCHAR(255),
+@Funcionalidad_Descripcion VARCHAR(255)
+AS
+BEGIN
+DELETE FROM STRANGER_STRINGS.Funcionalidad_X_Rol
+WHERE Id_Rol=(SELECT r.Id_Rol FROM STRANGER_STRINGS.Rol r WHERE r.Descripcion=@Rol) 
+AND Id_Funcionalidad= (SELECT f.Id_Funcionalidad FROM STRANGER_STRINGS.Funcionalidad f WHERE f.Descripcion=@Funcionalidad_Descripcion)
+END
+GO
+----------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_AGREGAR_FUNCIONALIDAD_ROL')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_AGREGAR_FUNCIONALIDAD_ROL
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_AGREGAR_FUNCIONALIDAD_ROL
+@Rol VARCHAR(255),
+@Funcionalidad_Descripcion VARCHAR(255)
+AS
+BEGIN
+INSERT INTO STRANGER_STRINGS.Funcionalidad_X_Rol(Id_Rol,Id_Funcionalidad)
+VALUES((SELECT r.Id_Rol FROM STRANGER_STRINGS.Rol r WHERE r.Descripcion=@Rol),(SELECT f.Id_Funcionalidad FROM STRANGER_STRINGS.Funcionalidad f WHERE f.Descripcion=@Funcionalidad_Descripcion))
+END
+GO
+----------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_HABILITAR_ROL')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_HABILITAR_ROL
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_HABILITAR_ROL
+@Rol VARCHAR(255)
+AS
+BEGIN
+UPDATE STRANGER_STRINGS.Rol
+SET Estado='E'
+WHERE Id_Rol=(SELECT r.Id_Rol FROM STRANGER_STRINGS.Rol r WHERE r.Descripcion=@Rol)
 END
 GO
