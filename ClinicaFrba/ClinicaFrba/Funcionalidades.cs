@@ -161,7 +161,9 @@ namespace ClinicaFrba
 
         private void btRegistroLlegada_Click(object sender, EventArgs e)
         {
-
+            Registro_Llegada.Registro_Llegada reg = new Registro_Llegada.Registro_Llegada(this);
+            reg.Show();
+            this.Hide();
         }
 
         private void btVolver_Click(object sender, EventArgs e)

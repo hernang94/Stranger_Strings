@@ -744,7 +744,7 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_GET_ESPECIALIDADES
 @Num_Doc NUMERIC(18,0)
 AS
 BEGIN
-SELECT e.Especialidad_Descripcion,e.Tipo_Especialidad_Descripcion, m.Apellido,m.Nombre 
+SELECT e.Especialidad_Codigo,e.Especialidad_Descripcion,m.Apellido,m.Nombre 
 	FROM STRANGER_STRINGS.Medico m, STRANGER_STRINGS.Especialidad e, STRANGER_STRINGS.Especialidad_X_Medico exm
 	WHERE m.Num_Doc=@Num_Doc AND m.Id_Medico=exm.Id_Medico AND e.Especialidad_Codigo=exm.Especialidad_Codigo
 END

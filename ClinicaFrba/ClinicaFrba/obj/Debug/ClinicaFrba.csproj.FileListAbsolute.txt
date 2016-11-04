@@ -81,3 +81,5 @@ C:\Users\Hernan\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\De
 C:\Users\Hernan\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Registro_Resultado.SeleccionTurno.resources
 C:\Users\Hernan\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.csproj.GenerateResource.Cache
 C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\bin\Debug\ClinicaFrba.exe.config
+C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Compra_Bono.CompraBono.resources
+C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Registro_Llegada.Registro_Llegada.resources

@@ -102,20 +102,22 @@ namespace ClinicaFrba.Pedir_Turno
         public void obtenerYMostrarEspecialidades()
         {
             BD.Entidades.Profesional profElegido = new BD.Entidades.Profesional();
-            profElegido = obtenerProfesionalDeString(cbProfesionales.SelectedValue.ToString());
+            profElegido = obtenerProfesionalDeString(cbProfesionales.SelectedItem.ToString());
 
             List<SqlParameter> paramlist = new List<SqlParameter>();
             paramlist.Add(new SqlParameter("@Num_Doc", profElegido.Dni));
-            SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_OBTENER_ESPECIALIDADES", "SP", paramlist);
+            SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_GET_ESPECIALIDADES", "SP", paramlist);
             if (lector.HasRows)
             {
                 while (lector.Read())
-                {
+                { 
                     BD.Entidades.Especialidad especialidad = new BD.Entidades.Especialidad();
                     especialidad.Especialidad_Descr = (string)lector["Especialidad_Descripcion"];
                     especialidad.Especialidad_Cod = (decimal)lector["Especialidad_Codigo"];
                     cbEspecialidad.Items.Add(especialidad.Especialidad_Descr);
+                    especialidades.Add(especialidad);
                 }
+                
             }
         }
 
@@ -150,7 +152,7 @@ namespace ClinicaFrba.Pedir_Turno
                 while (lector.Read())
                 {
                     cbFecha.Items.Add((DateTime)lector["Turno_Fecha"]);
-                }
+}
             }
         }
 

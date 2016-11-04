@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClinicaFrba.BD.Entidades
 {
-    class Bono
+    public class Bono
     {
     }
 }
