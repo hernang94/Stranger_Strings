@@ -971,16 +971,18 @@ GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_BAJA_AFILIADO
 @Num_Doc NUMERIC(18,0),
+@Fecha_Baja DATETIME,
 @Retorno INT OUTPUT
 AS
 BEGIN
+DECLARE @Id_Paciente INT = (SELECT p.Id_Paciente FROM STRANGER_STRINGS.Paciente p WHERE p.Num_Doc=@Num_Doc)
 IF NOT EXISTS(SELECT * FROM STRANGER_STRINGS.Paciente p
 			WHERE p.Num_Doc=@Num_Doc)
 			BEGIN
 SET @Retorno=-1-- Paciente no existe
 RETURN
 END
-IF EXISTS (SELECT * FROM Baja_Paciente b WHERE b.Id_Paciente=(SELECT p.Id_Paciente FROM STRANGER_STRINGS.Paciente p WHERE p.Num_Doc=@Num_Doc))
+IF EXISTS (SELECT * FROM Baja_Paciente b WHERE b.Id_Paciente=@Id_Paciente)
 BEGIN
 SET @Retorno=-2--Paciente dado de baja anteriormente
 RETURN
@@ -989,7 +991,9 @@ UPDATE STRANGER_STRINGS.Paciente
 SET Estado_Afiliado = 'D'
 WHERE Num_Doc=@Num_Doc
 INSERT INTO STRANGER_STRINGS.Baja_Paciente(Id_Paciente,Fecha_Baja)
-VALUES ((SELECT p.Id_Paciente FROM STRANGER_STRINGS.Paciente p WHERE p.Num_Doc=@Num_Doc),GETDATE())
+VALUES (@Id_Paciente,@Fecha_Baja)
+DELETE FROM STRANGER_STRINGS.Turno
+WHERE Id_Paciente=@Id_Paciente AND Id_Consulta IS NULL 
 SET @Retorno = 0 --Baja Paciente OK
 END
 GO
@@ -1335,11 +1339,13 @@ DROP PROCEDURE STRANGER_STRINGS.SP_TOP5_CANCELACIONES
 GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_TOP5_CANCELACIONES
+@Fecha_Inicio_Semestre DATETIME,
+@Fecha_Fin_Semestre DATETIME
 AS
 BEGIN
 SELECT COUNT(*) AS Cant, e.Especialidad_Descripcion
 FROM STRANGER_STRINGS.Turno t, STRANGER_STRINGS.Especialidad_X_Medico em JOIN STRANGER_STRINGS.Especialidad e ON(em.Especialidad_Codigo=e.Especialidad_Codigo)
-WHERE em.Id=t.Id_Medico_x_Esp AND t.Id_Cancelacion IS NOT NULL
+WHERE em.Id=t.Id_Medico_x_Esp AND t.Id_Cancelacion IS NOT NULL AND t.Turno_Fecha BETWEEN @Fecha_Inicio_Semestre AND @Fecha_FIN_Semestre
 GROUP BY t.Id_Medico_x_Esp, e.Especialidad_Descripcion
 ORDER BY 1 DESC
 END
@@ -1353,11 +1359,13 @@ DROP PROCEDURE STRANGER_STRINGS.SP_TOP5_BONOS_ESPECIALIDAD
 GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_TOP5_BONOS_ESPECIALIDAD
+@Fecha_Inicio_Semestre DATETIME,
+@Fecha_Fin_Semestre DATETIME
 AS
 BEGIN
 SELECT COUNT(*) AS Cant, e.Especialidad_Descripcion
 FROM STRANGER_STRINGS.Turno t, STRANGER_STRINGS.Especialidad_X_Medico em JOIN STRANGER_STRINGS.Especialidad e ON(em.Especialidad_Codigo=e.Especialidad_Codigo)
-WHERE em.Id=t.Id_Medico_x_Esp AND t.Id_Consulta IS NOT NULL
+WHERE em.Id=t.Id_Medico_x_Esp AND t.Id_Consulta IS NOT NULL AND t.Turno_Fecha BETWEEN @Fecha_Inicio_Semestre AND @Fecha_Fin_Semestre
 GROUP BY t.Id_Medico_x_Esp, e.Especialidad_Descripcion
 ORDER BY 1 DESC
 END
@@ -1371,13 +1379,15 @@ DROP PROCEDURE STRANGER_STRINGS.SP_TOP5_PROFESIONALES_CONSULTADOS
 GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_TOP5_PROFESIONALES_CONSULTADOS
+@Fecha_Inicio_Semestre DATETIME,
+@Fecha_Fin_Semestre DATETIME
 AS
 BEGIN
 SELECT COUNT(*) AS Cantidad,m.Nombre,m.Apellido,pm.Descripcion AS Tipo_De_Plan,e.Especialidad_Descripcion
 FROM STRANGER_STRINGS.Turno t JOIN STRANGER_STRINGS.Especialidad_X_Medico em ON(t.Id_Medico_x_Esp=em.Id)
 JOIN STRANGER_STRINGS.Medico m ON(m.Id_Medico=em.Id_Medico) JOIN STRANGER_STRINGS.Especialidad e ON(em.Especialidad_Codigo=e.Especialidad_Codigo) 
 JOIN STRANGER_STRINGS.Paciente p ON(t.Id_Paciente=p.Id_Paciente) JOIN STRANGER_STRINGS.Plan_Medico pm ON(p.Codigo_Plan=pm.Codigo_Plan)
-WHERE t.Id_Consulta IS NOT NULL
+WHERE t.Id_Consulta IS NOT NULL AND t.Turno_Fecha BETWEEN @Fecha_Inicio_Semestre AND @Fecha_Fin_Semestre
 GROUP BY m.Nombre,m.Apellido,pm.Descripcion,e.Especialidad_Descripcion
 ORDER BY 1 DESC
 END
@@ -1391,13 +1401,15 @@ DROP PROCEDURE STRANGER_STRINGS.SP_TOP5_PROFESIONALES_POCAS_HORAS
 GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_TOP5_PROFESIONALES_POCAS_HORAS
+@Fecha_Inicio_Semestre DATETIME,
+@Fecha_Fin_Semestre DATETIME
 AS
 BEGIN
 SELECT COUNT(*)*0.5 AS Horas_Trabajadas,m.Nombre,m.Apellido,pm.Descripcion AS Tipo_De_Plan,e.Especialidad_Descripcion
 FROM STRANGER_STRINGS.Turno t JOIN STRANGER_STRINGS.Especialidad_X_Medico em ON(t.Id_Medico_x_Esp=em.Id)
 JOIN STRANGER_STRINGS.Medico m ON(m.Id_Medico=em.Id_Medico) JOIN STRANGER_STRINGS.Especialidad e ON(em.Especialidad_Codigo=e.Especialidad_Codigo) 
 JOIN STRANGER_STRINGS.Paciente p ON(t.Id_Paciente=p.Id_Paciente) JOIN STRANGER_STRINGS.Plan_Medico pm ON(p.Codigo_Plan=pm.Codigo_Plan)
-WHERE t.Id_Consulta IS NOT NULL
+WHERE t.Id_Consulta IS NOT NULL AND t.Turno_Fecha BETWEEN @Fecha_Inicio_Semestre AND @Fecha_Fin_Semestre 
 GROUP BY m.Nombre,m.Apellido,pm.Descripcion,e.Especialidad_Descripcion
 ORDER BY 1 ASC
 END
@@ -1411,6 +1423,8 @@ DROP PROCEDURE STRANGER_STRINGS.SP_TOP5_AFILIDOS_BONOS
 GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_TOP5_AFILIDOS_BONOS
+@Fecha_Inicio_Semestre DATETIME,
+@Fecha_Fin_Semestre DATETIME
 AS
 BEGIN
 SELECT COUNT(c.Cantidad_Bonos)AS Bonos_Comprados,p.Apellido,p.Nombre,
@@ -1419,6 +1433,7 @@ CASE WHEN (p.Num_Afiliado_Resto=01 AND p.Familiares_A_Cargo!=0) THEN 'SI'
 	 ELSE 'NO'
 	 END AS Pertenece_A_Grupo_Familiar
 FROM STRANGER_STRINGS.Paciente p JOIN STRANGER_STRINGS.Compra c ON(p.Id_Paciente=c.Id_Paciente)
+WHERE c.Fecha_Compra BETWEEN @Fecha_Inicio_Semestre AND @Fecha_Fin_Semestre
 GROUP BY p.Nombre,p.Apellido,p.Num_Afiliado_Resto,p.Familiares_A_Cargo
 ORDER BY 1 DESC
 END
@@ -1894,10 +1909,45 @@ AS
 BEGIN
 UPDATE STRANGER_STRINGS.Rol
 SET Estado='E'
+WHERE Descripcion=@Rol
+END
+GO
+-----------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_ELIMINAR_ROL')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_ELIMINAR_ROL
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_ELIMINAR_ROL
+@Rol VARCHAR(255)
+AS
+BEGIN
+UPDATE STRANGER_STRINGS.Rol
+SET Estado='D'
+WHERE Descripcion=@Rol
+DELETE FROM STRANGER_STRINGS.Rol_X_Usuario
 WHERE Id_Rol=(SELECT r.Id_Rol FROM STRANGER_STRINGS.Rol r WHERE r.Descripcion=@Rol)
 END
 GO
 
+-----------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_AGREGAR_ROL')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_AGREGAR_ROL
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_AGREGAR_ROL
+@Rol VARCHAR(255)
+AS
+BEGIN
+INSERT INTO STRANGER_STRINGS.Rol(Descripcion,Estado)
+VALUES(@Rol,'E')
+END
+GO
 -----------------------------------------
 IF EXISTS(SELECT  *
             FROM    sys.objects
