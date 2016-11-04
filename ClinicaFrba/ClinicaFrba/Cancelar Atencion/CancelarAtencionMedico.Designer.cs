@@ -43,6 +43,7 @@
             this.btVolver = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.lbTurnosCancelados = new System.Windows.Forms.Label();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.nudHasta)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudDesde)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -111,6 +112,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.dateTimePicker1);
             this.groupBox1.Controls.Add(this.cbDiaCompleto);
             this.groupBox1.Controls.Add(this.lbDiaCompleto);
             this.groupBox1.Controls.Add(this.nudHasta);
@@ -204,6 +206,15 @@
             this.lbTurnosCancelados.Text = "Turno/s cancelado/s satisfactoriamente";
             this.lbTurnosCancelados.Visible = false;
             // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.CustomFormat = "hh:mm";
+            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateTimePicker1.Location = new System.Drawing.Point(120, 189);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(129, 20);
+            this.dateTimePicker1.TabIndex = 45;
+            // 
             // CancelarAtencionMedico
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -244,6 +255,7 @@
         private System.Windows.Forms.Label lbTurnosCancelados;
         private System.Windows.Forms.Label lbDiaCompleto;
         private System.Windows.Forms.ComboBox cbDiaCompleto;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
 
     }
 }

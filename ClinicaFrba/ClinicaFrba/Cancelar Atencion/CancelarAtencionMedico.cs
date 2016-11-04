@@ -40,7 +40,7 @@ namespace ClinicaFrba.Cancelar_Atencion
             List<SqlParameter> paramList = new List<SqlParameter>();
             if (cbDiaCompleto.SelectedIndex==0)
             {
-                paramList.Add(new SqlParameter("@Turno_Fecha", monthCalendar1.SelectionRange.Start.ToString()));
+                paramList.Add(new SqlParameter("@Turno_Fecha", monthCalendar1.SelectionRange.Start));
                 paramList.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Nombre)));
                 paramList.Add(new SqlParameter("@Tipo_Cancelacion", 'M'));
                 paramList.Add(new SqlParameter("@Motivo", txtMotivo.Text));
@@ -49,7 +49,7 @@ namespace ClinicaFrba.Cancelar_Atencion
             }
             else
             {
-                paramList.Add(new SqlParameter("@Turno_Fecha", monthCalendar1.SelectionRange.Start.ToString()));
+                paramList.Add(new SqlParameter("@Turno_Fecha", monthCalendar1.SelectionRange.Start));
                 paramList.Add(new SqlParameter("@Tipo_Cancelacion", 'M'));
                 paramList.Add(new SqlParameter("@Motivo", txtMotivo.Text));
                 paramList.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Nombre)));
