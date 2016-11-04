@@ -33,14 +33,15 @@
             this.cbProfesional = new System.Windows.Forms.ComboBox();
             this.btVolver = new System.Windows.Forms.Button();
             this.btRegistrar = new System.Windows.Forms.Button();
-            this.lbTurno = new System.Windows.Forms.Label();
             this.dateFecha = new System.Windows.Forms.DateTimePicker();
             this.lbFecha = new System.Windows.Forms.Label();
             this.dtgTurno = new System.Windows.Forms.DataGridView();
             this.cbEspecialidad = new System.Windows.Forms.ComboBox();
             this.lbEspecialidad = new System.Windows.Forms.Label();
             this.btBuscar = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.dtgTurno)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbLlegada
@@ -65,7 +66,7 @@
             // cbProfesional
             // 
             this.cbProfesional.FormattingEnabled = true;
-            this.cbProfesional.Location = new System.Drawing.Point(246, 51);
+            this.cbProfesional.Location = new System.Drawing.Point(246, 48);
             this.cbProfesional.Name = "cbProfesional";
             this.cbProfesional.Size = new System.Drawing.Size(121, 21);
             this.cbProfesional.TabIndex = 38;
@@ -73,7 +74,7 @@
             // 
             // btVolver
             // 
-            this.btVolver.Location = new System.Drawing.Point(94, 308);
+            this.btVolver.Location = new System.Drawing.Point(94, 309);
             this.btVolver.Name = "btVolver";
             this.btVolver.Size = new System.Drawing.Size(75, 23);
             this.btVolver.TabIndex = 45;
@@ -83,35 +84,28 @@
             // 
             // btRegistrar
             // 
-            this.btRegistrar.Location = new System.Drawing.Point(278, 308);
+            this.btRegistrar.Location = new System.Drawing.Point(278, 309);
             this.btRegistrar.Name = "btRegistrar";
             this.btRegistrar.Size = new System.Drawing.Size(75, 23);
             this.btRegistrar.TabIndex = 46;
             this.btRegistrar.Text = "Registrar";
             this.btRegistrar.UseVisualStyleBackColor = true;
-            // 
-            // lbTurno
-            // 
-            this.lbTurno.AutoSize = true;
-            this.lbTurno.Location = new System.Drawing.Point(30, 152);
-            this.lbTurno.Name = "lbTurno";
-            this.lbTurno.Size = new System.Drawing.Size(91, 13);
-            this.lbTurno.TabIndex = 48;
-            this.lbTurno.Text = "Seleccione Turno";
+            this.btRegistrar.Click += new System.EventHandler(this.btRegistrar_Click);
             // 
             // dateFecha
             // 
             this.dateFecha.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateFecha.Location = new System.Drawing.Point(246, 103);
+            this.dateFecha.Location = new System.Drawing.Point(246, 102);
             this.dateFecha.Name = "dateFecha";
             this.dateFecha.Size = new System.Drawing.Size(121, 20);
             this.dateFecha.TabIndex = 43;
             this.dateFecha.Value = new System.DateTime(2016, 11, 4, 12, 0, 0, 0);
+            this.dateFecha.ValueChanged += new System.EventHandler(this.dateFecha_ValueChanged);
             // 
             // lbFecha
             // 
             this.lbFecha.AutoSize = true;
-            this.lbFecha.Location = new System.Drawing.Point(53, 109);
+            this.lbFecha.Location = new System.Drawing.Point(53, 108);
             this.lbFecha.Name = "lbFecha";
             this.lbFecha.Size = new System.Drawing.Size(116, 13);
             this.lbFecha.TabIndex = 44;
@@ -122,7 +116,7 @@
             this.dtgTurno.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dtgTurno.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgTurno.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dtgTurno.Location = new System.Drawing.Point(33, 168);
+            this.dtgTurno.Location = new System.Drawing.Point(15, 17);
             this.dtgTurno.Name = "dtgTurno";
             this.dtgTurno.Size = new System.Drawing.Size(398, 117);
             this.dtgTurno.TabIndex = 49;
@@ -130,7 +124,7 @@
             // cbEspecialidad
             // 
             this.cbEspecialidad.FormattingEnabled = true;
-            this.cbEspecialidad.Location = new System.Drawing.Point(246, 76);
+            this.cbEspecialidad.Location = new System.Drawing.Point(246, 75);
             this.cbEspecialidad.Name = "cbEspecialidad";
             this.cbEspecialidad.Size = new System.Drawing.Size(121, 21);
             this.cbEspecialidad.TabIndex = 50;
@@ -139,15 +133,16 @@
             // lbEspecialidad
             // 
             this.lbEspecialidad.AutoSize = true;
-            this.lbEspecialidad.Location = new System.Drawing.Point(53, 79);
+            this.lbEspecialidad.Location = new System.Drawing.Point(53, 78);
             this.lbEspecialidad.Name = "lbEspecialidad";
             this.lbEspecialidad.Size = new System.Drawing.Size(123, 13);
             this.lbEspecialidad.TabIndex = 51;
             this.lbEspecialidad.Text = "Seleccione Especialidad";
+            this.lbEspecialidad.Click += new System.EventHandler(this.lbEspecialidad_Click);
             // 
             // btBuscar
             // 
-            this.btBuscar.Location = new System.Drawing.Point(192, 139);
+            this.btBuscar.Location = new System.Drawing.Point(189, 132);
             this.btBuscar.Name = "btBuscar";
             this.btBuscar.Size = new System.Drawing.Size(75, 23);
             this.btBuscar.TabIndex = 52;
@@ -155,16 +150,26 @@
             this.btBuscar.UseVisualStyleBackColor = true;
             this.btBuscar.Click += new System.EventHandler(this.btBuscar_Click);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.dtgTurno);
+            this.groupBox1.Location = new System.Drawing.Point(12, 161);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(428, 141);
+            this.groupBox1.TabIndex = 53;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Seleccione turno";
+            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
+            // 
             // Registro_Llegada
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(452, 343);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btBuscar);
             this.Controls.Add(this.lbEspecialidad);
             this.Controls.Add(this.cbEspecialidad);
-            this.Controls.Add(this.dtgTurno);
-            this.Controls.Add(this.lbTurno);
             this.Controls.Add(this.btRegistrar);
             this.Controls.Add(this.btVolver);
             this.Controls.Add(this.lbFecha);
@@ -176,6 +181,7 @@
             this.Text = "Registrar_ Llegada";
             this.Load += new System.EventHandler(this.Registro_Llegada_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dtgTurno)).EndInit();
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -188,12 +194,12 @@
         private System.Windows.Forms.ComboBox cbProfesional;
         private System.Windows.Forms.Button btVolver;
         private System.Windows.Forms.Button btRegistrar;
-        private System.Windows.Forms.Label lbTurno;
         private System.Windows.Forms.DateTimePicker dateFecha;
         private System.Windows.Forms.Label lbFecha;
         private System.Windows.Forms.DataGridView dtgTurno;
         private System.Windows.Forms.ComboBox cbEspecialidad;
         private System.Windows.Forms.Label lbEspecialidad;
         private System.Windows.Forms.Button btBuscar;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

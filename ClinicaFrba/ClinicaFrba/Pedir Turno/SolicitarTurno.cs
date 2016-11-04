@@ -32,15 +32,11 @@ namespace ClinicaFrba.Pedir_Turno
         {
 
         }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
+        
         private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
         {
-
+            cbHorariosDisp.Items.Clear();
+            obtenerYMostrarHorarios();
         }
 
         private void label1_Click_1(object sender, EventArgs e)
@@ -52,15 +48,26 @@ namespace ClinicaFrba.Pedir_Turno
         {
             if (cbEspecialidad.Text != "" && cbFecha.Text != "" && cbProfesionales.Text != "" && cbHorariosDisp.Text != "")
             {
-                BD.Entidades.Profesional prof = obtenerProfesionalDeString(cbProfesionales.Text);
-                List<SqlParameter> listParam = new List<SqlParameter>();
-                listParam.Add(new SqlParameter("@Fecha", cbFecha.Text+cbHorariosDisp.Text));
-                listParam.Add(new SqlParameter("@Num_Doc_Paciente", int.Parse(fun.user.Nombre)));
-                listParam.Add(new SqlParameter("@Nombre", prof.Dni));
-                listParam.Add(new SqlParameter("@Especialidad_Descripcion", cbEspecialidad.SelectedItem));
+                DialogResult msg = MessageBox.Show("¿Está seguro de querer solicitar el turno?", "Confimación", MessageBoxButtons.YesNo);
+                if (msg == DialogResult.Yes)
+                {
+                    BD.Entidades.Profesional prof = obtenerProfesionalDeString(cbProfesionales.Text);
+                    List<SqlParameter> listParam = new List<SqlParameter>();
+                    listParam.Add(new SqlParameter("@Fecha_Turno", Convert.ToDateTime(cbFecha.Text + " " + cbHorariosDisp.Text)));
+                    listParam.Add(new SqlParameter("@Num_Doc_Paciente", int.Parse(fun.user.Nombre)));
+                    listParam.Add(new SqlParameter("@Num_Doc_Profesional", prof.Dni));
+                    listParam.Add(new SqlParameter("@Especialidad_Codigo", obtenerCodigoEspecialidad()));
 
-                SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_SOLICITAR_TURNO", "SP", listParam);
-               
+                    SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_SOLICITAR_TURNO", "SP", listParam);
+                    
+                    lbTurnoSolicitado.Visible = true;
+                    timer1.Enabled = true;
+                    limpiarCBs();
+                }
+                else 
+                {
+                    limpiarCBs();
+                }
             }
             else
             {
@@ -77,26 +84,25 @@ namespace ClinicaFrba.Pedir_Turno
 
         private void formSolicitarTurno_Load(object sender, EventArgs e)
         {
-            cbEspecialidad.Items.Clear();
             obtenerYMostrarProfesionales();
         }
  
         private void cbEspecialidad_SelectedIndexChanged(object sender, EventArgs e)
         {
-            cbProfesionales.Items.Clear();
+            cbFecha.Items.Clear();
             obtenerYMostrarFechas();
         }
 
         private void cbProfesionales_SelectedIndexChanged(object sender, EventArgs e)
         {
+            cbEspecialidad.Items.Clear();
             cbFecha.Items.Clear();
-            obtenerYMostrarEspecialidades();
-        }
-
-        private void cbFecha_SelectedIndexChanged(object sender, EventArgs e)
-        {
             cbHorariosDisp.Items.Clear();
-            obtenerYMostrarHorarios();
+            obtenerYMostrarEspecialidades();
+            if (cbEspecialidad.Items.Count == 1)
+            {
+                cbEspecialidad.SelectedIndex = 0;
+            }
         }
        
         public void obtenerYMostrarEspecialidades()
@@ -146,12 +152,13 @@ namespace ClinicaFrba.Pedir_Turno
             List<SqlParameter> listParam = new List<SqlParameter>();
             listParam.Add(new SqlParameter("@Num_Doc", prof.Dni));
             listParam.Add(new SqlParameter("@Especialidad_Codigo", codigo));
-            SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_OBTENER_FECHAS", "SP", listParam);
+            listParam.Add(new SqlParameter("@Fecha_Actual", ArchivoConfiguracion.Default.FechaActual));
+            SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_OBTENER_FECHAS_FUTURAS", "SP", listParam);
             if (lector.HasRows)
             {
                 while (lector.Read())
                 {
-                    cbFecha.Items.Add((DateTime)lector["Turno_Fecha"]);
+                    cbFecha.Items.Add((DateTime)lector["Fecha"]);
 }
             }
         }
@@ -162,15 +169,15 @@ namespace ClinicaFrba.Pedir_Turno
             decimal codigo = obtenerCodigoEspecialidad();
 
             List<SqlParameter> listParam = new List<SqlParameter>();
+            listParam.Add(new SqlParameter("@Fecha", cbFecha.SelectedItem));
             listParam.Add(new SqlParameter("@Num_Doc", prof.Dni));
             listParam.Add(new SqlParameter("@Especialidad_Codigo",codigo));
-            listParam.Add(new SqlParameter("@Turno_Fecha", cbFecha.SelectedItem));
-            SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_OBTENER_HORARIOS", "SP", listParam);
+            SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_HORARIO_DISPONIBLE_PARA_FECHA", "SP", listParam);
             if (lector.HasRows)
             {
                 while (lector.Read())
                 {
-                    cbHorariosDisp.Items.Add((DateTime)lector["Turno_Fecha"]);
+                    cbHorariosDisp.Items.Add((DateTime)lector["hora"]);
                 }
             }
         }
@@ -198,6 +205,23 @@ namespace ClinicaFrba.Pedir_Turno
         public decimal obtenerCodigoEspecialidad()
         { 
             return especialidades[cbEspecialidad.SelectedIndex].Especialidad_Cod;
+        }
+
+        public void limpiarCBs()
+        {
+            cbEspecialidad.Items.Clear();
+            cbFecha.Items.Clear();
+            cbHorariosDisp.Items.Clear();
+            cbProfesionales.Items.Clear();
+            obtenerYMostrarProfesionales();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (timer1.Enabled)
+            {
+                lbTurnoSolicitado.Visible = false;
+            }
         }
     }
 }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lbEspecialidad = new System.Windows.Forms.Label();
             this.cbEspecialidad = new System.Windows.Forms.ComboBox();
             this.gbBuscarMedico = new System.Windows.Forms.GroupBox();
@@ -40,6 +41,8 @@
             this.lbFechasDisp = new System.Windows.Forms.Label();
             this.btAceptar = new System.Windows.Forms.Button();
             this.btCancelar = new System.Windows.Forms.Button();
+            this.lbTurnoSolicitado = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.gbBuscarMedico.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -116,7 +119,6 @@
             this.cbHorariosDisp.Name = "cbHorariosDisp";
             this.cbHorariosDisp.Size = new System.Drawing.Size(121, 21);
             this.cbHorariosDisp.TabIndex = 6;
-            this.cbHorariosDisp.SelectedIndexChanged += new System.EventHandler(this.cbFecha_SelectedIndexChanged);
             // 
             // lbHorariosDisp
             // 
@@ -149,7 +151,7 @@
             // 
             // btAceptar
             // 
-            this.btAceptar.Location = new System.Drawing.Point(193, 266);
+            this.btAceptar.Location = new System.Drawing.Point(191, 285);
             this.btAceptar.Name = "btAceptar";
             this.btAceptar.Size = new System.Drawing.Size(75, 23);
             this.btAceptar.TabIndex = 5;
@@ -159,7 +161,7 @@
             // 
             // btCancelar
             // 
-            this.btCancelar.Location = new System.Drawing.Point(68, 266);
+            this.btCancelar.Location = new System.Drawing.Point(66, 285);
             this.btCancelar.Name = "btCancelar";
             this.btCancelar.Size = new System.Drawing.Size(79, 23);
             this.btCancelar.TabIndex = 6;
@@ -167,11 +169,29 @@
             this.btCancelar.UseVisualStyleBackColor = true;
             this.btCancelar.Click += new System.EventHandler(this.btCancelar_Click);
             // 
+            // lbTurnoSolicitado
+            // 
+            this.lbTurnoSolicitado.AutoSize = true;
+            this.lbTurnoSolicitado.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbTurnoSolicitado.ForeColor = System.Drawing.Color.Green;
+            this.lbTurnoSolicitado.Location = new System.Drawing.Point(40, 262);
+            this.lbTurnoSolicitado.Name = "lbTurnoSolicitado";
+            this.lbTurnoSolicitado.Size = new System.Drawing.Size(257, 16);
+            this.lbTurnoSolicitado.TabIndex = 7;
+            this.lbTurnoSolicitado.Text = "Su turno ha sido solicitado con éxito";
+            this.lbTurnoSolicitado.Visible = false;
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 2000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // formSolicitarTurno
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(338, 301);
+            this.ClientSize = new System.Drawing.Size(338, 329);
+            this.Controls.Add(this.lbTurnoSolicitado);
             this.Controls.Add(this.btCancelar);
             this.Controls.Add(this.btAceptar);
             this.Controls.Add(this.groupBox1);
@@ -184,6 +204,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -201,5 +222,7 @@
         private System.Windows.Forms.ComboBox cbHorariosDisp;
         private System.Windows.Forms.Button btAceptar;
         private System.Windows.Forms.Button btCancelar;
+        private System.Windows.Forms.Label lbTurnoSolicitado;
+        private System.Windows.Forms.Timer timer1;
     }
 }

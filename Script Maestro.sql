@@ -1808,7 +1808,7 @@ SELECT @Hora_Desde=h.Hora_Desde,@Hora_Hasta=h.Hora_Hasta
 FROM STRANGER_STRINGS.Horarios_Agenda h
 WHERE h.Dia=DATEPART(dw,@Fecha) AND h.Id_Especialidad_Medico=@Id_Med_Esp
 
-CREATE TABLE #HorariosPosibles(hora TIME)
+CREATE TABLE #HorariosPosibles(hora DATETIME)
 
 SET @Cantidad_Turnos=DATEDIFF(mi,@Hora_Desde,@Hora_Hasta)/30
 

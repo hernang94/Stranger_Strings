@@ -164,5 +164,25 @@ namespace ClinicaFrba.Registro_Llegada
             this.Close();
            
         }
+
+        private void dateFecha_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lbEspecialidad_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btRegistrar_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
