@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SqlClient;
 
-namespace ClinicaFrba.BD.EntidadesDAL
+namespace ClinicaFrba.BD.Entidades
 {
-    class UsuarioDAL
+    class Bono
     {
-
     }
 }

@@ -99,7 +99,7 @@
       <DependentUpon>ArchivoConfiguracion.settings</DependentUpon>
     </Compile>
     <Compile Include="BD\BDStranger_Strings.cs" />
-    <Compile Include="BD\EntidadesDAL\UsuarioDAL.cs" />
+    <Compile Include="BD\Entidades\Bono.cs" />
     <Compile Include="BD\Entidades\Especialidad.cs" />
     <Compile Include="BD\Entidades\Paciente.cs" />
     <Compile Include="BD\Entidades\Profesional.cs" />
@@ -156,11 +156,11 @@
     <Compile Include="Registrar Agenda Medico\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Registro Llegada\Form1.cs">
+    <Compile Include="Registro Llegada\Registro_Llegada.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Registro Llegada\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Registro Llegada\Registro_Llegada.Designer.cs">
+      <DependentUpon>Registro_Llegada.cs</DependentUpon>
     </Compile>
     <Compile Include="Registro Resultado\RegistroResultado.cs">
       <SubType>Form</SubType>
@@ -219,6 +219,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Registro Llegada\Registro_Llegada.resx">
+      <DependentUpon>Registro_Llegada.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Registro Resultado\RegistroResultado.resx">
       <DependentUpon>RegistroResultado.cs</DependentUpon>
     </EmbeddedResource>
@@ -243,7 +246,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="BD\EntidadesDAL\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1671,14 +1671,13 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_CREAR_CONSULTA
 @Num_Doc NUMERIC(18,0),
 @Nro_Turno INT,
 @Id_Bono INT,
-@Cantidad_Bonos_Restantes INT OUTPUT
+@Retorno INT OUTPUT
 AS
 BEGIN
 DECLARE @Id_Paciente INT
 SET @Id_Paciente = STRANGER_STRINGS.FX_OBTENER_ID_PACIENTE(@Num_Doc)
 DECLARE @Nro_Raiz_Paciente NUMERIC(20,0)=(SELECT Num_Afiliado_Raiz FROM STRANGER_STRINGS.Paciente WHERE Id_Paciente = @Id_Paciente)
 DECLARE @Cod_Plan_Paciente INT= (SELECT Codigo_Plan FROM STRANGER_STRINGS.Paciente WHERE Id_Paciente=@Id_Paciente)
-SET @Cantidad_Bonos_Restantes = STRANGER_STRINGS.FX_OBTENER_CANTIDAD_DE_BONOS(@Nro_Raiz_Paciente,@Cod_Plan_Paciente) -1
 
 	BEGIN TRY
 		BEGIN TRANSACTION
@@ -1692,10 +1691,11 @@ SET @Cantidad_Bonos_Restantes = STRANGER_STRINGS.FX_OBTENER_CANTIDAD_DE_BONOS(@N
 			SET Numero_Consulta = (SELECT Cantidad_Consulta FROM STRANGER_STRINGS.Paciente
 								 WHERE Id_Paciente=@Id_Paciente),Id_Paciente_Uso = @Id_Paciente,Fecha_Impresion=@Fecha
 			WHERE Id_Bono=@Id_Bono
+			SET @Retorno=1
 			COMMIT
 		END TRY
 		BEGIN CATCH
-		SET @Cantidad_Bonos_Restantes=-2 --Significa que algo anduvo mal
+		SET @Retorno=0
 		ROLLBACK
 		END CATCH
 END
@@ -1903,7 +1903,7 @@ IF EXISTS(SELECT  *
             FROM    sys.objects
             WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_MOSTRAR_BONOS_PACIENTE')
                     AND type IN ( N'P', N'PC' ) )
-DROP PROCEDURE STRANGER_STRINGS.SP_HABILITAR_ROL
+DROP PROCEDURE STRANGER_STRINGS.SP_MOSTRAR_BONOS_PACIENTE
 GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_MOSTRAR_BONOS_PACIENTE
