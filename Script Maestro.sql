@@ -816,7 +816,7 @@ VALUES(@Tipo_Cancelacion,@Motivo)
 SET @Id_Insert= SCOPE_IDENTITY()
 UPDATE STRANGER_STRINGS.Turno
 SET Id_Cancelacion=@Id_Insert
-WHERE Id_Paciente=@Id_Paciente AND Turno_Fecha=convert(datetime, @Turno_Fecha, 120)
+WHERE Id_Paciente=@Id_Paciente AND DATEDIFF(mi,Turno_Fecha,@Turno_Fecha)=0
 END
 GO
 
@@ -871,11 +871,11 @@ SET @Id_Insert= SCOPE_IDENTITY()
 UPDATE STRANGER_STRINGS.Turno
 SET Id_Cancelacion=@Id_Insert
 WHERE Id_Medico_x_Esp IN (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
-WHERE m.Num_Doc=@Num_Doc) AND CONVERT(DATE,Turno_Fecha)=CONVERT(DATE,@Turno_Fecha)
+WHERE m.Num_Doc=@Num_Doc) AND DATEDIFF(dd,Turno_Fecha,@Turno_Fecha)=0
 UPDATE STRANGER_STRINGS.Turno
 SET Id_Horario=NULL
 WHERE Id_Medico_x_Esp IN (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
-WHERE m.Num_Doc=@Num_Doc) AND CONVERT(DATE,Turno_Fecha)=CONVERT(DATE,@Turno_Fecha)
+WHERE m.Num_Doc=@Num_Doc) AND DATEDIFF(dd,Turno_Fecha,@Turno_Fecha)=0
 INSERT INTO STRANGER_STRINGS.Registro_Cancelacion_Medico(Id_Med,Dia_Desde,Dia_Hasta) 
 VALUES ((SELECT Id_Medico FROM STRANGER_STRINGS.Medico WHERE Num_Doc=@Num_Doc),@Turno_Fecha,@Turno_Fecha)
 END
@@ -1268,6 +1268,7 @@ SELECT m.Nombre, m.Apellido, m.Num_Doc FROM STRANGER_STRINGS.Medico m
 END
 GO
 -----------------------------------------
+/*
 IF EXISTS(SELECT  *
             FROM    sys.objects
             WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_OBTENER_FECHAS')
@@ -1285,7 +1286,7 @@ JOIN STRANGER_STRINGS.Especialidad e ON(em.Especialidad_Codigo=e.Especialidad_Co
 WHERE m.Num_Doc=@Num_Doc AND e.Especialidad_Codigo=@Especialidad_Codigo)
 SELECT Dia FROM STRANGER_STRINGS.Horarios_Agenda WHERE @Id_Medico_X_Especialidad=Id_Especialidad_Medico
 END
-GO
+GO*/
 -----------------------------------------
 /*IF EXISTS(SELECT  *
             FROM    sys.objects
@@ -1669,20 +1670,18 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_CREAR_CONSULTA
 @Fecha DATETIME,
 @Num_Doc NUMERIC(18,0),
 @Nro_Turno INT,
-@Cantidad_Bonos INT OUTPUT
+@Id_Bono INT,
+@Cantidad_Bonos_Restantes INT OUTPUT
 AS
 BEGIN
 DECLARE @Id_Paciente INT
 SET @Id_Paciente = STRANGER_STRINGS.FX_OBTENER_ID_PACIENTE(@Num_Doc)
 DECLARE @Nro_Raiz_Paciente NUMERIC(20,0)=(SELECT Num_Afiliado_Raiz FROM STRANGER_STRINGS.Paciente WHERE Id_Paciente = @Id_Paciente)
 DECLARE @Cod_Plan_Paciente INT= (SELECT Codigo_Plan FROM STRANGER_STRINGS.Paciente WHERE Id_Paciente=@Id_Paciente)
-SET @Cantidad_Bonos = STRANGER_STRINGS.FX_OBTENER_CANTIDAD_DE_BONOS(@Nro_Raiz_Paciente,@Cod_Plan_Paciente)
+SET @Cantidad_Bonos_Restantes = STRANGER_STRINGS.FX_OBTENER_CANTIDAD_DE_BONOS(@Nro_Raiz_Paciente,@Cod_Plan_Paciente) -1
 
-IF @Cantidad_Bonos > 0 
-BEGIN
 	BEGIN TRY
 		BEGIN TRANSACTION
-			DECLARE @Id_Bono INT=STRANGER_STRINGS.FX_OBTENER_BONO(@Nro_Raiz_Paciente,@Cod_Plan_Paciente)
 			INSERT INTO STRANGER_STRINGS.Consulta(Fecha_Y_Hora_Llegada,Bono_Consulta_Id,Id_Paciente)
 			VALUES(@Fecha,@Id_Bono,@Id_Paciente)
 			DECLARE @Id_Insert INT = SCOPE_IDENTITY()
@@ -1691,15 +1690,14 @@ BEGIN
 			WHERE Turno_Numero=@Nro_Turno
 			UPDATE STRANGER_STRINGS.Bono
 			SET Numero_Consulta = (SELECT Cantidad_Consulta FROM STRANGER_STRINGS.Paciente
-								 WHERE Id_Paciente=@Id_Paciente),Id_Paciente_Uso = @Id_Paciente
+								 WHERE Id_Paciente=@Id_Paciente),Id_Paciente_Uso = @Id_Paciente,Fecha_Impresion=@Fecha
 			WHERE Id_Bono=@Id_Bono
 			COMMIT
 		END TRY
 		BEGIN CATCH
-		SET @Cantidad_Bonos=-2 --Significa que algo anduvo mal
+		SET @Cantidad_Bonos_Restantes=-2 --Significa que algo anduvo mal
 		ROLLBACK
 		END CATCH
-	END
 END
 GO
 -------------------------------------------------
@@ -1897,5 +1895,39 @@ BEGIN
 UPDATE STRANGER_STRINGS.Rol
 SET Estado='E'
 WHERE Id_Rol=(SELECT r.Id_Rol FROM STRANGER_STRINGS.Rol r WHERE r.Descripcion=@Rol)
+END
+GO
+
+-----------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_MOSTRAR_BONOS_PACIENTE')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_HABILITAR_ROL
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_MOSTRAR_BONOS_PACIENTE
+@Num_Doc NUMERIC (18,0),
+@Retorno INT OUTPUT
+AS
+BEGIN
+DECLARE @Id_Paciente INT = STRANGER_STRINGS.FX_OBTENER_ID_PACIENTE(@Num_Doc)
+DECLARE @Num_Afiliado_Raiz NUMERIC(20,0),@Cod_Plan INT
+
+SELECT @Num_Afiliado_Raiz=Num_Afiliado_Raiz, @Cod_Plan=Codigo_Plan
+FROM STRANGER_STRINGS.Paciente
+WHERE Id_Paciente=@Id_Paciente
+
+DECLARE @Cantidad_Bonos INT = STRANGER_STRINGS.FX_OBTENER_CANTIDAD_DE_BONOS(@Num_Afiliado_Raiz,@Cod_Plan)
+IF @Cantidad_Bonos>0
+BEGIN
+	SELECT  Id_Bono,Fecha_Compra,Codigo_Plan 
+	FROM STRANGER_STRINGS.Bono WHERE Id_Paciente_Compro IN (SELECT Id_Paciente FROM STRANGER_STRINGS.Paciente WHERE Num_Afiliado_Raiz=@Num_Afiliado_Raiz)
+	SET @Retorno = 1
+	END
+ELSE
+BEGIN
+SET @Retorno=0
+END
 END
 GO
