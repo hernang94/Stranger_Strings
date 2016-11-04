@@ -30,126 +30,70 @@
         {
             this.components = new System.ComponentModel.Container();
             this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
-            this.nudHasta = new System.Windows.Forms.NumericUpDown();
-            this.nudDesde = new System.Windows.Forms.NumericUpDown();
-            this.lbHoraHasta = new System.Windows.Forms.Label();
-            this.lbHoraDesde = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.dtpFechaHasta = new System.Windows.Forms.DateTimePicker();
             this.cbDiaCompleto = new System.Windows.Forms.ComboBox();
-            this.lbDiaCompleto = new System.Windows.Forms.Label();
             this.txtMotivo = new System.Windows.Forms.TextBox();
             this.gbMotivo = new System.Windows.Forms.GroupBox();
             this.btAceptar = new System.Windows.Forms.Button();
             this.btVolver = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.lbTurnosCancelados = new System.Windows.Forms.Label();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            ((System.ComponentModel.ISupportInitialize)(this.nudHasta)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudDesde)).BeginInit();
+            this.lbFechaDesde = new System.Windows.Forms.Label();
+            this.lbFechaHasta = new System.Windows.Forms.Label();
+            this.dtpFechaDesde = new System.Windows.Forms.DateTimePicker();
             this.groupBox1.SuspendLayout();
             this.gbMotivo.SuspendLayout();
             this.SuspendLayout();
             // 
             // monthCalendar1
             // 
-            this.monthCalendar1.Location = new System.Drawing.Point(11, 25);
+            this.monthCalendar1.Location = new System.Drawing.Point(27, 55);
             this.monthCalendar1.MinDate = new System.DateTime(2000, 10, 27, 0, 0, 0, 0);
             this.monthCalendar1.Name = "monthCalendar1";
             this.monthCalendar1.TabIndex = 1;
+            this.monthCalendar1.Visible = false;
             this.monthCalendar1.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.monthCalendar1_DateChanged);
-            // 
-            // nudHasta
-            // 
-            this.nudHasta.Location = new System.Drawing.Point(143, 234);
-            this.nudHasta.Maximum = new decimal(new int[] {
-            24,
-            0,
-            0,
-            0});
-            this.nudHasta.Name = "nudHasta";
-            this.nudHasta.Size = new System.Drawing.Size(42, 20);
-            this.nudHasta.TabIndex = 3;
-            this.nudHasta.Visible = false;
-            this.nudHasta.ValueChanged += new System.EventHandler(this.nudHasta_ValueChanged);
-            // 
-            // nudDesde
-            // 
-            this.nudDesde.Location = new System.Drawing.Point(143, 198);
-            this.nudDesde.Maximum = new decimal(new int[] {
-            24,
-            0,
-            0,
-            0});
-            this.nudDesde.Name = "nudDesde";
-            this.nudDesde.Size = new System.Drawing.Size(42, 20);
-            this.nudDesde.TabIndex = 2;
-            this.nudDesde.Visible = false;
-            this.nudDesde.ValueChanged += new System.EventHandler(this.nudDesde_ValueChanged);
-            // 
-            // lbHoraHasta
-            // 
-            this.lbHoraHasta.AutoSize = true;
-            this.lbHoraHasta.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbHoraHasta.Location = new System.Drawing.Point(56, 234);
-            this.lbHoraHasta.Name = "lbHoraHasta";
-            this.lbHoraHasta.Size = new System.Drawing.Size(67, 15);
-            this.lbHoraHasta.TabIndex = 1;
-            this.lbHoraHasta.Text = "Hora hasta";
-            this.lbHoraHasta.Visible = false;
-            this.lbHoraHasta.Click += new System.EventHandler(this.lbHoraHasta_Click);
-            // 
-            // lbHoraDesde
-            // 
-            this.lbHoraDesde.AutoSize = true;
-            this.lbHoraDesde.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbHoraDesde.Location = new System.Drawing.Point(56, 198);
-            this.lbHoraDesde.Name = "lbHoraDesde";
-            this.lbHoraDesde.Size = new System.Drawing.Size(71, 15);
-            this.lbHoraDesde.TabIndex = 0;
-            this.lbHoraDesde.Text = "Hora desde";
-            this.lbHoraDesde.Visible = false;
-            this.lbHoraDesde.Click += new System.EventHandler(this.ldHoraDesde_Click);
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.dateTimePicker1);
+            this.groupBox1.Controls.Add(this.dtpFechaDesde);
             this.groupBox1.Controls.Add(this.cbDiaCompleto);
-            this.groupBox1.Controls.Add(this.lbDiaCompleto);
-            this.groupBox1.Controls.Add(this.nudHasta);
+            this.groupBox1.Controls.Add(this.lbFechaHasta);
             this.groupBox1.Controls.Add(this.monthCalendar1);
-            this.groupBox1.Controls.Add(this.nudDesde);
-            this.groupBox1.Controls.Add(this.lbHoraHasta);
-            this.groupBox1.Controls.Add(this.lbHoraDesde);
+            this.groupBox1.Controls.Add(this.lbFechaDesde);
+            this.groupBox1.Controls.Add(this.dtpFechaHasta);
             this.groupBox1.Location = new System.Drawing.Point(12, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(250, 267);
+            this.groupBox1.Size = new System.Drawing.Size(250, 235);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Seleccione fecha y/o período a cancelar";
+            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
+            // 
+            // dtpFechaHasta
+            // 
+            this.dtpFechaHasta.CustomFormat = "";
+            this.dtpFechaHasta.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpFechaHasta.Location = new System.Drawing.Point(125, 168);
+            this.dtpFechaHasta.Name = "dtpFechaHasta";
+            this.dtpFechaHasta.Size = new System.Drawing.Size(97, 20);
+            this.dtpFechaHasta.TabIndex = 45;
+            this.dtpFechaHasta.Visible = false;
             // 
             // cbDiaCompleto
             // 
             this.cbDiaCompleto.AllowDrop = true;
             this.cbDiaCompleto.FormattingEnabled = true;
             this.cbDiaCompleto.Items.AddRange(new object[] {
-            "Si",
-            "No"});
-            this.cbDiaCompleto.Location = new System.Drawing.Point(172, 215);
+            "Fecha a cancelar",
+            "Período a cancelar"});
+            this.cbDiaCompleto.Location = new System.Drawing.Point(45, 22);
             this.cbDiaCompleto.Name = "cbDiaCompleto";
-            this.cbDiaCompleto.Size = new System.Drawing.Size(47, 21);
+            this.cbDiaCompleto.Size = new System.Drawing.Size(147, 21);
             this.cbDiaCompleto.TabIndex = 5;
+            this.cbDiaCompleto.Text = "Tipo de cancelación";
             this.cbDiaCompleto.SelectedIndexChanged += new System.EventHandler(this.cbDiaCompleto_SelectedIndexChanged);
-            // 
-            // lbDiaCompleto
-            // 
-            this.lbDiaCompleto.AutoSize = true;
-            this.lbDiaCompleto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbDiaCompleto.Location = new System.Drawing.Point(24, 215);
-            this.lbDiaCompleto.Name = "lbDiaCompleto";
-            this.lbDiaCompleto.Size = new System.Drawing.Size(144, 15);
-            this.lbDiaCompleto.TabIndex = 4;
-            this.lbDiaCompleto.Text = "¿Cancelar día completo?";
-            this.lbDiaCompleto.Click += new System.EventHandler(this.label1_Click);
             // 
             // txtMotivo
             // 
@@ -158,20 +102,22 @@
             this.txtMotivo.Name = "txtMotivo";
             this.txtMotivo.Size = new System.Drawing.Size(238, 134);
             this.txtMotivo.TabIndex = 3;
+            this.txtMotivo.TextChanged += new System.EventHandler(this.txtMotivo_TextChanged);
             // 
             // gbMotivo
             // 
             this.gbMotivo.Controls.Add(this.txtMotivo);
-            this.gbMotivo.Location = new System.Drawing.Point(12, 279);
+            this.gbMotivo.Location = new System.Drawing.Point(12, 248);
             this.gbMotivo.Name = "gbMotivo";
             this.gbMotivo.Size = new System.Drawing.Size(250, 159);
             this.gbMotivo.TabIndex = 4;
             this.gbMotivo.TabStop = false;
             this.gbMotivo.Text = "Ingrese el motivo de su cancelación";
+            this.gbMotivo.Enter += new System.EventHandler(this.gbMotivo_Enter);
             // 
             // btAceptar
             // 
-            this.btAceptar.Location = new System.Drawing.Point(165, 484);
+            this.btAceptar.Location = new System.Drawing.Point(165, 453);
             this.btAceptar.Name = "btAceptar";
             this.btAceptar.Size = new System.Drawing.Size(75, 23);
             this.btAceptar.TabIndex = 43;
@@ -181,7 +127,7 @@
             // 
             // btVolver
             // 
-            this.btVolver.Location = new System.Drawing.Point(19, 484);
+            this.btVolver.Location = new System.Drawing.Point(19, 453);
             this.btVolver.Name = "btVolver";
             this.btVolver.Size = new System.Drawing.Size(75, 23);
             this.btVolver.TabIndex = 42;
@@ -191,7 +137,7 @@
             // 
             // timer1
             // 
-            this.timer1.Interval = 500;
+            this.timer1.Interval = 5000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // lbTurnosCancelados
@@ -199,27 +145,51 @@
             this.lbTurnosCancelados.AutoSize = true;
             this.lbTurnosCancelados.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbTurnosCancelados.ForeColor = System.Drawing.Color.Green;
-            this.lbTurnosCancelados.Location = new System.Drawing.Point(4, 450);
+            this.lbTurnosCancelados.Location = new System.Drawing.Point(6, 419);
             this.lbTurnosCancelados.Name = "lbTurnosCancelados";
             this.lbTurnosCancelados.Size = new System.Drawing.Size(258, 15);
             this.lbTurnosCancelados.TabIndex = 44;
             this.lbTurnosCancelados.Text = "Turno/s cancelado/s satisfactoriamente";
             this.lbTurnosCancelados.Visible = false;
+            this.lbTurnosCancelados.Click += new System.EventHandler(this.lbTurnosCancelados_Click);
             // 
-            // dateTimePicker1
+            // lbFechaDesde
             // 
-            this.dateTimePicker1.CustomFormat = "hh:mm";
-            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker1.Location = new System.Drawing.Point(120, 189);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(129, 20);
-            this.dateTimePicker1.TabIndex = 45;
+            this.lbFechaDesde.AutoSize = true;
+            this.lbFechaDesde.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbFechaDesde.Location = new System.Drawing.Point(19, 93);
+            this.lbFechaDesde.Name = "lbFechaDesde";
+            this.lbFechaDesde.Size = new System.Drawing.Size(78, 15);
+            this.lbFechaDesde.TabIndex = 46;
+            this.lbFechaDesde.Text = "Fecha desde";
+            this.lbFechaDesde.Visible = false;
+            // 
+            // lbFechaHasta
+            // 
+            this.lbFechaHasta.AutoSize = true;
+            this.lbFechaHasta.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbFechaHasta.Location = new System.Drawing.Point(19, 172);
+            this.lbFechaHasta.Name = "lbFechaHasta";
+            this.lbFechaHasta.Size = new System.Drawing.Size(74, 15);
+            this.lbFechaHasta.TabIndex = 47;
+            this.lbFechaHasta.Text = "Fecha hasta";
+            this.lbFechaHasta.Visible = false;
+            // 
+            // dtpFechaDesde
+            // 
+            this.dtpFechaDesde.CustomFormat = "";
+            this.dtpFechaDesde.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpFechaDesde.Location = new System.Drawing.Point(125, 89);
+            this.dtpFechaDesde.Name = "dtpFechaDesde";
+            this.dtpFechaDesde.Size = new System.Drawing.Size(97, 20);
+            this.dtpFechaDesde.TabIndex = 48;
+            this.dtpFechaDesde.Visible = false;
             // 
             // CancelarAtencionMedico
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(273, 523);
+            this.ClientSize = new System.Drawing.Size(273, 487);
             this.Controls.Add(this.lbTurnosCancelados);
             this.Controls.Add(this.btAceptar);
             this.Controls.Add(this.btVolver);
@@ -228,8 +198,6 @@
             this.Name = "CancelarAtencionMedico";
             this.Text = "Cancelar atenciones";
             this.Load += new System.EventHandler(this.CancelarAtencionMedico_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.nudHasta)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudDesde)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.gbMotivo.ResumeLayout(false);
@@ -242,10 +210,6 @@
         #endregion
 
         private System.Windows.Forms.MonthCalendar monthCalendar1;
-        private System.Windows.Forms.NumericUpDown nudHasta;
-        private System.Windows.Forms.NumericUpDown nudDesde;
-        private System.Windows.Forms.Label lbHoraHasta;
-        private System.Windows.Forms.Label lbHoraDesde;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox txtMotivo;
         private System.Windows.Forms.GroupBox gbMotivo;
@@ -253,9 +217,11 @@
         private System.Windows.Forms.Button btVolver;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label lbTurnosCancelados;
-        private System.Windows.Forms.Label lbDiaCompleto;
         private System.Windows.Forms.ComboBox cbDiaCompleto;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DateTimePicker dtpFechaHasta;
+        private System.Windows.Forms.Label lbFechaDesde;
+        private System.Windows.Forms.Label lbFechaHasta;
+        private System.Windows.Forms.DateTimePicker dtpFechaDesde;
 
     }
 }
