@@ -407,7 +407,7 @@ WHERE r.Descripcion IN ('Administrador','Afiliado','Profesional') AND u.Usuario 
 
 
 INSERT INTO STRANGER_STRINGS.Usuario(Usuario,Pasword)
-SELECT CONVERT(VARCHAR,p.Num_Doc) As Usuario, HASHBYTES('SHA2_256',p.Apellido)
+SELECT p.Apellido As Usuario, HASHBYTES('SHA2_256',CONVERT(VARCHAR,p.Num_Doc))
 FROM STRANGER_STRINGS.Paciente p
 
 INSERT INTO STRANGER_STRINGS.Rol_X_Usuario(Id_Rol,Id_Usuario)
@@ -416,7 +416,7 @@ FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Usuario u JOIN STRANGER_STRINGS.Pac
 WHERE r.Descripcion LIKE 'Afiliado'
 
 INSERT INTO STRANGER_STRINGS.Usuario(Usuario,Pasword)
-SELECT CONVERT(VARCHAR,Num_Doc) As Usuario, HASHBYTES('SHA2_256',Apellido)
+SELECT Apellido AS Usuario, HASHBYTES('SHA2_256',CONVERT(VARCHAR,Num_Doc))
 FROM STRANGER_STRINGS.Medico
 
 INSERT INTO STRANGER_STRINGS.Rol_X_Usuario(Id_Rol,Id_Usuario)
@@ -767,7 +767,7 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNOS_AFILIADO
 @Num_Doc NUMERIC(18,0)
 AS
 BEGIN 
-SELECT t.Turno_Numero,t.Turno_Fecha,m.Apellido,e.Especialidad_Descripcion, e.Especialidad_Codigo
+SELECT t.Turno_Numero,t.Turno_Fecha,m.Apellido,e.Especialidad_Descripcion,e.Especialidad_Codigo
 FROM STRANGER_STRINGS.Turno t JOIN STRANGER_STRINGS.Paciente p ON (p.Id_Paciente=t.Id_Paciente),STRANGER_STRINGS.Medico m ,
 STRANGER_STRINGS.Especialidad e
 WHERE p.Num_Doc = @Num_Doc 
