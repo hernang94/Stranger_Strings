@@ -3,12 +3,17 @@
 USE GD2C2016
 GO
 
+
+
 --Si no existe el esquema lo creo
 
 IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'STRANGER_STRINGS')
 BEGIN
     EXEC ('CREATE SCHEMA STRANGER_STRINGS AUTHORIZATION gd')
 END
+GO
+
+SET DATEFIRST 1
 GO
 
 --Si existen las tablas las dropeo
