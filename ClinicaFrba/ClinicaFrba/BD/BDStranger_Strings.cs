@@ -46,13 +46,13 @@ namespace ClinicaFrba
         }
 
         // En @ret va el output
-        public static decimal ExecStoredProcedure(string commandText, List<SqlParameter> parameters)
+        public static int ExecStoredProcedure(string commandText, List<SqlParameter> parameters)
         {
             try {
                 SqlCommand sqlCommand = BuildSQLCommand(commandText, parameters);
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.ExecuteNonQuery();
-                return (decimal)sqlCommand.Parameters["@ret"].Value;
+                return (int)sqlCommand.Parameters["@Retorno"].Value;
             } catch { return 0;}
          }
 

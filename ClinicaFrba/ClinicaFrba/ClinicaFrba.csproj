@@ -136,12 +136,6 @@
     <Compile Include="Inicio.Designer.cs">
       <DependentUpon>Inicio.cs</DependentUpon>
     </Compile>
-    <Compile Include="Listados\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Listados\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Pedir Turno\SolicitarTurno.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -228,6 +222,9 @@
     <EmbeddedResource Include="Registro Llegada\Registro_Llegada.resx">
       <DependentUpon>Registro_Llegada.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Registro Llegada\SeleccionBono.resx">
+      <DependentUpon>SeleccionBono.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Registro Resultado\RegistroResultado.resx">
       <DependentUpon>RegistroResultado.cs</DependentUpon>
     </EmbeddedResource>
@@ -254,6 +251,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BD\EntidadesDAL\" />
+    <Folder Include="Listados\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

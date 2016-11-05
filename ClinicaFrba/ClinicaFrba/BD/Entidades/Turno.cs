@@ -9,10 +9,11 @@ namespace ClinicaFrba.BD.Entidades
     public class Turno
     {
         public DateTime fecha { get; set; }
+        public int nro { get; set; }
         public string apellido_Prof { get; set; }
         public string especialidad { get; set; }
         public string nombre_Pac { get; set; }
         public string apellido_Pac { get; set; }
-        public decimal id_Consulta { get; set; }
+        public int id_Consulta { get; set; }
     }
 }

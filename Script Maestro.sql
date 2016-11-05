@@ -285,8 +285,8 @@ GO
 ------------------------------------------------
 SET IDENTITY_INSERT STRANGER_STRINGS.Bono ON
 GO
-INSERT INTO STRANGER_STRINGS.Bono(Id_Bono,Fecha_Impresion,Id_Paciente_Compro,Id_Paciente_Uso,Codigo_Plan)
-SELECT DISTINCT e.Bono_Consulta_Numero,e.Bono_Consulta_Fecha_Impresion,p.Id_Paciente ,p.Id_Paciente, e.Plan_Med_Codigo
+INSERT INTO STRANGER_STRINGS.Bono(Id_Bono,Fecha_Compra,Fecha_Impresion,Id_Paciente_Compro,Id_Paciente_Uso,Codigo_Plan)
+SELECT DISTINCT e.Bono_Consulta_Numero,e.Bono_Consulta_Fecha_Impresion,e.Bono_Consulta_Fecha_Impresion,p.Id_Paciente ,p.Id_Paciente, e.Plan_Med_Codigo
 FROM gd_esquema.Maestra e JOIN STRANGER_STRINGS.Paciente p on(e.Paciente_Dni=p.Num_Doc)
 WHERE e.Bono_Consulta_Numero IS NOT NULL AND e.Consulta_Sintomas IS NOT NULL 
 ORDER BY Bono_Consulta_Numero ASC
@@ -1467,7 +1467,7 @@ GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_COMPRA_BONOS
 @Num_Doc NUMERIC(18,0),
-@Fecha_Compra DATETIME,
+@Fecha_Compra DATETIME,	
 @Cantidad_Bonos INT
 AS
 BEGIN
@@ -1623,12 +1623,16 @@ IF EXISTS(SELECT  *
 DROP PROCEDURE STRANGER_STRINGS.SP_LISTAR_TURNOS_MEDICO
 GO
 CREATE PROCEDURE STRANGER_STRINGS.SP_LISTAR_TURNOS_MEDICO
-@Id_Medico INT,
+@Num_Doc NUMERIC(18,0),
 @Especialidad_Codigo NUMERIC(18,0),
 @Fecha DATETIME
 AS
 BEGIN
-SELECT t.Turno_Numero, p.Nombre,p.Apellido,p.Num_Doc,CONVERT(TIME,t.Turno_Fecha,120)
+DECLARE @Id_Medico INT
+SELECT @Id_Medico=Id_Medico
+FROM STRANGER_STRINGS.Medico
+WHERE @Num_Doc= Num_Doc
+SELECT t.Turno_Numero, p.Nombre,p.Apellido,p.Num_Doc,t.Turno_Fecha
 		FROM STRANGER_STRINGS.Turno t JOIN STRANGER_STRINGS.Paciente p ON(t.Id_Paciente=p.Id_Paciente)
 		WHERE t.Id_Medico_x_Esp = (SELECT Id FROM STRANGER_STRINGS.Especialidad_X_Medico WHERE Id_Medico=@Id_Medico
 		AND Especialidad_Codigo=@Especialidad_Codigo) AND DATEDIFF(day,t.Turno_Fecha,@Fecha)=0
@@ -1972,12 +1976,14 @@ DECLARE @Cantidad_Bonos INT = STRANGER_STRINGS.FX_OBTENER_CANTIDAD_DE_BONOS(@Num
 IF @Cantidad_Bonos>0
 BEGIN
 	SELECT  Id_Bono,Fecha_Compra,Codigo_Plan 
-	FROM STRANGER_STRINGS.Bono WHERE Id_Paciente_Compro IN (SELECT Id_Paciente FROM STRANGER_STRINGS.Paciente WHERE Num_Afiliado_Raiz=@Num_Afiliado_Raiz)
+	FROM STRANGER_STRINGS.Bono WHERE Id_Paciente_Compro IN (SELECT Id_Paciente FROM STRANGER_STRINGS.Paciente WHERE Num_Afiliado_Raiz=@Num_Afiliado_Raiz) AND Id_Paciente_Uso IS NULL
 	SET @Retorno = 1
+	RETURN
 	END
 ELSE
 BEGIN
 SET @Retorno=0
+RETURN
 END
 END
 GO

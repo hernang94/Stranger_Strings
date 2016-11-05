@@ -116,9 +116,9 @@
             this.dtgTurno.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dtgTurno.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgTurno.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dtgTurno.Location = new System.Drawing.Point(15, 17);
+            this.dtgTurno.Location = new System.Drawing.Point(15, 18);
             this.dtgTurno.Name = "dtgTurno";
-            this.dtgTurno.Size = new System.Drawing.Size(398, 117);
+            this.dtgTurno.Size = new System.Drawing.Size(296, 117);
             this.dtgTurno.TabIndex = 49;
             // 
             // cbEspecialidad
@@ -153,9 +153,9 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.dtgTurno);
-            this.groupBox1.Location = new System.Drawing.Point(12, 161);
+            this.groupBox1.Location = new System.Drawing.Point(56, 161);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(428, 141);
+            this.groupBox1.Size = new System.Drawing.Size(330, 141);
             this.groupBox1.TabIndex = 53;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Seleccione turno";
