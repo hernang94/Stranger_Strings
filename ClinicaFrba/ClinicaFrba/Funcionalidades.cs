@@ -70,7 +70,10 @@ namespace ClinicaFrba
         }
 
         private void btABMRol_Click(object sender, EventArgs e)
-        { 
+        {
+            AbmRol.Principal principal = new AbmRol.Principal(this);
+            principal.Show();
+            this.Hide();
         }
 
 
@@ -159,7 +162,9 @@ namespace ClinicaFrba
 
         private void btRegAgendaProf_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Funcionalidad no disponible", "Error!", MessageBoxButtons.OK);
+            Registrar_Agenda_Medico.Registro_Agenda registro = new Registrar_Agenda_Medico.Registro_Agenda(this);
+            registro.Show();
+            this.Hide();
         }
 
         private void btRegistroLlegada_Click(object sender, EventArgs e)

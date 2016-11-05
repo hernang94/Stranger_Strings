@@ -410,34 +410,38 @@ INSERT INTO STRANGER_STRINGS.Usuario(Usuario,Pasword)
 SELECT p.Apellido As Usuario, HASHBYTES('SHA2_256',CONVERT(VARCHAR,p.Num_Doc))
 FROM STRANGER_STRINGS.Paciente p
 
+UPDATE STRANGER_STRINGS.Paciente
+SET Id_Usuario=
+(SELECT u.Id_Usuario FROM STRANGER_STRINGS.Usuario u
+WHERE u.Pasword=HASHBYTES('SHA2_256',CONVERT(VARCHAR,p.Num_Doc)))
+FROM STRANGER_STRINGS.Paciente p
+
+
 INSERT INTO STRANGER_STRINGS.Rol_X_Usuario(Id_Rol,Id_Usuario)
 SELECT r.Id_Rol,u.Id_Usuario
-FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Usuario u JOIN STRANGER_STRINGS.Paciente p ON(CONVERT(VARCHAR,p.Num_Doc)=u.Usuario)
-WHERE r.Descripcion LIKE 'Afiliado'
+FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Usuario u JOIN STRANGER_STRINGS.Paciente p ON(p.Id_Usuario=u.Id_Usuario)
+WHERE r.Descripcion LIKE 'Afiliado' AND u.Usuario=p.Apellido
 
 INSERT INTO STRANGER_STRINGS.Usuario(Usuario,Pasword)
 SELECT Apellido AS Usuario, HASHBYTES('SHA2_256',CONVERT(VARCHAR,Num_Doc))
 FROM STRANGER_STRINGS.Medico
 
+UPDATE STRANGER_STRINGS.Medico
+SET Id_Usuario=
+(SELECT u.Id_Usuario FROM STRANGER_STRINGS.Usuario u
+WHERE u.Pasword=HASHBYTES('SHA2_256',CONVERT(VARCHAR,m.Num_Doc)))
+FROM STRANGER_STRINGS.Medico m
+
 INSERT INTO STRANGER_STRINGS.Rol_X_Usuario(Id_Rol,Id_Usuario)
 SELECT r.Id_Rol,u.Id_Usuario
-FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Usuario u JOIN STRANGER_STRINGS.Medico m ON(CONVERT(VARCHAR,m.Num_Doc)=u.Usuario)
-WHERE r.Descripcion LIKE 'Profesional'
+FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Usuario u JOIN STRANGER_STRINGS.Medico m ON(m.Id_Usuario=u.Id_Usuario)
+WHERE r.Descripcion LIKE 'Profesional' AND u.Usuario=m.Apellido
 
 UPDATE STRANGER_STRINGS.Usuario
 SET Cantidad_Intentos=3
 
-UPDATE STRANGER_STRINGS.Paciente
-SET Id_Usuario=
-(SELECT u.Id_Usuario FROM STRANGER_STRINGS.Usuario u
-WHERE u.Usuario=CONVERT(VARCHAR,p.Num_Doc))
-FROM STRANGER_STRINGS.Paciente p
 
-UPDATE STRANGER_STRINGS.Medico
-SET Id_Usuario=
-(SELECT u.Id_Usuario FROM STRANGER_STRINGS.Usuario u
-WHERE u.Usuario=CONVERT(VARCHAR,m.Num_Doc))
-FROM STRANGER_STRINGS.Medico m
+
 
 --FIN SETEO DE USUARIOS
 
@@ -1534,17 +1538,20 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_ALTA_AFILIADO
 @Sexo CHAR(1),
 @Estado_Civil VARCHAR(15),
 @Familiares_A_Cargo INT,
-@Codigo_Plan INT,
+@Plan VARCHAR(255),
 @Num_Afiliado_Raiz NUMERIC(20,0),
-@Num_Afiliado NUMERIC(20,0)=NULL OUTPUT,
-@Retorno INT OUTPUT
+@Num_Afiliado NUMERIC(20,0)=NULL OUTPUT
 
 AS
 BEGIN
+DECLARE @Codigo_Plan INT
+SELECT @Codigo_Plan=Descripcion
+FROM STRANGER_STRINGS.Plan_Medico
+WHERE Descripcion=@Plan
 IF EXISTS( SELECT * FROM STRANGER_STRINGS.Paciente WHERE Num_Doc=@Num_Doc)
 BEGIN
 		--RAISERROR('Paciente ya existente',10,1)
-		SET @Retorno=-1
+		SET @Num_Afiliado=-1
 		RETURN
 		END
 IF @Num_Afiliado_Raiz IS NULL
@@ -1563,7 +1570,6 @@ DECLARE @Id_Insert INT = SCOPE_IDENTITY()
 UPDATE STRANGER_STRINGS.Paciente
 SET Id_Usuario=@Id_Insert
 WHERE Num_Doc=@Num_Doc
-SET @Retorno=0 --OK
 END
 GO
 
@@ -2044,5 +2050,39 @@ ELSE
 BEGIN
 SET @Estado=0
 END
+END
+GO
+----------------------------------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_OBTENER_FUNCIONALIDADES_DEL_ROL')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_OBTENER_FUNCIONALIDADES_DEL_ROL
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_OBTENER_FUNCIONALIDADES_DEL_ROL
+@Rol VARCHAR(255)
+AS
+BEGIN
+SELECT f.Descripcion
+FROM STRANGER_STRINGS.Funcionalidad f JOIN STRANGER_STRINGS.Funcionalidad_X_Rol fr ON(fr.Id_Funcionalidad=f.Id_Funcionalidad) JOIN STRANGER_STRINGS.Rol r
+ON (fr.Id_Rol=r.Id_Rol)
+WHERE r.Descripcion=@Rol
+END
+GO
+
+------------------------------------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_OBTENER_FUNCIONALIDADES')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_OBTENER_FUNCIONALIDADES
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_OBTENER_FUNCIONALIDADES
+AS
+BEGIN
+SELECT f.Descripcion
+FROM STRANGER_STRINGS.Funcionalidad f 
 END
 GO

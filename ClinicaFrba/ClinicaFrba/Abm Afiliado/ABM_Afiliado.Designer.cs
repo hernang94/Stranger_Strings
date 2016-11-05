@@ -212,6 +212,7 @@
             this.txtNroDoc.Name = "txtNroDoc";
             this.txtNroDoc.Size = new System.Drawing.Size(100, 20);
             this.txtNroDoc.TabIndex = 4;
+            this.txtNroDoc.TextChanged += new System.EventHandler(this.txtNroDoc_TextChanged);
             // 
             // txtApellido
             // 

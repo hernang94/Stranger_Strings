@@ -112,16 +112,16 @@ namespace ClinicaFrba.Abm_Afiliado
             lista.Add(new SqlParameter("@nombre", txtNombre.Text));
             lista.Add(new SqlParameter("@apellido", txtApellido.Text));
             lista.Add(new SqlParameter("@tipo_Doc", txtTipoDoc.Text));
-            lista.Add(new SqlParameter("@nro_Doc", int.Parse(txtNroDoc.Text)));
+            lista.Add(new SqlParameter("@Num_Doc", int.Parse(txtNroDoc.Text)));
             lista.Add(new SqlParameter("@direccion", txtDirec.Text));
-            lista.Add(new SqlParameter("@tel", int.Parse(txtTel.Text)));
-            lista.Add(new SqlParameter("@mail",txtMail.Text));
+            lista.Add(new SqlParameter("@Telefono", int.Parse(txtTel.Text)));
+            lista.Add(new SqlParameter("@Mail",txtMail.Text));
             lista.Add(new SqlParameter("@fecha_Nac", dateFechaNac.Value));
             lista.Add(new SqlParameter("@sexo", cbSexo.Text.Substring(0,1)));
             lista.Add(new SqlParameter("@estado_Civil", cbEstadoCivil.Text));
-            lista.Add(new SqlParameter("@cant_Familiares", int.Parse(nupCantFamilia.Text)));
-            lista.Add(new SqlParameter("@plan_Med", "Plan Medico "+cbPlanMedico.Text));
-            lista.Add(new SqlParameter("@num_Raiz", null));
+            lista.Add(new SqlParameter("@Familiares_A_Cargo", int.Parse(nupCantFamilia.Text)));
+            lista.Add(new SqlParameter("@Plan", "Plan Medico "+cbPlanMedico.Text));
+            lista.Add(new SqlParameter("@Num_Afiliado_Raiz", null));
             lista.Add(new SqlParameter("@num_resto", 1));
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_ALTA_AFILIADO", "SP", lista);
             decimal num_afiliado_raiz=0;
@@ -303,6 +303,11 @@ namespace ClinicaFrba.Abm_Afiliado
 
            //MessageBox.Show("Modifique el campo que desee y luego haga 'Enter' para realizar la modificación.", "Instrucciones de modificado", MessageBoxButtons.OK);
            //dtgCliente.EditMode = DataGridViewEditMode.EditOnEnter;
+
+       }
+
+       private void txtNroDoc_TextChanged(object sender, EventArgs e)
+       {
 
        }
     }

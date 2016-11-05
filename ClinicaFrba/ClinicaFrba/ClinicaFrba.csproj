@@ -87,11 +87,47 @@
     <Compile Include="Abm Profesional\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="AbmRol\Form1.cs">
+    <Compile Include="AbmRol\AgregarFuncionalidad.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AbmRol\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="AbmRol\AgregarFuncionalidad.Designer.cs">
+      <DependentUpon>AgregarFuncionalidad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmRol\AltaRol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmRol\AltaRol.Designer.cs">
+      <DependentUpon>AltaRol.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmRol\DeshabilitarRol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmRol\DeshabilitarRol.Designer.cs">
+      <DependentUpon>DeshabilitarRol.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmRol\EliminarFuncionalidad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmRol\EliminarFuncionalidad.Designer.cs">
+      <DependentUpon>EliminarFuncionalidad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmRol\HabilitarRol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmRol\HabilitarRol.Designer.cs">
+      <DependentUpon>HabilitarRol.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmRol\ModificarRol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmRol\ModificarRol.Designer.cs">
+      <DependentUpon>ModificarRol.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmRol\Principal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmRol\Principal.Designer.cs">
+      <DependentUpon>Principal.cs</DependentUpon>
     </Compile>
     <Compile Include="ArchivoConfiguracion.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -155,11 +191,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Registrar Agenda Medico\Form1.cs">
+    <Compile Include="Registrar Agenda Medico\Registro_Agenda.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Registrar Agenda Medico\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Registrar Agenda Medico\Registro_Agenda.Designer.cs">
+      <DependentUpon>Registro_Agenda.cs</DependentUpon>
     </Compile>
     <Compile Include="Registro Llegada\Registro_Llegada.cs">
       <SubType>Form</SubType>
@@ -203,6 +239,27 @@
     <EmbeddedResource Include="Abm Afiliado\ModificacionAfiliado.resx">
       <DependentUpon>ModificacionAfiliado.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\AgregarFuncionalidad.resx">
+      <DependentUpon>AgregarFuncionalidad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\AltaRol.resx">
+      <DependentUpon>AltaRol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\DeshabilitarRol.resx">
+      <DependentUpon>DeshabilitarRol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\EliminarFuncionalidad.resx">
+      <DependentUpon>EliminarFuncionalidad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\HabilitarRol.resx">
+      <DependentUpon>HabilitarRol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\ModificarRol.resx">
+      <DependentUpon>ModificarRol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\Principal.resx">
+      <DependentUpon>Principal.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Cancelar Atencion\CancelarAtencionAfiliado.resx">
       <DependentUpon>CancelarAtencionAfiliado.cs</DependentUpon>
     </EmbeddedResource>
@@ -233,6 +290,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Registrar Agenda Medico\Registro_Agenda.resx">
+      <DependentUpon>Registro_Agenda.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Registro Llegada\Registro_Llegada.resx">
       <DependentUpon>Registro_Llegada.cs</DependentUpon>
     </EmbeddedResource>
