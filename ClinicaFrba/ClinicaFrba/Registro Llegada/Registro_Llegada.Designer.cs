@@ -99,7 +99,7 @@
             this.dateFecha.Name = "dateFecha";
             this.dateFecha.Size = new System.Drawing.Size(121, 20);
             this.dateFecha.TabIndex = 43;
-            this.dateFecha.Value = ArchivoConfiguracion.Default.FechaActual;
+            this.dateFecha.Value = global::ClinicaFrba.ArchivoConfiguracion.Default.FechaActual;
             this.dateFecha.ValueChanged += new System.EventHandler(this.dateFecha_ValueChanged);
             // 
             // lbFecha
@@ -116,9 +116,9 @@
             this.dtgTurno.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dtgTurno.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgTurno.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dtgTurno.Location = new System.Drawing.Point(15, 18);
+            this.dtgTurno.Location = new System.Drawing.Point(17, 18);
             this.dtgTurno.Name = "dtgTurno";
-            this.dtgTurno.Size = new System.Drawing.Size(296, 117);
+            this.dtgTurno.Size = new System.Drawing.Size(307, 117);
             this.dtgTurno.TabIndex = 49;
             // 
             // cbEspecialidad
@@ -153,9 +153,9 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.dtgTurno);
-            this.groupBox1.Location = new System.Drawing.Point(56, 161);
+            this.groupBox1.Location = new System.Drawing.Point(47, 161);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(330, 141);
+            this.groupBox1.Size = new System.Drawing.Size(339, 141);
             this.groupBox1.TabIndex = 53;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Seleccione turno";

@@ -105,6 +105,7 @@ namespace ClinicaFrba.Registro_Llegada
                 dtgTurno.Columns["especialidad"].Visible = false;
                 dtgTurno.Columns["id_Consulta"].Visible = false;
                 dtgTurno.Columns["nro"].Visible = false;
+                dtgTurno.Columns["codigo"].Visible = false;
             }
 
         }
@@ -131,7 +132,7 @@ namespace ClinicaFrba.Registro_Llegada
 
         private void limpiarGrilla()
         {
-            dtgTurno.Columns.Clear();
+            dtgTurno.DataSource = null;
         }
 
         public BD.Entidades.Profesional obtenerProfesionalDeString(string profesional)

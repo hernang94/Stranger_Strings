@@ -104,8 +104,11 @@
     <Compile Include="BD\Entidades\Paciente.cs" />
     <Compile Include="BD\Entidades\Profesional.cs" />
     <Compile Include="BD\Entidades\Rol.cs" />
+    <Compile Include="BD\Entidades\TOP5BonosComprados.cs" />
+    <Compile Include="BD\Entidades\TOP5EspecialidadMasBonos.cs" />
     <Compile Include="BD\Entidades\TOP5Cancelaciones.cs" />
-    <Compile Include="BD\Entidades\TOP5ProfCanceladod.cs" />
+    <Compile Include="BD\Entidades\TOP5ProfConsultados.cs" />
+    <Compile Include="BD\Entidades\TOP5ProfMenosHoras.cs" />
     <Compile Include="BD\Entidades\Turno.cs" />
     <Compile Include="BD\Entidades\Usuario.cs" />
     <Compile Include="Cancelar Atencion\CancelarAtencionMedico.cs">

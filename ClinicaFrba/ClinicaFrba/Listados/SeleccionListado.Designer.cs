@@ -32,10 +32,10 @@
             this.cbListado = new System.Windows.Forms.ComboBox();
             this.cbAño = new System.Windows.Forms.ComboBox();
             this.gbConfiguracionListado = new System.Windows.Forms.GroupBox();
-            this.lbSeleccionListado = new System.Windows.Forms.Label();
-            this.lbSeleccionAño = new System.Windows.Forms.Label();
-            this.lbSeleccionSemestre = new System.Windows.Forms.Label();
             this.btAceptar = new System.Windows.Forms.Button();
+            this.lbSeleccionSemestre = new System.Windows.Forms.Label();
+            this.lbSeleccionAño = new System.Windows.Forms.Label();
+            this.lbSeleccionListado = new System.Windows.Forms.Label();
             this.dtgListado = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btVolver = new System.Windows.Forms.Button();
@@ -54,6 +54,7 @@
             this.cbSemestre.Name = "cbSemestre";
             this.cbSemestre.Size = new System.Drawing.Size(75, 21);
             this.cbSemestre.TabIndex = 0;
+            this.cbSemestre.SelectedIndexChanged += new System.EventHandler(this.cbSemestre_SelectedIndexChanged);
             // 
             // cbListado
             // 
@@ -100,36 +101,6 @@
             this.gbConfiguracionListado.TabIndex = 3;
             this.gbConfiguracionListado.TabStop = false;
             // 
-            // lbSeleccionListado
-            // 
-            this.lbSeleccionListado.AutoSize = true;
-            this.lbSeleccionListado.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbSeleccionListado.Location = new System.Drawing.Point(6, 16);
-            this.lbSeleccionListado.Name = "lbSeleccionListado";
-            this.lbSeleccionListado.Size = new System.Drawing.Size(186, 15);
-            this.lbSeleccionListado.TabIndex = 2;
-            this.lbSeleccionListado.Text = "Seleccione el Listado Estadístico";
-            // 
-            // lbSeleccionAño
-            // 
-            this.lbSeleccionAño.AutoSize = true;
-            this.lbSeleccionAño.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbSeleccionAño.Location = new System.Drawing.Point(246, 16);
-            this.lbSeleccionAño.Name = "lbSeleccionAño";
-            this.lbSeleccionAño.Size = new System.Drawing.Size(28, 15);
-            this.lbSeleccionAño.TabIndex = 3;
-            this.lbSeleccionAño.Text = "Año";
-            // 
-            // lbSeleccionSemestre
-            // 
-            this.lbSeleccionSemestre.AutoSize = true;
-            this.lbSeleccionSemestre.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbSeleccionSemestre.Location = new System.Drawing.Point(334, 16);
-            this.lbSeleccionSemestre.Name = "lbSeleccionSemestre";
-            this.lbSeleccionSemestre.Size = new System.Drawing.Size(60, 15);
-            this.lbSeleccionSemestre.TabIndex = 4;
-            this.lbSeleccionSemestre.Text = "Semestre";
-            // 
             // btAceptar
             // 
             this.btAceptar.Location = new System.Drawing.Point(184, 77);
@@ -140,12 +111,42 @@
             this.btAceptar.UseVisualStyleBackColor = true;
             this.btAceptar.Click += new System.EventHandler(this.btAceptar_Click);
             // 
+            // lbSeleccionSemestre
+            // 
+            this.lbSeleccionSemestre.AutoSize = true;
+            this.lbSeleccionSemestre.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbSeleccionSemestre.Location = new System.Drawing.Point(324, 16);
+            this.lbSeleccionSemestre.Name = "lbSeleccionSemestre";
+            this.lbSeleccionSemestre.Size = new System.Drawing.Size(60, 15);
+            this.lbSeleccionSemestre.TabIndex = 4;
+            this.lbSeleccionSemestre.Text = "Semestre";
+            // 
+            // lbSeleccionAño
+            // 
+            this.lbSeleccionAño.AutoSize = true;
+            this.lbSeleccionAño.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbSeleccionAño.Location = new System.Drawing.Point(231, 16);
+            this.lbSeleccionAño.Name = "lbSeleccionAño";
+            this.lbSeleccionAño.Size = new System.Drawing.Size(28, 15);
+            this.lbSeleccionAño.TabIndex = 3;
+            this.lbSeleccionAño.Text = "Año";
+            // 
+            // lbSeleccionListado
+            // 
+            this.lbSeleccionListado.AutoSize = true;
+            this.lbSeleccionListado.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbSeleccionListado.Location = new System.Drawing.Point(6, 16);
+            this.lbSeleccionListado.Name = "lbSeleccionListado";
+            this.lbSeleccionListado.Size = new System.Drawing.Size(186, 15);
+            this.lbSeleccionListado.TabIndex = 2;
+            this.lbSeleccionListado.Text = "Seleccione el Listado Estadístico";
+            // 
             // dtgListado
             // 
             this.dtgListado.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgListado.Location = new System.Drawing.Point(6, 19);
             this.dtgListado.Name = "dtgListado";
-            this.dtgListado.Size = new System.Drawing.Size(402, 189);
+            this.dtgListado.Size = new System.Drawing.Size(402, 164);
             this.dtgListado.TabIndex = 4;
             // 
             // groupBox1
@@ -153,24 +154,25 @@
             this.groupBox1.Controls.Add(this.dtgListado);
             this.groupBox1.Location = new System.Drawing.Point(12, 128);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(414, 214);
+            this.groupBox1.Size = new System.Drawing.Size(414, 189);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             // 
             // btVolver
             // 
-            this.btVolver.Location = new System.Drawing.Point(196, 364);
+            this.btVolver.Location = new System.Drawing.Point(190, 323);
             this.btVolver.Name = "btVolver";
             this.btVolver.Size = new System.Drawing.Size(75, 23);
             this.btVolver.TabIndex = 6;
             this.btVolver.Text = "Volver";
             this.btVolver.UseVisualStyleBackColor = true;
+            this.btVolver.Click += new System.EventHandler(this.btVolver_Click);
             // 
             // SeleccionListado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(442, 402);
+            this.ClientSize = new System.Drawing.Size(442, 356);
             this.Controls.Add(this.btVolver);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.gbConfiguracionListado);
