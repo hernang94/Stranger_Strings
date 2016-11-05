@@ -85,8 +85,8 @@ namespace ClinicaFrba.Compra_Bono
             {
                 List<SqlParameter> paramlist = new List<SqlParameter>();
                 paramlist.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Nombre)));
-                paramlist.Add(new SqlParameter("@Fecha_Compra", System.DateTime.Now.ToString()));
-                paramlist.Add(new SqlParameter("@Cantidad_Bonos", System.Convert.ToString(unidades)));
+                paramlist.Add(new SqlParameter("@Fecha_Compra", System.DateTime.Now));
+                paramlist.Add(new SqlParameter("@Cantidad_Bonos", System.Convert.ToString(nudCantidadBonos.Value)));
 
                 BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_COMPRA_BONOS", "SP", paramlist);
 

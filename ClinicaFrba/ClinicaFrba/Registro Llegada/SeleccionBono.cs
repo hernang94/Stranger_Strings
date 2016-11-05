@@ -52,15 +52,14 @@ namespace ClinicaFrba.Registro_Llegada
             int retorno;
             List<SqlParameter> listaParam = new List<SqlParameter>();
             listaParam.Add(new SqlParameter("@Num_Doc", pac.Num_Doc));
-            SqlParameter paramRet = new SqlParameter("@Retorno", System.Data.SqlDbType.Int);
+            SqlParameter paramRet = new SqlParameter("@Retorno", SqlDbType.Int);
             paramRet.Direction = System.Data.ParameterDirection.Output;
             listaParam.Add(paramRet);
-            retorno = (int)BDStranger_Strings.ExecStoredProcedure("STRANGER_STRINGS.SP_MOSTRAR_BONOS_PACIENTE", listaParam);
-            if(retorno==1)
-            {
-                
+           // retorno = (int)BDStranger_Strings.ExecStoredProcedure("STRANGER_STRINGS.SP_MOSTRAR_BONOS_PACIENTE", listaParam);
+           
                 SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_MOSTRAR_BONOS_PACIENTE","SP", listaParam);
-            
+                if (Convert.ToInt32(paramRet.Value) == 1)
+                {
             if (lector.HasRows)
             {
                 while (lector.Read())

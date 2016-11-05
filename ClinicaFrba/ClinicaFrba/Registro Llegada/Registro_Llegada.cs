@@ -126,6 +126,11 @@ namespace ClinicaFrba.Registro_Llegada
             
         }
 
+        private void limpiarGrilla()
+        {
+            dtgTurno.Columns.Clear();
+        }
+
         public BD.Entidades.Profesional obtenerProfesionalDeString(string profesional)
         {
             int i = 0;
@@ -165,7 +170,7 @@ namespace ClinicaFrba.Registro_Llegada
 
         private void btBuscar_Click(object sender, EventArgs e)
         {
-            dtgTurno.Rows.Clear();
+            //dtgTurno.Rows.Clear();
             crearGrilla();
             obtenerTurnos();
         }
