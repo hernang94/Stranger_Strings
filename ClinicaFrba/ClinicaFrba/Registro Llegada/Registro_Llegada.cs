@@ -17,6 +17,7 @@ namespace ClinicaFrba.Registro_Llegada
         public List<BD.Entidades.Turno> turnos = new List<BD.Entidades.Turno>();
         public List<BD.Entidades.Especialidad> especialidades = new List<BD.Entidades.Especialidad>();
         public List<BD.Entidades.Bono> bonos = new List<BD.Entidades.Bono>();
+        public List<BD.Entidades.Paciente> pacientes = new List<BD.Entidades.Paciente>();
 
         public Funcionalidades fun;
 
@@ -78,20 +79,29 @@ namespace ClinicaFrba.Registro_Llegada
             listaParam.Add(new SqlParameter("@Num_Doc", prof.Dni));
             listaParam.Add(new SqlParameter("@Especialidad_Codigo", obtenerCodigoEspecialidad()));
             listaParam.Add(new SqlParameter("@Fecha", dateFecha.Value));
-            SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_PEDIR_TURNO_MEDICO_FECHA", "SP", listaParam);
+            SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_LISTAR_TURNOS_MEDICO", "SP", listaParam);
             if (lector.HasRows)
             {
                 while (lector.Read())
                 {
                     BD.Entidades.Turno turno = new BD.Entidades.Turno();
-                    turno.fecha = (DateTime)lector["Turno_Fecha"];
+                    BD.Entidades.Paciente pac = new BD.Entidades.Paciente();
+                    turno.nro = (int)lector["Turno_Numero"];
                     turno.nombre_Pac = (string)lector["Nombre"];
                     turno.apellido_Pac = (string)lector["Apellido"];
-                    turno.id_Consulta = (decimal)lector["Id_Consulta"];
+                    pac.Nombre = turno.nombre_Pac;
+                    pac.Apellido = turno.apellido_Pac;
+                    pac.Num_Doc = (decimal)lector["Num_Doc"];
+                    turno.fecha = (DateTime)lector["Turno_Fecha"];
                     turnos.Add(turno);
+                    pacientes.Add(pac);
                 
                 }
                 dtgTurno.DataSource = turnos;
+                dtgTurno.Columns["apellido_Prof"].Visible = false;
+                dtgTurno.Columns["especialidad"].Visible = false;
+                dtgTurno.Columns["id_Consulta"].Visible = false;
+                dtgTurno.Columns["nro"].Visible = false;
             }
 
         }
@@ -100,15 +110,15 @@ namespace ClinicaFrba.Registro_Llegada
             DataGridViewTextBoxColumn colNombre = new DataGridViewTextBoxColumn();
             colNombre.DataPropertyName = "nombre_Pac";
             colNombre.HeaderText = "Nombre";
-            colNombre.Width = 110;
+            colNombre.Width = 200;
             DataGridViewTextBoxColumn colApellido = new DataGridViewTextBoxColumn();
             colApellido.DataPropertyName = "apellido_Pac";
             colApellido.HeaderText = "Apellido";
-            colApellido.Width = 110;
+            colApellido.Width = 200;
             DataGridViewTextBoxColumn colFecha = new DataGridViewTextBoxColumn();
             colFecha.DataPropertyName = "fecha";
             colFecha.HeaderText = "Fecha";
-            colFecha.Width = 75;
+            colFecha.Width = 100;
             
             dtgTurno.Columns.Add(colFecha);
             dtgTurno.Columns.Add(colNombre);
@@ -126,7 +136,8 @@ namespace ClinicaFrba.Registro_Llegada
             BD.Entidades.Profesional profNuevo = new BD.Entidades.Profesional();
             profNuevo.Nombre = profesional.Substring(0, i);
             profNuevo.Apellido = profesional.Substring(i + 1, (profesional.Length - i - 1));
-            for (int j = 0; j < profesionales.Count(); j++)
+            for (int j = 0; j < profesionales.Count(); j
+                ++)
             {
                 if (profesionales[j].Apellido == profNuevo.Apellido && profesionales[j].Nombre == profNuevo.Nombre)
                 {
@@ -154,6 +165,7 @@ namespace ClinicaFrba.Registro_Llegada
 
         private void btBuscar_Click(object sender, EventArgs e)
         {
+            dtgTurno.Rows.Clear();
             crearGrilla();
             obtenerTurnos();
         }
@@ -179,10 +191,22 @@ namespace ClinicaFrba.Registro_Llegada
         {
 
         }
-
+        private BD.Entidades.Paciente obtenerPaciente()
+        {
+            BD.Entidades.Turno turnoSeleccionado =(BD.Entidades.Turno)dtgTurno.CurrentRow.DataBoundItem;
+            for(int i=0; i<pacientes.Count;i++)
+            {
+                if (pacientes[i].Nombre == turnoSeleccionado.nombre_Pac && pacientes[i].Apellido == turnoSeleccionado.apellido_Pac)
+                {
+                    return pacientes[i];
+                }
+            }
+            return null;
+        }
         private void btRegistrar_Click(object sender, EventArgs e)
         {
-
+            SeleccionBono sel = new SeleccionBono(obtenerPaciente());
+            sel.Show();
         }
     }
 }

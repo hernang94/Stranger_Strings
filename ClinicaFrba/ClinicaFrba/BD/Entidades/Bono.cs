@@ -8,5 +8,8 @@ namespace ClinicaFrba.BD.Entidades
 {
     public class Bono
     {
+        public int id_Bono{get;set;}
+        public DateTime fecha_compra{get;set;}
+        public int codigo_plan{get;set;}
     }
 }
