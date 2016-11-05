@@ -238,5 +238,12 @@ namespace ClinicaFrba
             compraBono.Show();
             this.Hide();
         }
+
+        private void btListadoEstadistico_Click(object sender, EventArgs e)
+        {
+            Listados.SeleccionListado seleccionListado = new Listados.SeleccionListado(this);
+            seleccionListado.Show();
+            this.Hide();
+        }
     }
 }

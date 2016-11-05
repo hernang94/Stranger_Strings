@@ -36,6 +36,7 @@ namespace ClinicaFrba.Abm_Afiliado
             txtTelefono.Text = System.Convert.ToString(paciente.Telefono);
             dtpFechaNac.Value = paciente.Fecha_Nac;
             cbEstadoCivi.Text = paciente.Estado_Civil;
+            dtpFechaNac.Value = ArchivoConfiguracion.Default.FechaActual;
         }
 
         private void btCancelar_Click(object sender, EventArgs e)

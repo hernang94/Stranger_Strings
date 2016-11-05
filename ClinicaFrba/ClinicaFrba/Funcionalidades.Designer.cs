@@ -47,6 +47,7 @@
             this.gbFuncioAfiliado = new System.Windows.Forms.GroupBox();
             this.gbFuncProf = new System.Windows.Forms.GroupBox();
             this.btCancelarAtencionMedico = new System.Windows.Forms.Button();
+            this.btListadoEstadistico = new System.Windows.Forms.Button();
             this.gBFuncionalidadesAdmin.SuspendLayout();
             this.gbFuncioAfiliado.SuspendLayout();
             this.gbFuncProf.SuspendLayout();
@@ -56,7 +57,7 @@
             // 
             this.btABMRol.Location = new System.Drawing.Point(6, 19);
             this.btABMRol.Name = "btABMRol";
-            this.btABMRol.Size = new System.Drawing.Size(88, 30);
+            this.btABMRol.Size = new System.Drawing.Size(88, 40);
             this.btABMRol.TabIndex = 0;
             this.btABMRol.Text = "ABM Rol";
             this.btABMRol.UseVisualStyleBackColor = true;
@@ -65,6 +66,7 @@
             // 
             // gBFuncionalidadesAdmin
             // 
+            this.gBFuncionalidadesAdmin.Controls.Add(this.btListadoEstadistico);
             this.gBFuncionalidadesAdmin.Controls.Add(this.btRegAgendaProf);
             this.gBFuncionalidadesAdmin.Controls.Add(this.btPlan);
             this.gBFuncionalidadesAdmin.Controls.Add(this.btRegistroLlegada);
@@ -75,14 +77,14 @@
             this.gBFuncionalidadesAdmin.Controls.Add(this.btABMRol);
             this.gBFuncionalidadesAdmin.Location = new System.Drawing.Point(19, 53);
             this.gBFuncionalidadesAdmin.Name = "gBFuncionalidadesAdmin";
-            this.gBFuncionalidadesAdmin.Size = new System.Drawing.Size(498, 106);
+            this.gBFuncionalidadesAdmin.Size = new System.Drawing.Size(514, 113);
             this.gBFuncionalidadesAdmin.TabIndex = 1;
             this.gBFuncionalidadesAdmin.TabStop = false;
             this.gBFuncionalidadesAdmin.Text = "Funcionalidades Administrador";
             // 
             // btRegAgendaProf
             // 
-            this.btRegAgendaProf.Location = new System.Drawing.Point(194, 55);
+            this.btRegAgendaProf.Location = new System.Drawing.Point(194, 65);
             this.btRegAgendaProf.Name = "btRegAgendaProf";
             this.btRegAgendaProf.Size = new System.Drawing.Size(107, 40);
             this.btRegAgendaProf.TabIndex = 6;
@@ -93,9 +95,9 @@
             // 
             // btPlan
             // 
-            this.btPlan.Location = new System.Drawing.Point(6, 55);
+            this.btPlan.Location = new System.Drawing.Point(6, 65);
             this.btPlan.Name = "btPlan";
-            this.btPlan.Size = new System.Drawing.Size(88, 30);
+            this.btPlan.Size = new System.Drawing.Size(88, 40);
             this.btPlan.TabIndex = 5;
             this.btPlan.Text = "ABM Plan";
             this.btPlan.UseVisualStyleBackColor = true;
@@ -104,9 +106,9 @@
             // 
             // btRegistroLlegada
             // 
-            this.btRegistroLlegada.Location = new System.Drawing.Point(307, 55);
+            this.btRegistroLlegada.Location = new System.Drawing.Point(307, 65);
             this.btRegistroLlegada.Name = "btRegistroLlegada";
-            this.btRegistroLlegada.Size = new System.Drawing.Size(183, 40);
+            this.btRegistroLlegada.Size = new System.Drawing.Size(120, 40);
             this.btRegistroLlegada.TabIndex = 9;
             this.btRegistroLlegada.Text = "Registro de llegada para atención médica ";
             this.btRegistroLlegada.UseVisualStyleBackColor = true;
@@ -117,7 +119,7 @@
             // 
             this.btEspMedicas.Location = new System.Drawing.Point(307, 19);
             this.btEspMedicas.Name = "btEspMedicas";
-            this.btEspMedicas.Size = new System.Drawing.Size(165, 30);
+            this.btEspMedicas.Size = new System.Drawing.Size(120, 40);
             this.btEspMedicas.TabIndex = 4;
             this.btEspMedicas.Text = "ABM  Especialidades Médicas";
             this.btEspMedicas.UseVisualStyleBackColor = true;
@@ -126,9 +128,9 @@
             // 
             // btABMProfesional
             // 
-            this.btABMProfesional.Location = new System.Drawing.Point(100, 55);
+            this.btABMProfesional.Location = new System.Drawing.Point(100, 65);
             this.btABMProfesional.Name = "btABMProfesional";
-            this.btABMProfesional.Size = new System.Drawing.Size(88, 34);
+            this.btABMProfesional.Size = new System.Drawing.Size(88, 40);
             this.btABMProfesional.TabIndex = 3;
             this.btABMProfesional.Text = "ABM Profesional";
             this.btABMProfesional.UseVisualStyleBackColor = true;
@@ -139,7 +141,7 @@
             // 
             this.btABMAfiliado.Location = new System.Drawing.Point(100, 19);
             this.btABMAfiliado.Name = "btABMAfiliado";
-            this.btABMAfiliado.Size = new System.Drawing.Size(88, 30);
+            this.btABMAfiliado.Size = new System.Drawing.Size(88, 40);
             this.btABMAfiliado.TabIndex = 2;
             this.btABMAfiliado.Text = "ABM Afiliado";
             this.btABMAfiliado.UseVisualStyleBackColor = true;
@@ -150,7 +152,7 @@
             // 
             this.btRegistroUsuario.Location = new System.Drawing.Point(194, 19);
             this.btRegistroUsuario.Name = "btRegistroUsuario";
-            this.btRegistroUsuario.Size = new System.Drawing.Size(107, 30);
+            this.btRegistroUsuario.Size = new System.Drawing.Size(107, 40);
             this.btRegistroUsuario.TabIndex = 1;
             this.btRegistroUsuario.Text = "Registro Usuario";
             this.btRegistroUsuario.UseVisualStyleBackColor = true;
@@ -202,7 +204,7 @@
             // 
             // btVolver
             // 
-            this.btVolver.Location = new System.Drawing.Point(228, 306);
+            this.btVolver.Location = new System.Drawing.Point(228, 327);
             this.btVolver.Name = "btVolver";
             this.btVolver.Size = new System.Drawing.Size(75, 23);
             this.btVolver.TabIndex = 2;
@@ -233,9 +235,9 @@
             this.gbFuncioAfiliado.Controls.Add(this.btCompraBono);
             this.gbFuncioAfiliado.Controls.Add(this.btCancelarAtencionAfiliado);
             this.gbFuncioAfiliado.Controls.Add(this.btPedirTurno);
-            this.gbFuncioAfiliado.Location = new System.Drawing.Point(19, 165);
+            this.gbFuncioAfiliado.Location = new System.Drawing.Point(19, 183);
             this.gbFuncioAfiliado.Name = "gbFuncioAfiliado";
-            this.gbFuncioAfiliado.Size = new System.Drawing.Size(498, 61);
+            this.gbFuncioAfiliado.Size = new System.Drawing.Size(514, 61);
             this.gbFuncioAfiliado.TabIndex = 12;
             this.gbFuncioAfiliado.TabStop = false;
             this.gbFuncioAfiliado.Text = "Funcionalidades Afiliado";
@@ -244,9 +246,9 @@
             // 
             this.gbFuncProf.Controls.Add(this.btCancelarAtencionMedico);
             this.gbFuncProf.Controls.Add(this.btRegistrarResultado);
-            this.gbFuncProf.Location = new System.Drawing.Point(19, 232);
+            this.gbFuncProf.Location = new System.Drawing.Point(19, 250);
             this.gbFuncProf.Name = "gbFuncProf";
-            this.gbFuncProf.Size = new System.Drawing.Size(498, 62);
+            this.gbFuncProf.Size = new System.Drawing.Size(514, 62);
             this.gbFuncProf.TabIndex = 13;
             this.gbFuncProf.TabStop = false;
             this.gbFuncProf.Text = "Funcionalidades Profesional";
@@ -262,11 +264,22 @@
             this.btCancelarAtencionMedico.Visible = false;
             this.btCancelarAtencionMedico.Click += new System.EventHandler(this.btCancelarAtencionMedico_Click);
             // 
+            // btListadoEstadistico
+            // 
+            this.btListadoEstadistico.Location = new System.Drawing.Point(433, 19);
+            this.btListadoEstadistico.Name = "btListadoEstadistico";
+            this.btListadoEstadistico.Size = new System.Drawing.Size(75, 40);
+            this.btListadoEstadistico.TabIndex = 10;
+            this.btListadoEstadistico.Text = "Listado Estadístico";
+            this.btListadoEstadistico.UseVisualStyleBackColor = true;
+            this.btListadoEstadistico.Visible = false;
+            this.btListadoEstadistico.Click += new System.EventHandler(this.btListadoEstadistico_Click);
+            // 
             // Funcionalidades
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(539, 341);
+            this.ClientSize = new System.Drawing.Size(555, 367);
             this.Controls.Add(this.gbFuncioAfiliado);
             this.Controls.Add(this.btVolver);
             this.Controls.Add(this.cbSeleccionRol);
@@ -305,5 +318,6 @@
         private System.Windows.Forms.GroupBox gbFuncioAfiliado;
         private System.Windows.Forms.GroupBox gbFuncProf;
         private System.Windows.Forms.Button btCancelarAtencionMedico;
+        private System.Windows.Forms.Button btListadoEstadistico;
     }
 }

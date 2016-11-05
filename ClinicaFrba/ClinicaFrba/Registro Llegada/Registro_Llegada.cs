@@ -15,7 +15,7 @@ namespace ClinicaFrba.Registro_Llegada
     {
         public List<BD.Entidades.Profesional> profesionales = new List<BD.Entidades.Profesional>();
         public List<BD.Entidades.Turno> turnos = new List<BD.Entidades.Turno>();
-        public List<BD.Entidades.Especialidad> especialidades = new List<BD.Entidades.Especialidad>();
+        public List<BD.Entidades.Especialidad> especialidades;
         public List<BD.Entidades.Bono> bonos = new List<BD.Entidades.Bono>();
         public List<BD.Entidades.Paciente> pacientes = new List<BD.Entidades.Paciente>();
 
@@ -30,6 +30,7 @@ namespace ClinicaFrba.Registro_Llegada
         private void Registro_Llegada_Load(object sender, EventArgs e)
         {
             obtenerProfesionales();
+            dateFecha.Value = ArchivoConfiguracion.Default.FechaActual;
         }
 
 
@@ -55,6 +56,7 @@ namespace ClinicaFrba.Registro_Llegada
         {
             BD.Entidades.Profesional profElegido = new BD.Entidades.Profesional();
             profElegido = obtenerProfesionalDeString(cbProfesional.SelectedItem.ToString());
+            especialidades = new List<BD.Entidades.Especialidad>();
 
             List<SqlParameter> paramlist = new List<SqlParameter>();
             paramlist.Add(new SqlParameter("@Num_Doc", profElegido.Dni));
@@ -70,6 +72,7 @@ namespace ClinicaFrba.Registro_Llegada
                     especialidades.Add(especialidad);
                 }
             }
+           
         }
 
         public void obtenerTurnos()
@@ -159,18 +162,30 @@ namespace ClinicaFrba.Registro_Llegada
 
         private void cbProfesional_SelectedIndexChanged(object sender, EventArgs e)
         {
+            cbEspecialidad.SelectedItem = null;
             cbEspecialidad.Items.Clear();
+            
             obtenerEspecialidades();
+            if (cbEspecialidad.Items.Count == 1)
+            {
+                cbEspecialidad.SelectedIndex = 0;
+            }
+
+            turnos.Clear();
+            dtgTurno.DataSource = null;
         }
 
         private void cbEspecialidad_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+            dateFecha.Value = ArchivoConfiguracion.Default.FechaActual;
+
+            turnos.Clear();
+            dtgTurno.DataSource = null;
         }
 
         private void btBuscar_Click(object sender, EventArgs e)
         {
-            //dtgTurno.Rows.Clear();
+            dtgTurno.DataSource = null;
             crearGrilla();
             obtenerTurnos();
         }
@@ -184,7 +199,8 @@ namespace ClinicaFrba.Registro_Llegada
 
         private void dateFecha_ValueChanged(object sender, EventArgs e)
         {
-
+            turnos.Clear();
+            dtgTurno.DataSource = null;
         }
 
         private void lbEspecialidad_Click(object sender, EventArgs e)

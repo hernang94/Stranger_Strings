@@ -30,7 +30,7 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            dateFechaNac.Value = ArchivoConfiguracion.Default.FechaActual;
         }
 
         private void label1_Click(object sender, EventArgs e)

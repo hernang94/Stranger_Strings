@@ -70,9 +70,7 @@ namespace ClinicaFrba.Registro_Llegada
                         bono.id_Bono = (int)lector["Id_Bono"];
                         bonos.Add(bono);
                     }
-                   
-
-                }
+             }
                 dtgBono.DataSource = bonos;
             }
             else
