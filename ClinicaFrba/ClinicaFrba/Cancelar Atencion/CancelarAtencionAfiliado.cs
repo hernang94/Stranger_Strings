@@ -90,6 +90,7 @@ namespace ClinicaFrba.Cancelar_Atencion
                     turno.fecha = (DateTime)lector["Turno_Fecha"];
                     turno.apellido_Prof = (string)lector["Apellido"];
                     turno.especialidad = (string)lector["Especialidad_Descripcion"];
+                    turno.codigo = (decimal)lector["Especialidad_Codigo"];
                     listaTurnos.Add(turno);
                 }
             }
@@ -102,7 +103,7 @@ namespace ClinicaFrba.Cancelar_Atencion
             paramList.Add(new SqlParameter("@Turno_Fecha", Turno.fecha));
             paramList.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Nombre)));
             paramList.Add(new SqlParameter("@Apellido_Profesional", Turno.apellido_Prof));
-            paramList.Add(new SqlParameter("@Especialidad", Turno.especialidad));
+            paramList.Add(new SqlParameter("@Especialidad_Codigo", Turno.codigo));
             paramList.Add(new SqlParameter("@Tipo_Cancelacion", 'A'));
             paramList.Add(new SqlParameter("@Motivo", tbMotivo.Text));
             BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_CANCELAR_TURNO_AFILIADO", "SP", paramList);

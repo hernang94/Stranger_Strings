@@ -99,7 +99,7 @@
             this.dateFecha.Name = "dateFecha";
             this.dateFecha.Size = new System.Drawing.Size(121, 20);
             this.dateFecha.TabIndex = 43;
-            this.dateFecha.Value = new System.DateTime(2016, 11, 4, 12, 0, 0, 0);
+            this.dateFecha.Value = ArchivoConfiguracion.Default.FechaActual;
             this.dateFecha.ValueChanged += new System.EventHandler(this.dateFecha_ValueChanged);
             // 
             // lbFecha

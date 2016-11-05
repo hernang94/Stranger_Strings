@@ -46,15 +46,20 @@ namespace ClinicaFrba
         }
 
         // En @ret va el output
-        public static int ExecStoredProcedure(string commandText, List<SqlParameter> parameters)
+        public static Int32 ExecStoredProcedure(string commandText, List<SqlParameter> parameters)
         {
-            try {
+            try
+            {
                 SqlCommand sqlCommand = BuildSQLCommand(commandText, parameters);
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.ExecuteNonQuery();
-                return (int)sqlCommand.Parameters["@Retorno"].Value;
-            } catch { return 0;}
-         }
+                SqlDataReader lectorAux = sqlCommand.ExecuteReader();
+                lectorAux.Close();
+                Int32 retorno = (Int32)parameters.Find(x => x.ParameterName == "@Retorno").Value;
+                sqlCommand.Parameters.Clear();
+                return retorno;
+            }
+            catch { return 0; }
+        }
 
         private static SqlCommand BuildSQLCommand(string commandtext, List<SqlParameter> parameters)
         {

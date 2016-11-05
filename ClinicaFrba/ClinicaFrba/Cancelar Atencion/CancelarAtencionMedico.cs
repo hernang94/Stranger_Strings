@@ -110,7 +110,10 @@ namespace ClinicaFrba.Cancelar_Atencion
 
         private void CancelarAtencionMedico_Load(object sender, EventArgs e)
         {
-
+            monthCalendar1.SelectionStart = ArchivoConfiguracion.Default.FechaActual;
+            monthCalendar1.SelectionEnd = ArchivoConfiguracion.Default.FechaActual;
+            dtpFechaDesde.Value = ArchivoConfiguracion.Default.FechaActual;
+            dtpFechaHasta.Value = ArchivoConfiguracion.Default.FechaActual;
         }
 
         private void label1_Click(object sender, EventArgs e)

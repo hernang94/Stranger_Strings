@@ -49,29 +49,29 @@ namespace ClinicaFrba.Registro_Llegada
 
         private void actualizarGrilla()
         {
-            int retorno;
-            List<SqlParameter> listaParam = new List<SqlParameter>();
-            listaParam.Add(new SqlParameter("@Num_Doc", pac.Num_Doc));
-            SqlParameter paramRet = new SqlParameter("@Retorno", SqlDbType.Int);
-            paramRet.Direction = System.Data.ParameterDirection.Output;
-            listaParam.Add(paramRet);
-           // retorno = (int)BDStranger_Strings.ExecStoredProcedure("STRANGER_STRINGS.SP_MOSTRAR_BONOS_PACIENTE", listaParam);
-           
-                SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_MOSTRAR_BONOS_PACIENTE","SP", listaParam);
-                if (Convert.ToInt32(paramRet.Value) == 1)
-                {
-            if (lector.HasRows)
+            List<SqlParameter> listaParamAux = new List<SqlParameter>();
+            listaParamAux.Add(new SqlParameter("@Num_Doc", pac.Num_Doc));
+            SqlParameter paramRetAux = new SqlParameter("@Retorno", SqlDbType.Int);
+            paramRetAux.Direction = ParameterDirection.Output;
+            listaParamAux.Add(paramRetAux);
+            if (BDStranger_Strings.ExecStoredProcedure("STRANGER_STRINGS.SP_MOSTRAR_BONOS_PACIENTE", listaParamAux) == 1)
             {
-                while (lector.Read())
+                List<SqlParameter> listaParam = new List<SqlParameter>();
+                listaParam.Add(new SqlParameter("@Num_Doc", pac.Num_Doc));
+                SqlParameter paramRet = new SqlParameter("@Retorno", SqlDbType.Int);
+                paramRet.Direction = ParameterDirection.Output;
+                listaParam.Add(paramRet);
+                SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_MOSTRAR_BONOS_PACIENTE", "SP", listaParam);
+                if (lector.HasRows)
                 {
+                    while (lector.Read())
+                    {
                         BD.Entidades.Bono bono = new BD.Entidades.Bono();
                         bono.fecha_compra = (DateTime)lector["Fecha_Compra"];
                         bono.codigo_plan = (int)lector["Codigo_Plan"];
                         bono.id_Bono = (int)lector["Id_Bono"];
                         bonos.Add(bono);
                     }
-                   
-
                 }
                 dtgBono.DataSource = bonos;
             }
