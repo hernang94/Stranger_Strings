@@ -52,7 +52,7 @@ namespace ClinicaFrba.Registro_Resultado
         private void actualizarGrilla()
         {
             List<SqlParameter> paramList = new List<SqlParameter>();
-            paramList.Add(new SqlParameter("@Num_Doc", fun.user.Nombre ));
+            paramList.Add(new SqlParameter("@Num_Doc", fun.user.Dni ));
             paramList.Add(new SqlParameter("@Especialidad", Especialidad));
             paramList.Add(new SqlParameter("@Fecha", fecha));
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_PEDIR_TURNO_MEDICO_FECHA", "SP", paramList);

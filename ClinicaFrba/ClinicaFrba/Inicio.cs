@@ -39,7 +39,7 @@ namespace ClinicaFrba
                     Usuario user = new Usuario(txtUsuario.Text);
 
                     //Encontro usuario? ------------------------------------------------------------
-                    if (user.Nombre != null)
+                    if (user.Apellido != null)
                     {
                         // Pass hashing
                         UTF8Encoding encoderHash = new UTF8Encoding();
@@ -67,9 +67,10 @@ namespace ClinicaFrba
                             else
                             {
 
-                                user.ReiniciarCantidadIntentos();
+                                user.ReiniciarCantidadIntentos(txtContraseña.Text);
                                 List<SqlParameter> paramlist = new List<SqlParameter>();
-                                paramlist.Add(new SqlParameter("@Usuario", user.Nombre));
+                                paramlist.Add(new SqlParameter("@Usuario", user.Apellido));
+                                paramlist.Add(new SqlParameter("@Pass", user.Dni));
                                 SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_GET_ROLES", "SP", paramlist);
 
                                 List<BD.Entidades.Rol> rolesXusario = new List<BD.Entidades.Rol>();

@@ -54,7 +54,7 @@ namespace ClinicaFrba.Pedir_Turno
                     BD.Entidades.Profesional prof = obtenerProfesionalDeString(cbProfesionales.Text);
                     List<SqlParameter> listParam = new List<SqlParameter>();
                     listParam.Add(new SqlParameter("@Fecha_Turno", Convert.ToDateTime(cbFecha.Text + " " + cbHorariosDisp.Text)));
-                    listParam.Add(new SqlParameter("@Num_Doc_Paciente", int.Parse(fun.user.Nombre)));
+                    listParam.Add(new SqlParameter("@Num_Doc_Paciente", int.Parse(fun.user.Dni)));
                     listParam.Add(new SqlParameter("@Num_Doc_Profesional", prof.Dni));
                     listParam.Add(new SqlParameter("@Especialidad_Codigo", obtenerCodigoEspecialidad()));
 

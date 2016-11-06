@@ -10,7 +10,8 @@ namespace ClinicaFrba.BD
 {
     public class Usuario
     {
-        public string Nombre { get; set; }
+        public string Apellido { get; set; }
+        public string Dni { set; get; }
         public byte[] Contrasena_Hash { get; set; }
         public Int16 Cantidad_Intentos { get; set; }
         public string Contrasena { get; set; }
@@ -26,7 +27,7 @@ namespace ClinicaFrba.BD
             if (lector.HasRows)
             {
                 lector.Read();
-                Nombre = user;
+                Apellido = user;
                 Cantidad_Intentos = (Int16)lector["Cantidad_Intentos"];
                 Contrasena_Hash = (Byte[])lector["Pasword"];
             }
@@ -38,14 +39,15 @@ namespace ClinicaFrba.BD
         public void DescontarIntento()
         {
             List<SqlParameter> paramlist = new List<SqlParameter>();
-            paramlist.Add(new SqlParameter("@Usuario", Nombre));
+            paramlist.Add(new SqlParameter("@Usuario", Apellido));
             BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_ACTUALIZAR_INTENTOS","SP", paramlist);
         }
 
-        public void ReiniciarCantidadIntentos()
+        public void ReiniciarCantidadIntentos(String dni)
         {
+            this.Dni = dni;
             List<SqlParameter> paramlist = new List<SqlParameter>();
-            paramlist.Add(new SqlParameter("@Usuario", Nombre));
+            paramlist.Add(new SqlParameter("@Usuario", Apellido));
             BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_REINICIAR_INTENTOS","SP", paramlist);
         }
 
