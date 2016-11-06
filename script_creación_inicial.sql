@@ -1170,6 +1170,7 @@ INSERT INTO STRANGER_STRINGS.Horarios_Agenda(Dia,Hora_Desde,Hora_Hasta,Id_Especi
 VALUES(@Dia_Semana,CAST(@Hora_Desde+':00'AS TIME(0)),CAST(@Hora_Hasta+':00' AS TIME(0)),@Id_Medico_X_Especialidad)
 END
 GO*/
+--De aca para arriba los que tienen output en la app ya estan arreglados!
 CREATE PROCEDURE STRANGER_STRINGS.SP_ALTA_AGENDA
 @Num_Doc NUMERIC(18,0),
 @Especialidad_Codigo NUMERIC(18,0),

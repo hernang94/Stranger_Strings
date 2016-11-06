@@ -58,12 +58,35 @@ namespace ClinicaFrba.Abm_Afiliado
             paramlist.Add(new SqlParameter("@Sexo", paciente.Sexo));
             paramlist.Add(new SqlParameter("@Estado_Civil", cbEstadoCivi.SelectedItem));
             paramlist.Add(new SqlParameter("@Familiares_A_Cargo", paciente.Familiares_A_Cargo));
-            BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_MODIFICAR_AFILIADO", "SP", paramlist);
-
-            lbModificado.Visible = true;
-            timer1.Enabled=true;
-            dtgCliente.DataSource=null;
-            this.Close();
+            SqlParameter paramRetAux = new SqlParameter("@Retorno", SqlDbType.Int);
+            paramRetAux.Direction = ParameterDirection.Output;
+            paramlist.Add(paramRetAux);
+            Int32 retorno=BDStranger_Strings.ExecStoredProcedure("STRANGER_STRINGS.SP_MODIFICAR_AFILIADO", paramlist);
+            if(retorno==-1)
+            {
+                MessageBox.Show("No existe este Afiliado", "Error", MessageBoxButtons.OK);
+            }
+            else if (retorno == 0)
+            {
+                paramlist.Clear();
+                paramlist.Add(new SqlParameter("@Nombre", paciente.Nombre));
+                paramlist.Add(new SqlParameter("@Apellido", paciente.Apellido));
+                paramlist.Add(new SqlParameter("@Tipo_Doc", paciente.Tipo_Doc));
+                paramlist.Add(new SqlParameter("@Num_Doc", paciente.Num_Doc));
+                paramlist.Add(new SqlParameter("@Direccion", txtDireccion.Text));
+                paramlist.Add(new SqlParameter("@Telefono", int.Parse(txtTelefono.Text)));
+                paramlist.Add(new SqlParameter("@Mail", txtMail.Text));
+                paramlist.Add(new SqlParameter("@Fecha_Nac", dtpFechaNac.Value));
+                paramlist.Add(new SqlParameter("@Sexo", paciente.Sexo));
+                paramlist.Add(new SqlParameter("@Estado_Civil", cbEstadoCivi.SelectedItem));
+                paramlist.Add(new SqlParameter("@Familiares_A_Cargo", paciente.Familiares_A_Cargo));
+                paramlist.Add(paramRetAux);
+                BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_MODIFICAR_AFILIADO", "SP", paramlist);
+                lbModificado.Visible = true;
+                timer1.Enabled = true;
+                dtgCliente.DataSource = null;
+                this.Close();
+            }
         }
 
         private void btCambioPlan_Click(object sender, EventArgs e)

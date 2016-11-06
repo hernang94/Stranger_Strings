@@ -81,7 +81,6 @@ C:\Users\Hernan\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\De
 C:\Users\Hernan\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Registro_Resultado.SeleccionTurno.resources
 C:\Users\Hernan\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.csproj.GenerateResource.Cache
 C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\bin\Debug\ClinicaFrba.exe.config
-C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Compra_Bono.CompraBono.resources
 C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Registro_Llegada.Registro_Llegada.resources
 A:\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Registro_Llegada.Registro_Llegada.resources
 C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Registro_Llegada.SeleccionBono.resources
@@ -106,3 +105,14 @@ A:\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.AbmRol.
 A:\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.AbmRol.ModificarRol.resources
 A:\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.AbmRol.Principal.resources
 A:\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Registrar_Agenda_Medico.Registro_Agenda.resources
+C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.AbmRol.AgregarFuncionalidad.resources
+C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.AbmRol.AltaRol.resources
+C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.AbmRol.DeshabilitarRol.resources
+C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.AbmRol.EliminarFuncionalidad.resources
+C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.AbmRol.HabilitarRol.resources
+C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.AbmRol.ModificarRol.resources
+C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.AbmRol.Principal.resources
+C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Compra_Bono.CompraBonoAdmin.resources
+C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Compra_Bono.CompraBonoAfiliado.resources
+C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Listados.SeleccionListado.resources
+C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Registrar_Agenda_Medico.Registro_Agenda.resources

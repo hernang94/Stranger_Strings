@@ -276,10 +276,31 @@ namespace ClinicaFrba.Abm_Afiliado
            {
                List<SqlParameter> paramlist = new List<SqlParameter>();
                paramlist.Add(new SqlParameter("@Num_Doc", txtBMDoc.Text));
-               BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_BAJA_AFILIADO", "SP", paramlist);
-               dtgCliente.DataSource = null;
-               lbBorradoModificado.Visible = true;
-               timer1.Enabled = true;
+               paramlist.Add(new SqlParameter("@Fecha_Baja", ArchivoConfiguracion.Default.FechaActual));
+               SqlParameter paramRetAux = new SqlParameter("@Retorno", SqlDbType.Int);
+               paramRetAux.Direction = ParameterDirection.Output;
+               paramlist.Add(paramRetAux);
+               Int32 retorno=BDStranger_Strings.ExecStoredProcedure("STRANGER_STRINGS.SP_BAJA_AFILIADO", paramlist);
+               if ( retorno== -1)
+               {
+                   MessageBox.Show("No existe este Afiliado", "Error", MessageBoxButtons.OK);
+               }
+               else if (retorno == -2)
+               {
+                   MessageBox.Show("Este Afiliado ya fue dado de baja", "Error", MessageBoxButtons.OK);
+               }
+               else 
+               {
+                   paramlist.Clear();
+                   paramlist.Add(new SqlParameter("@Num_Doc", txtBMDoc.Text));
+                   paramlist.Add(new SqlParameter("@Fecha_Baja", ArchivoConfiguracion.Default.FechaActual));
+                   paramlist.Add(paramRetAux);
+                   BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_BAJA_AFILIADO", "SP", paramlist);
+                   dtgCliente.DataSource = null;
+                   lbBorradoModificado.Visible = true;
+                   timer1.Enabled = true;
+               }
+
            }
        }
 
