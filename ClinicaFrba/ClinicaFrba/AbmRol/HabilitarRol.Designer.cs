@@ -82,6 +82,7 @@
             this.Controls.Add(this.label1);
             this.Name = "HabilitarRol";
             this.Text = "HabilitarRol";
+            this.Load += new System.EventHandler(this.HabilitarRol_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

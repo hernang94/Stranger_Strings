@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.cbRoles = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -44,13 +44,13 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Seleccione un rol de la lista para deshabilitarlo";
             // 
-            // comboBox1
+            // cbRoles
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(63, 92);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(153, 21);
-            this.comboBox1.TabIndex = 1;
+            this.cbRoles.FormattingEnabled = true;
+            this.cbRoles.Location = new System.Drawing.Point(63, 92);
+            this.cbRoles.Name = "cbRoles";
+            this.cbRoles.Size = new System.Drawing.Size(153, 21);
+            this.cbRoles.TabIndex = 1;
             // 
             // button1
             // 
@@ -79,10 +79,11 @@
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.cbRoles);
             this.Controls.Add(this.label1);
             this.Name = "DeshabilitarRol";
             this.Text = "DeshabilitarRol";
+            this.Load += new System.EventHandler(this.DeshabilitarRol_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -91,7 +92,7 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cbRoles;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
     }
