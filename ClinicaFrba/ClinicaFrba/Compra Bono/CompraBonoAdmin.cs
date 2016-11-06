@@ -26,21 +26,25 @@ namespace ClinicaFrba.Compra_Bono
 
         private void CompraBonoAdmin_Load(object sender, EventArgs e)
         {
-            obtenerPlan();
-            obtenerPrecioBonoSegunPlan();
+            
         }
 
         private void btVerificarAfiliado_Click(object sender, EventArgs e)
         {
             List<SqlParameter> paramlist = new List<SqlParameter>();
-            paramlist.Add(new SqlParameter("@Num_Doc",txtDNI));
+            paramlist.Add(new SqlParameter("@Num_Doc",int.Parse(txtDNI.Text)));
             SqlParameter paramRet = new SqlParameter("@Estado", SqlDbType.Int);
             paramRet.Direction = ParameterDirection.Output;
             paramlist.Add(paramRet);
-            if (BDStranger_Strings.ExecStoredProcedure("STRANGER_STRINGS.SP_VALIDAR_AFILIADO", paramlist)==0)
+            if (BDStranger_Strings.ExecStoredProcedure("STRANGER_STRINGS.SP_VALIDAR_AFILIADO", paramlist) == 0)
             {
                 MessageBox.Show("Ingrese un DNI válido.", "Error", MessageBoxButtons.OK);
                 txtDNI.Clear();
+            }
+            else
+            {
+                obtenerPlan();
+                obtenerPrecioBonoSegunPlan();
             }
         }
 
