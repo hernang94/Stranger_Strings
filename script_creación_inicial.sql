@@ -673,16 +673,16 @@ GO
 CREATE PROCEDURE STRANGER_STRINGS.SP_LOGIN
 @Usuario varchar(255), 
 @Pass varchar(255),
-@Bit INT OUTPUT
+@Retorno INT OUTPUT
 AS
 BEGIN
 IF EXISTS(
 SELECT u.Usuario,u.Pasword
 FROM STRANGER_STRINGS.Usuario u JOIN STRANGER_STRINGS.Rol_X_Usuario r ON(u.Id_Usuario=r.Id_Usuario)
 WHERE @Usuario=u.Usuario AND HASHBYTES('SHA2_256',@Pass)=u.Pasword)
-SET @Bit=1
+SET @Retorno=1
 ELSE
-SET @Bit=0
+SET @Retorno=0
 END
 GO
 -----------------------------------------
@@ -1025,21 +1025,12 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_MODIFICAR_AFILIADO
 @Fecha_Nac DATETIME,
 @Sexo CHAR(1),
 @Estado_Civil VARCHAR(15),
-@Familiares_A_Cargo INT,
-@Retorno INT OUTPUT
+@Familiares_A_Cargo INT
 AS
 BEGIN
-IF NOT EXISTS(SELECT * FROM STRANGER_STRINGS.Paciente p
-			WHERE p.Num_Doc=@Num_Doc)
-			BEGIN
---RAISERROR('Paciente no encontrado',10,1)
-SET @Retorno=-1 
-RETURN
-END
 UPDATE STRANGER_STRINGS.Paciente
 SET Direccion=@Direccion,Telefono=@Telefono,Mail=@Mail,Fecha_Nac=@Fecha_Nac,Estado_Civil=@Estado_Civil
 WHERE Num_Doc=@Num_Doc
-SET @Retorno=0 --OK
 END 
 GO
 -----------------------------------------
@@ -2042,17 +2033,17 @@ GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_VALIDAR_AFILIADO
 @Num_Doc NUMERIC(18,0),
-@Estado INT OUTPUT
+@Retorno INT OUTPUT
 AS
 BEGIN
 IF EXISTS(SELECT * FROM STRANGER_STRINGS.Paciente WHERE @Num_Doc=Num_Doc)
 BEGIN
-SET @Estado=1 --Existe el afiliado
+SET @Retorno=1 --Existe el afiliado
 RETURN
 END
 ELSE
 BEGIN
-SET @Estado=0 --No existe
+SET @Retorno=0 --No existe
 END
 END
 GO

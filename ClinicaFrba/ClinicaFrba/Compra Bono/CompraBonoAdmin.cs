@@ -32,8 +32,8 @@ namespace ClinicaFrba.Compra_Bono
         private void btVerificarAfiliado_Click(object sender, EventArgs e)
         {
             List<SqlParameter> paramlist = new List<SqlParameter>();
-            paramlist.Add(new SqlParameter("@Num_Doc",int.Parse(txtDNI.Text)));
-            SqlParameter paramRet = new SqlParameter("@Estado", SqlDbType.Int);
+            paramlist.Add(new SqlParameter("@Num_Doc",decimal.Parse(txtDNI.Text)));
+            SqlParameter paramRet = new SqlParameter("@Retorno", SqlDbType.Int);
             paramRet.Direction = ParameterDirection.Output;
             paramlist.Add(paramRet);
             if (BDStranger_Strings.ExecStoredProcedure("STRANGER_STRINGS.SP_VALIDAR_AFILIADO", paramlist) == 0)
@@ -43,6 +43,8 @@ namespace ClinicaFrba.Compra_Bono
             }
             else
             {
+                MessageBox.Show("Usuario Valido", "", MessageBoxButtons.OK);
+                paciente.Num_Doc = decimal.Parse(txtDNI.Text);
                 obtenerPlan();
                 obtenerPrecioBonoSegunPlan();
             }
@@ -50,14 +52,13 @@ namespace ClinicaFrba.Compra_Bono
 
         private void nudCantidadBonos_ValueChanged(object sender, EventArgs e)
         {
-            lbPrecioTotal.Text = "$ " + (precio * nudCantidadBonos.Value);
-            lbPrecioTotal.Visible = true;
+            
         }
 
         private void obtenerPlan()
         {
             List<SqlParameter> paramlist = new List<SqlParameter>();
-            paramlist.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Dni)));
+            paramlist.Add(new SqlParameter("@Num_Doc", paciente.Num_Doc));
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_BUSCAR_AFILIADO", "SP", paramlist);
 
             if (lector.HasRows)
@@ -94,7 +95,7 @@ namespace ClinicaFrba.Compra_Bono
             if (mge == DialogResult.Yes)
             {
                 List<SqlParameter> paramlist = new List<SqlParameter>();
-                paramlist.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Dni)));
+                paramlist.Add(new SqlParameter("@Num_Doc", paciente.Num_Doc));
                 paramlist.Add(new SqlParameter("@Fecha_Compra", ArchivoConfiguracion.Default.FechaActual));
                 paramlist.Add(new SqlParameter("@Cantidad_Bonos", System.Convert.ToString(nudCantidadBonos.Value)));
 

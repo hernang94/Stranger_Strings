@@ -12,9 +12,7 @@ namespace ClinicaFrba.BD
     {
         public string Apellido { get; set; }
         public string Dni { set; get; }
-        public byte[] Contrasena_Hash { get; set; }
         public Int16 Cantidad_Intentos { get; set; }
-        public string Contrasena { get; set; }
 
         public Usuario() { }
 
@@ -23,16 +21,14 @@ namespace ClinicaFrba.BD
             List<SqlParameter> paramList = new List<SqlParameter>();
             paramList.Add(new SqlParameter("@userName", user));
 
-            SqlDataReader lector = BDStranger_Strings.GetDataReader("SELECT * FROM STRANGER_STRINGS.Usuario WHERE Usuario=@userName", "T", paramList);
+            SqlDataReader lector = BDStranger_Strings.GetDataReader("SELECT Cantidad_Intentos FROM STRANGER_STRINGS.Usuario WHERE Usuario=@userName", "T", paramList);
             if (lector.HasRows)
             {
                 lector.Read();
                 Apellido = user;
                 Cantidad_Intentos = (Int16)lector["Cantidad_Intentos"];
-                Contrasena_Hash = (Byte[])lector["Pasword"];
             }
             Inicio i = new Inicio();
-            Contrasena = i.bytesDeHasheoToString(Contrasena_Hash);
         }
 
 
