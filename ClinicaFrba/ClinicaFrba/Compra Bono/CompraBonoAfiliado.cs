@@ -27,8 +27,6 @@ namespace ClinicaFrba.Compra_Bono
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            lbPrecioTotal.Text = "$ " + (precio * nudCantidadBonos.Value);
-            lbPrecioTotal.Visible = true;
         }
 
         private void CompraBono_Load(object sender, EventArgs e)
@@ -45,7 +43,6 @@ namespace ClinicaFrba.Compra_Bono
 
         private void btCalcularPrecio_Click(object sender, EventArgs e)
         {
-            
             unidades = nudCantidadBonos.Value;
             lbPrecioTotal.Text = "$ " + (precio*unidades);
             lbPrecioTotal.Visible = true;

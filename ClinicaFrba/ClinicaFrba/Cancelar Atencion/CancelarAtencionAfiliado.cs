@@ -33,14 +33,22 @@ namespace ClinicaFrba.Cancelar_Atencion
 
         private void btAceptar_Click(object sender, EventArgs e)
         {
-           DialogResult msge = MessageBox.Show("¿Esta seguro que desea cancelar el turno seleccionado?", "Confirmar cancelación", MessageBoxButtons.YesNo);
-           if (msge == DialogResult.Yes)
+           BD.Entidades.Turno turnoSeleccionado=(BD.Entidades.Turno)dtgTurnos.CurrentRow.DataBoundItem;
+           if ((turnoSeleccionado.fecha - ArchivoConfiguracion.Default.FechaActual).TotalDays < 1)
            {
-               cancelarTurno((BD.Entidades.Turno)dtgTurnos.CurrentRow.DataBoundItem);
-               actualizarGrilla();
-               lbTurnoCancelado.Visible = true;
-               timer1.Enabled = true;
+               MessageBox.Show("No se puede cancelar un turno el mismo dia de atención", "Error", MessageBoxButtons.OK);
+           }
+           else
+           {
+               DialogResult msge = MessageBox.Show("¿Esta seguro que desea cancelar el turno seleccionado?", "Confirmar cancelación", MessageBoxButtons.YesNo);
+               if (msge == DialogResult.Yes)
+               {
+                   cancelarTurno((BD.Entidades.Turno)dtgTurnos.CurrentRow.DataBoundItem);
+                   actualizarGrilla();
+                   lbTurnoCancelado.Visible = true;
+                   timer1.Enabled = true;
 
+               }
            }
         }
 

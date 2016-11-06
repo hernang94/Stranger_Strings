@@ -51,6 +51,21 @@ namespace ClinicaFrba
             catch { return 0; }
         }
 
+        public static decimal ExecStoredProcedureAlta(string commandText, List<SqlParameter> parameters)
+        {
+            try
+            {
+                SqlCommand sqlCommand = BuildSQLCommand(commandText, parameters);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                SqlDataReader lectorAux = sqlCommand.ExecuteReader();
+                lectorAux.Close();
+                decimal retorno = (decimal)parameters.Find(x => x.ParameterName == "@Retorno").Value;
+                sqlCommand.Parameters.Clear();
+                return retorno;
+            }
+            catch { return 0; }
+        }
+
         private static SqlCommand BuildSQLCommand(string commandtext, List<SqlParameter> parameters)
         {
             SqlCommand sqlCommand = new SqlCommand();

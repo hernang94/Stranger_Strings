@@ -121,10 +121,15 @@ namespace ClinicaFrba.Listados
             colNombre.DataPropertyName = "nombre";
             colNombre.HeaderText = "Nombre";
             colNombre.Width = 200;
+            DataGridViewTextBoxColumn colPertenece = new DataGridViewTextBoxColumn();
+            colPertenece.DataPropertyName = "pertenece_grupo_familiar";
+            colPertenece.HeaderText = "Grupo Familiar";
+            colPertenece.Width = 60;
 
             dtgListado.Columns.Add(colCantBonos);
             dtgListado.Columns.Add(colApellido);
             dtgListado.Columns.Add(colNombre);
+            dtgListado.Columns.Add(colPertenece);
         }
 
         private void crearGrillaTOP5EspecialidadMasBonos()
@@ -161,7 +166,15 @@ namespace ClinicaFrba.Listados
 
         public DateTime construirFechaFinSemestre()
         {
-            return Convert.ToDateTime("01/" + obtenerFinSemestre() + cbAño.SelectedItem + " 00:00");
+            if (cbSemestre.SelectedIndex == 0)
+            {
+                return Convert.ToDateTime("30/" + obtenerFinSemestre() + cbAño.SelectedItem + " 00:00");
+            }
+            else
+            {
+                return Convert.ToDateTime("31/" + obtenerFinSemestre() + cbAño.SelectedItem + " 00:00");
+            }
+            
         }
 
         public string obtenerFinSemestre()
@@ -222,6 +235,11 @@ namespace ClinicaFrba.Listados
         {
             this.fun.Show();
             this.Close();
+        }
+
+        private void dtgListado_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

@@ -148,6 +148,7 @@
             this.dtgListado.Name = "dtgListado";
             this.dtgListado.Size = new System.Drawing.Size(402, 164);
             this.dtgListado.TabIndex = 4;
+            this.dtgListado.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgListado_CellContentClick);
             // 
             // groupBox1
             // 

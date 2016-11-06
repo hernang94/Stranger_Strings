@@ -1418,12 +1418,12 @@ GO
 -----------------------------------------
 IF EXISTS(SELECT  *
             FROM    sys.objects
-            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_TOP5_AFILIDOS_BONOS')
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_TOP5_AFILIADOS_BONOS')
                     AND type IN ( N'P', N'PC' ) )
-DROP PROCEDURE STRANGER_STRINGS.SP_TOP5_AFILIDOS_BONOS
+DROP PROCEDURE STRANGER_STRINGS.SP_TOP5_AFILIADOS_BONOS
 GO
 
-CREATE PROCEDURE STRANGER_STRINGS.SP_TOP5_AFILIDOS_BONOS
+CREATE PROCEDURE STRANGER_STRINGS.SP_TOP5_AFILIADOS_BONOS
 @Fecha_Inicio_Semestre DATETIME,
 @Fecha_Fin_Semestre DATETIME
 AS
@@ -1532,25 +1532,25 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_ALTA_AFILIADO
 @Familiares_A_Cargo INT,
 @Plan VARCHAR(255),
 @Num_Afiliado_Raiz NUMERIC(20,0),
-@Num_Afiliado NUMERIC(20,0) OUTPUT
+@Retorno NUMERIC(20,0) OUTPUT
 
 AS
 BEGIN
 DECLARE @Codigo_Plan INT
-SELECT @Codigo_Plan=Descripcion
+SELECT @Codigo_Plan=Codigo_Plan
 FROM STRANGER_STRINGS.Plan_Medico
 WHERE Descripcion=@Plan
 IF EXISTS( SELECT * FROM STRANGER_STRINGS.Paciente WHERE Num_Doc=@Num_Doc)
 BEGIN
 		--RAISERROR('Paciente ya existente',10,1)
-		SET @Num_Afiliado=-1
+		SET @Retorno=-1
 		RETURN
 		END
 IF @Num_Afiliado_Raiz IS NULL
 BEGIN
 	INSERT INTO STRANGER_STRINGS.Paciente (Nombre,Apellido,Tipo_Doc,Num_Doc,Direccion,Telefono,Mail,Fecha_Nac,Sexo,Estado_Civil,Familiares_A_Cargo,Codigo_Plan,Num_Afiliado_Raiz,Num_Afiliado_Resto,Cantidad_Consulta,Estado_Afiliado)
 	VALUES(@Nombre,@Apellido,@Tipo_Doc,@Num_Doc,@Direccion,@Telefono,@Mail,@Fecha_Nac,@Sexo,@Estado_Civil,@Familiares_A_Cargo,@Codigo_Plan,REVERSE(@Num_Doc),01,0,'A')
-	SET @Num_Afiliado=REVERSE(@Num_Doc)
+	SET @Retorno=REVERSE(@Num_Doc)
 	END
 ELSE
 BEGIN

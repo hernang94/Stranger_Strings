@@ -172,6 +172,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Registro_Agenda";
             this.Text = "Registro_Agenda";
+            this.Load += new System.EventHandler(this.Registro_Agenda_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

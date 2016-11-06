@@ -86,5 +86,10 @@ namespace ClinicaFrba.Registrar_Agenda_Medico
             fun.Show();
             this.Close();
         }
+
+        private void Registro_Agenda_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

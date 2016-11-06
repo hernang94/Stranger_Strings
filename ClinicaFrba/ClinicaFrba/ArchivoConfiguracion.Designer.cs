@@ -61,7 +61,7 @@ namespace ClinicaFrba {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2015-01-01")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2015-01-06")]
         public global::System.DateTime FechaActual {
             get {
                 return ((global::System.DateTime)(this["FechaActual"]));

@@ -26,12 +26,19 @@ namespace ClinicaFrba.Cancelar_Atencion
 
         private void btAceptar_Click(object sender, EventArgs e)
         {
-            DialogResult msge = MessageBox.Show("¿Esta seguro que desea cancelar fecha o período seleccionado?", "Confirmar cancelación", MessageBoxButtons.YesNo);
-            if (msge == DialogResult.Yes)
+            if (!lista_turnos.Contains(monthCalendar1.SelectionRange.Start))
             {
-                lbTurnosCancelados.Visible = true;
-                timer1.Enabled = true;
-                cancelarTurnos();
+                MessageBox.Show("Seleccione una fecha valida de atención.", "Error", MessageBoxButtons.OK);
+            }
+            else
+            {
+                DialogResult msge = MessageBox.Show("¿Esta seguro que desea cancelar fecha o período seleccionado?", "Confirmar cancelación", MessageBoxButtons.YesNo);
+                if (msge == DialogResult.Yes)
+                {
+                    lbTurnosCancelados.Visible = true;
+                    timer1.Enabled = true;
+                    cancelarTurnos();
+                }
             }
         }
 
@@ -145,20 +152,6 @@ namespace ClinicaFrba.Cancelar_Atencion
 
         private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
         {
-            int i = 0;
-            int acierto = 0;
-            while (i<lista_turnos.Count() && acierto==0)
-            {
-                if (lista_turnos[i].Date.ToString() == monthCalendar1.SelectionRange.Start.ToString())
-                {
-                    acierto = 1;
-                }
-                i++;
-            }
-            if (acierto != 1)
-            {
-                MessageBox.Show("Seleccione una fecha valida de atención.", "Error", MessageBoxButtons.OK);
-            }
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)

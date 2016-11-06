@@ -37,17 +37,16 @@ namespace ClinicaFrba
                 if (txtUsuario.Text != "" && txtContraseña.Text != "")
                 {
                     Usuario user = new Usuario(txtUsuario.Text);
-
+                    List<SqlParameter> paramlist = new List<SqlParameter>();
+                    paramlist.Add(new SqlParameter("@Usuario", txtUsuario.Text));
+                    paramlist.Add(new SqlParameter("@Pass", txtContraseña.Text));
+                    SqlParameter paramRetAux = new SqlParameter("@Retorno", SqlDbType.Int);
+                    paramRetAux.Direction = ParameterDirection.Output;
+                    paramlist.Add(paramRetAux);
                     //Encontro usuario? ------------------------------------------------------------
                     if (user.Apellido != null)
                     {
-                        // Pass hashing
-                        UTF8Encoding encoderHash = new UTF8Encoding();
-                        SHA256Managed hasher = new SHA256Managed();
-                        byte[] bytesDeHasheo = hasher.ComputeHash(encoderHash.GetBytes(txtContraseña.Text));
-                        string pass = bytesDeHasheoToString(bytesDeHasheo);
-
-                        if (!user.Contrasena.Equals(pass))
+                        if (BDStranger_Strings.ExecStoredProcedure("STRANGER_STRINGS.SP_LOGIN",paramlist)==0)
                         {
                             //Descontar Cantidad_Intentos--------------------------------------------
                             user.DescontarIntento();
@@ -66,12 +65,12 @@ namespace ClinicaFrba
                                 MessageBox.Show("Usuario inactivo para acceder al sistema", "Error!", MessageBoxButtons.OK);
                             else
                             {
-
+                                user.Dni = txtContraseña.Text;
                                 user.ReiniciarCantidadIntentos(txtContraseña.Text);
-                                List<SqlParameter> paramlist = new List<SqlParameter>();
-                                paramlist.Add(new SqlParameter("@Usuario", user.Apellido));
-                                paramlist.Add(new SqlParameter("@Pass", user.Dni));
-                                SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_GET_ROLES", "SP", paramlist);
+                                List<SqlParameter> paramlistaux = new List<SqlParameter>();
+                                paramlistaux.Add(new SqlParameter("@Usuario", user.Apellido));
+                                paramlistaux.Add(new SqlParameter("@Pass", user.Dni));
+                                SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_GET_ROLES", "SP", paramlistaux);
 
                                 List<BD.Entidades.Rol> rolesXusario = new List<BD.Entidades.Rol>();
                                 obtenerRoles(lector, rolesXusario);

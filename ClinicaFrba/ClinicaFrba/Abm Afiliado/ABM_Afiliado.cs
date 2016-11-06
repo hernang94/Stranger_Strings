@@ -104,6 +104,7 @@ namespace ClinicaFrba.Abm_Afiliado
                         A_Familia af = new A_Familia(int.Parse(nupCantFamilia.Text), num_raiz);
                         af.Show();
                     }
+                    MessageBox.Show("Afiliado agregado exitosamente", "", MessageBoxButtons.OK);
                 }
                 else
                 {
@@ -128,11 +129,11 @@ namespace ClinicaFrba.Abm_Afiliado
             lista.Add(new SqlParameter("@Estado_Civil", cbEstadoCivil.Text));
             lista.Add(new SqlParameter("@Familiares_A_Cargo", int.Parse(nupCantFamilia.Text)));
             lista.Add(new SqlParameter("@Plan", "Plan Medico "+cbPlanMedico.Text));
-            lista.Add(new SqlParameter("@Num_Afiliado_Raiz", null));
-            SqlParameter paramRetAux = new SqlParameter("@Num_Afiliado", SqlDbType.Decimal);
+            lista.Add(new SqlParameter("@Num_Afiliado_Raiz", DBNull.Value));
+            SqlParameter paramRetAux = new SqlParameter("@Retorno", SqlDbType.Decimal);
             paramRetAux.Direction = ParameterDirection.Output;
             lista.Add(paramRetAux);
-            return BDStranger_Strings.ExecStoredProcedure("STRANGER_STRINGS.SP_ALTA_AFILIADO", lista);
+            return BDStranger_Strings.ExecStoredProcedureAlta("STRANGER_STRINGS.SP_ALTA_AFILIADO", lista);
         }
 
         private void dtgCliente_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -229,14 +230,12 @@ namespace ClinicaFrba.Abm_Afiliado
                 dtgCliente.DataSource = null;
                 crearGrilla();
                 List<SqlParameter> paramlist = new List<SqlParameter>();
-                paramlist.Add(new SqlParameter("@Num_Doc", txtBMDoc.Text));
+                paramlist.Add(new SqlParameter("@Num_Doc", int.Parse(txtBMDoc.Text)));
                 SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_BUSCAR_AFILIADO", "SP", paramlist);
                 if (lector.HasRows)
                 {
                     while (lector.Read())
                     {
-                        
-
                         paciente.Nombre = (string)lector["Nombre"];
                         paciente.Apellido = (string)lector["Apellido"];
                         paciente.Tipo_Doc = (string)lector["Tipo_Doc"];
