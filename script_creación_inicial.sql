@@ -1165,8 +1165,8 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_ALTA_AGENDA
 @Num_Doc NUMERIC(18,0),
 @Especialidad_Codigo NUMERIC(18,0),
 @Dia_Semana SMALLINT,
-@Hora_Desde TIME,
-@Hora_Hasta TIME,
+@Hora_Desde DATETIME,
+@Hora_Hasta DATETIME,
 @Output INT
 AS
 BEGIN
@@ -1193,7 +1193,7 @@ BEGIN
 		RETURN
 		END
 INSERT INTO STRANGER_STRINGS.Horarios_Agenda(Dia,Hora_Desde,Hora_Hasta,Id_Especialidad_Medico)
-VALUES(@Dia_Semana,@Hora_Desde,@Hora_Hasta,@Id_Medico_X_Especialidad)
+VALUES(@Dia_Semana,CONVERT(TIME,@Hora_Desde),CONVERT(TIME,@Hora_Hasta),@Id_Medico_X_Especialidad)
 SET @Output=0--OK
 END
 GO
