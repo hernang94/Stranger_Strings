@@ -72,65 +72,67 @@ namespace ClinicaFrba.Abm_Afiliado
             else
             {
                 decimal num_raiz = cargar_Datos_Afiliados();
+                if (num_raiz != -1)
+                {
+                    DialogResult resultadomge1 = DialogResult.No;
+                    DialogResult resultadomge2 = DialogResult.No;
 
-                DialogResult resultadomge1 = DialogResult.No;
-                DialogResult resultadomge2 = DialogResult.No;
+                    //Si esta casado o en concubinato --------------------------------------------------
+                    if (cbEstadoCivil.SelectedIndex == 1 || cbEstadoCivil.SelectedIndex == 2)
+                    {
+                        resultadomge1 = MessageBox.Show("¿Desea asociar a su conyugue/concubinato?", "Consulta", MessageBoxButtons.YesNo);
+                    }
 
-                //Si esta casado o en concubinato --------------------------------------------------
-                if (cbEstadoCivil.SelectedIndex == 1 || cbEstadoCivil.SelectedIndex == 2)
-                {
-                    resultadomge1 = MessageBox.Show("¿Desea asociar a su conyugue/concubinato?", "Consulta", MessageBoxButtons.YesNo);
-                }
+                    //Si tiene familiares a cargo ------------------------------------------------------
+                    if (int.Parse(nupCantFamilia.Text) > 0)
+                    {
+                        resultadomge2 = MessageBox.Show("¿Desea asociar a sus familiares a cargo?", "Consulta", MessageBoxButtons.YesNo);
+                    }
 
-                //Si tiene familiares a cargo ------------------------------------------------------
-                if (int.Parse(nupCantFamilia.Text) > 0)
-                {
-                    resultadomge2 = MessageBox.Show("¿Desea asociar a sus familiares a cargo?", "Consulta", MessageBoxButtons.YesNo);
+                    if (resultadomge1 == DialogResult.Yes && resultadomge2 == DialogResult.Yes)
+                    {
+                        A_Familia af = new A_Familia(int.Parse(nupCantFamilia.Text) + 1, num_raiz);
+                        af.Show();
+                    }
+                    else if (resultadomge1 == DialogResult.Yes && resultadomge2 == DialogResult.No)
+                    {
+                        A_Familia af = new A_Familia(1, num_raiz);
+                        af.Show();
+                    }
+                    else if (resultadomge1 == DialogResult.No && resultadomge2 == DialogResult.Yes)
+                    {
+                        A_Familia af = new A_Familia(int.Parse(nupCantFamilia.Text), num_raiz);
+                        af.Show();
+                    }
                 }
-
-                if (resultadomge1 == DialogResult.Yes && resultadomge2 == DialogResult.Yes)
+                else
                 {
-                    A_Familia af = new A_Familia(int.Parse(nupCantFamilia.Text) + 1, num_raiz);
-                    af.Show();
+                    MessageBox.Show("Afiliado ya existente", "Error", MessageBoxButtons.OK);
                 }
-                else if (resultadomge1 == DialogResult.Yes && resultadomge2 == DialogResult.No)
-                {
-                    A_Familia af = new A_Familia(1, num_raiz);
-                    af.Show();
-                }
-                else if (resultadomge1 == DialogResult.No && resultadomge2 == DialogResult.Yes)
-                {
-                    A_Familia af = new A_Familia(int.Parse(nupCantFamilia.Text), num_raiz);
-                    af.Show();
-                }
+               
             }
         }
 
         private decimal cargar_Datos_Afiliados()
         {
             List<SqlParameter> lista = new List<SqlParameter>();
-            lista.Add(new SqlParameter("@nombre", txtNombre.Text));
-            lista.Add(new SqlParameter("@apellido", txtApellido.Text));
-            lista.Add(new SqlParameter("@tipo_Doc", txtTipoDoc.Text));
+            lista.Add(new SqlParameter("@Nombre", txtNombre.Text));
+            lista.Add(new SqlParameter("@Apellido", txtApellido.Text));
+            lista.Add(new SqlParameter("@Tipo_Doc", txtTipoDoc.Text));
             lista.Add(new SqlParameter("@Num_Doc", int.Parse(txtNroDoc.Text)));
-            lista.Add(new SqlParameter("@direccion", txtDirec.Text));
+            lista.Add(new SqlParameter("@Direccion", txtDirec.Text));
             lista.Add(new SqlParameter("@Telefono", int.Parse(txtTel.Text)));
             lista.Add(new SqlParameter("@Mail",txtMail.Text));
-            lista.Add(new SqlParameter("@fecha_Nac", dateFechaNac.Value));
-            lista.Add(new SqlParameter("@sexo", cbSexo.Text.Substring(0,1)));
-            lista.Add(new SqlParameter("@estado_Civil", cbEstadoCivil.Text));
+            lista.Add(new SqlParameter("@Fecha_Nac", dateFechaNac.Value));
+            lista.Add(new SqlParameter("@Sexo", cbSexo.Text.Substring(0,1)));
+            lista.Add(new SqlParameter("@Estado_Civil", cbEstadoCivil.Text));
             lista.Add(new SqlParameter("@Familiares_A_Cargo", int.Parse(nupCantFamilia.Text)));
             lista.Add(new SqlParameter("@Plan", "Plan Medico "+cbPlanMedico.Text));
             lista.Add(new SqlParameter("@Num_Afiliado_Raiz", null));
-            lista.Add(new SqlParameter("@num_resto", 1));
-            SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_ALTA_AFILIADO", "SP", lista);
-            decimal num_afiliado_raiz=0;
-            if (lector.HasRows)
-            {
-                lector.Read();
-                num_afiliado_raiz = (decimal)lector["num_afiliado_resto"];
-            }
-            return num_afiliado_raiz;
+            SqlParameter paramRetAux = new SqlParameter("@Num_Afiliado", SqlDbType.Decimal);
+            paramRetAux.Direction = ParameterDirection.Output;
+            lista.Add(paramRetAux);
+            return BDStranger_Strings.ExecStoredProcedure("STRANGER_STRINGS.SP_ALTA_AFILIADO", lista);
         }
 
         private void dtgCliente_CellContentClick(object sender, DataGridViewCellEventArgs e)

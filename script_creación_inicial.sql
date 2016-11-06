@@ -386,7 +386,7 @@ VALUES('Profesional','E')
 INSERT INTO STRANGER_STRINGS.Funcionalidad_X_Rol(Id_Rol,Id_Funcionalidad)
 SELECT r.Id_Rol, f.Id_Funcionalidad
 FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Funcionalidad f
-WHERE r.Descripcion='Administrador' AND f.Descripcion in ('ABM de Afiliado','ABM de Rol','Registro de Llegada','Listado Estadístico')
+WHERE r.Descripcion='Administrador' AND f.Descripcion in ('ABM de Afiliado','ABM de Rol','Registro de Llegada','Listado Estadístico','Compra de Bonos')
 
 INSERT INTO STRANGER_STRINGS.Funcionalidad_X_Rol(Id_Rol,Id_Funcionalidad)
 SELECT r.Id_Rol, f.Id_Funcionalidad
@@ -415,7 +415,6 @@ SET Id_Usuario=
 (SELECT u.Id_Usuario FROM STRANGER_STRINGS.Usuario u
 WHERE u.Pasword=HASHBYTES('SHA2_256',CONVERT(VARCHAR,p.Num_Doc)))
 FROM STRANGER_STRINGS.Paciente p
-
 
 INSERT INTO STRANGER_STRINGS.Rol_X_Usuario(Id_Rol,Id_Usuario)
 SELECT r.Id_Rol,u.Id_Usuario
@@ -1170,7 +1169,7 @@ INSERT INTO STRANGER_STRINGS.Horarios_Agenda(Dia,Hora_Desde,Hora_Hasta,Id_Especi
 VALUES(@Dia_Semana,CAST(@Hora_Desde+':00'AS TIME(0)),CAST(@Hora_Hasta+':00' AS TIME(0)),@Id_Medico_X_Especialidad)
 END
 GO*/
---De aca para arriba los que tienen output en la app ya estan arreglados!
+
 CREATE PROCEDURE STRANGER_STRINGS.SP_ALTA_AGENDA
 @Num_Doc NUMERIC(18,0),
 @Especialidad_Codigo NUMERIC(18,0),
@@ -1542,7 +1541,7 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_ALTA_AFILIADO
 @Familiares_A_Cargo INT,
 @Plan VARCHAR(255),
 @Num_Afiliado_Raiz NUMERIC(20,0),
-@Num_Afiliado NUMERIC(20,0)=NULL OUTPUT
+@Num_Afiliado NUMERIC(20,0) OUTPUT
 
 AS
 BEGIN
@@ -2045,12 +2044,12 @@ AS
 BEGIN
 IF EXISTS(SELECT * FROM STRANGER_STRINGS.Paciente WHERE @Num_Doc=Num_Doc)
 BEGIN
-SET @Estado=1
+SET @Estado=1 --Existe el afiliado
 RETURN
 END
 ELSE
 BEGIN
-SET @Estado=0
+SET @Estado=0 --No existe
 END
 END
 GO

@@ -13,11 +13,13 @@ namespace ClinicaFrba.Registro_Llegada
 {
     public partial class SeleccionBono : Form
     {
-        BD.Entidades.Paciente pac = new BD.Entidades.Paciente();
+        BD.Entidades.Paciente pac;
+        BD.Entidades.Turno turno;
         List<BD.Entidades.Bono> bonos = new List<BD.Entidades.Bono>();
-        public SeleccionBono(BD.Entidades.Paciente pac)
+        public SeleccionBono(BD.Entidades.Paciente pac,BD.Entidades.Turno turno)
         {
             this.pac = pac;
+            this.turno = turno;
             InitializeComponent();
         }
 
@@ -85,6 +87,18 @@ namespace ClinicaFrba.Registro_Llegada
 
         private void btAceptar_Click(object sender, EventArgs e)
         {
+            BD.Entidades.Bono bonoSeleccionado = (BD.Entidades.Bono)dtgBono.CurrentRow.DataBoundItem;
+            List<SqlParameter> listaParam = new List<SqlParameter>();
+            listaParam.Add(new SqlParameter("@Fecha", turno.fecha));
+            listaParam.Add(new SqlParameter("@Num_Doc", pac.Num_Doc));
+            listaParam.Add(new SqlParameter("@Nro_Turno", turno.nro));
+            listaParam.Add(new SqlParameter("@Id_Bono", bonoSeleccionado.id_Bono));
+            SqlParameter paramRet = new SqlParameter("@Retorno", SqlDbType.Int);
+            paramRet.Direction = ParameterDirection.Output;
+            listaParam.Add(paramRet);
+            Int32 retorno = BDStranger_Strings.ExecStoredProcedure("STRANGER_STRINGS.SP_CREAR_CONSULTA", listaParam);
+            //falta chequear que pasa si hay un catch y devuelve 0. Si devuelve 1 es al pedo hacer un if porque significa que esta
+            //todo ok y meter el this.close
             this.Close();
         }
     }

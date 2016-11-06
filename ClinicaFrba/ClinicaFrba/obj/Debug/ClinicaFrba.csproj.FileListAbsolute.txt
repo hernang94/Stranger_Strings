@@ -57,7 +57,6 @@ A:\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Abm_Afi
 A:\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Registro_Resultado.RegistroResultado.resources
 A:\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Registro_Resultado.SeleccionEspecialidad.resources
 A:\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Registro_Resultado.SeleccionTurno.resources
-A:\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Compra_Bono.CompraBono.resources
 A:\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\bin\Debug\ClinicaFrba.exe.config
 C:\Users\Hernan\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\bin\Debug\ClinicaFrba.exe.config
 C:\Users\Hernan\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.exe
@@ -116,3 +115,5 @@ C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug
 C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Compra_Bono.CompraBonoAfiliado.resources
 C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Listados.SeleccionListado.resources
 C:\Users\ABM\Documents\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Registrar_Agenda_Medico.Registro_Agenda.resources
+A:\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Compra_Bono.CompraBonoAdmin.resources
+A:\GitHub\Stranger_Strings\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.Compra_Bono.CompraBonoAfiliado.resources

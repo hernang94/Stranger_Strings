@@ -30,6 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btVerificarAfiliado = new System.Windows.Forms.Button();
+            this.txtDNI = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.lbCompraExito = new System.Windows.Forms.Label();
             this.btCancelar = new System.Windows.Forms.Button();
             this.lbPrecioTotal = new System.Windows.Forms.Label();
@@ -37,9 +40,6 @@
             this.btCalcularPrecio = new System.Windows.Forms.Button();
             this.nudCantidadBonos = new System.Windows.Forms.NumericUpDown();
             this.lbSeleccion = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtDNI = new System.Windows.Forms.TextBox();
-            this.btVerificarAfiliado = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
@@ -58,6 +58,34 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Validación de afiliado";
+            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
+            // 
+            // btVerificarAfiliado
+            // 
+            this.btVerificarAfiliado.Location = new System.Drawing.Point(100, 58);
+            this.btVerificarAfiliado.Name = "btVerificarAfiliado";
+            this.btVerificarAfiliado.Size = new System.Drawing.Size(95, 23);
+            this.btVerificarAfiliado.TabIndex = 17;
+            this.btVerificarAfiliado.Text = "Verificar Afiliado";
+            this.btVerificarAfiliado.UseVisualStyleBackColor = true;
+            this.btVerificarAfiliado.Click += new System.EventHandler(this.btVerificarAfiliado_Click);
+            // 
+            // txtDNI
+            // 
+            this.txtDNI.Location = new System.Drawing.Point(167, 25);
+            this.txtDNI.Name = "txtDNI";
+            this.txtDNI.Size = new System.Drawing.Size(100, 20);
+            this.txtDNI.TabIndex = 16;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(12, 26);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(132, 15);
+            this.label1.TabIndex = 15;
+            this.label1.Text = "Ingrese DNI de Afiliado";
             // 
             // lbCompraExito
             // 
@@ -130,33 +158,6 @@
             this.lbSeleccion.Size = new System.Drawing.Size(224, 15);
             this.lbSeleccion.TabIndex = 8;
             this.lbSeleccion.Text = "Indique la cantidad de bonos a comprar";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 26);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(132, 15);
-            this.label1.TabIndex = 15;
-            this.label1.Text = "Ingrese DNI de Afiliado";
-            // 
-            // txtDNI
-            // 
-            this.txtDNI.Location = new System.Drawing.Point(167, 25);
-            this.txtDNI.Name = "txtDNI";
-            this.txtDNI.Size = new System.Drawing.Size(100, 20);
-            this.txtDNI.TabIndex = 16;
-            // 
-            // btVerificarAfiliado
-            // 
-            this.btVerificarAfiliado.Location = new System.Drawing.Point(100, 58);
-            this.btVerificarAfiliado.Name = "btVerificarAfiliado";
-            this.btVerificarAfiliado.Size = new System.Drawing.Size(95, 23);
-            this.btVerificarAfiliado.TabIndex = 17;
-            this.btVerificarAfiliado.Text = "Verificar Afiliado";
-            this.btVerificarAfiliado.UseVisualStyleBackColor = true;
-            this.btVerificarAfiliado.Click += new System.EventHandler(this.btVerificarAfiliado_Click);
             // 
             // timer1
             // 

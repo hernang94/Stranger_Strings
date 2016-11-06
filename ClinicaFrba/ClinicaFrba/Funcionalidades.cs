@@ -107,6 +107,7 @@ namespace ClinicaFrba
                 btRegistroLlegada.Visible = true;
                 btEspMedicas.Visible = true;
                 btListadoEstadistico.Visible = true;
+                btComprarBonoAdmin.Visible = true;
 
                 btCancelarAtencionMedico.Visible = false;
                 btRegistrarResultado.Visible = false;
@@ -133,6 +134,7 @@ namespace ClinicaFrba
                 btRegAgendaProf.Visible = false;
                 btRegistroLlegada.Visible = false;
                 btListadoEstadistico.Visible = false;
+                btComprarBonoAdmin.Visible = false;
 
                 btRegistrarResultado.Visible = false;
                 btCancelarAtencionMedico.Visible = false;
@@ -157,6 +159,7 @@ namespace ClinicaFrba
                 btRegAgendaProf.Visible = false;
                 btRegistroLlegada.Visible = false;
                 btListadoEstadistico.Visible = false;
+                btComprarBonoAdmin.Visible = false;
             }
         }
 
