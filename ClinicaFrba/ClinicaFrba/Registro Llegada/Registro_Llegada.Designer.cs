@@ -120,6 +120,7 @@
             this.dtgTurno.Name = "dtgTurno";
             this.dtgTurno.Size = new System.Drawing.Size(307, 117);
             this.dtgTurno.TabIndex = 49;
+            this.dtgTurno.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgTurno_CellContentClick);
             // 
             // cbEspecialidad
             // 
