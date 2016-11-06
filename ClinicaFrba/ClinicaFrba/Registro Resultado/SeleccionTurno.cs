@@ -86,5 +86,10 @@ namespace ClinicaFrba.Registro_Resultado
             this.Close();
             selecEsp.Show();
         }
+
+        private void SeleccionTurno_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

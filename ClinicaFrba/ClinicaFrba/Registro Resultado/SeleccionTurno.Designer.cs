@@ -85,6 +85,7 @@
             this.Controls.Add(this.dtgTurnos);
             this.Name = "SeleccionTurno";
             this.Text = "SeleccionTurno";
+            this.Load += new System.EventHandler(this.SeleccionTurno_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dtgTurnos)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

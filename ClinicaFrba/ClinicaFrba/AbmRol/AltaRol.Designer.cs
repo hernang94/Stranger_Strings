@@ -32,9 +32,8 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.txtRol = new System.Windows.Forms.TextBox();
-            this.cbAdmin = new System.Windows.Forms.CheckBox();
-            this.cbProfesional = new System.Windows.Forms.CheckBox();
-            this.cbAfiliado = new System.Windows.Forms.CheckBox();
+            this.ckListaFuncionalidades = new System.Windows.Forms.CheckedListBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -49,7 +48,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(201, 168);
+            this.button1.Location = new System.Drawing.Point(201, 231);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 1;
@@ -59,7 +58,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(41, 168);
+            this.button2.Location = new System.Drawing.Point(41, 231);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 2;
@@ -75,44 +74,33 @@
             this.txtRol.TabIndex = 3;
             this.txtRol.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
-            // cbAdmin
+            // ckListaFuncionalidades
             // 
-            this.cbAdmin.AutoSize = true;
-            this.cbAdmin.Location = new System.Drawing.Point(121, 81);
-            this.cbAdmin.Name = "cbAdmin";
-            this.cbAdmin.Size = new System.Drawing.Size(89, 17);
-            this.cbAdmin.TabIndex = 4;
-            this.cbAdmin.Text = "Administrador";
-            this.cbAdmin.UseVisualStyleBackColor = true;
+            this.ckListaFuncionalidades.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.ckListaFuncionalidades.FormattingEnabled = true;
+            this.ckListaFuncionalidades.Location = new System.Drawing.Point(27, 114);
+            this.ckListaFuncionalidades.Name = "ckListaFuncionalidades";
+            this.ckListaFuncionalidades.Size = new System.Drawing.Size(265, 94);
+            this.ckListaFuncionalidades.TabIndex = 7;
+            this.ckListaFuncionalidades.SelectedIndexChanged += new System.EventHandler(this.ckListaFuncionalidades_SelectedIndexChanged);
             // 
-            // cbProfesional
+            // label2
             // 
-            this.cbProfesional.AutoSize = true;
-            this.cbProfesional.Location = new System.Drawing.Point(121, 104);
-            this.cbProfesional.Name = "cbProfesional";
-            this.cbProfesional.Size = new System.Drawing.Size(78, 17);
-            this.cbProfesional.TabIndex = 5;
-            this.cbProfesional.Text = "Profesional";
-            this.cbProfesional.UseVisualStyleBackColor = true;
-            // 
-            // cbAfiliado
-            // 
-            this.cbAfiliado.AutoSize = true;
-            this.cbAfiliado.Location = new System.Drawing.Point(121, 127);
-            this.cbAfiliado.Name = "cbAfiliado";
-            this.cbAfiliado.Size = new System.Drawing.Size(60, 17);
-            this.cbAfiliado.TabIndex = 6;
-            this.cbAfiliado.Text = "Afiliado";
-            this.cbAfiliado.UseVisualStyleBackColor = true;
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(69, 87);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(177, 15);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Seleccione las funcionalidades";
             // 
             // AltaRol
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(320, 225);
-            this.Controls.Add(this.cbAfiliado);
-            this.Controls.Add(this.cbProfesional);
-            this.Controls.Add(this.cbAdmin);
+            this.ClientSize = new System.Drawing.Size(320, 278);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.ckListaFuncionalidades);
             this.Controls.Add(this.txtRol);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -130,8 +118,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TextBox txtRol;
-        private System.Windows.Forms.CheckBox cbAdmin;
-        private System.Windows.Forms.CheckBox cbProfesional;
-        private System.Windows.Forms.CheckBox cbAfiliado;
+        private System.Windows.Forms.CheckedListBox ckListaFuncionalidades;
+        private System.Windows.Forms.Label label2;
     }
 }

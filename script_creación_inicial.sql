@@ -1905,21 +1905,22 @@ GO
 CREATE PROCEDURE STRANGER_STRINGS.SP_AGREGAR_FUNCIONALIDAD_ROL
 @Rol VARCHAR(255),
 @Funcionalidad_Descripcion VARCHAR(255),
-@Estado INT OUTPUT
+@Retorno INT OUTPUT
 AS
 BEGIN
 IF EXISTS (SELECT * FROM STRANGER_STRINGS.Funcionalidad_X_Rol fr JOIN STRANGER_STRINGS.Rol r ON(r.Id_Rol=fr.Id_Rol)
 JOIN STRANGER_STRINGS.Funcionalidad f ON(f.Id_Funcionalidad=fr.Id_Funcionalidad)
 WHERE r.Descripcion=@Rol AND @Funcionalidad_Descripcion=f.Descripcion)
 BEGIN
-SET @Estado=0
+SET @Retorno=0
 RETURN
 END
 ELSE
 BEGIN
 INSERT INTO STRANGER_STRINGS.Funcionalidad_X_Rol(Id_Rol,Id_Funcionalidad)
 VALUES((SELECT r.Id_Rol FROM STRANGER_STRINGS.Rol r WHERE r.Descripcion=@Rol),(SELECT f.Id_Funcionalidad FROM STRANGER_STRINGS.Funcionalidad f WHERE f.Descripcion=@Funcionalidad_Descripcion))
-SET @Estado=1
+SET @Retorno=1
+RETURN
 END
 END
 GO
@@ -1980,19 +1981,20 @@ GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_AGREGAR_ROL
 @Rol VARCHAR(255),
-@Estado INT OUTPUT
+@Retorno INT OUTPUT
 AS
 BEGIN
 IF EXISTS(SELECT * FROM STRANGER_STRINGS.Rol WHERE Descripcion=@Rol)
 BEGIN
-SET @Estado=0
+SET @Retorno=0
 RETURN
 END
 ELSE
 BEGIN
 INSERT INTO STRANGER_STRINGS.Rol(Descripcion,Estado)
 VALUES(@Rol,'E')
-SET @Estado=1
+SET @Retorno=1
+RETURN
 END
 END
 GO
