@@ -31,7 +31,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtRol = new System.Windows.Forms.TextBox();
+            this.cbAdmin = new System.Windows.Forms.CheckBox();
+            this.cbProfesional = new System.Windows.Forms.CheckBox();
+            this.cbAfiliado = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -46,7 +49,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(201, 107);
+            this.button1.Location = new System.Drawing.Point(201, 168);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 1;
@@ -56,7 +59,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(41, 107);
+            this.button2.Location = new System.Drawing.Point(41, 168);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 2;
@@ -64,20 +67,53 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // textBox1
+            // txtRol
             // 
-            this.textBox1.Location = new System.Drawing.Point(41, 55);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(235, 20);
-            this.textBox1.TabIndex = 3;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.txtRol.Location = new System.Drawing.Point(41, 55);
+            this.txtRol.Name = "txtRol";
+            this.txtRol.Size = new System.Drawing.Size(235, 20);
+            this.txtRol.TabIndex = 3;
+            this.txtRol.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // cbAdmin
+            // 
+            this.cbAdmin.AutoSize = true;
+            this.cbAdmin.Location = new System.Drawing.Point(121, 81);
+            this.cbAdmin.Name = "cbAdmin";
+            this.cbAdmin.Size = new System.Drawing.Size(89, 17);
+            this.cbAdmin.TabIndex = 4;
+            this.cbAdmin.Text = "Administrador";
+            this.cbAdmin.UseVisualStyleBackColor = true;
+            // 
+            // cbProfesional
+            // 
+            this.cbProfesional.AutoSize = true;
+            this.cbProfesional.Location = new System.Drawing.Point(121, 104);
+            this.cbProfesional.Name = "cbProfesional";
+            this.cbProfesional.Size = new System.Drawing.Size(78, 17);
+            this.cbProfesional.TabIndex = 5;
+            this.cbProfesional.Text = "Profesional";
+            this.cbProfesional.UseVisualStyleBackColor = true;
+            // 
+            // cbAfiliado
+            // 
+            this.cbAfiliado.AutoSize = true;
+            this.cbAfiliado.Location = new System.Drawing.Point(121, 127);
+            this.cbAfiliado.Name = "cbAfiliado";
+            this.cbAfiliado.Size = new System.Drawing.Size(60, 17);
+            this.cbAfiliado.TabIndex = 6;
+            this.cbAfiliado.Text = "Afiliado";
+            this.cbAfiliado.UseVisualStyleBackColor = true;
             // 
             // AltaRol
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(320, 155);
-            this.Controls.Add(this.textBox1);
+            this.ClientSize = new System.Drawing.Size(320, 225);
+            this.Controls.Add(this.cbAfiliado);
+            this.Controls.Add(this.cbProfesional);
+            this.Controls.Add(this.cbAdmin);
+            this.Controls.Add(this.txtRol);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
@@ -93,6 +129,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtRol;
+        private System.Windows.Forms.CheckBox cbAdmin;
+        private System.Windows.Forms.CheckBox cbProfesional;
+        private System.Windows.Forms.CheckBox cbAfiliado;
     }
 }

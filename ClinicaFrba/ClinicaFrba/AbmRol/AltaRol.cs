@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace ClinicaFrba.AbmRol
 {
@@ -21,7 +22,10 @@ namespace ClinicaFrba.AbmRol
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            List<SqlParameter> listaParam = new List<SqlParameter>();
+            listaParam.Add(new SqlParameter("@Rol",txtRol.Text);
+            
+            BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_AGREGAR_ROL", "SP", listaParam);
         }
 
         private void button2_Click(object sender, EventArgs e)
