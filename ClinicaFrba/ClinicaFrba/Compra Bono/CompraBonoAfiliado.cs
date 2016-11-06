@@ -11,7 +11,7 @@ using System.Data.SqlClient;
 
 namespace ClinicaFrba.Compra_Bono
 {
-    public partial class CompraBono : Form
+    public partial class CompraBonoAfiliado : Form
     {
         Funcionalidades fun;
         decimal precio = 0;
@@ -19,7 +19,7 @@ namespace ClinicaFrba.Compra_Bono
         BD.Entidades.Paciente paciente = new BD.Entidades.Paciente(); 
 
 
-        public CompraBono(Funcionalidades fun)
+        public CompraBonoAfiliado(Funcionalidades fun)
         {
             InitializeComponent();
             this.fun = fun;
@@ -27,12 +27,14 @@ namespace ClinicaFrba.Compra_Bono
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-
+            lbPrecioTotal.Text = "$ " + (precio * nudCantidadBonos.Value);
+            lbPrecioTotal.Visible = true;
         }
 
         private void CompraBono_Load(object sender, EventArgs e)
         {
-
+            obtenerPlan();
+            obtenerPrecioBonoSegunPlan();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -43,8 +45,7 @@ namespace ClinicaFrba.Compra_Bono
 
         private void btCalcularPrecio_Click(object sender, EventArgs e)
         {
-            obtenerPlan();
-            obtenerPrecioBonoSegunPlan();
+            
             unidades = nudCantidadBonos.Value;
             lbPrecioTotal.Text = "$ " + (precio*unidades);
             lbPrecioTotal.Visible = true;
@@ -85,7 +86,7 @@ namespace ClinicaFrba.Compra_Bono
             {
                 List<SqlParameter> paramlist = new List<SqlParameter>();
                 paramlist.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Dni)));
-                paramlist.Add(new SqlParameter("@Fecha_Compra", System.DateTime.Now));
+                paramlist.Add(new SqlParameter("@Fecha_Compra", ArchivoConfiguracion.Default.FechaActual));
                 paramlist.Add(new SqlParameter("@Cantidad_Bonos", System.Convert.ToString(nudCantidadBonos.Value)));
 
                 BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_COMPRA_BONOS", "SP", paramlist);

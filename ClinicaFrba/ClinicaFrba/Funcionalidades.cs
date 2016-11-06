@@ -113,7 +113,7 @@ namespace ClinicaFrba
 
                 btCancelarAtencionAfiliado.Visible = false;
                 btPedirTurno.Visible = false;
-                btCompraBono.Visible = false;
+                btCompraBonoAfiliado.Visible = false;
 
             }
             //Selecciono Afiliado
@@ -121,7 +121,7 @@ namespace ClinicaFrba
             {
                 btPedirTurno.Visible = true;
                 btCancelarAtencionAfiliado.Visible = true;
-                btCompraBono.Visible = true;
+                btCompraBonoAfiliado.Visible = true;
 
                 btEspMedicas.Visible = false;
                 btABMRol.Visible = false;
@@ -145,7 +145,7 @@ namespace ClinicaFrba
 
                 btEspMedicas.Visible = false;
                 btPedirTurno.Visible = false;
-                btCompraBono.Visible = false;
+                btCompraBonoAfiliado.Visible = false;
                 btCancelarAtencionAfiliado.Visible = false;
 
                 btABMRol.Visible = false;
@@ -242,7 +242,7 @@ namespace ClinicaFrba
 
         private void btCompraBono_Click(object sender, EventArgs e)
         {
-            Compra_Bono.CompraBono compraBono = new Compra_Bono.CompraBono(this);
+            Compra_Bono.CompraBonoAfiliado compraBono = new Compra_Bono.CompraBonoAfiliado(this);
             compraBono.Show();
             this.Hide();
         }
@@ -251,6 +251,13 @@ namespace ClinicaFrba
         {
             Listados.SeleccionListado seleccionListado = new Listados.SeleccionListado(this);
             seleccionListado.Show();
+            this.Hide();
+        }
+
+        private void btComprarBonoAdmin_Click(object sender, EventArgs e)
+        {
+            Compra_Bono.CompraBonoAdmin compraBono = new Compra_Bono.CompraBonoAdmin(this);
+            compraBono.Show();
             this.Hide();
         }
     }

@@ -1,6 +1,6 @@
 ﻿namespace ClinicaFrba.Compra_Bono
 {
-    partial class CompraBono
+    partial class CompraBonoAfiliado
     {
         /// <summary>
         /// Required designer variable.
@@ -115,10 +115,10 @@
             // 
             // timer1
             // 
-            this.timer1.Interval = 500;
+            this.timer1.Interval = 2000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // CompraBono
+            // CompraBonoAfiliado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -130,7 +130,7 @@
             this.Controls.Add(this.btCalcularPrecio);
             this.Controls.Add(this.nudCantidadBonos);
             this.Controls.Add(this.lbSeleccion);
-            this.Name = "CompraBono";
+            this.Name = "CompraBonoAfiliado";
             this.Text = "Comprar Bonos";
             this.Load += new System.EventHandler(this.CompraBono_Load);
             ((System.ComponentModel.ISupportInitialize)(this.nudCantidadBonos)).EndInit();

@@ -30,6 +30,7 @@
         {
             this.btABMRol = new System.Windows.Forms.Button();
             this.gBFuncionalidadesAdmin = new System.Windows.Forms.GroupBox();
+            this.btListadoEstadistico = new System.Windows.Forms.Button();
             this.btRegAgendaProf = new System.Windows.Forms.Button();
             this.btPlan = new System.Windows.Forms.Button();
             this.btRegistroLlegada = new System.Windows.Forms.Button();
@@ -40,14 +41,14 @@
             this.btCancelarAtencionAfiliado = new System.Windows.Forms.Button();
             this.btRegistrarResultado = new System.Windows.Forms.Button();
             this.btPedirTurno = new System.Windows.Forms.Button();
-            this.btCompraBono = new System.Windows.Forms.Button();
+            this.btCompraBonoAfiliado = new System.Windows.Forms.Button();
             this.btVolver = new System.Windows.Forms.Button();
             this.lbRol = new System.Windows.Forms.Label();
             this.cbSeleccionRol = new System.Windows.Forms.ComboBox();
             this.gbFuncioAfiliado = new System.Windows.Forms.GroupBox();
             this.gbFuncProf = new System.Windows.Forms.GroupBox();
             this.btCancelarAtencionMedico = new System.Windows.Forms.Button();
-            this.btListadoEstadistico = new System.Windows.Forms.Button();
+            this.btComprarBonoAdmin = new System.Windows.Forms.Button();
             this.gBFuncionalidadesAdmin.SuspendLayout();
             this.gbFuncioAfiliado.SuspendLayout();
             this.gbFuncProf.SuspendLayout();
@@ -66,6 +67,7 @@
             // 
             // gBFuncionalidadesAdmin
             // 
+            this.gBFuncionalidadesAdmin.Controls.Add(this.btComprarBonoAdmin);
             this.gBFuncionalidadesAdmin.Controls.Add(this.btListadoEstadistico);
             this.gBFuncionalidadesAdmin.Controls.Add(this.btRegAgendaProf);
             this.gBFuncionalidadesAdmin.Controls.Add(this.btPlan);
@@ -81,6 +83,17 @@
             this.gBFuncionalidadesAdmin.TabIndex = 1;
             this.gBFuncionalidadesAdmin.TabStop = false;
             this.gBFuncionalidadesAdmin.Text = "Funcionalidades Administrador";
+            // 
+            // btListadoEstadistico
+            // 
+            this.btListadoEstadistico.Location = new System.Drawing.Point(433, 19);
+            this.btListadoEstadistico.Name = "btListadoEstadistico";
+            this.btListadoEstadistico.Size = new System.Drawing.Size(75, 40);
+            this.btListadoEstadistico.TabIndex = 10;
+            this.btListadoEstadistico.Text = "Listado Estadístico";
+            this.btListadoEstadistico.UseVisualStyleBackColor = true;
+            this.btListadoEstadistico.Visible = false;
+            this.btListadoEstadistico.Click += new System.EventHandler(this.btListadoEstadistico_Click);
             // 
             // btRegAgendaProf
             // 
@@ -191,16 +204,16 @@
             this.btPedirTurno.Visible = false;
             this.btPedirTurno.Click += new System.EventHandler(this.btPedirTurno_Click);
             // 
-            // btCompraBono
+            // btCompraBonoAfiliado
             // 
-            this.btCompraBono.Location = new System.Drawing.Point(248, 19);
-            this.btCompraBono.Name = "btCompraBono";
-            this.btCompraBono.Size = new System.Drawing.Size(88, 30);
-            this.btCompraBono.TabIndex = 7;
-            this.btCompraBono.Text = "Comprar Bono";
-            this.btCompraBono.UseVisualStyleBackColor = true;
-            this.btCompraBono.Visible = false;
-            this.btCompraBono.Click += new System.EventHandler(this.btCompraBono_Click);
+            this.btCompraBonoAfiliado.Location = new System.Drawing.Point(248, 19);
+            this.btCompraBonoAfiliado.Name = "btCompraBonoAfiliado";
+            this.btCompraBonoAfiliado.Size = new System.Drawing.Size(88, 30);
+            this.btCompraBonoAfiliado.TabIndex = 7;
+            this.btCompraBonoAfiliado.Text = "Comprar Bono";
+            this.btCompraBonoAfiliado.UseVisualStyleBackColor = true;
+            this.btCompraBonoAfiliado.Visible = false;
+            this.btCompraBonoAfiliado.Click += new System.EventHandler(this.btCompraBono_Click);
             // 
             // btVolver
             // 
@@ -232,7 +245,7 @@
             // 
             // gbFuncioAfiliado
             // 
-            this.gbFuncioAfiliado.Controls.Add(this.btCompraBono);
+            this.gbFuncioAfiliado.Controls.Add(this.btCompraBonoAfiliado);
             this.gbFuncioAfiliado.Controls.Add(this.btCancelarAtencionAfiliado);
             this.gbFuncioAfiliado.Controls.Add(this.btPedirTurno);
             this.gbFuncioAfiliado.Location = new System.Drawing.Point(19, 183);
@@ -264,16 +277,16 @@
             this.btCancelarAtencionMedico.Visible = false;
             this.btCancelarAtencionMedico.Click += new System.EventHandler(this.btCancelarAtencionMedico_Click);
             // 
-            // btListadoEstadistico
+            // btComprarBonoAdmin
             // 
-            this.btListadoEstadistico.Location = new System.Drawing.Point(433, 19);
-            this.btListadoEstadistico.Name = "btListadoEstadistico";
-            this.btListadoEstadistico.Size = new System.Drawing.Size(75, 40);
-            this.btListadoEstadistico.TabIndex = 10;
-            this.btListadoEstadistico.Text = "Listado Estadístico";
-            this.btListadoEstadistico.UseVisualStyleBackColor = true;
-            this.btListadoEstadistico.Visible = false;
-            this.btListadoEstadistico.Click += new System.EventHandler(this.btListadoEstadistico_Click);
+            this.btComprarBonoAdmin.Location = new System.Drawing.Point(433, 65);
+            this.btComprarBonoAdmin.Name = "btComprarBonoAdmin";
+            this.btComprarBonoAdmin.Size = new System.Drawing.Size(75, 40);
+            this.btComprarBonoAdmin.TabIndex = 12;
+            this.btComprarBonoAdmin.Text = "Comprar Bono";
+            this.btComprarBonoAdmin.UseVisualStyleBackColor = true;
+            this.btComprarBonoAdmin.Visible = false;
+            this.btComprarBonoAdmin.Click += new System.EventHandler(this.btComprarBonoAdmin_Click);
             // 
             // Funcionalidades
             // 
@@ -310,7 +323,7 @@
         private System.Windows.Forms.Button btRegistrarResultado;
         private System.Windows.Forms.Button btRegistroLlegada;
         private System.Windows.Forms.Button btPedirTurno;
-        private System.Windows.Forms.Button btCompraBono;
+        private System.Windows.Forms.Button btCompraBonoAfiliado;
         private System.Windows.Forms.Button btRegAgendaProf;
         private System.Windows.Forms.Button btVolver;
         private System.Windows.Forms.Label lbRol;
@@ -319,5 +332,6 @@
         private System.Windows.Forms.GroupBox gbFuncProf;
         private System.Windows.Forms.Button btCancelarAtencionMedico;
         private System.Windows.Forms.Button btListadoEstadistico;
+        private System.Windows.Forms.Button btComprarBonoAdmin;
     }
 }
