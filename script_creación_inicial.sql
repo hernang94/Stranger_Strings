@@ -403,7 +403,7 @@ INSERT INTO STRANGER_STRINGS.Usuario(Usuario,Pasword) VALUES ('admin',HASHBYTES(
 INSERT INTO STRANGER_STRINGS.Rol_X_Usuario (r.Id_Rol,u.Id_Usuario)
 SELECT r.Id_Rol,u.Id_Usuario
 FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Usuario u
-WHERE r.Descripcion IN ('Administrador','Afiliado','Profesional') AND u.Usuario LIKE 'admin' AND u.Pasword=HASHBYTES('SHA2_256','w23e')
+WHERE r.Descripcion IN ('Administrador') AND u.Usuario LIKE 'admin' AND u.Pasword=HASHBYTES('SHA2_256','w23e')
 
 
 INSERT INTO STRANGER_STRINGS.Usuario(Usuario,Pasword)
@@ -1540,7 +1540,7 @@ DECLARE @Codigo_Plan INT
 SELECT @Codigo_Plan=Codigo_Plan
 FROM STRANGER_STRINGS.Plan_Medico
 WHERE Descripcion=@Plan
-IF EXISTS( SELECT * FROM STRANGER_STRINGS.Paciente WHERE Num_Doc=@Num_Doc)
+IF EXISTS( SELECT * FROM STRANGER_STRINGS.Paciente WHERE Num_Doc=@Num_Doc AND Tipo_Doc=@Tipo_Doc)
 BEGIN
 		--RAISERROR('Paciente ya existente',10,1)
 		SET @Retorno=-1
@@ -1557,11 +1557,13 @@ BEGIN
 	INSERT INTO STRANGER_STRINGS.Paciente (Nombre,Apellido,Tipo_Doc,Num_Doc,Direccion,Telefono,Mail,Fecha_Nac,Sexo,Estado_Civil,Familiares_A_Cargo,Codigo_Plan,Num_Afiliado_Raiz,Num_Afiliado_Resto,Cantidad_Consulta,Estado_Afiliado)
 	VALUES(@Nombre,@Apellido,@Tipo_Doc,@Num_Doc,@Direccion,@Telefono,@Mail,@Fecha_Nac,@Sexo,@Estado_Civil,@Familiares_A_Cargo,@Codigo_Plan,@Num_Afiliado_Raiz,STRANGER_STRINGS.FX_OBTENER_RESTO(@Num_Afiliado_Raiz),0,'A')
 END
-INSERT INTO STRANGER_STRINGS.Usuario (Usuario,Pasword,Cantidad_Intentos) VALUES (CONVERT(VARCHAR,@Num_Doc),HASHBYTES('SHA2_256',@Apellido),3)
+INSERT INTO STRANGER_STRINGS.Usuario (Usuario,Pasword,Cantidad_Intentos) VALUES (@Apellido,HASHBYTES('SHA2_256',CONVERT(VARCHAR,@Num_Doc)),3)
 DECLARE @Id_Insert INT = SCOPE_IDENTITY()
 UPDATE STRANGER_STRINGS.Paciente
 SET Id_Usuario=@Id_Insert
 WHERE Num_Doc=@Num_Doc
+INSERT INTO STRANGER_STRINGS.Rol_X_Usuario (Id_Usuario,Id_Rol)
+VALUES ((SELECT Id_Usuario FROM STRANGER_STRINGS.Usuario WHERE Pasword=HASHBYTES('SHA2_256',CONVERT(VARCHAR,@Num_Doc))),(SELECT Id_Rol FROM STRANGER_STRINGS.Rol WHERE Descripcion LIKE 'Afiliado'))
 END
 GO
 
