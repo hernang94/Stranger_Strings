@@ -26,7 +26,6 @@ namespace ClinicaFrba
         }
 
 
-        //----------------------------VER ------------------------------------
 
          public static SqlDataReader GetDataReader(string commandtext, string commandtype, List<SqlParameter> parameters)
         {
@@ -35,17 +34,8 @@ namespace ClinicaFrba
             return sqlCommand.ExecuteReader();
         }
 
-        public static bool WriteInBase(string commandtext, string commandtype, List<SqlParameter> parameters)
-        {
-            SqlCommand sqlCommand = BuildSQLCommand(commandtext, parameters);
-            SetCommandType(commandtype, sqlCommand);
-            try {
-                sqlCommand.ExecuteNonQuery();
-                return true;
-            } catch { return false; }
-        }
-
-        // En @ret va el output
+       
+        // En @Retorno va el output
         public static Int32 ExecStoredProcedure(string commandText, List<SqlParameter> parameters)
         {
             try

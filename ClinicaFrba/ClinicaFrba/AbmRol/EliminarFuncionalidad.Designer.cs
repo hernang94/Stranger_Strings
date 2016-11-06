@@ -83,6 +83,7 @@
             this.Controls.Add(this.button1);
             this.Name = "EliminarFuncionalidad";
             this.Text = "EliminarFuncionalidad";
+            this.Load += new System.EventHandler(this.EliminarFuncionalidad_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
