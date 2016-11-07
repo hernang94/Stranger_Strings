@@ -1170,7 +1170,7 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_ALTA_AGENDA
 @Output INT
 AS
 BEGIN
-DECLARE @Id_Medico INT= (SELECT Id_Medico FROM STRANGER_STRINGS.Medico WHERE Num_Doc=35198771)
+DECLARE @Id_Medico INT= (SELECT Id_Medico FROM STRANGER_STRINGS.Medico WHERE Num_Doc=@Num_Doc)
 DECLARE @Id_Medico_X_Especialidad INT= (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em 
 JOIN STRANGER_STRINGS.Especialidad e ON(em.Especialidad_Codigo=e.Especialidad_Codigo)
 WHERE em.Id_Medico=@Id_Medico AND e.Especialidad_Codigo=@Especialidad_Codigo)
@@ -1186,7 +1186,7 @@ BEGIN
 		END
 ELSE IF EXISTS(SELECT * FROM STRANGER_STRINGS.Horarios_Agenda ha JOIN STRANGER_STRINGS.Especialidad_X_Medico em ON(ha.Id_Especialidad_Medico=em.Id) JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
 			   WHERE ha.Id_Especialidad_Medico!=@Id_Medico_X_Especialidad AND m.Id_Medico=@Id_Medico AND ha.Dia=@Dia_Semana 
-			   AND ha.Hora_Desde=@Hora_Desde AND ha.Hora_Hasta=@Hora_Hasta)
+			   AND ha.Hora_Desde=CONVERT(TIME,@Hora_Desde) AND ha.Hora_Hasta=CONVERT(TIME,@Hora_Hasta))
 BEGIN
 		--RAISERROR('El profesional ya atiende otra especialidad en esa franja horaria y dia seleccionado',10,1)
 		SET @Output=-2
