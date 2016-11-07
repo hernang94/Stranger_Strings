@@ -1,5 +1,5 @@
 Curso: 
-K    Gallo Hernan
+K3022 Gallo Hernan
 K3073 Corvaro Mauro
 K3073 Mazzocchi Tomás
 K3073 Villalobos Micaela
