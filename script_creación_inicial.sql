@@ -1560,10 +1560,23 @@ BEGIN
 		END
 IF @Num_Afiliado_Raiz IS NULL
 BEGIN
-	INSERT INTO STRANGER_STRINGS.Paciente (Nombre,Apellido,Tipo_Doc,Num_Doc,Direccion,Telefono,Mail,Fecha_Nac,Sexo,Estado_Civil,Familiares_A_Cargo,Codigo_Plan,Num_Afiliado_Raiz,Num_Afiliado_Resto,Cantidad_Consulta,Estado_Afiliado)
-	VALUES(@Nombre,@Apellido,@Tipo_Doc,@Num_Doc,@Direccion,@Telefono,@Mail,@Fecha_Nac,@Sexo,@Estado_Civil,@Familiares_A_Cargo,@Codigo_Plan,REVERSE(@Num_Doc),01,0,'A')
-	SET @Retorno=REVERSE(@Num_Doc)
+	DECLARE @Raiz_Aux NUMERIC(20,0)
+	IF(@Tipo_Doc LIKE 'LC')
+	BEGIN
+	SET @Raiz_Aux=REVERSE(@Num_Doc)*100
 	END
+	IF(@Tipo_Doc LIKE 'LE')
+	BEGIN
+	SET @Raiz_Aux=REVERSE(@Num_Doc)*200
+	END
+	ELSE
+	BEGIN
+	SET @Raiz_Aux=REVERSE(@Num_Doc)
+	END
+	INSERT INTO STRANGER_STRINGS.Paciente (Nombre,Apellido,Tipo_Doc,Num_Doc,Direccion,Telefono,Mail,Fecha_Nac,Sexo,Estado_Civil,Familiares_A_Cargo,Codigo_Plan,Num_Afiliado_Raiz,Num_Afiliado_Resto,Cantidad_Consulta,Estado_Afiliado)
+	VALUES(@Nombre,@Apellido,@Tipo_Doc,@Num_Doc,@Direccion,@Telefono,@Mail,@Fecha_Nac,@Sexo,@Estado_Civil,@Familiares_A_Cargo,@Codigo_Plan,@Raiz_Aux,01,0,'A')
+	SET @Retorno=@Raiz_Aux
+END
 ELSE
 BEGIN
 	INSERT INTO STRANGER_STRINGS.Paciente (Nombre,Apellido,Tipo_Doc,Num_Doc,Direccion,Telefono,Mail,Fecha_Nac,Sexo,Estado_Civil,Familiares_A_Cargo,Codigo_Plan,Num_Afiliado_Raiz,Num_Afiliado_Resto,Cantidad_Consulta,Estado_Afiliado)
@@ -2095,5 +2108,22 @@ BEGIN
 SELECT p.Apellido, p.Num_Doc, u.Cantidad_Intentos
 FROM STRANGER_STRINGS.Paciente p JOIN STRANGER_STRINGS.Usuario u on(u.Id_Usuario=p.Id_Usuario) 
 WHERE p.Num_Doc=@Num_Doc AND p.Tipo_Doc=@Tipo AND u.Pasword=HASHBYTES('SHA2_256',CONVERT(VARCHAR,p.Num_Doc))
+END
+GO
+------------------------------------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_OBTENER_PROFESIONAL')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_OBTENER_PROFESIONAL
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_OBTENER_PROFESIONAL
+@Nombre VARCHAR(255),
+@Apellido VARCHAR(255)
+AS
+BEGIN
+SELECT u.Usuario,m.Num_Doc,u.Cantidad_Intentos FROM STRANGER_STRINGS.Medico m JOIN STRANGER_STRINGS.Usuario u ON(m.Id_Usuario=u.Id_Usuario)
+WHERE m.Nombre=@Nombre AND m.Apellido=@Apellido and u.Usuario=@Apellido 
 END
 GO
