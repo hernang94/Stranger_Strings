@@ -706,12 +706,13 @@ DROP PROCEDURE STRANGER_STRINGS.SP_ACTUALIZAR_INTENTOS
 GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_ACTUALIZAR_INTENTOS
-@Usuario varchar(255)
+@Usuario varchar(255),
+@Password VARCHAR(255) 
 AS
 BEGIN
 UPDATE STRANGER_STRINGS.Usuario
 SET Cantidad_Intentos=Cantidad_Intentos-1
-WHERE Usuario=@Usuario
+WHERE Usuario=@Usuario AND Pasword=HASHBYTES('SHA2_256',@Password)
 END
 GO
 -----------------------------------------
@@ -723,12 +724,13 @@ DROP PROCEDURE STRANGER_STRINGS.SP_REINICIAR_INTENTOS
 GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_REINICIAR_INTENTOS
-@Usuario varchar(255)
+@Usuario varchar(255),
+@Password VARCHAR(255)
 AS
 BEGIN
 UPDATE STRANGER_STRINGS.Usuario
 SET Cantidad_Intentos=3
-WHERE Usuario=@Usuario
+WHERE Usuario=@Usuario AND Pasword=HASHBYTES('SHA2_256',@Password)
 END
 GO
 

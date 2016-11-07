@@ -36,6 +36,7 @@ namespace ClinicaFrba.BD
         {
             List<SqlParameter> paramlist = new List<SqlParameter>();
             paramlist.Add(new SqlParameter("@Usuario", Apellido));
+            paramlist.Add(new SqlParameter("@Password", Dni));
             BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_ACTUALIZAR_INTENTOS","SP", paramlist);
         }
 
@@ -44,6 +45,7 @@ namespace ClinicaFrba.BD
             this.Dni = dni;
             List<SqlParameter> paramlist = new List<SqlParameter>();
             paramlist.Add(new SqlParameter("@Usuario", Apellido));
+            paramlist.Add(new SqlParameter("@Password", Dni));
             BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_REINICIAR_INTENTOS","SP", paramlist);
         }
 
