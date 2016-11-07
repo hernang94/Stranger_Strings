@@ -87,11 +87,7 @@ Precio_Bono_Farmacia NUMERIC(18,0)
 -----------------------------------------------------------
 CREATE TABLE STRANGER_STRINGS.Usuario(
 Id_Usuario INT IDENTITY(1,1) PRIMARY KEY,
---Por default en la migración defino como usuario el dni
 Usuario VARCHAR(255),
---Le saque la segunda s porque lo tomaba como una palabra reservada ponele
---Por default es el apellido en la migración
---Con varybinary se ve joya el hash y se guarda como corresponde
 Pasword VARBINARY(255),
 Cantidad_Intentos SMALLINT,
 )
@@ -224,8 +220,6 @@ Turno_Fecha DATETIME,
 Id_Paciente INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Paciente(Id_Paciente),
 Id_Medico_x_Esp INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Especialidad_X_Medico(Id),
 Id_Consulta INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Consulta(Id_Consulta),
---Cambio la FK a la tabla de Cancelación. La cancelación tiene que tener obligatoriamente el turno que se
---cancela, en cambio los turnos no tienen porque tener una fk porque no siempre son cancelados
 Id_Cancelacion INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Cancelacion_Turno(Id_Cancelacion),
 Id_Horario INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Horarios_Agenda(Id_Horario))
 -----------------------------------------------------------
@@ -286,7 +280,6 @@ FROM STRANGER_STRINGS.Paciente m JOIN gd_esquema.Maestra e ON(m.Num_Doc=e.Pacien
 WHERE Turno_Numero IS NOT NULL 
 SET IDENTITY_INSERT STRANGER_STRINGS.Turno OFF
 GO
---SELECT * FROM STRANGER_STRINGS.Turno t JOIN STRANGER_STRINGS.Medico m ON(t.Id_Medico=m.Id_Medico
 ------------------------------------------------
 SET IDENTITY_INSERT STRANGER_STRINGS.Bono ON
 GO
@@ -452,19 +445,8 @@ UPDATE STRANGER_STRINGS.Usuario
 SET Cantidad_Intentos=3
 
 
-
-
 --FIN SETEO DE USUARIOS
 
---INSERT DE AGENDA--
---CREO TABLA TEMPORAL
-SELECT me.Id,m.Num_Doc,e.Especialidad_Codigo
-INTO STRANGER_STRINGS.#Medicos_x_Especialidad_AUX
-FROM STRANGER_STRINGS.Especialidad_X_Medico me JOIN STRANGER_STRINGS.Medico m ON(m.Id_Medico=me.Id_Medico) 
-JOIN STRANGER_STRINGS.Especialidad e ON(me.Especialidad_Codigo=e.Especialidad_Codigo)
-
-DROP TABLE STRANGER_STRINGS.#Medicos_x_Especialidad_AUX
-GO
 --------------------------------------------------------
 --TRIGGER ACTUALIZAR CANT CONSULTAS PACIENTE
 IF OBJECT_ID ('STRANGER_STRINGS.TR_ACTUALIZAR_CONSULTAS', 'TR') IS NOT NULL  
@@ -897,16 +879,14 @@ JOIN STRANGER_STRINGS.Especialidad_X_Medico em ON(ha.Id_Especialidad_Medico=em.I
 WHERE em.Id_Medico=@Id_Medico)
 IF((@Cant_Horas_De_Trabajo+@Cant_Horas_A_Insertar)>48)
 BEGIN
-		--RAISERROR('El profesional ya posee sus 48hs semanales de trabajo ocupadas',10,1)
-		SET @Retorno=-1
+		SET @Retorno=-1 --El profesional ya posee sus 48hs semanales de trabajo ocupadas'
 		RETURN
 		END
 ELSE IF EXISTS(SELECT * FROM STRANGER_STRINGS.Horarios_Agenda ha JOIN STRANGER_STRINGS.Especialidad_X_Medico em ON(ha.Id_Especialidad_Medico=em.Id) JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
 			   WHERE ha.Id_Especialidad_Medico!=@Id_Medico_X_Especialidad AND m.Id_Medico=@Id_Medico AND ha.Dia=@Dia_Semana 
 			   AND ha.Hora_Desde=CONVERT(TIME,@Hora_Desde) AND ha.Hora_Hasta=CONVERT(TIME,@Hora_Hasta))
 BEGIN
-		--RAISERROR('El profesional ya atiende otra especialidad en esa franja horaria y dia seleccionado',10,1)
-		SET @Retorno=-2
+		SET @Retorno=-2--El profesional ya atiende otra especialidad en esa franja horaria y dia seleccionado'
 		RETURN
 		END
 INSERT INTO STRANGER_STRINGS.Horarios_Agenda(Dia,Hora_Desde,Hora_Hasta,Id_Especialidad_Medico)
@@ -1201,8 +1181,7 @@ FROM STRANGER_STRINGS.Plan_Medico
 WHERE Descripcion=@Plan
 IF EXISTS( SELECT * FROM STRANGER_STRINGS.Paciente WHERE Num_Doc=@Num_Doc AND Tipo_Doc=@Tipo_Doc)
 BEGIN
-		--RAISERROR('Paciente ya existente',10,1)
-		SET @Retorno=-1
+		SET @Retorno=-1	--'Paciente ya existente'
 		RETURN
 		END
 IF @Num_Afiliado_Raiz IS NULL
