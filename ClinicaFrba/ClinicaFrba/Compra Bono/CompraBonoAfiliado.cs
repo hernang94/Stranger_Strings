@@ -14,6 +14,7 @@ namespace ClinicaFrba.Compra_Bono
     public partial class CompraBonoAfiliado : Form
     {
         Funcionalidades fun;
+        Funcionalidades funFake;
         decimal precio = 0;
         decimal unidades;
         BD.Entidades.Paciente paciente = new BD.Entidades.Paciente(); 
@@ -23,6 +24,13 @@ namespace ClinicaFrba.Compra_Bono
         {
             InitializeComponent();
             this.fun = fun;
+        }
+
+        public CompraBonoAfiliado(Funcionalidades fun, Funcionalidades funFake)
+        {
+            InitializeComponent();
+            this.fun = fun;
+            this.funFake = funFake;
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
@@ -51,7 +59,14 @@ namespace ClinicaFrba.Compra_Bono
         private void obtenerPlan() 
         {
             List<SqlParameter> paramlist = new List<SqlParameter>();
-            paramlist.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Dni)));
+            if (funFake == null)
+            {
+                paramlist.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Dni)));
+            }
+            else
+            {
+                paramlist.Add(new SqlParameter("@Num_Doc", int.Parse(funFake.user.Dni)));
+            }
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_BUSCAR_AFILIADO", "SP", paramlist);
 
             if (lector.HasRows)
@@ -82,7 +97,14 @@ namespace ClinicaFrba.Compra_Bono
             if (mge == DialogResult.Yes)
             {
                 List<SqlParameter> paramlist = new List<SqlParameter>();
-                paramlist.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Dni)));
+                if (funFake == null)
+                {
+                    paramlist.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Dni)));
+                }
+                else
+                {
+                    paramlist.Add(new SqlParameter("@Num_Doc", int.Parse(funFake.user.Dni)));
+                }
                 paramlist.Add(new SqlParameter("@Fecha_Compra", ArchivoConfiguracion.Default.FechaActual));
                 paramlist.Add(new SqlParameter("@Cantidad_Bonos", System.Convert.ToString(nudCantidadBonos.Value)));
 

@@ -15,11 +15,20 @@ namespace ClinicaFrba.Pedir_Turno
     public partial class formSolicitarTurno : Form
     {
         public Funcionalidades fun;
+        public Funcionalidades funFake;
         public List<BD.Entidades.Profesional> profesionales = new List<BD.Entidades.Profesional>();
         public List<BD.Entidades.Especialidad> especialidades = new List<BD.Entidades.Especialidad>();
+
         public formSolicitarTurno(Funcionalidades fun)
         {
             this.fun = fun;
+            InitializeComponent();
+        }
+
+        public formSolicitarTurno(Funcionalidades fun, Funcionalidades funFake)
+        {
+            this.fun = fun;
+            this.funFake = funFake;
             InitializeComponent();
         }
 
@@ -54,7 +63,14 @@ namespace ClinicaFrba.Pedir_Turno
                     BD.Entidades.Profesional prof = obtenerProfesionalDeString(cbProfesionales.Text);
                     List<SqlParameter> listParam = new List<SqlParameter>();
                     listParam.Add(new SqlParameter("@Fecha_Turno", Convert.ToDateTime(cbFecha.Text + " " + cbHorariosDisp.Text)));
-                    listParam.Add(new SqlParameter("@Num_Doc_Paciente", int.Parse(fun.user.Dni)));
+                    if (funFake == null)
+                    {
+                        listParam.Add(new SqlParameter("@Num_Doc_Paciente", int.Parse(fun.user.Dni)));
+                    }
+                    else
+                    {
+                        listParam.Add(new SqlParameter("@Num_Doc_Paciente", int.Parse(funFake.user.Dni)));
+                    }
                     listParam.Add(new SqlParameter("@Num_Doc_Profesional", prof.Dni));
                     listParam.Add(new SqlParameter("@Especialidad_Codigo", obtenerCodigoEspecialidad()));
 

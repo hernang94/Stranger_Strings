@@ -36,13 +36,13 @@
             this.txtMail = new System.Windows.Forms.TextBox();
             this.txtTel = new System.Windows.Forms.TextBox();
             this.txtDirec = new System.Windows.Forms.TextBox();
-            this.txtTipoDoc = new System.Windows.Forms.TextBox();
             this.txtNroDoc = new System.Windows.Forms.TextBox();
             this.txtApellido = new System.Windows.Forms.TextBox();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.lbConjunto = new System.Windows.Forms.Label();
             this.lvlFamilia = new System.Windows.Forms.Label();
             this.cbPlanMedico = new System.Windows.Forms.ComboBox();
+            this.cbTipoDoc = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // btVolver
@@ -120,13 +120,6 @@
             this.txtDirec.Size = new System.Drawing.Size(100, 20);
             this.txtDirec.TabIndex = 25;
             // 
-            // txtTipoDoc
-            // 
-            this.txtTipoDoc.Location = new System.Drawing.Point(233, 117);
-            this.txtTipoDoc.Name = "txtTipoDoc";
-            this.txtTipoDoc.Size = new System.Drawing.Size(100, 20);
-            this.txtTipoDoc.TabIndex = 24;
-            // 
             // txtNroDoc
             // 
             this.txtNroDoc.Location = new System.Drawing.Point(233, 91);
@@ -182,11 +175,24 @@
             this.cbPlanMedico.Size = new System.Drawing.Size(100, 21);
             this.cbPlanMedico.TabIndex = 36;
             // 
+            // cbTipoDoc
+            // 
+            this.cbTipoDoc.FormattingEnabled = true;
+            this.cbTipoDoc.Items.AddRange(new object[] {
+            "DNI",
+            "LC",
+            "LE"});
+            this.cbTipoDoc.Location = new System.Drawing.Point(233, 117);
+            this.cbTipoDoc.Name = "cbTipoDoc";
+            this.cbTipoDoc.Size = new System.Drawing.Size(100, 21);
+            this.cbTipoDoc.TabIndex = 37;
+            // 
             // A_Familia
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(376, 396);
+            this.Controls.Add(this.cbTipoDoc);
             this.Controls.Add(this.cbPlanMedico);
             this.Controls.Add(this.lvlFamilia);
             this.Controls.Add(this.btVolver);
@@ -197,7 +203,6 @@
             this.Controls.Add(this.txtMail);
             this.Controls.Add(this.txtTel);
             this.Controls.Add(this.txtDirec);
-            this.Controls.Add(this.txtTipoDoc);
             this.Controls.Add(this.txtNroDoc);
             this.Controls.Add(this.txtApellido);
             this.Controls.Add(this.txtNombre);
@@ -220,12 +225,12 @@
         private System.Windows.Forms.TextBox txtMail;
         private System.Windows.Forms.TextBox txtTel;
         private System.Windows.Forms.TextBox txtDirec;
-        private System.Windows.Forms.TextBox txtTipoDoc;
         private System.Windows.Forms.TextBox txtNroDoc;
         private System.Windows.Forms.TextBox txtApellido;
         private System.Windows.Forms.TextBox txtNombre;
         private System.Windows.Forms.Label lbConjunto;
         private System.Windows.Forms.Label lvlFamilia;
         private System.Windows.Forms.ComboBox cbPlanMedico;
+        private System.Windows.Forms.ComboBox cbTipoDoc;
     }
 }
