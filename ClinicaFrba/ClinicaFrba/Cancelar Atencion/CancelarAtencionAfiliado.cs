@@ -15,12 +15,22 @@ namespace ClinicaFrba.Cancelar_Atencion
     public partial class CancelarAtencionAfiliado : Form
     {
         public Funcionalidades fun;
+        public Funcionalidades funFake;
         public List<BD.Entidades.Turno> listaTurnos = new List<BD.Entidades.Turno>();
 
         public CancelarAtencionAfiliado(Funcionalidades fun)
         {
             InitializeComponent();
             this.fun = fun;
+            crearGrilla();
+            actualizarGrilla();
+        }
+
+        public CancelarAtencionAfiliado(Funcionalidades fun,Funcionalidades funFake)
+        {
+            InitializeComponent();
+            this.fun = fun;
+            this.funFake = funFake;
             crearGrilla();
             actualizarGrilla();
         }
@@ -88,7 +98,14 @@ namespace ClinicaFrba.Cancelar_Atencion
         private void actualizarGrilla()
         {
             List<SqlParameter> paramList = new List<SqlParameter>();
-            paramList.Add(new SqlParameter("@num_Doc", int.Parse(fun.user.Dni)));
+            if (funFake == null)
+            {
+                paramList.Add(new SqlParameter("@num_Doc", int.Parse(fun.user.Dni)));
+            }
+            else
+            {
+                paramList.Add(new SqlParameter("@num_Doc", int.Parse(funFake.user.Dni)));
+            }
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_PEDIR_TURNOS_AFILIADO", "SP", paramList);
             if (lector.HasRows)
             {
@@ -109,7 +126,14 @@ namespace ClinicaFrba.Cancelar_Atencion
         {
             List<SqlParameter> paramList = new List<SqlParameter>();
             paramList.Add(new SqlParameter("@Turno_Fecha", Turno.fecha));
-            paramList.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Dni)));
+            if (funFake == null)
+            {
+                paramList.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Dni)));
+            }
+            else
+            {
+                paramList.Add(new SqlParameter("@Num_Doc", int.Parse(funFake.user.Dni)));
+            }
             paramList.Add(new SqlParameter("@Apellido_Profesional", Turno.apellido_Prof));
             paramList.Add(new SqlParameter("@Especialidad_Codigo", Turno.codigo));
             paramList.Add(new SqlParameter("@Tipo_Cancelacion", 'A'));

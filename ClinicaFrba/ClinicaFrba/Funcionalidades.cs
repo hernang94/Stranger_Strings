@@ -28,6 +28,12 @@ namespace ClinicaFrba
             this.rolesXusuario = rolesXusuario;
         }
 
+        public Funcionalidades(Usuario usuario)
+        {
+            InitializeComponent();
+            user = usuario;
+        }
+
         private void Funcionalidades_Load(object sender, EventArgs e)
         {
             if (rolesXusuario.Count == 1)
@@ -198,16 +204,34 @@ namespace ClinicaFrba
 
         private void btPedirTurno_Click(object sender, EventArgs e)
         {
-            Pedir_Turno.formSolicitarTurno pedir_Turno = new Pedir_Turno.formSolicitarTurno(this);
-            pedir_Turno.Show();
-            this.Hide();
+            if (cbSeleccionRol.SelectedItem == "Administrador General")
+            {
+                SeleccionAfiliado selecAfiliado = new SeleccionAfiliado("pedir_Turno", this);
+                selecAfiliado.Show();
+                this.Hide();
+            }
+            else
+            {
+                Pedir_Turno.formSolicitarTurno pedir_Turno = new Pedir_Turno.formSolicitarTurno(this);
+                pedir_Turno.Show();
+                this.Hide();
+            }
         }
 
         private void btCancelarAtencionAfiliado_Click(object sender, EventArgs e)
         {
-            Cancelar_Atencion.CancelarAtencionAfiliado cancelar_Afiliado = new Cancelar_Atencion.CancelarAtencionAfiliado(this);
-            cancelar_Afiliado.Show();
-            this.Hide();
+            if (cbSeleccionRol.SelectedItem == "Administrador General")
+            {
+                SeleccionAfiliado selecAfiliado = new SeleccionAfiliado("cancelar_Afiliado", this);
+                selecAfiliado.Show();
+                this.Hide();
+            }
+            else
+            {
+                Cancelar_Atencion.CancelarAtencionAfiliado cancelar_Afiliado = new Cancelar_Atencion.CancelarAtencionAfiliado(this);
+                cancelar_Afiliado.Show();
+                this.Hide();
+            }
         }
 
         private void btCancelarAtencionMedico_Click(object sender, EventArgs e)
@@ -245,9 +269,18 @@ namespace ClinicaFrba
 
         private void btCompraBono_Click(object sender, EventArgs e)
         {
-            Compra_Bono.CompraBonoAfiliado compraBono = new Compra_Bono.CompraBonoAfiliado(this);
-            compraBono.Show();
-            this.Hide();
+            if (cbSeleccionRol.SelectedItem == "Administrador General")
+            {
+                SeleccionAfiliado selecAfiliado = new SeleccionAfiliado("compraBono",this);
+                selecAfiliado.Show();
+                this.Hide();
+            }
+            else
+            {
+                Compra_Bono.CompraBonoAfiliado compraBono = new Compra_Bono.CompraBonoAfiliado(this);
+                compraBono.Show();
+                this.Hide();
+            }
         }
 
         private void btListadoEstadistico_Click(object sender, EventArgs e)

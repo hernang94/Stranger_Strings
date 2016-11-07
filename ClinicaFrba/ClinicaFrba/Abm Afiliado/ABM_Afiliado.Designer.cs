@@ -41,7 +41,6 @@
             this.txtMail = new System.Windows.Forms.TextBox();
             this.txtTel = new System.Windows.Forms.TextBox();
             this.txtDirec = new System.Windows.Forms.TextBox();
-            this.txtTipoDoc = new System.Windows.Forms.TextBox();
             this.txtNroDoc = new System.Windows.Forms.TextBox();
             this.txtApellido = new System.Windows.Forms.TextBox();
             this.txtNombre = new System.Windows.Forms.TextBox();
@@ -57,6 +56,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.txtBMDoc = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.cbTipoDoc = new System.Windows.Forms.ComboBox();
             this.tbABMAfiliado.SuspendLayout();
             this.tpAlta.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nupCantFamilia)).BeginInit();
@@ -78,6 +78,7 @@
             // 
             // tpAlta
             // 
+            this.tpAlta.Controls.Add(this.cbTipoDoc);
             this.tpAlta.Controls.Add(this.nupCantFamilia);
             this.tpAlta.Controls.Add(this.cbPlanMedico);
             this.tpAlta.Controls.Add(this.btVolver);
@@ -88,7 +89,6 @@
             this.tpAlta.Controls.Add(this.txtMail);
             this.tpAlta.Controls.Add(this.txtTel);
             this.tpAlta.Controls.Add(this.txtDirec);
-            this.tpAlta.Controls.Add(this.txtTipoDoc);
             this.tpAlta.Controls.Add(this.txtNroDoc);
             this.tpAlta.Controls.Add(this.txtApellido);
             this.tpAlta.Controls.Add(this.txtNombre);
@@ -198,13 +198,6 @@
             this.txtDirec.Name = "txtDirec";
             this.txtDirec.Size = new System.Drawing.Size(100, 20);
             this.txtDirec.TabIndex = 6;
-            // 
-            // txtTipoDoc
-            // 
-            this.txtTipoDoc.Location = new System.Drawing.Point(291, 96);
-            this.txtTipoDoc.Name = "txtTipoDoc";
-            this.txtTipoDoc.Size = new System.Drawing.Size(100, 20);
-            this.txtTipoDoc.TabIndex = 5;
             // 
             // txtNroDoc
             // 
@@ -356,6 +349,18 @@
             this.timer1.Interval = 5000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // cbTipoDoc
+            // 
+            this.cbTipoDoc.FormattingEnabled = true;
+            this.cbTipoDoc.Items.AddRange(new object[] {
+            "DNI",
+            "LC",
+            "LE"});
+            this.cbTipoDoc.Location = new System.Drawing.Point(291, 96);
+            this.cbTipoDoc.Name = "cbTipoDoc";
+            this.cbTipoDoc.Size = new System.Drawing.Size(100, 21);
+            this.cbTipoDoc.TabIndex = 22;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -387,7 +392,6 @@
         private System.Windows.Forms.TextBox txtMail;
         private System.Windows.Forms.TextBox txtTel;
         private System.Windows.Forms.TextBox txtDirec;
-        private System.Windows.Forms.TextBox txtTipoDoc;
         private System.Windows.Forms.TextBox txtNroDoc;
         private System.Windows.Forms.TextBox txtApellido;
         private System.Windows.Forms.TextBox txtNombre;
@@ -406,5 +410,6 @@
         private System.Windows.Forms.Label lbIngreseNroDoc;
         private System.Windows.Forms.Label lbBorradoModificado;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.ComboBox cbTipoDoc;
     }
 }

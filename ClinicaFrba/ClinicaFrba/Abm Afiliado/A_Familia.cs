@@ -52,7 +52,7 @@ namespace ClinicaFrba.Abm_Afiliado
             List<SqlParameter> lista = new List<SqlParameter>();
             lista.Add(new SqlParameter("@Nombre", txtNombre.Text));
             lista.Add(new SqlParameter("@Apellido", txtApellido.Text));
-            lista.Add(new SqlParameter("@Tipo_Doc", txtTipoDoc.Text));
+            lista.Add(new SqlParameter("@Tipo_Doc", cbTipoDoc.SelectedItem));
             lista.Add(new SqlParameter("@Num_Doc", int.Parse(txtNroDoc.Text)));
             lista.Add(new SqlParameter("@Direccion", txtDirec.Text));
             lista.Add(new SqlParameter("@Telefono", int.Parse(txtTel.Text)));
