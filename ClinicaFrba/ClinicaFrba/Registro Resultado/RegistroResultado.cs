@@ -63,7 +63,10 @@ namespace ClinicaFrba.Registro_Resultado
                 paramList.Add(new SqlParameter("@Diagnostico", txtEnfermedades.Text));
                 BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_REGISTRAR_RESULTADO_CONSULTA", "SP", paramList);
             }
-          
+            fun.Show();
+            sel.Close();
+            sel.selecEsp.Close();
+            this.Close();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
