@@ -239,6 +239,12 @@
     <Compile Include="SeleccionAfiliado.Designer.cs">
       <DependentUpon>SeleccionAfiliado.cs</DependentUpon>
     </Compile>
+    <Compile Include="SeleccionProfesional.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SeleccionProfesional.Designer.cs">
+      <DependentUpon>SeleccionProfesional.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Abm Afiliado\ABM_Afiliado.resx">
       <DependentUpon>ABM_Afiliado.cs</DependentUpon>
     </EmbeddedResource>
@@ -325,6 +331,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SeleccionAfiliado.resx">
       <DependentUpon>SeleccionAfiliado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionProfesional.resx">
+      <DependentUpon>SeleccionProfesional.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="ArchivoConfiguracion.settings">

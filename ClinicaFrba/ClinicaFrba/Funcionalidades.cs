@@ -54,6 +54,11 @@ namespace ClinicaFrba
                     cbSeleccionRol.SelectedIndex = 0;
                     pedir_Especilidades_Profesional();
                 }
+                if (rolesXusuario[0].Nombre == "Administrador General")
+                {
+                    cbSeleccionRol.Items.Add("Administrador General");
+                    cbSeleccionRol.SelectedIndex = 0;
+                }
             }
             else
             {
@@ -100,6 +105,28 @@ namespace ClinicaFrba
 
         private void cbSeleccionRol_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //Selecciono Admin General
+            if (cbSeleccionRol.SelectedItem == "Administrador General")
+            {
+                btABMRol.Visible = true;
+                btABMAfiliado.Visible = true;
+                btRegistroUsuario.Visible = true;
+                btABMProfesional.Visible = true;
+                btPlan.Visible = true;
+                btRegAgendaProf.Visible = true;
+                btRegAgendaProf.Visible = true;
+                btRegistroLlegada.Visible = true;
+                btEspMedicas.Visible = true;
+                btListadoEstadistico.Visible = true;
+                btComprarBonoAdmin.Visible = true;
+
+                btCancelarAtencionMedico.Visible = true;
+                btRegistrarResultado.Visible = true;
+
+                btCancelarAtencionAfiliado.Visible = true;
+                btPedirTurno.Visible = true;
+                btCompraBonoAfiliado.Visible = true;
+            }
             //Selecciono Admin
             if (cbSeleccionRol.SelectedItem=="Administrador")
             {
@@ -121,7 +148,6 @@ namespace ClinicaFrba
                 btCancelarAtencionAfiliado.Visible = false;
                 btPedirTurno.Visible = false;
                 btCompraBonoAfiliado.Visible = false;
-
             }
             //Selecciono Afiliado
             else if (cbSeleccionRol.SelectedItem == "Afiliado")
@@ -238,7 +264,7 @@ namespace ClinicaFrba
         {
             if (cbSeleccionRol.SelectedItem == "Administrador General")
             {
-                SeleccionarProfesional seleccionar_profesional = new SeleccionarProfesional("cancelar_Medico", this);
+                SeleccionProfesional seleccionar_profesional = new SeleccionProfesional("cancelar_Atencion_Medico", this);
                 seleccionar_profesional.Show();
                 this.Hide();
             }
@@ -272,7 +298,7 @@ namespace ClinicaFrba
         {
             if (cbSeleccionRol.SelectedItem == "Administrador General")
             {
-                SeleccionarProfesional seleccionar_profesional = new SeleccionarProfesional("seleccion_especialidad", this);
+                SeleccionProfesional seleccionar_profesional = new SeleccionProfesional("seleccion_Especialidad", this);
                 seleccionar_profesional.Show();
                 this.Hide();
             }
@@ -313,6 +339,11 @@ namespace ClinicaFrba
             Compra_Bono.CompraBonoAdmin compraBono = new Compra_Bono.CompraBonoAdmin(this);
             compraBono.Show();
             this.Hide();
+        }
+
+        private void btRegistroUsuario_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Funcionalidad no disponible", "Error!", MessageBoxButtons.OK);
         }
     }
 }

@@ -95,7 +95,7 @@ namespace ClinicaFrba.Pedir_Turno
         private void btCancelar_Click(object sender, EventArgs e)
         {
             this.Close();
-            fun.Show();
+            this.fun.Show();
         }
 
         private void formSolicitarTurno_Load(object sender, EventArgs e)

@@ -842,34 +842,6 @@ END
 GO
 
 -----------------------------------------
-/*IF EXISTS(SELECT  *
-            FROM    sys.objects
-            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_CANCELAR_TURNOS_DIA_PROFESIONAL')
-                    AND type IN ( N'P', N'PC' ) )
-DROP PROCEDURE STRANGER_STRINGS.SP_CANCELAR_TURNOS_DIA_PROFESIONAL
-GO
-
-CREATE PROCEDURE STRANGER_STRINGS.SP_CANCELAR_TURNOS_DIA_PROFESIONAL
-@Turno_Fecha CHAR(10),
-@Num_Doc NUMERIC(18,0),
-@Tipo_Cancelacion CHAR(1),
-@Motivo VARCHAR(225)
-AS
-BEGIN
-DECLARE @Id_Insert INT
-INSERT INTO STRANGER_STRINGS.Cancelacion_Turno(Tipo_Cancelacion,Motivo)
-VALUES(@Tipo_Cancelacion,@Motivo)
-SET @Id_Insert= SCOPE_IDENTITY()
-UPDATE STRANGER_STRINGS.Turno
-SET Id_Cancelacion=@Id_Insert
-WHERE Id_Medico_x_Esp IN (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
-WHERE m.Num_Doc=@Num_Doc) AND CONVERT(DATE,Turno_Fecha)=CONVERT(DATETIME,RIGHT(@Turno_Fecha,4)+LEFT(@Turno_Fecha,2)+SUBSTRING(@Turno_Fecha,4,2))
-UPDATE STRANGER_STRINGS.Turno
-SET Id_Horario=NULL
-WHERE Id_Medico_x_Esp IN (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
-WHERE m.Num_Doc=@Num_Doc) AND CONVERT(DATE,Turno_Fecha)=CONVERT(DATETIME,RIGHT(@Turno_Fecha,4)+LEFT(@Turno_Fecha,2)+SUBSTRING(@Turno_Fecha,4,2))
-END
-GO*/
 
 IF EXISTS(SELECT  *
             FROM    sys.objects
@@ -902,36 +874,6 @@ VALUES ((SELECT Id_Medico FROM STRANGER_STRINGS.Medico WHERE Num_Doc=@Num_Doc),@
 END
 GO
 -----------------------------------------
-/*IF EXISTS(SELECT  *
-            FROM    sys.objects
-            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_CANCELAR_TURNOS_RANGO_PROFESIONAL')
-                    AND type IN ( N'P', N'PC' ) )
-DROP PROCEDURE STRANGER_STRINGS.SP_CANCELAR_TURNOS_RANGO_PROFESIONAL
-GO
-
-CREATE PROCEDURE STRANGER_STRINGS.SP_CANCELAR_TURNOS_RANGO_PROFESIONAL
-@Tipo_Cancelacion CHAR(1),
-@Motivo VARCHAR(225),
-@Num_Doc NUMERIC(18,0),
-@Especialidad VARCHAR(255),
-@Fecha_Desde CHAR(10),
-@Fecha_Hasta CHAR(10)
-AS
-BEGIN
-DECLARE @Id_Insert INT
-INSERT INTO STRANGER_STRINGS.Cancelacion_Turno(Tipo_Cancelacion,Motivo)
-VALUES(@Tipo_Cancelacion,@Motivo)
-SET @Id_Insert= SCOPE_IDENTITY()
-UPDATE STRANGER_STRINGS.Turno
-SET Id_Cancelacion=@Id_Insert
-WHERE Id_Medico_x_Esp IN (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
-WHERE m.Num_Doc=@Num_Doc) AND Turno_Fecha BETWEEN CONVERT(DATETIME,RIGHT(@Fecha_Desde,4)+LEFT(@Fecha_Desde,2)+SUBSTRING(@Fecha_Desde,4,2)) AND CONVERT(DATETIME,RIGHT(@Fecha_Hasta,4)+LEFT(@Fecha_Hasta,2)+SUBSTRING(@Fecha_Hasta,4,2))
-UPDATE STRANGER_STRINGS.Turno
-SET Id_Horario=NULL
-WHERE Id_Medico_x_Esp IN (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
-WHERE m.Num_Doc=@Num_Doc) AND Turno_Fecha BETWEEN CONVERT(DATETIME,RIGHT(@Fecha_Desde,4)+LEFT(@Fecha_Desde,2)+SUBSTRING(@Fecha_Desde,4,2)) AND CONVERT(DATETIME,RIGHT(@Fecha_Hasta,4)+LEFT(@Fecha_Hasta,2)+SUBSTRING(@Fecha_Hasta,4,2))
-END
-GO*/
 
 IF EXISTS(SELECT  *
             FROM    sys.objects
@@ -1076,21 +1018,6 @@ IF EXISTS(SELECT  *
 DROP PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNO_MEDICO_FECHA
 GO
 
-/*CREATE PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNO_MEDICO_FECHA
-@Num_Doc INT,
-@Especialidad VARCHAR(255),
-@Fecha CHAR(10)
-AS
-BEGIN
-SELECT t.Turno_Fecha,p.Nombre,p.Apellido,t.Id_Consulta
-		FROM STRANGER_STRINGS.Turno t JOIN Paciente p ON (p.Id_Paciente=t.Id_Paciente)
-		WHERE t.Id_Medico_x_Esp=(SELECT es.Id FROM STRANGER_STRINGS.Especialidad_X_Medico es 
-												WHERE (SELECT e.Especialidad_Codigo  FROM STRANGER_STRINGS.Especialidad e WHERE Especialidad_Descripcion=@Especialidad)=es.Especialidad_Codigo AND es.Id_Medico=(SELECT m.Id_Medico 
-												FROM STRANGER_STRINGS.Medico m WHERE m.Num_Doc=@Num_Doc))
-		AND CONVERT(DATE,t.Turno_Fecha)=CONVERT(DATETIME,RIGHT(@Fecha,4)+LEFT(@Fecha,2)+SUBSTRING(@Fecha,4,2))
-END
-GO*/
-
 CREATE PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNO_MEDICO_FECHA
 @Num_Doc INT,
 @Especialidad_Codigo NUMERIC(18,0),
@@ -1140,39 +1067,6 @@ IF EXISTS(SELECT  *
 DROP PROCEDURE STRANGER_STRINGS.SP_ALTA_AGENDA
 GO
 
-/*CREATE PROCEDURE STRANGER_STRINGS.SP_ALTA_AGENDA
-@Num_Doc NUMERIC(18,0),
-@Especialidad_Descripcion VARCHAR(255),
-@Dia_Semana SMALLINT,
-@Hora_Desde CHAR(2),
-@Hora_Hasta CHAR(2)
-AS
-BEGIN
-DECLARE @Id_Medico INT= (SELECT Id_Medico FROM STRANGER_STRINGS.Medico WHERE Num_Doc=35198771)
-DECLARE @Id_Medico_X_Especialidad INT= (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em 
-JOIN STRANGER_STRINGS.Especialidad e ON(em.Especialidad_Codigo=e.Especialidad_Codigo)
-WHERE em.Id_Medico=@Id_Medico AND e.Especialidad_Descripcion LIKE '%'+@Especialidad_Descripcion+'%')
-DECLARE @Cant_Horas_A_Insertar INT= (DATEDIFF(HH,CONVERT(DATETIME,@Hora_Desde+':00',120),CONVERT(DATETIME,@Hora_Hasta+':00',120)))
-DECLARE @Cant_Horas_De_Trabajo INT= (SELECT SUM(DATEDIFF(HH,CONVERT(DATETIME,ha.Hora_Desde,120),CONVERT(DATETIME,ha.Hora_Hasta,120))) FROM STRANGER_STRINGS.Horarios_Agenda ha 
-JOIN STRANGER_STRINGS.Especialidad_X_Medico em ON(ha.Id_Especialidad_Medico=em.Id)
-WHERE em.Id_Medico=@Id_Medico)
-IF((@Cant_Horas_De_Trabajo+@Cant_Horas_A_Insertar)>48)
-BEGIN
-		RAISERROR('El profesional ya posee sus 48hs semanales de trabajo ocupadas',10,1)
-		RETURN
-		END
-ELSE IF EXISTS(SELECT * FROM STRANGER_STRINGS.Horarios_Agenda ha JOIN STRANGER_STRINGS.Especialidad_X_Medico em ON(ha.Id_Especialidad_Medico=em.Id) JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
-			   WHERE ha.Id_Especialidad_Medico!=@Id_Medico_X_Especialidad AND m.Id_Medico=@Id_Medico AND ha.Dia=@Dia_Semana 
-			   AND ha.Hora_Desde=@Hora_Desde AND ha.Hora_Hasta=@Hora_Hasta)
-BEGIN
-		RAISERROR('El profesional ya atiende otra especialidad en esa franja horaria y dia seleccionado',10,1)
-		RETURN
-		END
-INSERT INTO STRANGER_STRINGS.Horarios_Agenda(Dia,Hora_Desde,Hora_Hasta,Id_Especialidad_Medico)
-VALUES(@Dia_Semana,CAST(@Hora_Desde+':00'AS TIME(0)),CAST(@Hora_Hasta+':00' AS TIME(0)),@Id_Medico_X_Especialidad)
-END
-GO*/
-
 CREATE PROCEDURE STRANGER_STRINGS.SP_ALTA_AGENDA
 @Num_Doc NUMERIC(18,0),
 @Especialidad_Codigo NUMERIC(18,0),
@@ -1217,26 +1111,6 @@ IF EXISTS(SELECT  *
 DROP PROCEDURE STRANGER_STRINGS.SP_SOLICITAR_TURNO
 GO
 
-/*CREATE PROCEDURE STRANGER_STRINGS.SP_SOLICITAR_TURNO
-@Fecha_Turno CHAR(10),
-@Num_Doc_Paciente NUMERIC(18,0),
-@Num_Doc_Profesional NUMERIC(18,0),
-@Especialidad_Descripcion VARCHAR(255)
-AS
-BEGIN
-DECLARE @Id_Paciente INT = (SELECT p.Id_paciente FROM STRANGER_STRINGS.Paciente p WHERE p.Num_Doc=@Num_Doc_Paciente)
-DECLARE @Id_Medico_X_Especialidad INT = (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em 
-JOIN STRANGER_STRINGS.Especialidad e ON(em.Especialidad_Codigo=e.Especialidad_Codigo) JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
-WHERE m.Num_Doc=@Num_Doc_Profesional AND e.Especialidad_Descripcion LIKE '%'+@Especialidad_Descripcion+'%')
-DECLARE @Fecha_Turno_Convertida DATETIME= CONVERT(DATETIME,RIGHT(@Fecha_Turno,4)+LEFT(@Fecha_Turno,2)+SUBSTRING(@Fecha_Turno,4,2))
-INSERT INTO STRANGER_STRINGS.Turno(Id_Paciente,Id_Medico_x_Esp,Turno_Fecha,Id_Horario)
-VALUES(@Id_Paciente,@Id_Medico_X_Especialidad,@Fecha_Turno_Convertida,
-(SELECT a.Id_Horario FROM STRANGER_STRINGS.Horarios_Agenda a 
-WHERE a.Dia=DATEPART(DW,@Fecha_Turno_Convertida) AND 
-CAST(@Fecha_Turno as Time(0)) BETWEEN a.Hora_Desde AND a.Hora_Hasta 
-AND a.Id_Especialidad_Medico=@Id_Medico_X_Especialidad))
-END
-GO*/
 CREATE PROCEDURE STRANGER_STRINGS.SP_SOLICITAR_TURNO
 @Fecha_Turno DATETIME,
 @Num_Doc_Paciente NUMERIC(18,0),
@@ -1285,44 +1159,6 @@ SELECT m.Nombre, m.Apellido, m.Num_Doc FROM STRANGER_STRINGS.Medico m
 END
 GO
 -----------------------------------------
-/*
-IF EXISTS(SELECT  *
-            FROM    sys.objects
-            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_OBTENER_FECHAS')
-                    AND type IN ( N'P', N'PC' ) )
-DROP PROCEDURE STRANGER_STRINGS.SP_OBTENER_FECHAS
-GO
-
-CREATE PROCEDURE STRANGER_STRINGS.SP_OBTENER_FECHAS
-@Num_Doc NUMERIC(18,0),
-@Especialidad_Codigo NUMERIC(18,0)
-AS
-BEGIN
-DECLARE @Id_Medico_X_Especialidad INT = (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em 
-JOIN STRANGER_STRINGS.Especialidad e ON(em.Especialidad_Codigo=e.Especialidad_Codigo) JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
-WHERE m.Num_Doc=@Num_Doc AND e.Especialidad_Codigo=@Especialidad_Codigo)
-SELECT Dia FROM STRANGER_STRINGS.Horarios_Agenda WHERE @Id_Medico_X_Especialidad=Id_Especialidad_Medico
-END
-GO*/
------------------------------------------
-/*IF EXISTS(SELECT  *
-            FROM    sys.objects
-            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_OBTENER_HORARIOS')
-                    AND type IN ( N'P', N'PC' ) )
-DROP PROCEDURE STRANGER_STRINGS.SP_OBTENER_HORARIOS
-GO
-
-CREATE PROCEDURE STRANGER_STRINGS.SP_OBTENER_HORARIOS
-@Num_Doc NUMERIC(18,0),
-@Especialidad_Descripcion VARCHAR(255),
-@Fecha CHAR(10)
-AS
-BEGIN
-DECLARE @Id_Medico_X_Especialidad INT = (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em 
-JOIN STRANGER_STRINGS.Especialidad e ON(em.Especialidad_Codigo=e.Especialidad_Codigo) JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
-WHERE m.Num_Doc=@Num_Doc AND e.Especialidad_Descripcion LIKE '%'+@Especialidad_Descripcion+'%')
-END
-GO*/
 
 IF EXISTS(SELECT  *
             FROM    sys.objects

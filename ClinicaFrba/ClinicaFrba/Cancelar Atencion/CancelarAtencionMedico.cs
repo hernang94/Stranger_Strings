@@ -13,14 +13,23 @@ namespace ClinicaFrba.Cancelar_Atencion
 {
     public partial class CancelarAtencionMedico : Form
     {
-        Funcionalidades fun;
-        List<DateTime> lista_turnos = new List<DateTime>();
+        public Funcionalidades fun;
+        public Funcionalidades funFake;
+        public List<DateTime> lista_turnos = new List<DateTime>();
 
 
         public CancelarAtencionMedico(Funcionalidades fun)
         {
             InitializeComponent();
             this.fun = fun;
+            PedirTurnosMedico();
+        }
+
+        public CancelarAtencionMedico(Funcionalidades fun, Funcionalidades funFake)
+        {
+            InitializeComponent();
+            this.fun = fun;
+            this.funFake = funFake;
             PedirTurnosMedico();
         }
 
@@ -48,7 +57,14 @@ namespace ClinicaFrba.Cancelar_Atencion
             if (cbDiaCompleto.SelectedIndex==0)
             {
                 paramList.Add(new SqlParameter("@Turno_Fecha", monthCalendar1.SelectionRange.Start));
-                paramList.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Dni)));
+                if (this.funFake == null)
+                {
+                    paramList.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Dni)));
+                }
+                else
+                {
+                    paramList.Add(new SqlParameter("@Num_Doc", int.Parse(funFake.user.Dni)));
+                }
                 paramList.Add(new SqlParameter("@Tipo_Cancelacion", 'M'));
                 paramList.Add(new SqlParameter("@Motivo", txtMotivo.Text));
                 
@@ -58,7 +74,14 @@ namespace ClinicaFrba.Cancelar_Atencion
             {
                 paramList.Add(new SqlParameter("@Tipo_Cancelacion", 'M'));
                 paramList.Add(new SqlParameter("@Motivo", txtMotivo.Text));
-                paramList.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Dni)));
+                if (this.funFake == null)
+                {
+                    paramList.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Dni)));
+                }
+                else
+                {
+                    paramList.Add(new SqlParameter("@Num_Doc", int.Parse(funFake.user.Dni)));
+                }               
                 paramList.Add(new SqlParameter("@Fecha_Desde", dtpFechaDesde.Value));
                 paramList.Add(new SqlParameter("@Fecha_Hasta", dtpFechaHasta.Value));
 
@@ -70,7 +93,14 @@ namespace ClinicaFrba.Cancelar_Atencion
         private void PedirTurnosMedico()
         {
             List<SqlParameter> paramList = new List<SqlParameter>();
-            paramList.Add(new SqlParameter("@num_Doc", int.Parse(fun.user.Dni)));
+            if (this.funFake == null)
+            {
+                paramList.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Dni)));
+            }
+            else
+            {
+                paramList.Add(new SqlParameter("@Num_Doc", int.Parse(funFake.user.Dni)));
+            }
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_PEDIR_TURNOS_MEDICO","SP",paramList);
             if (lector.HasRows)
             {

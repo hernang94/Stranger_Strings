@@ -121,7 +121,7 @@
             this.gbFechayHora.Size = new System.Drawing.Size(421, 68);
             this.gbFechayHora.TabIndex = 46;
             this.gbFechayHora.TabStop = false;
-            this.gbFechayHora.Text = "Ingrese Fecha y Hora de atención";
+            this.gbFechayHora.Text = "Ingrese Hora de atención";
             // 
             // dtFechaHora
             // 

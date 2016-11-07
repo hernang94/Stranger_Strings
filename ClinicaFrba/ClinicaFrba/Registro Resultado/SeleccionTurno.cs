@@ -53,7 +53,14 @@ namespace ClinicaFrba.Registro_Resultado
         {
             BD.Entidades.Especialidad espSeleccionada=obtenerCodigoEspecialidad();
             List<SqlParameter> paramList = new List<SqlParameter>();
-            paramList.Add(new SqlParameter("@Num_Doc", fun.user.Dni ));
+            if (this.selecEsp.funFake == null)
+            {
+                paramList.Add(new SqlParameter("@Num_Doc", fun.user.Dni));
+            }
+            else 
+            {
+                paramList.Add(new SqlParameter("@Num_Doc", this.selecEsp.funFake.user.Dni));
+            }
             paramList.Add(new SqlParameter("@Especialidad_Codigo", espSeleccionada.Especialidad_Cod));
             paramList.Add(new SqlParameter("@Fecha", Convert.ToDateTime(fecha)));
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_PEDIR_TURNO_MEDICO_FECHA", "SP", paramList);

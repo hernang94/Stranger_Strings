@@ -57,7 +57,7 @@
             // 
             // btAceptar
             // 
-            this.btAceptar.Location = new System.Drawing.Point(126, 190);
+            this.btAceptar.Location = new System.Drawing.Point(142, 173);
             this.btAceptar.Name = "btAceptar";
             this.btAceptar.Size = new System.Drawing.Size(75, 23);
             this.btAceptar.TabIndex = 55;
@@ -69,7 +69,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(369, 236);
+            this.ClientSize = new System.Drawing.Size(369, 214);
             this.Controls.Add(this.btAceptar);
             this.Controls.Add(this.groupBox1);
             this.Name = "SeleccionBono";

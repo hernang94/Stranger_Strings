@@ -181,6 +181,7 @@
             this.btRegistroUsuario.Text = "Registro Usuario";
             this.btRegistroUsuario.UseVisualStyleBackColor = true;
             this.btRegistroUsuario.Visible = false;
+            this.btRegistroUsuario.Click += new System.EventHandler(this.btRegistroUsuario_Click);
             // 
             // btCancelarAtencionAfiliado
             // 

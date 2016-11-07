@@ -40,13 +40,13 @@ namespace ClinicaFrba
             BD.Usuario user = new BD.Usuario();
             List<SqlParameter> paramlist = new List<SqlParameter>();
             paramlist.Add(new SqlParameter("@Num_Doc", int.Parse(txtDocumento.Text)));
-            paramlist.Add(new SqlParameter("@Tipo", cbTipoDoc.SelectedText));
+            paramlist.Add(new SqlParameter("@Tipo", cbTipoDoc.Text));
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_OBTENER_AFILIADO", "SP", paramlist);
             if (lector.HasRows)
             {
                 while (lector.Read())
                 {
-                    user.Apellido = (string)lector["Usuario"];
+                    user.Apellido = (string)lector["Apellido"];
                     user.Dni = txtDocumento.Text;
                     user.Cantidad_Intentos = (Int16)lector["Cantidad_Intentos"];
                 }
