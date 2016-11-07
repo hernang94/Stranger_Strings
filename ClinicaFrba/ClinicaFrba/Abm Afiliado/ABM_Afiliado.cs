@@ -65,7 +65,7 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (txtNombre.Text == "" || txtApellido.Text == "" || txtDirec.Text == "" || txtMail.Text == "" || txtNroDoc.Text == "" || txtTel.Text == "" || txtTipoDoc.Text == "" || cbEstadoCivil.Text == "" || cbPlanMedico.Text == "" || cbSexo.Text == "")
+            if (txtNombre.Text == "" || txtApellido.Text == "" || txtDirec.Text == "" || txtMail.Text == "" || txtNroDoc.Text == "" || txtTel.Text == "" || cbTipoDoc.Text == "" || cbEstadoCivil.Text == "" || cbPlanMedico.Text == "" || cbSexo.Text == "")
             {
                 MessageBox.Show("Todos los campos son obligatorios.", "Error", MessageBoxButtons.OK);
             }
