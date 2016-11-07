@@ -212,9 +212,18 @@ namespace ClinicaFrba
 
         private void btCancelarAtencionMedico_Click(object sender, EventArgs e)
         {
+            if (cbSeleccionRol.SelectedItem == "Administrador General")
+            {
+                SeleccionarProfesional seleccionar_profesional = new SeleccionarProfesional("cancelar_Medico", this);
+                seleccionar_profesional.Show();
+                this.Hide();
+            }
+            else
+            {
                 Cancelar_Atencion.CancelarAtencionMedico cancelar_Medico = new Cancelar_Atencion.CancelarAtencionMedico(this);
                 cancelar_Medico.Show();
                 this.Hide();
+            }
           
         }
 
@@ -237,9 +246,18 @@ namespace ClinicaFrba
 
         private void btRegistrarResultado_Click(object sender, EventArgs e)
         {
-            Registro_Resultado.SeleccionEspecialidad seleccion_Especialidad = new Registro_Resultado.SeleccionEspecialidad(this, especXmedico);
-            seleccion_Especialidad.Show();
-            this.Hide();
+            if (cbSeleccionRol.SelectedItem == "Administrador General")
+            {
+                SeleccionarProfesional seleccionar_profesional = new SeleccionarProfesional("seleccion_especialidad", this);
+                seleccionar_profesional.Show();
+                this.Hide();
+            }
+            else
+            {
+                Registro_Resultado.SeleccionEspecialidad seleccion_Especialidad = new Registro_Resultado.SeleccionEspecialidad(this, especXmedico);
+                seleccion_Especialidad.Show();
+                this.Hide();
+            }
             
         }
 
