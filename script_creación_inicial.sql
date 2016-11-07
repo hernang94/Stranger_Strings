@@ -412,6 +412,11 @@ SELECT r.Id_Rol,u.Id_Usuario
 FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Usuario u
 WHERE r.Descripcion IN ('Administrador General') AND u.Usuario LIKE 'admin' AND u.Pasword=HASHBYTES('SHA2_256','w23e')
 
+INSERT INTO STRANGER_STRINGS.Usuario(Usuario,Pasword) VALUES ('administrativo',HASHBYTES('SHA2_256','admin1234'))
+INSERT INTO STRANGER_STRINGS.Rol_X_Usuario (r.Id_Rol,u.Id_Usuario)
+SELECT r.Id_Rol,u.Id_Usuario
+FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Usuario u
+WHERE r.Descripcion IN ('Administrador') AND u.Usuario LIKE 'administrativo' AND u.Pasword=HASHBYTES('SHA2_256','admin1234')
 
 INSERT INTO STRANGER_STRINGS.Usuario(Usuario,Pasword)
 SELECT p.Apellido As Usuario, HASHBYTES('SHA2_256',CONVERT(VARCHAR,p.Num_Doc))
@@ -2074,19 +2079,21 @@ ON (fr.Id_Rol=r.Id_Rol)
 WHERE r.Descripcion=@Rol
 END
 GO
-
 ------------------------------------------------------------------
 IF EXISTS(SELECT  *
             FROM    sys.objects
-            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_OBTENER_FUNCIONALIDADES')
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_OBTENER_AFILIADO')
                     AND type IN ( N'P', N'PC' ) )
-DROP PROCEDURE STRANGER_STRINGS.SP_OBTENER_FUNCIONALIDADES
+DROP PROCEDURE STRANGER_STRINGS.SP_OBTENER_AFILIADO
 GO
 
-CREATE PROCEDURE STRANGER_STRINGS.SP_OBTENER_FUNCIONALIDADES
+CREATE PROCEDURE STRANGER_STRINGS.SP_OBTENER_AFILIADO
+@Num_Doc NUMERIC(18,0),
+@Tipo VARCHAR(10)
 AS
 BEGIN
-SELECT f.Descripcion
-FROM STRANGER_STRINGS.Funcionalidad f 
+SELECT p.Apellido, p.Num_Doc, u.Cantidad_Intentos
+FROM STRANGER_STRINGS.Paciente p JOIN STRANGER_STRINGS.Usuario u on(u.Id_Usuario=p.Id_Usuario) 
+WHERE p.Num_Doc=@Num_Doc AND p.Tipo_Doc=@Tipo AND u.Pasword=HASHBYTES('SHA2_256',CONVERT(VARCHAR,p.Num_Doc))
 END
 GO

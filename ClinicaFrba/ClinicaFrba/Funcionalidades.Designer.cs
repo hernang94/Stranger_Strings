@@ -30,6 +30,7 @@
         {
             this.btABMRol = new System.Windows.Forms.Button();
             this.gBFuncionalidadesAdmin = new System.Windows.Forms.GroupBox();
+            this.btComprarBonoAdmin = new System.Windows.Forms.Button();
             this.btListadoEstadistico = new System.Windows.Forms.Button();
             this.btRegAgendaProf = new System.Windows.Forms.Button();
             this.btPlan = new System.Windows.Forms.Button();
@@ -48,7 +49,6 @@
             this.gbFuncioAfiliado = new System.Windows.Forms.GroupBox();
             this.gbFuncProf = new System.Windows.Forms.GroupBox();
             this.btCancelarAtencionMedico = new System.Windows.Forms.Button();
-            this.btComprarBonoAdmin = new System.Windows.Forms.Button();
             this.gBFuncionalidadesAdmin.SuspendLayout();
             this.gbFuncioAfiliado.SuspendLayout();
             this.gbFuncProf.SuspendLayout();
@@ -83,6 +83,17 @@
             this.gBFuncionalidadesAdmin.TabIndex = 1;
             this.gBFuncionalidadesAdmin.TabStop = false;
             this.gBFuncionalidadesAdmin.Text = "Funcionalidades Administrador";
+            // 
+            // btComprarBonoAdmin
+            // 
+            this.btComprarBonoAdmin.Location = new System.Drawing.Point(432, 65);
+            this.btComprarBonoAdmin.Name = "btComprarBonoAdmin";
+            this.btComprarBonoAdmin.Size = new System.Drawing.Size(75, 40);
+            this.btComprarBonoAdmin.TabIndex = 12;
+            this.btComprarBonoAdmin.Text = "Comprar Bono";
+            this.btComprarBonoAdmin.UseVisualStyleBackColor = true;
+            this.btComprarBonoAdmin.Visible = false;
+            this.btComprarBonoAdmin.Click += new System.EventHandler(this.btComprarBonoAdmin_Click);
             // 
             // btListadoEstadistico
             // 
@@ -276,17 +287,6 @@
             this.btCancelarAtencionMedico.UseVisualStyleBackColor = true;
             this.btCancelarAtencionMedico.Visible = false;
             this.btCancelarAtencionMedico.Click += new System.EventHandler(this.btCancelarAtencionMedico_Click);
-            // 
-            // btComprarBonoAdmin
-            // 
-            this.btComprarBonoAdmin.Location = new System.Drawing.Point(433, 65);
-            this.btComprarBonoAdmin.Name = "btComprarBonoAdmin";
-            this.btComprarBonoAdmin.Size = new System.Drawing.Size(75, 40);
-            this.btComprarBonoAdmin.TabIndex = 12;
-            this.btComprarBonoAdmin.Text = "Comprar Bono";
-            this.btComprarBonoAdmin.UseVisualStyleBackColor = true;
-            this.btComprarBonoAdmin.Visible = false;
-            this.btComprarBonoAdmin.Click += new System.EventHandler(this.btComprarBonoAdmin_Click);
             // 
             // Funcionalidades
             // 
