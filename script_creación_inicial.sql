@@ -1075,7 +1075,7 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_ALTA_AGENDA
 @Dia_Semana SMALLINT,
 @Hora_Desde DATETIME,
 @Hora_Hasta DATETIME,
-@Output INT
+@Retorno INT OUTPUT
 AS
 BEGIN
 DECLARE @Id_Medico INT= (SELECT Id_Medico FROM STRANGER_STRINGS.Medico WHERE Num_Doc=@Num_Doc)
@@ -1089,7 +1089,7 @@ WHERE em.Id_Medico=@Id_Medico)
 IF((@Cant_Horas_De_Trabajo+@Cant_Horas_A_Insertar)>48)
 BEGIN
 		--RAISERROR('El profesional ya posee sus 48hs semanales de trabajo ocupadas',10,1)
-		SET @Output=-1
+		SET @Retorno=-1
 		RETURN
 		END
 ELSE IF EXISTS(SELECT * FROM STRANGER_STRINGS.Horarios_Agenda ha JOIN STRANGER_STRINGS.Especialidad_X_Medico em ON(ha.Id_Especialidad_Medico=em.Id) JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
@@ -1097,12 +1097,12 @@ ELSE IF EXISTS(SELECT * FROM STRANGER_STRINGS.Horarios_Agenda ha JOIN STRANGER_S
 			   AND ha.Hora_Desde=CONVERT(TIME,@Hora_Desde) AND ha.Hora_Hasta=CONVERT(TIME,@Hora_Hasta))
 BEGIN
 		--RAISERROR('El profesional ya atiende otra especialidad en esa franja horaria y dia seleccionado',10,1)
-		SET @Output=-2
+		SET @Retorno=-2
 		RETURN
 		END
 INSERT INTO STRANGER_STRINGS.Horarios_Agenda(Dia,Hora_Desde,Hora_Hasta,Id_Especialidad_Medico)
 VALUES(@Dia_Semana,CONVERT(TIME,@Hora_Desde),CONVERT(TIME,@Hora_Hasta),@Id_Medico_X_Especialidad)
-SET @Output=0--OK
+SET @Retorno=0--OK
 END
 GO
 -----------------------------------------
