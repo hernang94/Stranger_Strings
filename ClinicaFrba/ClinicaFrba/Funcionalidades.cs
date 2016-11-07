@@ -229,7 +229,7 @@ namespace ClinicaFrba
                 {
                     BD.Entidades.Especialidad esp = new BD.Entidades.Especialidad();
                     esp.Especialidad_Descr = (string)lector["Especialidad_Descripcion"];
-                   
+                    esp.Especialidad_Cod = (decimal)lector["Especialidad_Codigo"];
                     this.especXmedico.Add(esp);
                 }
             }

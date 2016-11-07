@@ -53,6 +53,7 @@
             this.dtgTurnos.Name = "dtgTurnos";
             this.dtgTurnos.Size = new System.Drawing.Size(456, 149);
             this.dtgTurnos.TabIndex = 40;
+            this.dtgTurnos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgTurnos_CellContentClick);
             // 
             // btAceptar
             // 

@@ -51,10 +51,11 @@ namespace ClinicaFrba.Registro_Resultado
 
         private void actualizarGrilla()
         {
+            BD.Entidades.Especialidad espSeleccionada=obtenerCodigoEspecialidad();
             List<SqlParameter> paramList = new List<SqlParameter>();
             paramList.Add(new SqlParameter("@Num_Doc", fun.user.Dni ));
-            paramList.Add(new SqlParameter("@Especialidad", Especialidad));
-            paramList.Add(new SqlParameter("@Fecha", fecha));
+            paramList.Add(new SqlParameter("@Especialidad_Codigo", espSeleccionada.Especialidad_Cod));
+            paramList.Add(new SqlParameter("@Fecha", Convert.ToDateTime(fecha)));
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_PEDIR_TURNO_MEDICO_FECHA", "SP", paramList);
             if (lector.HasRows)
             {
@@ -64,7 +65,7 @@ namespace ClinicaFrba.Registro_Resultado
                     turno.fecha = (DateTime)lector["Turno_Fecha"];
                     turno.nombre_Pac = (string)lector["Nombre"];
                     turno.apellido_Pac = (string)lector["Apellido"];
-                    turno.id_Consulta = (Int32)lector["Id_Consulta"];
+                    turno.id_Consulta = (int)lector["Id_Consulta"];
                     listaTurnos.Add(turno);
                 }
             }
@@ -72,6 +73,8 @@ namespace ClinicaFrba.Registro_Resultado
             dtgTurnos.Columns["apellido_Prof"].Visible = false;
             dtgTurnos.Columns["especialidad"].Visible = false;
             dtgTurnos.Columns["id_Consulta"].Visible = false;
+            dtgTurnos.Columns["nro"].Visible = false;
+            dtgTurnos.Columns["Codigo"].Visible = false;
         }
 
         private void btAceptar_Click(object sender, EventArgs e)
@@ -91,5 +94,22 @@ namespace ClinicaFrba.Registro_Resultado
         {
 
         }
+        private BD.Entidades.Especialidad obtenerCodigoEspecialidad()
+        {
+            for (int i = 0; i < selecEsp.espXmedico.Count(); i++)
+            {
+                if (selecEsp.espXmedico[i].Especialidad_Descr == Especialidad)
+                {
+                    return selecEsp.espXmedico[i];
+                }
+            }
+            return null;
+        }
+
+        private void dtgTurnos_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
     }
 }

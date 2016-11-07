@@ -1086,7 +1086,7 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNO_MEDICO_FECHA
 AS
 BEGIN
 SELECT t.Turno_Fecha,p.Nombre,p.Apellido,t.Id_Consulta
-		FROM STRANGER_STRINGS.Turno t JOIN Paciente p ON (p.Id_Paciente=t.Id_Paciente)
+		FROM STRANGER_STRINGS.Turno t JOIN STRANGER_STRINGS.Paciente p ON (p.Id_Paciente=t.Id_Paciente)
 		WHERE t.Id_Medico_x_Esp=(SELECT es.Id FROM STRANGER_STRINGS.Especialidad_X_Medico es 
 												WHERE @Especialidad_Codigo=es.Especialidad_Codigo AND es.Id_Medico=(SELECT m.Id_Medico 
 												FROM STRANGER_STRINGS.Medico m WHERE m.Num_Doc=@Num_Doc))
