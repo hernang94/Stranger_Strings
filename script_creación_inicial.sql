@@ -376,6 +376,8 @@ VALUES('Listado Estadístico')
 
 --ROLES
 INSERT INTO STRANGER_STRINGS.Rol(Descripcion,Estado)
+VALUES('Administrador General','E')
+INSERT INTO STRANGER_STRINGS.Rol(Descripcion,Estado)
 VALUES('Administrador','E')
 INSERT INTO STRANGER_STRINGS.Rol(Descripcion,Estado)
 VALUES('Afiliado','E')
@@ -383,6 +385,11 @@ INSERT INTO STRANGER_STRINGS.Rol(Descripcion,Estado)
 VALUES('Profesional','E')
 
 --FUNCIONALIDADES X ROL
+INSERT INTO STRANGER_STRINGS.Funcionalidad_X_Rol(Id_Rol,Id_Funcionalidad)
+SELECT r.Id_Rol, f.Id_Funcionalidad
+FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Funcionalidad f
+WHERE r.Descripcion='Administrador General' AND f.Descripcion in ('ABM de Afiliado','ABM de Rol','Registro de Llegada','Listado Estadístico','Compra de Bonos','Solicitar Turno','Cancelar Atención Médica','Cancelar Atención Médica','Registro de Resultado')
+
 INSERT INTO STRANGER_STRINGS.Funcionalidad_X_Rol(Id_Rol,Id_Funcionalidad)
 SELECT r.Id_Rol, f.Id_Funcionalidad
 FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Funcionalidad f
@@ -403,7 +410,7 @@ INSERT INTO STRANGER_STRINGS.Usuario(Usuario,Pasword) VALUES ('admin',HASHBYTES(
 INSERT INTO STRANGER_STRINGS.Rol_X_Usuario (r.Id_Rol,u.Id_Usuario)
 SELECT r.Id_Rol,u.Id_Usuario
 FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Usuario u
-WHERE r.Descripcion IN ('Administrador') AND u.Usuario LIKE 'admin' AND u.Pasword=HASHBYTES('SHA2_256','w23e')
+WHERE r.Descripcion IN ('Administrador General') AND u.Usuario LIKE 'admin' AND u.Pasword=HASHBYTES('SHA2_256','w23e')
 
 
 INSERT INTO STRANGER_STRINGS.Usuario(Usuario,Pasword)
