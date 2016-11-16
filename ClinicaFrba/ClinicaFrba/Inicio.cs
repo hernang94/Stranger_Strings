@@ -124,5 +124,10 @@ namespace ClinicaFrba
                 salida.Append(array[i].ToString("X2"));
             return salida.ToString();
         }
+
+        private void txtContraseña_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -95,11 +95,11 @@ namespace ClinicaFrba.Cancelar_Atencion
             List<SqlParameter> paramList = new List<SqlParameter>();
             if (this.funFake == null)
             {
-                paramList.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Dni)));
+                paramList.Add(new SqlParameter("@Num_Doc", fun.user.getNumeroDoc()));
             }
             else
             {
-                paramList.Add(new SqlParameter("@Num_Doc", int.Parse(funFake.user.Dni)));
+                paramList.Add(new SqlParameter("@Num_Doc", int.Parse(this.funFake.user.Dni)));
             }
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_PEDIR_TURNOS_MEDICO","SP",paramList);
             if (lector.HasRows)

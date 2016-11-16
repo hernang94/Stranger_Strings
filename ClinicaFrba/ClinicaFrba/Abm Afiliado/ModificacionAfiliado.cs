@@ -36,7 +36,6 @@ namespace ClinicaFrba.Abm_Afiliado
             txtTelefono.Text = System.Convert.ToString(paciente.Telefono);
             dtpFechaNac.Value = paciente.Fecha_Nac;
             cbEstadoCivi.Text = paciente.Estado_Civil;
-            dtpFechaNac.Value = ArchivoConfiguracion.Default.FechaActual;
         }
 
         private void btCancelar_Click(object sender, EventArgs e)
@@ -69,6 +68,11 @@ namespace ClinicaFrba.Abm_Afiliado
         {
             Abm_Afiliado.Cambio_De_Plan cp = new Abm_Afiliado.Cambio_De_Plan(fun,paciente);
             cp.Show();
+        }
+
+        private void dtpFechaNac_ValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

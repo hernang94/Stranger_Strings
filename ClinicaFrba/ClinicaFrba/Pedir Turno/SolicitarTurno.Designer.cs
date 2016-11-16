@@ -119,6 +119,7 @@
             this.cbHorariosDisp.Name = "cbHorariosDisp";
             this.cbHorariosDisp.Size = new System.Drawing.Size(121, 21);
             this.cbHorariosDisp.TabIndex = 6;
+            this.cbHorariosDisp.SelectedIndexChanged += new System.EventHandler(this.cbHorariosDisp_SelectedIndexChanged);
             // 
             // lbHorariosDisp
             // 

@@ -62,6 +62,7 @@ namespace ClinicaFrba
 
             if (this.tipo == "seleccion_Especialidad")
             {
+                this.pedir_Especilidades_Profesional();
                 Registro_Resultado.SeleccionEspecialidad seleccion_Especialidad = new Registro_Resultado.SeleccionEspecialidad(this.fun, this.funFake, this.espXmedico);
 
                 seleccion_Especialidad.Show();

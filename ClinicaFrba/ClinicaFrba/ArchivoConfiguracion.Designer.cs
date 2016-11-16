@@ -25,15 +25,6 @@ namespace ClinicaFrba {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data source=ABM-PC\\SQLSERVER2012;")]
-        public string DataSource {
-            get {
-                return ((string)(this["DataSource"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Initial Catalog=GD2C2016;")]
         public string InitialCatalog {
             get {
@@ -65,6 +56,15 @@ namespace ClinicaFrba {
         public global::System.DateTime FechaActual {
             get {
                 return ((global::System.DateTime)(this["FechaActual"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data source=ABM-PC\\SQLSERVER2012;")]
+        public string DataSource {
+            get {
+                return ((string)(this["DataSource"]));
             }
         }
     }

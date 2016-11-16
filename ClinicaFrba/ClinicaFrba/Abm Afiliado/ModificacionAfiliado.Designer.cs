@@ -126,6 +126,7 @@
             this.dtpFechaNac.Name = "dtpFechaNac";
             this.dtpFechaNac.Size = new System.Drawing.Size(100, 20);
             this.dtpFechaNac.TabIndex = 4;
+            this.dtpFechaNac.ValueChanged += new System.EventHandler(this.dtpFechaNac_ValueChanged);
             // 
             // btCambioPlan
             // 

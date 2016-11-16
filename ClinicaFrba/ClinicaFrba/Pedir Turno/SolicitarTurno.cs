@@ -239,5 +239,10 @@ namespace ClinicaFrba.Pedir_Turno
                 lbTurnoSolicitado.Visible = false;
             }
         }
+
+        private void cbHorariosDisp_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

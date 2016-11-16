@@ -280,7 +280,7 @@ namespace ClinicaFrba
         private void pedir_Especilidades_Profesional()
         {
             List<SqlParameter> paramlist = new List<SqlParameter>();
-            paramlist.Add(new SqlParameter("@Num_doc", int.Parse(user.Dni)));
+            paramlist.Add(new SqlParameter("@Num_doc", this.user.getNumeroDoc()));
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_GET_ESPECIALIDADES", "SP", paramlist);
             if (lector.HasRows)
             {

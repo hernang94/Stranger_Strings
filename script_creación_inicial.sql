@@ -419,34 +419,34 @@ FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Usuario u
 WHERE r.Descripcion IN ('Administrador') AND u.Usuario LIKE 'administrativo' AND u.Pasword=HASHBYTES('SHA2_256','admin1234')
 
 INSERT INTO STRANGER_STRINGS.Usuario(Usuario,Pasword)
-SELECT p.Apellido As Usuario, HASHBYTES('SHA2_256',CONVERT(VARCHAR,p.Num_Doc))
+SELECT CONVERT(VARCHAR,p.Num_Doc)+p.Tipo_Doc As Usuario,HASHBYTES('SHA2_256','afiliado')
 FROM STRANGER_STRINGS.Paciente p
 
 UPDATE STRANGER_STRINGS.Paciente
 SET Id_Usuario=
 (SELECT u.Id_Usuario FROM STRANGER_STRINGS.Usuario u
-WHERE u.Pasword=HASHBYTES('SHA2_256',CONVERT(VARCHAR,p.Num_Doc)))
+WHERE u.Usuario=CONVERT(VARCHAR,p.Num_Doc)+p.Tipo_Doc)
 FROM STRANGER_STRINGS.Paciente p
 
 INSERT INTO STRANGER_STRINGS.Rol_X_Usuario(Id_Rol,Id_Usuario)
 SELECT r.Id_Rol,u.Id_Usuario
 FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Usuario u JOIN STRANGER_STRINGS.Paciente p ON(p.Id_Usuario=u.Id_Usuario)
-WHERE r.Descripcion LIKE 'Afiliado' AND u.Usuario=p.Apellido
+WHERE r.Descripcion LIKE 'Afiliado' AND u.Usuario=CONVERT(VARCHAR,p.Num_Doc)+p.Tipo_Doc
 
 INSERT INTO STRANGER_STRINGS.Usuario(Usuario,Pasword)
-SELECT Apellido AS Usuario, HASHBYTES('SHA2_256',CONVERT(VARCHAR,Num_Doc))
+SELECT CONVERT(VARCHAR,Num_Doc)+Tipo_Doc AS Usuario, HASHBYTES('SHA2_256','profesional')
 FROM STRANGER_STRINGS.Medico
 
 UPDATE STRANGER_STRINGS.Medico
 SET Id_Usuario=
 (SELECT u.Id_Usuario FROM STRANGER_STRINGS.Usuario u
-WHERE u.Pasword=HASHBYTES('SHA2_256',CONVERT(VARCHAR,m.Num_Doc)))
+WHERE u.Usuario=CONVERT(VARCHAR,m.Num_Doc)+m.Tipo_Doc)
 FROM STRANGER_STRINGS.Medico m
 
 INSERT INTO STRANGER_STRINGS.Rol_X_Usuario(Id_Rol,Id_Usuario)
 SELECT r.Id_Rol,u.Id_Usuario
 FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Usuario u JOIN STRANGER_STRINGS.Medico m ON(m.Id_Usuario=u.Id_Usuario)
-WHERE r.Descripcion LIKE 'Profesional' AND u.Usuario=m.Apellido
+WHERE r.Descripcion LIKE 'Profesional' AND u.Usuario=CONVERT(VARCHAR,m.Num_Doc)+m.Tipo_Doc
 
 UPDATE STRANGER_STRINGS.Usuario
 SET Cantidad_Intentos=3
@@ -499,7 +499,7 @@ AS
 BEGIN
 IF EXISTS(
 SELECT u.Usuario,u.Pasword
-FROM STRANGER_STRINGS.Usuario u JOIN STRANGER_STRINGS.Rol_X_Usuario r ON(u.Id_Usuario=r.Id_Usuario)
+FROM STRANGER_STRINGS.Usuario u
 WHERE @Usuario=u.Usuario AND HASHBYTES('SHA2_256',@Pass)=u.Pasword)
 SET @Retorno=1
 ELSE
@@ -1771,6 +1771,20 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_OBTENER_PROFESIONAL
 AS
 BEGIN
 SELECT u.Usuario,m.Num_Doc,u.Cantidad_Intentos FROM STRANGER_STRINGS.Medico m JOIN STRANGER_STRINGS.Usuario u ON(m.Id_Usuario=u.Id_Usuario)
-WHERE m.Nombre=@Nombre AND m.Apellido=@Apellido and u.Usuario=@Apellido 
+WHERE m.Nombre=@Nombre AND m.Apellido=@Apellido and u.Usuario=CONVERT(VARCHAR,m.Num_Doc)+m.Tipo_Doc 
+END
+GO
+------------------------------------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_OBTENER_FUNCIONALIDADES')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_OBTENER_FUNCIONALIDADES
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_OBTENER_FUNCIONALIDADES
+AS
+BEGIN
+SELECT Descripcion FROM STRANGER_STRINGS.Funcionalidad
 END
 GO

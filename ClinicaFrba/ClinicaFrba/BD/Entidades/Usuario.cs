@@ -49,5 +49,11 @@ namespace ClinicaFrba.BD
             BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_REINICIAR_INTENTOS","SP", paramlist);
         }
 
+        public int getNumeroDoc()
+        {
+            int tamanioUser = this.Apellido.Length;
+            return int.Parse(this.Apellido.Substring(0, (tamanioUser - 3)));
+        }
+
     }
 }
