@@ -37,7 +37,7 @@ namespace ClinicaFrba.AbmRol
             }
             for (int i = 0; i < roles.Count; i++)
             {
-                if (roles[i].Nombre != "Administrador")
+                if (roles[i].Nombre != "Administrador"&&roles[i].Nombre!="Administrador General")
                 {
                     comboBox1.Items.Add(roles[i].Nombre);
                 }
@@ -52,7 +52,7 @@ namespace ClinicaFrba.AbmRol
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (txNombre.Text == " ")
+            if (txNombre.Text == "")
             {
                 AgregarFuncionalidad agregar = new AgregarFuncionalidad(this,comboBox1.Text);
                 agregar.Show();
@@ -68,7 +68,7 @@ namespace ClinicaFrba.AbmRol
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (txNombre.Text == " ")
+            if (txNombre.Text == "")
             {
                 EliminarFuncionalidad eliminar = new EliminarFuncionalidad(this, comboBox1.Text);
                 eliminar.Show();
