@@ -191,6 +191,8 @@ Id_Horario INT IDENTITY(1,1) PRIMARY KEY,
 Dia SMALLINT,
 Hora_Desde TIME,
 Hora_Hasta TIME,
+Fecha_Valida_Desde DATE,
+Fecha_Valida_Hasta DATE,
 Id_Especialidad_Medico INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Especialidad_X_Medico(Id))
 -----------------------------------------------------------
 CREATE TABLE STRANGER_STRINGS.Bono(
@@ -352,6 +354,20 @@ SET Estado_Civil = 'Soltero/a'
 
 UPDATE STRANGER_STRINGS.Paciente
 SET Familiares_A_Cargo = 0,Num_Afiliado_Raiz = REVERSE(Num_Doc),Num_Afiliado_Resto=01
+
+-----------------------------MIGRACIÓN AGENDA----------------------------------------
+INSERT INTO STRANGER_STRINGS.Horarios_Agenda (Dia,Hora_Hasta,Hora_Desde,Id_Especialidad_Medico)
+SELECT	DATEPART(DW,Turno_Fecha),CAST(MAX(Turno_Fecha) AS TIME(0)),CAST(MIN(Turno_Fecha) AS TIME(0)),exm.Id
+FROM gd_esquema.Maestra esqm, STRANGER_STRINGS.Especialidad_X_Medico exm JOIN STRANGER_STRINGS.Medico m ON(m.Id_Medico=exm.Id_Medico) 
+JOIN STRANGER_STRINGS.Especialidad e ON(e.Especialidad_Codigo=exm.Especialidad_Codigo)
+WHERE esqm.Medico_Nombre=m.Nombre AND esqm.Medico_Apellido=m.Apellido AND e.Especialidad_Descripcion=esqm.Especialidad_Descripcion
+GROUP BY Medico_Nombre,DATEPART(DW,Turno_Fecha),exm.Id,e.Especialidad_Descripcion,m.Nombre
+
+UPDATE STRANGER_STRINGS.Horarios_Agenda
+SET Fecha_Valida_Desde=CONVERT(DATE,'01-01-2015')
+
+UPDATE STRANGER_STRINGS.Horarios_Agenda
+SET Fecha_Valida_Hasta=CONVERT(DATE,'31-12-2015')
 
 ------------------------------------------------ FIN MIGRACION
 
