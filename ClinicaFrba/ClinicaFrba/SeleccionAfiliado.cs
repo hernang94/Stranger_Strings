@@ -46,8 +46,8 @@ namespace ClinicaFrba
             {
                 while (lector.Read())
                 {
-                    user.Apellido = (string)lector["Apellido"];
-                    user.Dni = txtDocumento.Text;
+                    user.UserName = (string)lector["Apellido"];
+                    user.Dni = int.Parse(txtDocumento.Text);
                     user.Cantidad_Intentos = (Int16)lector["Cantidad_Intentos"];
                 }
             }

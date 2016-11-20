@@ -229,11 +229,11 @@
             // 
             // btVolver
             // 
-            this.btVolver.Location = new System.Drawing.Point(228, 327);
+            this.btVolver.Location = new System.Drawing.Point(226, 327);
             this.btVolver.Name = "btVolver";
-            this.btVolver.Size = new System.Drawing.Size(75, 23);
+            this.btVolver.Size = new System.Drawing.Size(105, 23);
             this.btVolver.TabIndex = 2;
-            this.btVolver.Text = "Volver";
+            this.btVolver.Text = "Cerrar sesión";
             this.btVolver.UseVisualStyleBackColor = true;
             this.btVolver.Click += new System.EventHandler(this.btVolver_Click);
             // 

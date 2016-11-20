@@ -27,6 +27,8 @@ namespace ClinicaFrba.Registrar_Agenda_Medico
         private void Registro_Agenda_Load(object sender, EventArgs e)
         {
             obtenerYMostrarProfesionales();
+            dtpFechaDesde.Value = ArchivoConfiguracion.Default.FechaActual;
+            dtpFechaHasta.Value = ArchivoConfiguracion.Default.FechaActual;
         }
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
@@ -88,20 +90,24 @@ namespace ClinicaFrba.Registrar_Agenda_Medico
             {
                 MessageBox.Show("El formato del rango horario deber ser 'HH:00' ó 'HH:30'", "Error formato minutos", MessageBoxButtons.OK);
             }
+            else if (dtpFechaHasta.Value > dtpFechaDesde.Value && dtpHoraHasta.Value > dtpHoraDesde.Value)
+            {
+                MessageBox.Show("La hora/fecha hasta debe ser mayor a hora/fecha desde", "Error", MessageBoxButtons.OK);
+            }
             else
             {
                 BD.Entidades.Profesional prof = obtenerProfesionalDeString(cbProfesionales.Text);
                 List<SqlParameter> paramlist = new List<SqlParameter>();
                 paramlist.Add(new SqlParameter("@Num_Doc", prof.Dni));
                 paramlist.Add(new SqlParameter("@Especialidad_Codigo", obtenerCodigoEspecialidad()));
-                paramlist.Add(new SqlParameter("@Dia_Semana", cbDia.SelectedIndex +1 ));
+                paramlist.Add(new SqlParameter("@Dia_Semana", cbDia.SelectedIndex + 1));
                 paramlist.Add(new SqlParameter("@Hora_Desde", dtpHoraDesde.Value.ToLocalTime()));
                 paramlist.Add(new SqlParameter("@Hora_Hasta", dtpHoraHasta.Value.ToLocalTime()));
                 SqlParameter paramRetAux = new SqlParameter("@Retorno", SqlDbType.Int);
                 paramRetAux.Direction = ParameterDirection.Output;
                 paramlist.Add(paramRetAux);
 
-                switch (BDStranger_Strings.ExecStoredProcedure("STRANGER_STRINGS.SP_ALTA_AGENDA", paramlist) )
+                switch (BDStranger_Strings.ExecStoredProcedure("STRANGER_STRINGS.SP_ALTA_AGENDA", paramlist))
                 {
                     case 0:
                         cbEspecialidad.Items.Clear();
@@ -109,7 +115,7 @@ namespace ClinicaFrba.Registrar_Agenda_Medico
                         reestrablecerHoras();
                         cbProfesionales.Items.Clear();
                         obtenerYMostrarProfesionales();
-                
+
                         lbAgendaRegistrada.Visible = true;
                         timer1.Enabled = true;
                         break;

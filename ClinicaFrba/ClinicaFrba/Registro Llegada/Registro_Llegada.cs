@@ -227,7 +227,7 @@ namespace ClinicaFrba.Registro_Llegada
         }
         private void btRegistrar_Click(object sender, EventArgs e)
         {
-            SeleccionBono sel = new SeleccionBono(obtenerPaciente(),(BD.Entidades.Turno)dtgTurno.CurrentRow.DataBoundItem);
+            SeleccionBono sel = new SeleccionBono(obtenerPaciente(), (BD.Entidades.Turno)dtgTurno.CurrentRow.DataBoundItem, this);
             sel.Show();
         }
 

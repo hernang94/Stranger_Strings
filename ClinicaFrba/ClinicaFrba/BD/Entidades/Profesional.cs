@@ -11,6 +11,5 @@ namespace ClinicaFrba.BD.Entidades
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public decimal Dni { get; set; }
-
     }
 }

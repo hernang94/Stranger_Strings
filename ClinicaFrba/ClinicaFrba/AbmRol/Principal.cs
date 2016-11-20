@@ -12,10 +12,13 @@ namespace ClinicaFrba.AbmRol
 {
     public partial class Principal : Form
     {
-        Funcionalidades fun;
-        public Principal(Funcionalidades fun)
+        public Funcionalidades fun;
+        public string rol;
+
+        public Principal(Funcionalidades fun, string rol)
         {
             this.fun = fun;
+            this.rol = rol;
             InitializeComponent();
         }
 

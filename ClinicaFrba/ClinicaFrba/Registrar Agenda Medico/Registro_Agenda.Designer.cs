@@ -43,6 +43,10 @@
             this.dtpHoraHasta = new System.Windows.Forms.DateTimePicker();
             this.lbAgendaRegistrada = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.lbFechaDesde = new System.Windows.Forms.Label();
+            this.lbFechaHasta = new System.Windows.Forms.Label();
+            this.dtpFechaDesde = new System.Windows.Forms.DateTimePicker();
+            this.dtpFechaHasta = new System.Windows.Forms.DateTimePicker();
             this.SuspendLayout();
             // 
             // label1
@@ -109,7 +113,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(189, 181);
+            this.button1.Location = new System.Drawing.Point(189, 233);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 8;
@@ -119,7 +123,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(43, 181);
+            this.button2.Location = new System.Drawing.Point(43, 233);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 9;
@@ -130,7 +134,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(28, 100);
+            this.label4.Location = new System.Drawing.Point(28, 152);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(62, 13);
             this.label4.TabIndex = 10;
@@ -140,7 +144,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(28, 126);
+            this.label5.Location = new System.Drawing.Point(28, 178);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(59, 13);
             this.label5.TabIndex = 11;
@@ -151,7 +155,7 @@
             this.dtpHoraDesde.CustomFormat = "HH:mm";
             this.dtpHoraDesde.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpHoraDesde.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.dtpHoraDesde.Location = new System.Drawing.Point(166, 94);
+            this.dtpHoraDesde.Location = new System.Drawing.Point(166, 146);
             this.dtpHoraDesde.MaxDate = new System.DateTime(2020, 1, 1, 19, 30, 0, 0);
             this.dtpHoraDesde.MinDate = new System.DateTime(1753, 1, 1, 7, 0, 0, 0);
             this.dtpHoraDesde.Name = "dtpHoraDesde";
@@ -166,7 +170,7 @@
             this.dtpHoraHasta.CustomFormat = "HH:mm";
             this.dtpHoraHasta.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpHoraHasta.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.dtpHoraHasta.Location = new System.Drawing.Point(166, 120);
+            this.dtpHoraHasta.Location = new System.Drawing.Point(166, 172);
             this.dtpHoraHasta.MaxDate = new System.DateTime(2020, 1, 1, 20, 0, 0, 0);
             this.dtpHoraHasta.MinDate = new System.DateTime(1753, 1, 1, 7, 30, 0, 0);
             this.dtpHoraHasta.Name = "dtpHoraHasta";
@@ -180,7 +184,7 @@
             this.lbAgendaRegistrada.AutoSize = true;
             this.lbAgendaRegistrada.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbAgendaRegistrada.ForeColor = System.Drawing.Color.Green;
-            this.lbAgendaRegistrada.Location = new System.Drawing.Point(40, 154);
+            this.lbAgendaRegistrada.Location = new System.Drawing.Point(40, 206);
             this.lbAgendaRegistrada.Name = "lbAgendaRegistrada";
             this.lbAgendaRegistrada.Size = new System.Drawing.Size(233, 16);
             this.lbAgendaRegistrada.TabIndex = 19;
@@ -192,11 +196,49 @@
             this.timer1.Interval = 2000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // lbFechaDesde
+            // 
+            this.lbFechaDesde.AutoSize = true;
+            this.lbFechaDesde.Location = new System.Drawing.Point(28, 100);
+            this.lbFechaDesde.Name = "lbFechaDesde";
+            this.lbFechaDesde.Size = new System.Drawing.Size(69, 13);
+            this.lbFechaDesde.TabIndex = 20;
+            this.lbFechaDesde.Text = "Fecha desde";
+            // 
+            // lbFechaHasta
+            // 
+            this.lbFechaHasta.AutoSize = true;
+            this.lbFechaHasta.Location = new System.Drawing.Point(28, 126);
+            this.lbFechaHasta.Name = "lbFechaHasta";
+            this.lbFechaHasta.Size = new System.Drawing.Size(66, 13);
+            this.lbFechaHasta.TabIndex = 21;
+            this.lbFechaHasta.Text = "Fecha hasta";
+            // 
+            // dtpFechaDesde
+            // 
+            this.dtpFechaDesde.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpFechaDesde.Location = new System.Drawing.Point(166, 94);
+            this.dtpFechaDesde.Name = "dtpFechaDesde";
+            this.dtpFechaDesde.Size = new System.Drawing.Size(121, 20);
+            this.dtpFechaDesde.TabIndex = 22;
+            // 
+            // dtpFechaHasta
+            // 
+            this.dtpFechaHasta.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpFechaHasta.Location = new System.Drawing.Point(166, 120);
+            this.dtpFechaHasta.Name = "dtpFechaHasta";
+            this.dtpFechaHasta.Size = new System.Drawing.Size(121, 20);
+            this.dtpFechaHasta.TabIndex = 23;
+            // 
             // Registro_Agenda
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(317, 220);
+            this.ClientSize = new System.Drawing.Size(317, 267);
+            this.Controls.Add(this.dtpFechaHasta);
+            this.Controls.Add(this.dtpFechaDesde);
+            this.Controls.Add(this.lbFechaHasta);
+            this.Controls.Add(this.lbFechaDesde);
             this.Controls.Add(this.lbAgendaRegistrada);
             this.Controls.Add(this.dtpHoraHasta);
             this.Controls.Add(this.dtpHoraDesde);
@@ -234,5 +276,9 @@
         private System.Windows.Forms.DateTimePicker dtpHoraHasta;
         private System.Windows.Forms.Label lbAgendaRegistrada;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label lbFechaDesde;
+        private System.Windows.Forms.Label lbFechaHasta;
+        private System.Windows.Forms.DateTimePicker dtpFechaDesde;
+        private System.Windows.Forms.DateTimePicker dtpFechaHasta;
     }
 }

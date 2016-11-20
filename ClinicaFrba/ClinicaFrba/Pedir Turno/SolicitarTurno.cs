@@ -65,11 +65,11 @@ namespace ClinicaFrba.Pedir_Turno
                     listParam.Add(new SqlParameter("@Fecha_Turno", Convert.ToDateTime(cbFecha.Text + " " + cbHorariosDisp.Text)));
                     if (funFake == null)
                     {
-                        listParam.Add(new SqlParameter("@Num_Doc_Paciente", int.Parse(fun.user.Dni)));
+                        listParam.Add(new SqlParameter("@Num_Doc_Paciente", fun.user.Dni));
                     }
                     else
                     {
-                        listParam.Add(new SqlParameter("@Num_Doc_Paciente", int.Parse(funFake.user.Dni)));
+                        listParam.Add(new SqlParameter("@Num_Doc_Paciente", funFake.user.Dni));
                     }
                     listParam.Add(new SqlParameter("@Num_Doc_Profesional", prof.Dni));
                     listParam.Add(new SqlParameter("@Especialidad_Codigo", obtenerCodigoEspecialidad()));

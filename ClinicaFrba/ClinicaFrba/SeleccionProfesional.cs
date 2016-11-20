@@ -52,8 +52,8 @@ namespace ClinicaFrba
             {
                 while (lector.Read())
                 {
-                    user.Apellido = (string)lector["Usuario"];
-                    user.Dni = ((decimal)lector["Num_Doc"]).ToString();
+                    user.UserName = (string)lector["Usuario"];
+                    user.Dni = (Convert.ToInt32((decimal)lector["Num_Doc"]));
                     user.Cantidad_Intentos = (Int16)lector["Cantidad_Intentos"];
                 }
             }
@@ -117,7 +117,7 @@ namespace ClinicaFrba
         private void pedir_Especilidades_Profesional()
         {
             List<SqlParameter> paramlist = new List<SqlParameter>();
-            paramlist.Add(new SqlParameter("@Num_doc", int.Parse(user.Dni)));
+            paramlist.Add(new SqlParameter("@Num_doc", user.Dni));
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_GET_ESPECIALIDADES", "SP", paramlist);
             if (lector.HasRows)
             {

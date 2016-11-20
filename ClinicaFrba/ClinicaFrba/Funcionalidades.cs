@@ -82,7 +82,7 @@ namespace ClinicaFrba
 
         private void btABMRol_Click(object sender, EventArgs e)
         {
-            AbmRol.Principal principal = new AbmRol.Principal(this);
+            AbmRol.Principal principal = new AbmRol.Principal(this, cbSeleccionRol.SelectedItem.ToString());
             principal.Show();
             this.Hide();
         }
@@ -105,93 +105,81 @@ namespace ClinicaFrba
 
         private void cbSeleccionRol_SelectedIndexChanged(object sender, EventArgs e)
         {
+            List<SqlParameter> paramlist = new List<SqlParameter>();
+            paramlist.Add(new SqlParameter("@Rol", cbSeleccionRol.SelectedItem));
+            SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_OBTENER_FUNCIONALIDADES_DEL_ROL", "SP", paramlist);
+            if (lector.HasRows)
+            {
+                while (lector.Read())
+                {
+                    string funcionalidad = (string)lector["Descripcion"];
+                    
+                    if (funcionalidad == "ABM de Afiliado")
+                    {
+                        btABMAfiliado.Visible = true;
+                    }
+                    if (funcionalidad == "ABM de Rol")
+                    {
+                        btABMRol.Visible = true;
+                    }
+                    if (funcionalidad == "Compra de Bonos" && cbSeleccionRol.SelectedItem=="Afiliado")
+                    {
+                        btCompraBonoAfiliado.Visible = true;
+                    }
+                    if (funcionalidad == "Compra de Bonos" && (cbSeleccionRol.SelectedItem == "Administrador" ||cbSeleccionRol.SelectedItem == "Administrador General"))
+                    {
+                        btComprarBonoAdmin.Visible = true;
+                    }
+                    if (funcionalidad == "Solicitar Turno")
+                    {
+                        btPedirTurno.Visible = true;
+                    }
+                    if (funcionalidad == "Registro de Llegada")
+                    {
+                        btRegistroLlegada.Visible = true;
+                    }
+                    if (funcionalidad == "Registro de Resultado")
+                    {
+                        btRegistrarResultado.Visible = true;
+                    }
+                    if (funcionalidad == "Cancelar Atención Médica" && cbSeleccionRol.SelectedItem == "Afiliado")
+                    {
+                        btCancelarAtencionAfiliado.Visible = true;
+                    }
+                    if (funcionalidad == "Cancelar Atención Médica" && cbSeleccionRol.SelectedItem == "Profesional")
+                    {
+                        btCancelarAtencionMedico.Visible = true;
+                    }
+                    if (funcionalidad == "Listado Estadístico")
+                    {
+                        btListadoEstadistico.Visible = true;
+                    }
+                }
+            }
             //Selecciono Admin General
             if (cbSeleccionRol.SelectedItem == "Administrador General")
             {
-                btABMRol.Visible = true;
-                btABMAfiliado.Visible = true;
                 btRegistroUsuario.Visible = true;
                 btABMProfesional.Visible = true;
                 btPlan.Visible = true;
                 btRegAgendaProf.Visible = true;
                 btRegAgendaProf.Visible = true;
-                btRegistroLlegada.Visible = true;
                 btEspMedicas.Visible = true;
-                btListadoEstadistico.Visible = true;
-                btComprarBonoAdmin.Visible = true;
 
                 btCancelarAtencionMedico.Visible = true;
-                btRegistrarResultado.Visible = true;
 
                 btCancelarAtencionAfiliado.Visible = true;
-                btPedirTurno.Visible = true;
                 btCompraBonoAfiliado.Visible = true;
             }
             //Selecciono Admin
             if (cbSeleccionRol.SelectedItem=="Administrador")
             {
-                btABMRol.Visible = true;
-                btABMAfiliado.Visible = true;
                 btRegistroUsuario.Visible = true;
                 btABMProfesional.Visible = true;
                 btPlan.Visible = true;
                 btRegAgendaProf.Visible = true;
                 btRegAgendaProf.Visible = true;
-                btRegistroLlegada.Visible = true;
                 btEspMedicas.Visible = true;
-                btListadoEstadistico.Visible = true;
-                btComprarBonoAdmin.Visible = true;
-
-                btCancelarAtencionMedico.Visible = false;
-                btRegistrarResultado.Visible = false;
-
-                btCancelarAtencionAfiliado.Visible = false;
-                btPedirTurno.Visible = false;
-                btCompraBonoAfiliado.Visible = false;
-            }
-            //Selecciono Afiliado
-            else if (cbSeleccionRol.SelectedItem == "Afiliado")
-            {
-                btPedirTurno.Visible = true;
-                btCancelarAtencionAfiliado.Visible = true;
-                btCompraBonoAfiliado.Visible = true;
-
-                btEspMedicas.Visible = false;
-                btABMRol.Visible = false;
-                btABMAfiliado.Visible = false;
-                btRegistroUsuario.Visible = false;
-                btABMProfesional.Visible = false;
-                btPlan.Visible = false;
-                btRegAgendaProf.Visible = false;
-                btRegAgendaProf.Visible = false;
-                btRegistroLlegada.Visible = false;
-                btListadoEstadistico.Visible = false;
-                btComprarBonoAdmin.Visible = false;
-
-                btRegistrarResultado.Visible = false;
-                btCancelarAtencionMedico.Visible = false;
-            }
-            //Selecciono Profesional
-            else if (cbSeleccionRol.SelectedItem == "Profesional")
-            {
-                btCancelarAtencionMedico.Visible = true;
-                btRegistrarResultado.Visible = true;
-
-                btEspMedicas.Visible = false;
-                btPedirTurno.Visible = false;
-                btCompraBonoAfiliado.Visible = false;
-                btCancelarAtencionAfiliado.Visible = false;
-
-                btABMRol.Visible = false;
-                btABMAfiliado.Visible = false;
-                btRegistroUsuario.Visible = false;
-                btABMProfesional.Visible = false;
-                btPlan.Visible = false;
-                btRegAgendaProf.Visible = false;
-                btRegAgendaProf.Visible = false;
-                btRegistroLlegada.Visible = false;
-                btListadoEstadistico.Visible = false;
-                btComprarBonoAdmin.Visible = false;
             }
         }
 
@@ -280,7 +268,7 @@ namespace ClinicaFrba
         private void pedir_Especilidades_Profesional()
         {
             List<SqlParameter> paramlist = new List<SqlParameter>();
-            paramlist.Add(new SqlParameter("@Num_doc", this.user.getNumeroDoc()));
+            paramlist.Add(new SqlParameter("@Num_doc", this.user.Dni));
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_GET_ESPECIALIDADES", "SP", paramlist);
             if (lector.HasRows)
             {

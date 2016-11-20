@@ -15,11 +15,14 @@ namespace ClinicaFrba.Registro_Llegada
     {
         BD.Entidades.Paciente pac;
         BD.Entidades.Turno turno;
+        Registro_Llegada registroLlegada;
         List<BD.Entidades.Bono> bonos = new List<BD.Entidades.Bono>();
-        public SeleccionBono(BD.Entidades.Paciente pac,BD.Entidades.Turno turno)
+
+        public SeleccionBono(BD.Entidades.Paciente pac,BD.Entidades.Turno turno, Registro_Llegada registroLlegada)
         {
             this.pac = pac;
             this.turno = turno;
+            this.registroLlegada = registroLlegada;
             InitializeComponent();
         }
 
@@ -35,7 +38,7 @@ namespace ClinicaFrba.Registro_Llegada
             colNroBono.HeaderText = "Nro Bono";
             colNroBono.Width = 200;
             DataGridViewTextBoxColumn colCodPlan = new DataGridViewTextBoxColumn();
-            colCodPlan.DataPropertyName = "codigo_plan ";
+            colCodPlan.DataPropertyName = "Codigo_Plan";
             colCodPlan.HeaderText = "Codigo de Plan";
             colCodPlan.Width = 200;
             DataGridViewTextBoxColumn colFecha = new DataGridViewTextBoxColumn();
@@ -97,9 +100,17 @@ namespace ClinicaFrba.Registro_Llegada
             paramRet.Direction = ParameterDirection.Output;
             listaParam.Add(paramRet);
             Int32 retorno = BDStranger_Strings.ExecStoredProcedure("STRANGER_STRINGS.SP_CREAR_CONSULTA", listaParam);
-            //falta chequear que pasa si hay un catch y devuelve 0. Si devuelve 1 es al pedo hacer un if porque significa que esta
-            //todo ok y meter el this.close
-            this.Close();
+            if (retorno == 0)
+            {
+                MessageBox.Show("Ha ocurrido un error, la llegada no se pudo registrar. Vuevla a intentarlo.", "Error", MessageBoxButtons.OK);
+                actualizarGrilla();
+            }
+            else
+            {
+                MessageBox.Show("Registro de llegada realizado con éxito.", "Éxito", MessageBoxButtons.OK);
+                registroLlegada.obtenerTurnos();
+                this.Close();
+            }
         }
     }
 

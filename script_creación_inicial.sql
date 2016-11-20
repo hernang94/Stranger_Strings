@@ -531,13 +531,12 @@ DROP PROCEDURE STRANGER_STRINGS.SP_ACTUALIZAR_INTENTOS
 GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_ACTUALIZAR_INTENTOS
-@Usuario varchar(255),
-@Password VARCHAR(255) 
+@Usuario varchar(255)
 AS
 BEGIN
 UPDATE STRANGER_STRINGS.Usuario
 SET Cantidad_Intentos=Cantidad_Intentos-1
-WHERE Usuario=@Usuario AND Pasword=HASHBYTES('SHA2_256',@Password)
+WHERE Usuario=@Usuario
 END
 GO
 -----------------------------------------
@@ -1328,7 +1327,7 @@ WHERE @Num_Doc= Num_Doc
 SELECT t.Turno_Numero, p.Nombre,p.Apellido,p.Num_Doc,t.Turno_Fecha
 		FROM STRANGER_STRINGS.Turno t JOIN STRANGER_STRINGS.Paciente p ON(t.Id_Paciente=p.Id_Paciente)
 		WHERE t.Id_Medico_x_Esp = (SELECT Id FROM STRANGER_STRINGS.Especialidad_X_Medico WHERE Id_Medico=@Id_Medico
-		AND Especialidad_Codigo=@Especialidad_Codigo) AND DATEDIFF(day,t.Turno_Fecha,@Fecha)=0
+		AND Especialidad_Codigo=@Especialidad_Codigo) AND DATEDIFF(day,t.Turno_Fecha,@Fecha)=0 AND t.Id_Consulta IS NULL
 		ORDER BY CONVERT(TIME,t.Turno_Fecha,120) ASC
 END
 GO
@@ -1528,12 +1527,12 @@ GO
 ----------------------------------------
 IF EXISTS(SELECT  *
             FROM    sys.objects
-            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_GET_ESPECIALIDADES_ABM_ROL')
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_GET_ROLES_ABM_ROL')
                     AND type IN ( N'P', N'PC' ) )
-DROP PROCEDURE STRANGER_STRINGS.SP_GET_ESPECIALIDADES_ABM_ROL
+DROP PROCEDURE STRANGER_STRINGS.SP_GET_ROLES_ABM_ROL
 GO
 
-CREATE PROCEDURE STRANGER_STRINGS.SP_GET_ESPECIALIDADES_ABM_ROL
+CREATE PROCEDURE STRANGER_STRINGS.SP_GET_ROLES_ABM_ROL
 AS
 BEGIN
 SELECT Descripcion, Estado FROM STRANGER_STRINGS.Rol

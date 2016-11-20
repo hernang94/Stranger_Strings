@@ -100,11 +100,11 @@ namespace ClinicaFrba.Cancelar_Atencion
             List<SqlParameter> paramList = new List<SqlParameter>();
             if (funFake == null)
             {
-                paramList.Add(new SqlParameter("@num_Doc", int.Parse(fun.user.Dni)));
+                paramList.Add(new SqlParameter("@num_Doc", fun.user.Dni));
             }
             else
             {
-                paramList.Add(new SqlParameter("@num_Doc", int.Parse(funFake.user.Dni)));
+                paramList.Add(new SqlParameter("@num_Doc", funFake.user.Dni));
             }
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_PEDIR_TURNOS_AFILIADO", "SP", paramList);
             if (lector.HasRows)
@@ -128,11 +128,11 @@ namespace ClinicaFrba.Cancelar_Atencion
             paramList.Add(new SqlParameter("@Turno_Fecha", Turno.fecha));
             if (funFake == null)
             {
-                paramList.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Dni)));
+                paramList.Add(new SqlParameter("@Num_Doc", fun.user.Dni));
             }
             else
             {
-                paramList.Add(new SqlParameter("@Num_Doc", int.Parse(funFake.user.Dni)));
+                paramList.Add(new SqlParameter("@Num_Doc", funFake.user.Dni));
             }
             paramList.Add(new SqlParameter("@Apellido_Profesional", Turno.apellido_Prof));
             paramList.Add(new SqlParameter("@Especialidad_Codigo", Turno.codigo));
