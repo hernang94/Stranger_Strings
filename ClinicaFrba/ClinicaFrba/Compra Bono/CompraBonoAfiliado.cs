@@ -62,10 +62,12 @@ namespace ClinicaFrba.Compra_Bono
             if (funFake == null)
             {
                 paramlist.Add(new SqlParameter("@Num_Doc", fun.user.Dni));
+                paramlist.Add(new SqlParameter("@Tipo_Doc", fun.user.Tipo_Doc));
             }
             else
             {
                 paramlist.Add(new SqlParameter("@Num_Doc", funFake.user.Dni));
+                paramlist.Add(new SqlParameter("@Tipo_Doc", funFake.user.Tipo_Doc));
             }
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_BUSCAR_AFILIADO", "SP", paramlist);
 
@@ -100,10 +102,12 @@ namespace ClinicaFrba.Compra_Bono
                 if (funFake == null)
                 {
                     paramlist.Add(new SqlParameter("@Num_Doc", fun.user.Dni));
+                    paramlist.Add(new SqlParameter("@Tipo_Doc", fun.user.Tipo_Doc));
                 }
                 else
                 {
                     paramlist.Add(new SqlParameter("@Num_Doc", funFake.user.Dni));
+                    paramlist.Add(new SqlParameter("@Tipo_Doc", funFake.user.Tipo_Doc));
                 }
                 paramlist.Add(new SqlParameter("@Fecha_Compra", ArchivoConfiguracion.Default.FechaActual));
                 paramlist.Add(new SqlParameter("@Cantidad_Bonos", System.Convert.ToString(nudCantidadBonos.Value)));

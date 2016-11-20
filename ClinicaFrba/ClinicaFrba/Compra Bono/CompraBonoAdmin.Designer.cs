@@ -42,6 +42,8 @@
             this.lbSeleccion = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cbTipoDoc = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudCantidadBonos)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -49,12 +51,14 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbTipoDoc);
+            this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.btVerificarAfiliado);
             this.groupBox1.Controls.Add(this.txtDNI);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(293, 95);
+            this.groupBox1.Size = new System.Drawing.Size(293, 124);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Validación de afiliado";
@@ -62,7 +66,7 @@
             // 
             // btVerificarAfiliado
             // 
-            this.btVerificarAfiliado.Location = new System.Drawing.Point(100, 58);
+            this.btVerificarAfiliado.Location = new System.Drawing.Point(100, 85);
             this.btVerificarAfiliado.Name = "btVerificarAfiliado";
             this.btVerificarAfiliado.Size = new System.Drawing.Size(95, 23);
             this.btVerificarAfiliado.TabIndex = 17;
@@ -72,7 +76,7 @@
             // 
             // txtDNI
             // 
-            this.txtDNI.Location = new System.Drawing.Point(167, 25);
+            this.txtDNI.Location = new System.Drawing.Point(180, 54);
             this.txtDNI.Name = "txtDNI";
             this.txtDNI.Size = new System.Drawing.Size(100, 20);
             this.txtDNI.TabIndex = 16;
@@ -81,7 +85,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 26);
+            this.label1.Location = new System.Drawing.Point(12, 55);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(132, 15);
             this.label1.TabIndex = 15;
@@ -101,7 +105,7 @@
             // 
             // btCancelar
             // 
-            this.btCancelar.Location = new System.Drawing.Point(61, 268);
+            this.btCancelar.Location = new System.Drawing.Point(61, 301);
             this.btCancelar.Name = "btCancelar";
             this.btCancelar.Size = new System.Drawing.Size(75, 23);
             this.btCancelar.TabIndex = 13;
@@ -123,7 +127,7 @@
             // 
             // btComprar
             // 
-            this.btComprar.Location = new System.Drawing.Point(183, 268);
+            this.btComprar.Location = new System.Drawing.Point(183, 301);
             this.btComprar.Name = "btComprar";
             this.btComprar.Size = new System.Drawing.Size(75, 23);
             this.btComprar.TabIndex = 11;
@@ -171,17 +175,39 @@
             this.groupBox2.Controls.Add(this.nudCantidadBonos);
             this.groupBox2.Controls.Add(this.btCalcularPrecio);
             this.groupBox2.Controls.Add(this.lbPrecioTotal);
-            this.groupBox2.Location = new System.Drawing.Point(12, 111);
+            this.groupBox2.Location = new System.Drawing.Point(14, 142);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(293, 142);
             this.groupBox2.TabIndex = 15;
             this.groupBox2.TabStop = false;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(12, 25);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(158, 15);
+            this.label2.TabIndex = 18;
+            this.label2.Text = "Ingrese tipo DNI del Afiliado";
+            // 
+            // cbTipoDoc
+            // 
+            this.cbTipoDoc.FormattingEnabled = true;
+            this.cbTipoDoc.Items.AddRange(new object[] {
+            "DNI",
+            "LC",
+            "LE"});
+            this.cbTipoDoc.Location = new System.Drawing.Point(180, 24);
+            this.cbTipoDoc.Name = "cbTipoDoc";
+            this.cbTipoDoc.Size = new System.Drawing.Size(100, 21);
+            this.cbTipoDoc.TabIndex = 23;
+            // 
             // CompraBonoAdmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(319, 308);
+            this.ClientSize = new System.Drawing.Size(319, 338);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btCancelar);
             this.Controls.Add(this.btComprar);
@@ -213,5 +239,7 @@
         private System.Windows.Forms.Label lbSeleccion;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox cbTipoDoc;
     }
 }

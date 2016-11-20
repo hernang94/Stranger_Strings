@@ -66,12 +66,15 @@ namespace ClinicaFrba.Pedir_Turno
                     if (funFake == null)
                     {
                         listParam.Add(new SqlParameter("@Num_Doc_Paciente", fun.user.Dni));
+                        listParam.Add(new SqlParameter("@Tipo_Doc", fun.user.Tipo_Doc));
                     }
                     else
                     {
                         listParam.Add(new SqlParameter("@Num_Doc_Paciente", funFake.user.Dni));
+                        listParam.Add(new SqlParameter("@Tipo_Doc", funFake.user.Tipo_Doc));
                     }
                     listParam.Add(new SqlParameter("@Num_Doc_Profesional", prof.Dni));
+                    listParam.Add(new SqlParameter("@Tipo_Doc", prof.Tipo_Doc));
                     listParam.Add(new SqlParameter("@Especialidad_Codigo", obtenerCodigoEspecialidad()));
 
                     SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_SOLICITAR_TURNO", "SP", listParam);
@@ -128,6 +131,7 @@ namespace ClinicaFrba.Pedir_Turno
 
             List<SqlParameter> paramlist = new List<SqlParameter>();
             paramlist.Add(new SqlParameter("@Num_Doc", profElegido.Dni));
+            paramlist.Add(new SqlParameter("@Tipo_Doc", profElegido.Tipo_Doc));
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_GET_ESPECIALIDADES", "SP", paramlist);
             if (lector.HasRows)
             {
@@ -154,6 +158,7 @@ namespace ClinicaFrba.Pedir_Turno
                     prof.Nombre = (string)lector["Nombre"];
                     prof.Apellido = (string)lector["Apellido"];
                     prof.Dni = (decimal)lector["Num_Doc"];
+                    prof.Tipo_Doc = (string)lector["Tipo_Doc"];
                     cbProfesionales.Items.Add(prof.Nombre+" "+prof.Apellido);
                     profesionales.Add(prof);
                 }
@@ -167,6 +172,7 @@ namespace ClinicaFrba.Pedir_Turno
 
             List<SqlParameter> listParam = new List<SqlParameter>();
             listParam.Add(new SqlParameter("@Num_Doc", prof.Dni));
+            listParam.Add(new SqlParameter("@Tipo_Doc", prof.Tipo_Doc));
             listParam.Add(new SqlParameter("@Especialidad_Codigo", codigo));
             listParam.Add(new SqlParameter("@Fecha_Actual", ArchivoConfiguracion.Default.FechaActual));
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_OBTENER_FECHAS_FUTURAS", "SP", listParam);
@@ -187,6 +193,7 @@ namespace ClinicaFrba.Pedir_Turno
             List<SqlParameter> listParam = new List<SqlParameter>();
             listParam.Add(new SqlParameter("@Fecha", cbFecha.SelectedItem));
             listParam.Add(new SqlParameter("@Num_Doc", prof.Dni));
+            listParam.Add(new SqlParameter("@Tipo_Doc", prof.Tipo_Doc));
             listParam.Add(new SqlParameter("@Especialidad_Codigo",codigo));
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_HORARIO_DISPONIBLE_PARA_FECHA", "SP", listParam);
             if (lector.HasRows)

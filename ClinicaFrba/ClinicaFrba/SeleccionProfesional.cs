@@ -54,6 +54,7 @@ namespace ClinicaFrba
                 {
                     user.UserName = (string)lector["Usuario"];
                     user.Dni = (Convert.ToInt32((decimal)lector["Num_Doc"]));
+                    user.Tipo_Doc = (string)lector["Tipo_Doc"];
                     user.Cantidad_Intentos = (Int16)lector["Cantidad_Intentos"];
                 }
             }
@@ -88,6 +89,7 @@ namespace ClinicaFrba
                     prof.Nombre = (string)lector["Nombre"];
                     prof.Apellido = (string)lector["Apellido"];
                     prof.Dni = (decimal)lector["Num_Doc"];
+                    prof.Tipo_Doc = (string)lector["Tipo_Doc"];
                     cbProfesionales.Items.Add(prof.Nombre + " " + prof.Apellido);
                     profesionales.Add(prof);
                 }
@@ -118,6 +120,7 @@ namespace ClinicaFrba
         {
             List<SqlParameter> paramlist = new List<SqlParameter>();
             paramlist.Add(new SqlParameter("@Num_doc", user.Dni));
+            paramlist.Add(new SqlParameter("@Tipo_Doc", user.Tipo_Doc));
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_GET_ESPECIALIDADES", "SP", paramlist);
             if (lector.HasRows)
             {

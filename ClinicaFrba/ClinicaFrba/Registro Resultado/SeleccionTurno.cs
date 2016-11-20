@@ -56,10 +56,12 @@ namespace ClinicaFrba.Registro_Resultado
             if (this.selecEsp.funFake == null)
             {
                 paramList.Add(new SqlParameter("@Num_Doc", fun.user.Dni));
+                paramList.Add(new SqlParameter("@Tipo_Doc", fun.user.Tipo_Doc));
             }
             else 
             {
                 paramList.Add(new SqlParameter("@Num_Doc", this.selecEsp.funFake.user.Dni));
+                paramList.Add(new SqlParameter("@Tipo_Doc", this.selecEsp.funFake.user.Tipo_Doc));
             }
             paramList.Add(new SqlParameter("@Especialidad_Codigo", espSeleccionada.Especialidad_Cod));
             paramList.Add(new SqlParameter("@Fecha", Convert.ToDateTime(fecha)));
@@ -81,6 +83,7 @@ namespace ClinicaFrba.Registro_Resultado
             dtgTurnos.Columns["especialidad"].Visible = false;
             dtgTurnos.Columns["id_Consulta"].Visible = false;
             dtgTurnos.Columns["nro"].Visible = false;
+            dtgTurnos.Columns["tipo_Doc"].Visible = false;
             dtgTurnos.Columns["Codigo"].Visible = false;
         }
 

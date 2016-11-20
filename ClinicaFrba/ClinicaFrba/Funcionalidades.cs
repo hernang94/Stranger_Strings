@@ -269,6 +269,7 @@ namespace ClinicaFrba
         {
             List<SqlParameter> paramlist = new List<SqlParameter>();
             paramlist.Add(new SqlParameter("@Num_doc", this.user.Dni));
+            paramlist.Add(new SqlParameter("@Tipo_Doc", this.user.Tipo_Doc));
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_GET_ESPECIALIDADES", "SP", paramlist);
             if (lector.HasRows)
             {

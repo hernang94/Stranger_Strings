@@ -46,6 +46,7 @@ namespace ClinicaFrba.Abm_Afiliado
         {
             List<SqlParameter> listParam = new List<SqlParameter>();
             listParam.Add(new SqlParameter("@Num_Doc", paciente.Num_Doc));
+            listParam.Add(new SqlParameter("@Tipo_Doc", paciente.Tipo_Doc));
             listParam.Add(new SqlParameter("@Motivo", lbMotivo.Text));
             listParam.Add(new SqlParameter("@Descripcion_Plan_Viejo", paciente.PlanMedico));
             listParam.Add(new SqlParameter("@Descripcion_Plan_Nuevo", "Plan Medico "+cbPlanMedico.Text));

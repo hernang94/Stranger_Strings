@@ -13,6 +13,7 @@ namespace ClinicaFrba.BD
         public string UserName { get; set; }
         public string Contraseña { get; set; }
         public int Dni { set; get; }
+        public string Tipo_Doc { set; get; }
         public Int16 Cantidad_Intentos { get; set; }
 
         public Usuario() { }
@@ -32,6 +33,7 @@ namespace ClinicaFrba.BD
             if(UserName!="admin" && UserName!="administrativo")
             {
                 Dni = getNumeroDoc();
+                Tipo_Doc = getTipoDoc();
             }
             Inicio i = new Inicio();
         }
@@ -58,5 +60,10 @@ namespace ClinicaFrba.BD
             return int.Parse(this.UserName.Substring(0, (tamanioUser - 3)));
         }
 
+        public string getTipoDoc()
+        {
+            int tamanioUser = this.UserName.Length;
+            return this.UserName.Substring((tamanioUser - 3), 3);
+        }
     }
 }

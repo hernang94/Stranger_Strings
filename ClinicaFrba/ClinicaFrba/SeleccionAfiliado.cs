@@ -48,6 +48,7 @@ namespace ClinicaFrba
                 {
                     user.UserName = (string)lector["Apellido"];
                     user.Dni = int.Parse(txtDocumento.Text);
+                    user.Tipo_Doc = cbTipoDoc.SelectedItem.ToString();
                     user.Cantidad_Intentos = (Int16)lector["Cantidad_Intentos"];
                 }
             }

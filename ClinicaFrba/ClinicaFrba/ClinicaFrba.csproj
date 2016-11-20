@@ -69,24 +69,6 @@
     <Compile Include="Abm Afiliado\ModificacionAfiliado.Designer.cs">
       <DependentUpon>ModificacionAfiliado.cs</DependentUpon>
     </Compile>
-    <Compile Include="Abm Especialidades Medicas\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Abm Especialidades Medicas\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Abm Planes\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Abm Planes\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Abm Profesional\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Abm Profesional\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="AbmRol\AgregarFuncionalidad.cs">
       <SubType>Form</SubType>
     </Compile>

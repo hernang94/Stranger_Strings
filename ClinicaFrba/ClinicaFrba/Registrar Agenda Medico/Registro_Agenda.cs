@@ -99,6 +99,7 @@ namespace ClinicaFrba.Registrar_Agenda_Medico
                 BD.Entidades.Profesional prof = obtenerProfesionalDeString(cbProfesionales.Text);
                 List<SqlParameter> paramlist = new List<SqlParameter>();
                 paramlist.Add(new SqlParameter("@Num_Doc", prof.Dni));
+                paramlist.Add(new SqlParameter("@Tipo_Doc", prof.Tipo_Doc));
                 paramlist.Add(new SqlParameter("@Especialidad_Codigo", obtenerCodigoEspecialidad()));
                 paramlist.Add(new SqlParameter("@Dia_Semana", cbDia.SelectedIndex + 1));
                 paramlist.Add(new SqlParameter("@Hora_Desde", dtpHoraDesde.Value.ToLocalTime()));
@@ -145,6 +146,7 @@ namespace ClinicaFrba.Registrar_Agenda_Medico
                     prof.Nombre = (string)lector["Nombre"];
                     prof.Apellido = (string)lector["Apellido"];
                     prof.Dni = (decimal)lector["Num_Doc"];
+                    prof.Tipo_Doc = (string)lector["Tipo_Doc"];
                     cbProfesionales.Items.Add(prof.Nombre + " " + prof.Apellido);
                     profesionales.Add(prof);
                 }
@@ -158,6 +160,7 @@ namespace ClinicaFrba.Registrar_Agenda_Medico
 
             List<SqlParameter> paramlist = new List<SqlParameter>();
             paramlist.Add(new SqlParameter("@Num_Doc", profElegido.Dni));
+            paramlist.Add(new SqlParameter("@Tipo_Doc", profElegido.Tipo_Doc));
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_GET_ESPECIALIDADES", "SP", paramlist);
             if (lector.HasRows)
             {
