@@ -66,15 +66,15 @@ namespace ClinicaFrba.Pedir_Turno
                     if (funFake == null)
                     {
                         listParam.Add(new SqlParameter("@Num_Doc_Paciente", fun.user.Dni));
-                        listParam.Add(new SqlParameter("@Tipo_Doc", fun.user.Tipo_Doc));
+                        listParam.Add(new SqlParameter("@Tipo_Doc_Paciente", fun.user.Tipo_Doc));
                     }
                     else
                     {
                         listParam.Add(new SqlParameter("@Num_Doc_Paciente", funFake.user.Dni));
-                        listParam.Add(new SqlParameter("@Tipo_Doc", funFake.user.Tipo_Doc));
+                        listParam.Add(new SqlParameter("@Tipo_Doc_Paciente", funFake.user.Tipo_Doc));
                     }
                     listParam.Add(new SqlParameter("@Num_Doc_Profesional", prof.Dni));
-                    listParam.Add(new SqlParameter("@Tipo_Doc", prof.Tipo_Doc));
+                    listParam.Add(new SqlParameter("@Tipo_Doc_Profesional", prof.Tipo_Doc));
                     listParam.Add(new SqlParameter("@Especialidad_Codigo", obtenerCodigoEspecialidad()));
 
                     SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_SOLICITAR_TURNO", "SP", listParam);

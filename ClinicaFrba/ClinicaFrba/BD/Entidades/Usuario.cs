@@ -12,7 +12,7 @@ namespace ClinicaFrba.BD
     {
         public string UserName { get; set; }
         public string Contraseña { get; set; }
-        public int Dni { set; get; }
+        public decimal Dni { set; get; }
         public string Tipo_Doc { set; get; }
         public Int16 Cantidad_Intentos { get; set; }
 
@@ -54,10 +54,10 @@ namespace ClinicaFrba.BD
             BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_REINICIAR_INTENTOS","SP", paramlist);
         }
 
-        public int getNumeroDoc()
+        public decimal getNumeroDoc()
         {
             int tamanioUser = this.UserName.Length;
-            return int.Parse(this.UserName.Substring(0, (tamanioUser - 3)));
+            return decimal.Parse(this.UserName.Substring(0, (tamanioUser - 3)));
         }
 
         public string getTipoDoc()
