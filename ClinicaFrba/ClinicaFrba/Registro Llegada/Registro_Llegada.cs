@@ -45,6 +45,7 @@ namespace ClinicaFrba.Registro_Llegada
                     prof.Nombre = (string)lector["Nombre"];
                     prof.Apellido = (string)lector["Apellido"];
                     prof.Dni = (decimal)lector["Num_Doc"];
+                    prof.Tipo_Doc = (string)lector["Tipo_Doc"];
                     cbProfesional.Items.Add(prof.Nombre + " " + prof.Apellido);
                     profesionales.Add(prof);
                 }
@@ -60,6 +61,7 @@ namespace ClinicaFrba.Registro_Llegada
 
             List<SqlParameter> paramlist = new List<SqlParameter>();
             paramlist.Add(new SqlParameter("@Num_Doc", profElegido.Dni));
+            paramlist.Add(new SqlParameter("@Tipo_Doc", profElegido.Tipo_Doc));
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_GET_ESPECIALIDADES", "SP", paramlist);
             if (lector.HasRows)
             {
@@ -80,6 +82,7 @@ namespace ClinicaFrba.Registro_Llegada
             BD.Entidades.Profesional prof = obtenerProfesionalDeString(cbProfesional.Text);
             List<SqlParameter> listaParam = new List<SqlParameter>();
             listaParam.Add(new SqlParameter("@Num_Doc", prof.Dni));
+            listaParam.Add(new SqlParameter("@Tipo_Doc", prof.Tipo_Doc));
             listaParam.Add(new SqlParameter("@Especialidad_Codigo", obtenerCodigoEspecialidad()));
             listaParam.Add(new SqlParameter("@Fecha", dateFecha.Value));
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_LISTAR_TURNOS_MEDICO", "SP", listaParam);
@@ -95,6 +98,7 @@ namespace ClinicaFrba.Registro_Llegada
                     pac.Nombre = turno.nombre_Pac;
                     pac.Apellido = turno.apellido_Pac;
                     pac.Num_Doc = (decimal)lector["Num_Doc"];
+                    pac.Tipo_Doc = (string)lector["Tipo_Doc"];
                     turno.fecha = (DateTime)lector["Turno_Fecha"];
                     turnos.Add(turno);
                     pacientes.Add(pac);
@@ -105,6 +109,7 @@ namespace ClinicaFrba.Registro_Llegada
                 dtgTurno.Columns["especialidad"].Visible = false;
                 dtgTurno.Columns["id_Consulta"].Visible = false;
                 dtgTurno.Columns["nro"].Visible = false;
+                dtgTurno.Columns["tipo_Doc"].Visible = false;
                 dtgTurno.Columns["codigo"].Visible = false;
             }
 
@@ -227,7 +232,7 @@ namespace ClinicaFrba.Registro_Llegada
         }
         private void btRegistrar_Click(object sender, EventArgs e)
         {
-            SeleccionBono sel = new SeleccionBono(obtenerPaciente(),(BD.Entidades.Turno)dtgTurno.CurrentRow.DataBoundItem);
+            SeleccionBono sel = new SeleccionBono(obtenerPaciente(), (BD.Entidades.Turno)dtgTurno.CurrentRow.DataBoundItem, this);
             sel.Show();
         }
 

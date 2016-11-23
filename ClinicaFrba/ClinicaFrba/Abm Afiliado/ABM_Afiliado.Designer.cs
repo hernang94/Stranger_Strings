@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.tbABMAfiliado = new System.Windows.Forms.TabControl();
             this.tpAlta = new System.Windows.Forms.TabPage();
+            this.cbTipoDoc = new System.Windows.Forms.ComboBox();
             this.nupCantFamilia = new System.Windows.Forms.NumericUpDown();
             this.cbPlanMedico = new System.Windows.Forms.ComboBox();
             this.btVolver = new System.Windows.Forms.Button();
@@ -56,7 +57,8 @@
             this.button2 = new System.Windows.Forms.Button();
             this.txtBMDoc = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.cbTipoDoc = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cbBMTipoMod = new System.Windows.Forms.ComboBox();
             this.tbABMAfiliado.SuspendLayout();
             this.tpAlta.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nupCantFamilia)).BeginInit();
@@ -101,6 +103,18 @@
             this.tpAlta.Text = "Alta";
             this.tpAlta.UseVisualStyleBackColor = true;
             this.tpAlta.Click += new System.EventHandler(this.tpAlta_Click);
+            // 
+            // cbTipoDoc
+            // 
+            this.cbTipoDoc.FormattingEnabled = true;
+            this.cbTipoDoc.Items.AddRange(new object[] {
+            "DNI",
+            "LC",
+            "LE"});
+            this.cbTipoDoc.Location = new System.Drawing.Point(291, 96);
+            this.cbTipoDoc.Name = "cbTipoDoc";
+            this.cbTipoDoc.Size = new System.Drawing.Size(100, 21);
+            this.cbTipoDoc.TabIndex = 22;
             // 
             // nupCantFamilia
             // 
@@ -235,6 +249,8 @@
             // 
             // tpBajaModif
             // 
+            this.tpBajaModif.Controls.Add(this.cbBMTipoMod);
+            this.tpBajaModif.Controls.Add(this.label1);
             this.tpBajaModif.Controls.Add(this.lbBorradoModificado);
             this.tpBajaModif.Controls.Add(this.lbIngreseNroDoc);
             this.tpBajaModif.Controls.Add(this.button7);
@@ -244,6 +260,7 @@
             this.tpBajaModif.Controls.Add(this.button1);
             this.tpBajaModif.Controls.Add(this.button2);
             this.tpBajaModif.Controls.Add(this.txtBMDoc);
+            this.tpBajaModif.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tpBajaModif.Location = new System.Drawing.Point(4, 22);
             this.tpBajaModif.Name = "tpBajaModif";
             this.tpBajaModif.Padding = new System.Windows.Forms.Padding(3);
@@ -341,7 +358,7 @@
             // 
             this.txtBMDoc.Location = new System.Drawing.Point(264, 69);
             this.txtBMDoc.Name = "txtBMDoc";
-            this.txtBMDoc.Size = new System.Drawing.Size(100, 20);
+            this.txtBMDoc.Size = new System.Drawing.Size(100, 21);
             this.txtBMDoc.TabIndex = 24;
             // 
             // timer1
@@ -349,17 +366,26 @@
             this.timer1.Interval = 5000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // cbTipoDoc
+            // label1
             // 
-            this.cbTipoDoc.FormattingEnabled = true;
-            this.cbTipoDoc.Items.AddRange(new object[] {
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(8, 30);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(249, 15);
+            this.label1.TabIndex = 48;
+            this.label1.Text = "Seleccione el tipo de documento del afiliado";
+            // 
+            // cbBMTipoMod
+            // 
+            this.cbBMTipoMod.FormattingEnabled = true;
+            this.cbBMTipoMod.Items.AddRange(new object[] {
             "DNI",
             "LC",
             "LE"});
-            this.cbTipoDoc.Location = new System.Drawing.Point(291, 96);
-            this.cbTipoDoc.Name = "cbTipoDoc";
-            this.cbTipoDoc.Size = new System.Drawing.Size(100, 21);
-            this.cbTipoDoc.TabIndex = 22;
+            this.cbBMTipoMod.Location = new System.Drawing.Point(264, 27);
+            this.cbBMTipoMod.Name = "cbBMTipoMod";
+            this.cbBMTipoMod.Size = new System.Drawing.Size(100, 23);
+            this.cbBMTipoMod.TabIndex = 49;
             // 
             // Form1
             // 
@@ -411,5 +437,7 @@
         private System.Windows.Forms.Label lbBorradoModificado;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ComboBox cbTipoDoc;
+        private System.Windows.Forms.ComboBox cbBMTipoMod;
+        private System.Windows.Forms.Label label1;
     }
 }

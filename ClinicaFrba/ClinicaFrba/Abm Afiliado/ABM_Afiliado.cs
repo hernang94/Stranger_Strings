@@ -221,9 +221,9 @@ namespace ClinicaFrba.Abm_Afiliado
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             List<BD.Entidades.Paciente> listaPaciente = new List<BD.Entidades.Paciente>();
-            if (txtBMDoc.Text == "")
+            if (txtBMDoc.Text == "" || cbBMTipoMod.SelectedIndex == -1)
             {
-                MessageBox.Show("Debe ingresar un número de documento.", "Error", MessageBoxButtons.OK);
+                MessageBox.Show("Debe seleccionar e ingresar tipo y número de documento.", "Error", MessageBoxButtons.OK);
             }
             else
             {
@@ -231,6 +231,7 @@ namespace ClinicaFrba.Abm_Afiliado
                 crearGrilla();
                 List<SqlParameter> paramlist = new List<SqlParameter>();
                 paramlist.Add(new SqlParameter("@Num_Doc", int.Parse(txtBMDoc.Text)));
+                paramlist.Add(new SqlParameter("@Tipo_Doc", cbTipoDoc.SelectedItem));
                 SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_BUSCAR_AFILIADO", "SP", paramlist);
                 if (lector.HasRows)
                 {
@@ -277,6 +278,7 @@ namespace ClinicaFrba.Abm_Afiliado
            {
                List<SqlParameter> paramlist = new List<SqlParameter>();
                paramlist.Add(new SqlParameter("@Num_Doc", txtBMDoc.Text));
+               paramlist.Add(new SqlParameter("@Tipo_Doc", cbBMTipoMod.SelectedItem));
                paramlist.Add(new SqlParameter("@Fecha_Baja", ArchivoConfiguracion.Default.FechaActual));
                SqlParameter paramRetAux = new SqlParameter("@Retorno", SqlDbType.Int);
                paramRetAux.Direction = ParameterDirection.Output;
@@ -294,6 +296,7 @@ namespace ClinicaFrba.Abm_Afiliado
                {
                    paramlist.Clear();
                    paramlist.Add(new SqlParameter("@Num_Doc", txtBMDoc.Text));
+                   paramlist.Add(new SqlParameter("@Tipo_Doc", cbBMTipoMod.SelectedItem));
                    paramlist.Add(new SqlParameter("@Fecha_Baja", ArchivoConfiguracion.Default.FechaActual));
                    paramlist.Add(paramRetAux);
                    BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_BAJA_AFILIADO", "SP", paramlist);
@@ -322,10 +325,6 @@ namespace ClinicaFrba.Abm_Afiliado
        {
            Abm_Afiliado.ModificacionAfiliado mod = new Abm_Afiliado.ModificacionAfiliado(fun, paciente, lbBorradoModificado, timer1, dtgCliente);
            mod.Show();
-
-           //MessageBox.Show("Modifique el campo que desee y luego haga 'Enter' para realizar la modificación.", "Instrucciones de modificado", MessageBoxButtons.OK);
-           //dtgCliente.EditMode = DataGridViewEditMode.EditOnEnter;
-
        }
 
        private void txtNroDoc_TextChanged(object sender, EventArgs e)

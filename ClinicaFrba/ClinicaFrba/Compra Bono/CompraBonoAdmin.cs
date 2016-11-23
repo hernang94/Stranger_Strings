@@ -33,6 +33,7 @@ namespace ClinicaFrba.Compra_Bono
         {
             List<SqlParameter> paramlist = new List<SqlParameter>();
             paramlist.Add(new SqlParameter("@Num_Doc",decimal.Parse(txtDNI.Text)));
+            paramlist.Add(new SqlParameter("@Tipo_Doc", cbTipoDoc.SelectedItem));
             SqlParameter paramRet = new SqlParameter("@Retorno", SqlDbType.Int);
             paramRet.Direction = ParameterDirection.Output;
             paramlist.Add(paramRet);
@@ -59,6 +60,7 @@ namespace ClinicaFrba.Compra_Bono
         {
             List<SqlParameter> paramlist = new List<SqlParameter>();
             paramlist.Add(new SqlParameter("@Num_Doc", paciente.Num_Doc));
+            paramlist.Add(new SqlParameter("@Tipo_Doc", paciente.Tipo_Doc));
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_BUSCAR_AFILIADO", "SP", paramlist);
 
             if (lector.HasRows)
@@ -96,6 +98,7 @@ namespace ClinicaFrba.Compra_Bono
             {
                 List<SqlParameter> paramlist = new List<SqlParameter>();
                 paramlist.Add(new SqlParameter("@Num_Doc", paciente.Num_Doc));
+                paramlist.Add(new SqlParameter("@Tipo_Doc", paciente.Tipo_Doc));
                 paramlist.Add(new SqlParameter("@Fecha_Compra", ArchivoConfiguracion.Default.FechaActual));
                 paramlist.Add(new SqlParameter("@Cantidad_Bonos", System.Convert.ToString(nudCantidadBonos.Value)));
 

@@ -187,6 +187,8 @@ Id_Horario INT IDENTITY(1,1) PRIMARY KEY,
 Dia SMALLINT,
 Hora_Desde TIME,
 Hora_Hasta TIME,
+Fecha_Valida_Desde DATE,
+Fecha_Valida_Hasta DATE,
 Id_Especialidad_Medico INT FOREIGN KEY REFERENCES STRANGER_STRINGS.Especialidad_X_Medico(Id))
 -----------------------------------------------------------
 CREATE TABLE STRANGER_STRINGS.Bono(
@@ -346,6 +348,20 @@ SET Estado_Civil = 'Soltero/a'
 UPDATE STRANGER_STRINGS.Paciente
 SET Familiares_A_Cargo = 0,Num_Afiliado_Raiz = REVERSE(Num_Doc),Num_Afiliado_Resto=01
 
+-----------------------------MIGRACIÓN AGENDA----------------------------------------
+INSERT INTO STRANGER_STRINGS.Horarios_Agenda (Dia,Hora_Hasta,Hora_Desde,Id_Especialidad_Medico)
+SELECT	DATEPART(DW,Turno_Fecha),CAST(MAX(Turno_Fecha) AS TIME(0)),CAST(MIN(Turno_Fecha) AS TIME(0)),exm.Id
+FROM gd_esquema.Maestra esqm, STRANGER_STRINGS.Especialidad_X_Medico exm JOIN STRANGER_STRINGS.Medico m ON(m.Id_Medico=exm.Id_Medico) 
+JOIN STRANGER_STRINGS.Especialidad e ON(e.Especialidad_Codigo=exm.Especialidad_Codigo)
+WHERE esqm.Medico_Nombre=m.Nombre AND esqm.Medico_Apellido=m.Apellido AND e.Especialidad_Descripcion=esqm.Especialidad_Descripcion
+GROUP BY Medico_Nombre,DATEPART(DW,Turno_Fecha),exm.Id,e.Especialidad_Descripcion,m.Nombre
+
+UPDATE STRANGER_STRINGS.Horarios_Agenda
+SET Fecha_Valida_Desde=CONVERT(DATE,'01-01-2015')
+
+UPDATE STRANGER_STRINGS.Horarios_Agenda
+SET Fecha_Valida_Hasta=CONVERT(DATE,'31-12-2015')
+
 ------------------------------------------------ FIN MIGRACION
 
 --SETEO DE USUARIOS, ROLES y FUNCIONALIDADES
@@ -412,34 +428,34 @@ FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Usuario u
 WHERE r.Descripcion IN ('Administrador') AND u.Usuario LIKE 'administrativo' AND u.Pasword=HASHBYTES('SHA2_256','admin1234')
 
 INSERT INTO STRANGER_STRINGS.Usuario(Usuario,Pasword)
-SELECT p.Apellido As Usuario, HASHBYTES('SHA2_256',CONVERT(VARCHAR,p.Num_Doc))
+SELECT CONVERT(VARCHAR,p.Num_Doc)+p.Tipo_Doc As Usuario,HASHBYTES('SHA2_256','afiliado')
 FROM STRANGER_STRINGS.Paciente p
 
 UPDATE STRANGER_STRINGS.Paciente
 SET Id_Usuario=
 (SELECT u.Id_Usuario FROM STRANGER_STRINGS.Usuario u
-WHERE u.Pasword=HASHBYTES('SHA2_256',CONVERT(VARCHAR,p.Num_Doc)))
+WHERE u.Usuario=CONVERT(VARCHAR,p.Num_Doc)+p.Tipo_Doc)
 FROM STRANGER_STRINGS.Paciente p
 
 INSERT INTO STRANGER_STRINGS.Rol_X_Usuario(Id_Rol,Id_Usuario)
 SELECT r.Id_Rol,u.Id_Usuario
 FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Usuario u JOIN STRANGER_STRINGS.Paciente p ON(p.Id_Usuario=u.Id_Usuario)
-WHERE r.Descripcion LIKE 'Afiliado' AND u.Usuario=p.Apellido
+WHERE r.Descripcion LIKE 'Afiliado' AND u.Usuario=CONVERT(VARCHAR,p.Num_Doc)+p.Tipo_Doc
 
 INSERT INTO STRANGER_STRINGS.Usuario(Usuario,Pasword)
-SELECT Apellido AS Usuario, HASHBYTES('SHA2_256',CONVERT(VARCHAR,Num_Doc))
+SELECT CONVERT(VARCHAR,Num_Doc)+Tipo_Doc AS Usuario, HASHBYTES('SHA2_256','profesional')
 FROM STRANGER_STRINGS.Medico
 
 UPDATE STRANGER_STRINGS.Medico
 SET Id_Usuario=
 (SELECT u.Id_Usuario FROM STRANGER_STRINGS.Usuario u
-WHERE u.Pasword=HASHBYTES('SHA2_256',CONVERT(VARCHAR,m.Num_Doc)))
+WHERE u.Usuario=CONVERT(VARCHAR,m.Num_Doc)+m.Tipo_Doc)
 FROM STRANGER_STRINGS.Medico m
 
 INSERT INTO STRANGER_STRINGS.Rol_X_Usuario(Id_Rol,Id_Usuario)
 SELECT r.Id_Rol,u.Id_Usuario
 FROM STRANGER_STRINGS.Rol r,STRANGER_STRINGS.Usuario u JOIN STRANGER_STRINGS.Medico m ON(m.Id_Usuario=u.Id_Usuario)
-WHERE r.Descripcion LIKE 'Profesional' AND u.Usuario=m.Apellido
+WHERE r.Descripcion LIKE 'Profesional' AND u.Usuario=CONVERT(VARCHAR,m.Num_Doc)+m.Tipo_Doc
 
 UPDATE STRANGER_STRINGS.Usuario
 SET Cantidad_Intentos=3
@@ -481,7 +497,7 @@ AS
 BEGIN
 IF EXISTS(
 SELECT u.Usuario,u.Pasword
-FROM STRANGER_STRINGS.Usuario u JOIN STRANGER_STRINGS.Rol_X_Usuario r ON(u.Id_Usuario=r.Id_Usuario)
+FROM STRANGER_STRINGS.Usuario u
 WHERE @Usuario=u.Usuario AND HASHBYTES('SHA2_256',@Pass)=u.Pasword)
 SET @Retorno=1
 ELSE
@@ -497,13 +513,12 @@ DROP PROCEDURE STRANGER_STRINGS.SP_ACTUALIZAR_INTENTOS
 GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_ACTUALIZAR_INTENTOS
-@Usuario varchar(255),
-@Password VARCHAR(255) 
+@Usuario varchar(255)
 AS
 BEGIN
 UPDATE STRANGER_STRINGS.Usuario
 SET Cantidad_Intentos=Cantidad_Intentos-1
-WHERE Usuario=@Usuario AND Pasword=HASHBYTES('SHA2_256',@Password)
+WHERE Usuario=@Usuario
 END
 GO
 -----------------------------------------
@@ -555,12 +570,13 @@ DROP PROCEDURE STRANGER_STRINGS.SP_GET_ESPECIALIDADES
 GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_GET_ESPECIALIDADES
-@Num_Doc NUMERIC(18,0)
+@Num_Doc NUMERIC(18,0),
+@Tipo_Doc VARCHAR(255)
 AS
 BEGIN
 SELECT e.Especialidad_Codigo,e.Especialidad_Descripcion,m.Apellido,m.Nombre 
 	FROM STRANGER_STRINGS.Medico m, STRANGER_STRINGS.Especialidad e, STRANGER_STRINGS.Especialidad_X_Medico exm
-	WHERE m.Num_Doc=@Num_Doc AND m.Id_Medico=exm.Id_Medico AND e.Especialidad_Codigo=exm.Especialidad_Codigo
+	WHERE m.Num_Doc=@Num_Doc AND m.Tipo_Doc=@Tipo_Doc AND m.Id_Medico=exm.Id_Medico AND e.Especialidad_Codigo=exm.Especialidad_Codigo 
 END
 GO
 
@@ -573,13 +589,14 @@ DROP PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNOS_AFILIADO
 GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNOS_AFILIADO
-@Num_Doc NUMERIC(18,0)
+@Num_Doc NUMERIC(18,0),
+@Tipo_Doc VARCHAR(255)
 AS
 BEGIN 
 SELECT t.Turno_Numero,t.Turno_Fecha,m.Apellido,e.Especialidad_Descripcion,e.Especialidad_Codigo
 FROM STRANGER_STRINGS.Turno t JOIN STRANGER_STRINGS.Paciente p ON (p.Id_Paciente=t.Id_Paciente),STRANGER_STRINGS.Medico m ,
 STRANGER_STRINGS.Especialidad e
-WHERE p.Num_Doc = @Num_Doc 
+WHERE p.Num_Doc = @Num_Doc AND p.Tipo_Doc = @Tipo_Doc
 AND m.Id_Medico=(SELECT Id_Medico FROM STRANGER_STRINGS.Especialidad_X_Medico es WHERE es.Id=t.Id_Medico_x_Esp) 
 AND e.Especialidad_Codigo=(SELECT es.Especialidad_Codigo FROM STRANGER_STRINGS.Especialidad_X_Medico es WHERE es.Id=t.Id_Medico_x_Esp)
 AND t.Id_Cancelacion IS NULL
@@ -594,11 +611,12 @@ DROP PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNOS_MEDICO
 GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNOS_MEDICO
-@Num_Doc NUMERIC (18,0)
+@Num_Doc NUMERIC (18,0),
+@Tipo_Doc VARCHAR(255)
 AS
 BEGIN
 SELECT t.Turno_Fecha FROM (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
-WHERE m.Num_Doc=@Num_Doc) AS TablaAux, STRANGER_STRINGS.Turno t
+WHERE m.Num_Doc=@Num_Doc AND m.Tipo_Doc=@Tipo_Doc) AS TablaAux, STRANGER_STRINGS.Turno t
 WHERE TablaAux.Id=t.Id_Medico_x_Esp
 END
 GO
@@ -615,6 +633,7 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_CANCELAR_TURNO_AFILIADO
 --Variables que manda la app
 @Turno_Fecha DATETIME,
 @Num_Doc NUMERIC(18,0),
+@Tipo_Doc VARCHAR(255),
 @Apellido_Profesional VARCHAR(255),
 @Especialidad_Codigo NUMERIC(18,0),
 @Tipo_Cancelacion CHAR(1),
@@ -622,7 +641,7 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_CANCELAR_TURNO_AFILIADO
 AS
 BEGIN
 --Variables necesarias para realizar la cancelación
-DECLARE @Id_Paciente INT= (SELECT Id_Paciente FROM STRANGER_STRINGS.Paciente WHERE Num_Doc=@Num_Doc)
+DECLARE @Id_Paciente INT= (SELECT Id_Paciente FROM STRANGER_STRINGS.Paciente WHERE Num_Doc=@Num_Doc AND Tipo_Doc=@Tipo_Doc)
 DECLARE @Id_Profesional INT= (SELECT m.Id_Medico FROM STRANGER_STRINGS.Medico m WHERE m.Apellido=@Apellido_Profesional AND m.Id_Medico in(SELECT e.Id_Medico FROM STRANGER_STRINGS.Especialidad_X_Medico e WHERE e.Especialidad_Codigo=@Especialidad_Codigo))
 DECLARE @Id_Insert INT
 INSERT INTO STRANGER_STRINGS.Cancelacion_Turno(Tipo_Cancelacion,Motivo)
@@ -646,6 +665,7 @@ GO
 CREATE PROCEDURE STRANGER_STRINGS.SP_CANCELAR_TURNOS_DIA_PROFESIONAL
 @Turno_Fecha DATETIME,
 @Num_Doc NUMERIC(18,0),
+@Tipo_Doc VARCHAR(255),
 @Tipo_Cancelacion CHAR(1),
 @Motivo VARCHAR(225)
 AS
@@ -657,13 +677,13 @@ SET @Id_Insert= SCOPE_IDENTITY()
 UPDATE STRANGER_STRINGS.Turno
 SET Id_Cancelacion=@Id_Insert
 WHERE Id_Medico_x_Esp IN (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
-WHERE m.Num_Doc=@Num_Doc) AND DATEDIFF(dd,Turno_Fecha,@Turno_Fecha)=0
+WHERE m.Num_Doc=@Num_Doc AND m.Tipo_Doc=@Tipo_Doc) AND DATEDIFF(dd,Turno_Fecha,@Turno_Fecha)=0
 UPDATE STRANGER_STRINGS.Turno
 SET Id_Horario=NULL
 WHERE Id_Medico_x_Esp IN (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
-WHERE m.Num_Doc=@Num_Doc) AND DATEDIFF(dd,Turno_Fecha,@Turno_Fecha)=0
+WHERE m.Num_Doc=@Num_Doc AND m.Tipo_Doc=@Tipo_Doc) AND DATEDIFF(dd,Turno_Fecha,@Turno_Fecha)=0
 INSERT INTO STRANGER_STRINGS.Registro_Cancelacion_Medico(Id_Med,Dia_Desde,Dia_Hasta) 
-VALUES ((SELECT Id_Medico FROM STRANGER_STRINGS.Medico WHERE Num_Doc=@Num_Doc),@Turno_Fecha,@Turno_Fecha)
+VALUES ((SELECT Id_Medico FROM STRANGER_STRINGS.Medico WHERE Num_Doc=@Num_Doc AND Tipo_Doc=@Tipo_Doc),@Turno_Fecha,@Turno_Fecha)
 END
 GO
 -----------------------------------------
@@ -679,6 +699,7 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_CANCELAR_TURNOS_RANGO_PROFESIONAL
 @Tipo_Cancelacion CHAR(1),
 @Motivo VARCHAR(225),
 @Num_Doc NUMERIC(18,0),
+@Tipo_Doc VARCHAR(255),
 @Especialidad_Codigo NUMERIC(18,0),
 @Fecha_Desde DATETIME,
 @Fecha_Hasta DATETIME
@@ -691,13 +712,13 @@ SET @Id_Insert= SCOPE_IDENTITY()
 UPDATE STRANGER_STRINGS.Turno
 SET Id_Cancelacion=@Id_Insert
 WHERE Id_Medico_x_Esp IN (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
-WHERE m.Num_Doc=@Num_Doc) AND Turno_Fecha BETWEEN @Fecha_Desde AND @Fecha_Hasta
+WHERE m.Num_Doc=@Num_Doc AND m.Tipo_Doc=@Tipo_Doc) AND Turno_Fecha BETWEEN @Fecha_Desde AND @Fecha_Hasta
 UPDATE STRANGER_STRINGS.Turno
 SET Id_Horario=NULL
 WHERE Id_Medico_x_Esp IN (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
-WHERE m.Num_Doc=@Num_Doc) AND Turno_Fecha BETWEEN  @Fecha_Desde AND @Fecha_Hasta
+WHERE m.Num_Doc=@Num_Doc AND m.Tipo_Doc=@Tipo_Doc) AND Turno_Fecha BETWEEN  @Fecha_Desde AND @Fecha_Hasta
 INSERT INTO STRANGER_STRINGS.Registro_Cancelacion_Medico(Id_Med,Dia_Desde,Dia_Hasta) 
-VALUES ((SELECT Id_Medico FROM STRANGER_STRINGS.Medico WHERE Num_Doc=@Num_Doc),@Fecha_Desde,@Fecha_Hasta)
+VALUES ((SELECT Id_Medico FROM STRANGER_STRINGS.Medico WHERE Num_Doc=@Num_Doc AND Tipo_Doc=@Tipo_Doc),@Fecha_Desde,@Fecha_Hasta)
 END
 GO
 -----------------------------------------
@@ -709,12 +730,13 @@ DROP PROCEDURE STRANGER_STRINGS.SP_BUSCAR_AFILIADO
 GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_BUSCAR_AFILIADO
-@Num_Doc NUMERIC(18,0)
+@Num_Doc NUMERIC(18,0),
+@Tipo_Doc VARCHAR(255)
 AS
 BEGIN 
 SELECT p.Nombre, p.Apellido, p.Tipo_Doc, p.Num_Doc, p.Direccion, p.Telefono, p.Mail, p.Fecha_Nac, p.Sexo, p.Estado_Civil,p.Familiares_A_Cargo, pm.Descripcion 
 FROM STRANGER_STRINGS.Paciente p JOIN STRANGER_STRINGS.Plan_Medico pm ON(p.Codigo_Plan=pm.Codigo_Plan)
-WHERE p.Num_Doc=@Num_Doc AND p.Estado_Afiliado!='D'
+WHERE p.Num_Doc=@Num_Doc AND p.Tipo_Doc=@Tipo_Doc AND p.Estado_Afiliado!='D'
 END 
 GO
 -----------------------------------------
@@ -727,13 +749,14 @@ GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_BAJA_AFILIADO
 @Num_Doc NUMERIC(18,0),
+@Tipo_Doc VARCHAR(255),
 @Fecha_Baja DATETIME,
 @Retorno INT OUTPUT
 AS
 BEGIN
-DECLARE @Id_Paciente INT = (SELECT p.Id_Paciente FROM STRANGER_STRINGS.Paciente p WHERE p.Num_Doc=@Num_Doc)
+DECLARE @Id_Paciente INT = (SELECT p.Id_Paciente FROM STRANGER_STRINGS.Paciente p WHERE p.Num_Doc=@Num_Doc AND p.Tipo_Doc=@Tipo_Doc)
 IF NOT EXISTS(SELECT * FROM STRANGER_STRINGS.Paciente p
-			WHERE p.Num_Doc=@Num_Doc)
+			WHERE p.Num_Doc=@Num_Doc AND p.Tipo_Doc=@Tipo_Doc)
 			BEGIN
 SET @Retorno=-1-- Paciente no existe
 RETURN
@@ -745,7 +768,7 @@ RETURN
 END
 UPDATE STRANGER_STRINGS.Paciente
 SET Estado_Afiliado = 'D'
-WHERE Num_Doc=@Num_Doc
+WHERE Num_Doc=@Num_Doc AND Tipo_Doc=@Tipo_Doc
 INSERT INTO STRANGER_STRINGS.Baja_Paciente(Id_Paciente,Fecha_Baja)
 VALUES (@Id_Paciente,@Fecha_Baja)
 DELETE FROM STRANGER_STRINGS.Turno
@@ -777,7 +800,7 @@ AS
 BEGIN
 UPDATE STRANGER_STRINGS.Paciente
 SET Direccion=@Direccion,Telefono=@Telefono,Mail=@Mail,Fecha_Nac=@Fecha_Nac,Estado_Civil=@Estado_Civil
-WHERE Num_Doc=@Num_Doc
+WHERE Num_Doc=@Num_Doc AND Tipo_Doc=@Tipo_Doc
 END 
 GO
 -----------------------------------------
@@ -813,6 +836,7 @@ GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNO_MEDICO_FECHA
 @Num_Doc INT,
+@Tipo_Doc VARCHAR(255),
 @Especialidad_Codigo NUMERIC(18,0),
 @Fecha DATETIME
 AS
@@ -821,7 +845,7 @@ SELECT t.Turno_Fecha,p.Nombre,p.Apellido,t.Id_Consulta
 		FROM STRANGER_STRINGS.Turno t JOIN STRANGER_STRINGS.Paciente p ON (p.Id_Paciente=t.Id_Paciente)
 		WHERE t.Id_Medico_x_Esp=(SELECT es.Id FROM STRANGER_STRINGS.Especialidad_X_Medico es 
 												WHERE @Especialidad_Codigo=es.Especialidad_Codigo AND es.Id_Medico=(SELECT m.Id_Medico 
-												FROM STRANGER_STRINGS.Medico m WHERE m.Num_Doc=@Num_Doc))
+												FROM STRANGER_STRINGS.Medico m WHERE m.Num_Doc=@Num_Doc AND m.Tipo_Doc=@Tipo_Doc))
 		AND DATEDIFF(day,t.Turno_Fecha,@Fecha)=0
 END
 GO
@@ -836,12 +860,13 @@ GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_CAMBIO_PLAN
 @Num_Doc NUMERIC(18,0),
+@Tipo_Doc VARCHAR(255),
 @Motivo VARCHAR(255),
 @Descripcion_Plan_Viejo VARCHAR(30),
 @Descripcion_Plan_Nuevo VARCHAR(30)
 AS
 BEGIN
-DECLARE @Id_Afiliado INT= (SELECT p.Id_Paciente FROM STRANGER_STRINGS.Paciente p WHERE p.Num_Doc=@Num_Doc)
+DECLARE @Id_Afiliado INT= (SELECT p.Id_Paciente FROM STRANGER_STRINGS.Paciente p WHERE p.Num_Doc=@Num_Doc AND p.Tipo_Doc=@Tipo_Doc)
 DECLARE @Id_Plan_Viejo INT= (SELECT Codigo_Plan FROM STRANGER_STRINGS.Plan_Medico WHERE Descripcion=@Descripcion_Plan_Viejo)
 DECLARE @Id_Plan_Nuevo INT= (SELECT Codigo_Plan FROM STRANGER_STRINGS.Plan_Medico WHERE Descripcion=@Descripcion_Plan_Nuevo)
 INSERT INTO STRANGER_STRINGS.Cambio_Plan (Id_Paciente,Motivo,Codigo_Plan_Viejo,Codigo_Plan_Nuevo)
@@ -862,6 +887,7 @@ GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_ALTA_AGENDA
 @Num_Doc NUMERIC(18,0),
+@Tipo_Doc VARCHAR(255),
 @Especialidad_Codigo NUMERIC(18,0),
 @Dia_Semana SMALLINT,
 @Hora_Desde DATETIME,
@@ -869,7 +895,7 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_ALTA_AGENDA
 @Retorno INT OUTPUT
 AS
 BEGIN
-DECLARE @Id_Medico INT= (SELECT Id_Medico FROM STRANGER_STRINGS.Medico WHERE Num_Doc=@Num_Doc)
+DECLARE @Id_Medico INT= (SELECT Id_Medico FROM STRANGER_STRINGS.Medico WHERE Num_Doc=@Num_Doc AND Tipo_Doc=@Tipo_Doc)
 DECLARE @Id_Medico_X_Especialidad INT= (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em 
 JOIN STRANGER_STRINGS.Especialidad e ON(em.Especialidad_Codigo=e.Especialidad_Codigo)
 WHERE em.Id_Medico=@Id_Medico AND e.Especialidad_Codigo=@Especialidad_Codigo)
@@ -905,14 +931,16 @@ GO
 CREATE PROCEDURE STRANGER_STRINGS.SP_SOLICITAR_TURNO
 @Fecha_Turno DATETIME,
 @Num_Doc_Paciente NUMERIC(18,0),
+@Tipo_Doc_Paciente VARCHAR(255),
 @Num_Doc_Profesional NUMERIC(18,0),
+@Tipo_Doc_Profesional VARCHAR(255),
 @Especialidad_Codigo NUMERIC(18,0)
 AS
 BEGIN
-DECLARE @Id_Paciente INT = STRANGER_STRINGS.FX_OBTENER_ID_PACIENTE(@Num_Doc_Paciente)
+DECLARE @Id_Paciente INT = STRANGER_STRINGS.FX_OBTENER_ID_PACIENTE(@Num_Doc_Paciente, @Tipo_Doc_Paciente)
 DECLARE @Id_Medico_X_Especialidad INT = (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em 
 JOIN STRANGER_STRINGS.Especialidad e ON(em.Especialidad_Codigo=e.Especialidad_Codigo) JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
-WHERE m.Num_Doc=@Num_Doc_Profesional AND e.Especialidad_Codigo=@Especialidad_Codigo)
+WHERE m.Num_Doc=@Num_Doc_Profesional AND m.Tipo_Doc=@Tipo_Doc_Profesional AND e.Especialidad_Codigo=@Especialidad_Codigo)
 INSERT INTO STRANGER_STRINGS.Turno(Id_Paciente,Id_Medico_x_Esp,Turno_Fecha,Id_Horario)
 VALUES(@Id_Paciente,@Id_Medico_X_Especialidad,@Fecha_Turno,
 (SELECT a.Id_Horario FROM STRANGER_STRINGS.Horarios_Agenda a 
@@ -946,7 +974,7 @@ GO
 CREATE PROCEDURE STRANGER_STRINGS.SP_OBTENER_MEDICOS
 AS
 BEGIN
-SELECT m.Nombre, m.Apellido, m.Num_Doc FROM STRANGER_STRINGS.Medico m 
+SELECT m.Nombre, m.Apellido, m.Num_Doc, m.Tipo_Doc FROM STRANGER_STRINGS.Medico m 
 END
 GO
 -----------------------------------------
@@ -960,13 +988,14 @@ GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_OBTENER_HORARIOS
 @Num_Doc NUMERIC(18,0),
+@Tipo_Doc VARCHAR(255),
 @Especialidad_Codigo NUMERIC(18,0),
 @Fecha DATETIME
 AS
 BEGIN
 DECLARE @Id_Medico_X_Especialidad INT = (SELECT em.Id FROM STRANGER_STRINGS.Especialidad_X_Medico em 
 JOIN STRANGER_STRINGS.Especialidad e ON(em.Especialidad_Codigo=e.Especialidad_Codigo) JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
-WHERE m.Num_Doc=@Num_Doc AND e.Especialidad_Codigo=@Especialidad_Codigo)
+WHERE m.Num_Doc=@Num_Doc AND m.Tipo_Doc=@Tipo_Doc AND e.Especialidad_Codigo=@Especialidad_Codigo)
 END
 GO
 
@@ -1107,11 +1136,13 @@ GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_COMPRA_BONOS
 @Num_Doc NUMERIC(18,0),
+@Tipo_Doc VARCHAR(255),
 @Fecha_Compra DATETIME,
 @Cantidad_Bonos INT
 AS
 BEGIN
-DECLARE @Id_Paciente INT = STRANGER_STRINGS.FX_OBTENER_ID_PACIENTE(@Num_Doc)
+DECLARE @Id_Paciente INT
+SET @Id_Paciente = STRANGER_STRINGS.FX_OBTENER_ID_PACIENTE(@Num_Doc, @Tipo_Doc)
 DECLARE @Codigo_Plan INT = (SELECT Codigo_Plan FROM STRANGER_STRINGS.Paciente WHERE Id_Paciente=@Id_Paciente)
 DECLARE @Precio_Bono INT = (SELECT Precio_Bono_Consulta FROM STRANGER_STRINGS.Plan_Medico WHERE Codigo_Plan=@Codigo_Plan)
 DECLARE @Contador INT=0
@@ -1226,12 +1257,12 @@ IF EXISTS(SELECT *
 DROP FUNCTION STRANGER_STRINGS.FX_OBTENER_ID_PACIENTE
 GO
 
-CREATE FUNCTION STRANGER_STRINGS.FX_OBTENER_ID_PACIENTE(@Num_Doc NUMERIC(18,0))
+CREATE FUNCTION STRANGER_STRINGS.FX_OBTENER_ID_PACIENTE(@Num_Doc NUMERIC(18,0), @Tipo_Doc VARCHAR(255))
 RETURNS INT
 AS
 BEGIN
 DECLARE @Id_Paciente INT
-SET @Id_Paciente=(SELECT Id_Paciente FROM STRANGER_STRINGS.Paciente WHERE Num_Doc=@Num_Doc)
+SET @Id_Paciente=(SELECT Id_Paciente FROM STRANGER_STRINGS.Paciente WHERE Num_Doc=@Num_Doc AND Tipo_Doc=@Tipo_Doc)
 RETURN @Id_Paciente
 END
 GO
@@ -1280,6 +1311,7 @@ DROP PROCEDURE STRANGER_STRINGS.SP_LISTAR_TURNOS_MEDICO
 GO
 CREATE PROCEDURE STRANGER_STRINGS.SP_LISTAR_TURNOS_MEDICO
 @Num_Doc NUMERIC(18,0),
+@Tipo_Doc VARCHAR(255),
 @Especialidad_Codigo NUMERIC(18,0),
 @Fecha DATETIME
 AS
@@ -1287,11 +1319,11 @@ BEGIN
 DECLARE @Id_Medico INT
 SELECT @Id_Medico=Id_Medico
 FROM STRANGER_STRINGS.Medico
-WHERE @Num_Doc= Num_Doc
-SELECT t.Turno_Numero, p.Nombre,p.Apellido,p.Num_Doc,t.Turno_Fecha
+WHERE @Num_Doc= Num_Doc AND Tipo_Doc=@Tipo_Doc
+SELECT t.Turno_Numero, p.Nombre,p.Apellido,p.Num_Doc,p.Tipo_Doc,t.Turno_Fecha
 		FROM STRANGER_STRINGS.Turno t JOIN STRANGER_STRINGS.Paciente p ON(t.Id_Paciente=p.Id_Paciente)
 		WHERE t.Id_Medico_x_Esp = (SELECT Id FROM STRANGER_STRINGS.Especialidad_X_Medico WHERE Id_Medico=@Id_Medico
-		AND Especialidad_Codigo=@Especialidad_Codigo) AND DATEDIFF(day,t.Turno_Fecha,@Fecha)=0
+		AND Especialidad_Codigo=@Especialidad_Codigo) AND DATEDIFF(day,t.Turno_Fecha,@Fecha)=0 AND t.Id_Consulta IS NULL
 		ORDER BY CONVERT(TIME,t.Turno_Fecha,120) ASC
 END
 GO
@@ -1344,13 +1376,14 @@ GO
 CREATE PROCEDURE STRANGER_STRINGS.SP_CREAR_CONSULTA
 @Fecha DATETIME,
 @Num_Doc NUMERIC(18,0),
+@Tipo_Doc VARCHAR(255),
 @Nro_Turno INT,
 @Id_Bono INT,
 @Retorno INT OUTPUT
 AS
 BEGIN
 DECLARE @Id_Paciente INT
-SET @Id_Paciente = STRANGER_STRINGS.FX_OBTENER_ID_PACIENTE(@Num_Doc)
+SET @Id_Paciente = STRANGER_STRINGS.FX_OBTENER_ID_PACIENTE(@Num_Doc, @Tipo_Doc)
 DECLARE @Nro_Raiz_Paciente NUMERIC(20,0)=(SELECT Num_Afiliado_Raiz FROM STRANGER_STRINGS.Paciente WHERE Id_Paciente = @Id_Paciente)
 DECLARE @Cod_Plan_Paciente INT= (SELECT Codigo_Plan FROM STRANGER_STRINGS.Paciente WHERE Id_Paciente=@Id_Paciente)
 
@@ -1424,12 +1457,13 @@ GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_OBTENER_FECHAS_FUTURAS
 @Num_Doc NUMERIC(18,0),
+@Tipo_Doc VARCHAR(255),
 @Especialidad_Codigo NUMERIC(18,0),
 @Fecha_Actual DATETIME
 AS
 BEGIN
 CREATE TABLE #Fechas_Futuras(Fecha DATE)
-DECLARE @Id_Medico INT = (SELECT Id_Medico FROM STRANGER_STRINGS.Medico WHERE Num_Doc=@Num_Doc)
+DECLARE @Id_Medico INT = (SELECT Id_Medico FROM STRANGER_STRINGS.Medico WHERE Num_Doc=@Num_Doc AND Tipo_Doc=@Tipo_Doc)
 DECLARE @Id_Medico_Esp INT = (SELECT Id FROM STRANGER_STRINGS.Especialidad_X_Medico 
 							WHERE Id_Medico=@Id_Medico AND Especialidad_Codigo=@Especialidad_Codigo)
 DECLARE @Fecha DATE,@Contador INT = 30,@iterador INT =0
@@ -1456,13 +1490,14 @@ GO
 CREATE PROCEDURE STRANGER_STRINGS.SP_HORARIO_DISPONIBLE_PARA_FECHA
 @Fecha DATETIME,
 @Num_Doc INT,
+@Tipo_Doc VARCHAR(255),
 @Especialidad_Codigo NUMERIC(18,0)
 AS
 BEGIN
 DECLARE @Hora_Desde TIME,@Hora_Hasta TIME, @Id_Med_Esp INT,@Cantidad_Turnos INT,@Iterador INT=0,@Hora TIME,@Fecha_Completa DATETIME
 SELECT @Id_Med_Esp=Id
 FROM STRANGER_STRINGS.Especialidad_X_Medico es JOIN STRANGER_STRINGS.Medico m ON(m.Id_Medico=es.Id_Medico)
-WHERE m.Num_Doc=@Num_Doc AND es.Especialidad_Codigo=@Especialidad_Codigo
+WHERE m.Num_Doc=@Num_Doc AND m.Tipo_Doc=@Tipo_Doc AND es.Especialidad_Codigo=@Especialidad_Codigo
 
 SELECT @Hora_Desde=h.Hora_Desde,@Hora_Hasta=h.Hora_Hasta
 FROM STRANGER_STRINGS.Horarios_Agenda h
@@ -1491,12 +1526,12 @@ GO
 ----------------------------------------
 IF EXISTS(SELECT  *
             FROM    sys.objects
-            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_GET_ESPECIALIDADES_ABM_ROL')
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_GET_ROLES_ABM_ROL')
                     AND type IN ( N'P', N'PC' ) )
-DROP PROCEDURE STRANGER_STRINGS.SP_GET_ESPECIALIDADES_ABM_ROL
+DROP PROCEDURE STRANGER_STRINGS.SP_GET_ROLES_ABM_ROL
 GO
 
-CREATE PROCEDURE STRANGER_STRINGS.SP_GET_ESPECIALIDADES_ABM_ROL
+CREATE PROCEDURE STRANGER_STRINGS.SP_GET_ROLES_ABM_ROL
 AS
 BEGIN
 SELECT Descripcion, Estado FROM STRANGER_STRINGS.Rol
@@ -1653,10 +1688,12 @@ GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_MOSTRAR_BONOS_PACIENTE
 @Num_Doc NUMERIC (18,0),
+@Tipo_Doc VARCHAR(255),
 @Retorno INT OUTPUT
 AS
 BEGIN
-DECLARE @Id_Paciente INT = STRANGER_STRINGS.FX_OBTENER_ID_PACIENTE(@Num_Doc)
+DECLARE @Id_Paciente INT 
+SET @Id_Paciente = STRANGER_STRINGS.FX_OBTENER_ID_PACIENTE(@Num_Doc, @Tipo_Doc)
 DECLARE @Num_Afiliado_Raiz NUMERIC(20,0),@Cod_Plan INT
 
 SELECT @Num_Afiliado_Raiz=Num_Afiliado_Raiz, @Cod_Plan=Codigo_Plan
@@ -1686,10 +1723,11 @@ GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_VALIDAR_AFILIADO
 @Num_Doc NUMERIC(18,0),
+@Tipo_Doc VARCHAR(255),
 @Retorno INT OUTPUT
 AS
 BEGIN
-IF EXISTS(SELECT * FROM STRANGER_STRINGS.Paciente WHERE @Num_Doc=Num_Doc)
+IF EXISTS(SELECT * FROM STRANGER_STRINGS.Paciente WHERE @Num_Doc=Num_Doc AND Tipo_Doc=@Tipo_Doc)
 BEGIN
 SET @Retorno=1 --Existe el afiliado
 RETURN
@@ -1728,12 +1766,12 @@ GO
 
 CREATE PROCEDURE STRANGER_STRINGS.SP_OBTENER_AFILIADO
 @Num_Doc NUMERIC(18,0),
-@Tipo VARCHAR(10)
+@Tipo_Doc VARCHAR(10)
 AS
 BEGIN
-SELECT p.Apellido, p.Num_Doc, u.Cantidad_Intentos
+SELECT p.Apellido, p.Num_Doc, p.Tipo_Doc, u.Cantidad_Intentos
 FROM STRANGER_STRINGS.Paciente p JOIN STRANGER_STRINGS.Usuario u on(u.Id_Usuario=p.Id_Usuario) 
-WHERE p.Num_Doc=@Num_Doc AND p.Tipo_Doc=@Tipo AND u.Pasword=HASHBYTES('SHA2_256',CONVERT(VARCHAR,p.Num_Doc))
+WHERE p.Num_Doc=@Num_Doc AND p.Tipo_Doc=@Tipo_Doc
 END
 GO
 ------------------------------------------------------------------
@@ -1749,7 +1787,21 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_OBTENER_PROFESIONAL
 @Apellido VARCHAR(255)
 AS
 BEGIN
-SELECT u.Usuario,m.Num_Doc,u.Cantidad_Intentos FROM STRANGER_STRINGS.Medico m JOIN STRANGER_STRINGS.Usuario u ON(m.Id_Usuario=u.Id_Usuario)
-WHERE m.Nombre=@Nombre AND m.Apellido=@Apellido and u.Usuario=@Apellido 
+SELECT u.Usuario,m.Num_Doc,m.Tipo_Doc,u.Cantidad_Intentos FROM STRANGER_STRINGS.Medico m JOIN STRANGER_STRINGS.Usuario u ON(m.Id_Usuario=u.Id_Usuario)
+WHERE m.Nombre=@Nombre AND m.Apellido=@Apellido and u.Usuario=CONVERT(VARCHAR,m.Num_Doc)+m.Tipo_Doc 
+END
+GO
+------------------------------------------------------------------
+IF EXISTS(SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'STRANGER_STRINGS.SP_OBTENER_FUNCIONALIDADES')
+                    AND type IN ( N'P', N'PC' ) )
+DROP PROCEDURE STRANGER_STRINGS.SP_OBTENER_FUNCIONALIDADES
+GO
+
+CREATE PROCEDURE STRANGER_STRINGS.SP_OBTENER_FUNCIONALIDADES
+AS
+BEGIN
+SELECT Descripcion FROM STRANGER_STRINGS.Funcionalidad
 END
 GO

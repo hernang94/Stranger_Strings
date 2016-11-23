@@ -52,8 +52,9 @@ namespace ClinicaFrba
             {
                 while (lector.Read())
                 {
-                    user.Apellido = (string)lector["Usuario"];
-                    user.Dni = ((decimal)lector["Num_Doc"]).ToString();
+                    user.UserName = (string)lector["Usuario"];
+                    user.Dni = (Convert.ToInt32((decimal)lector["Num_Doc"]));
+                    user.Tipo_Doc = (string)lector["Tipo_Doc"];
                     user.Cantidad_Intentos = (Int16)lector["Cantidad_Intentos"];
                 }
             }
@@ -62,6 +63,7 @@ namespace ClinicaFrba
 
             if (this.tipo == "seleccion_Especialidad")
             {
+                this.pedir_Especilidades_Profesional();
                 Registro_Resultado.SeleccionEspecialidad seleccion_Especialidad = new Registro_Resultado.SeleccionEspecialidad(this.fun, this.funFake, this.espXmedico);
 
                 seleccion_Especialidad.Show();
@@ -87,6 +89,7 @@ namespace ClinicaFrba
                     prof.Nombre = (string)lector["Nombre"];
                     prof.Apellido = (string)lector["Apellido"];
                     prof.Dni = (decimal)lector["Num_Doc"];
+                    prof.Tipo_Doc = (string)lector["Tipo_Doc"];
                     cbProfesionales.Items.Add(prof.Nombre + " " + prof.Apellido);
                     profesionales.Add(prof);
                 }
@@ -116,7 +119,8 @@ namespace ClinicaFrba
         private void pedir_Especilidades_Profesional()
         {
             List<SqlParameter> paramlist = new List<SqlParameter>();
-            paramlist.Add(new SqlParameter("@Num_doc", int.Parse(user.Dni)));
+            paramlist.Add(new SqlParameter("@Num_doc", user.Dni));
+            paramlist.Add(new SqlParameter("@Tipo_Doc", user.Tipo_Doc));
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_GET_ESPECIALIDADES", "SP", paramlist);
             if (lector.HasRows)
             {

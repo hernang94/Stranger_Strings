@@ -88,6 +88,7 @@
             this.txtContraseña.Size = new System.Drawing.Size(145, 20);
             this.txtContraseña.TabIndex = 4;
             this.txtContraseña.UseSystemPasswordChar = true;
+            this.txtContraseña.TextChanged += new System.EventHandler(this.txtContraseña_TextChanged);
             // 
             // btIniciarSesión
             // 

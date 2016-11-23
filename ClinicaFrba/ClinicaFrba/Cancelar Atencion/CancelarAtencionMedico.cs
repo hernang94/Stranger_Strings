@@ -59,11 +59,13 @@ namespace ClinicaFrba.Cancelar_Atencion
                 paramList.Add(new SqlParameter("@Turno_Fecha", monthCalendar1.SelectionRange.Start));
                 if (this.funFake == null)
                 {
-                    paramList.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Dni)));
+                    paramList.Add(new SqlParameter("@Num_Doc", fun.user.Dni));
+                    paramList.Add(new SqlParameter("@Tipo_Doc", fun.user.Tipo_Doc));
                 }
                 else
                 {
-                    paramList.Add(new SqlParameter("@Num_Doc", int.Parse(funFake.user.Dni)));
+                    paramList.Add(new SqlParameter("@Num_Doc", funFake.user.Dni));
+                    paramList.Add(new SqlParameter("@Tipo_Doc", funFake.user.Tipo_Doc));
                 }
                 paramList.Add(new SqlParameter("@Tipo_Cancelacion", 'M'));
                 paramList.Add(new SqlParameter("@Motivo", txtMotivo.Text));
@@ -76,11 +78,13 @@ namespace ClinicaFrba.Cancelar_Atencion
                 paramList.Add(new SqlParameter("@Motivo", txtMotivo.Text));
                 if (this.funFake == null)
                 {
-                    paramList.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Dni)));
+                    paramList.Add(new SqlParameter("@Num_Doc", fun.user.Dni));
+                    paramList.Add(new SqlParameter("@Tipo_Doc", fun.user.Tipo_Doc));
                 }
                 else
                 {
-                    paramList.Add(new SqlParameter("@Num_Doc", int.Parse(funFake.user.Dni)));
+                    paramList.Add(new SqlParameter("@Num_Doc", funFake.user.Dni));
+                    paramList.Add(new SqlParameter("@Tipo_Doc", funFake.user.Tipo_Doc));
                 }               
                 paramList.Add(new SqlParameter("@Fecha_Desde", dtpFechaDesde.Value));
                 paramList.Add(new SqlParameter("@Fecha_Hasta", dtpFechaHasta.Value));
@@ -95,11 +99,13 @@ namespace ClinicaFrba.Cancelar_Atencion
             List<SqlParameter> paramList = new List<SqlParameter>();
             if (this.funFake == null)
             {
-                paramList.Add(new SqlParameter("@Num_Doc", int.Parse(fun.user.Dni)));
+                paramList.Add(new SqlParameter("@Num_Doc", fun.user.Dni));
+                paramList.Add(new SqlParameter("@Tipo_Doc", fun.user.Tipo_Doc));
             }
             else
             {
-                paramList.Add(new SqlParameter("@Num_Doc", int.Parse(funFake.user.Dni)));
+                paramList.Add(new SqlParameter("@Num_Doc", this.funFake.user.Dni));
+                paramList.Add(new SqlParameter("@Tipo_Doc", this.funFake.user.Tipo_Doc));
             }
             SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_PEDIR_TURNOS_MEDICO","SP",paramList);
             if (lector.HasRows)

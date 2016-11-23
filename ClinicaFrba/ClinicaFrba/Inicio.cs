@@ -44,7 +44,7 @@ namespace ClinicaFrba
                     paramRetAux.Direction = ParameterDirection.Output;
                     paramlist.Add(paramRetAux);
                     //Encontro usuario? ------------------------------------------------------------
-                    if (user.Apellido != null)
+                    if (user.UserName != null)
                     {
                         if (BDStranger_Strings.ExecStoredProcedure("STRANGER_STRINGS.SP_LOGIN",paramlist)==0)
                         {
@@ -61,15 +61,15 @@ namespace ClinicaFrba
                         else
                         {
                             // Está activo?
+                            user.Contraseña = txtContraseña.Text;
                             if (user.Cantidad_Intentos <= 0)
                                 MessageBox.Show("Usuario inactivo para acceder al sistema", "Error!", MessageBoxButtons.OK);
                             else
                             {
-                                user.Dni = txtContraseña.Text;
-                                user.ReiniciarCantidadIntentos(txtContraseña.Text);
+                                user.ReiniciarCantidadIntentos();
                                 List<SqlParameter> paramlistaux = new List<SqlParameter>();
-                                paramlistaux.Add(new SqlParameter("@Usuario", user.Apellido));
-                                paramlistaux.Add(new SqlParameter("@Pass", user.Dni));
+                                paramlistaux.Add(new SqlParameter("@Usuario", user.UserName));
+                                paramlistaux.Add(new SqlParameter("@Pass", user.Contraseña));
                                 SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_GET_ROLES", "SP", paramlistaux);
 
                                 List<BD.Entidades.Rol> rolesXusario = new List<BD.Entidades.Rol>();
@@ -123,6 +123,11 @@ namespace ClinicaFrba
             for (int i = 0; i < array.Length; i++)
                 salida.Append(array[i].ToString("X2"));
             return salida.ToString();
+        }
+
+        private void txtContraseña_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

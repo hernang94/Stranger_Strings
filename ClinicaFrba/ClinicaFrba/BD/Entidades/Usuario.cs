@@ -10,8 +10,10 @@ namespace ClinicaFrba.BD
 {
     public class Usuario
     {
-        public string Apellido { get; set; }
-        public string Dni { set; get; }
+        public string UserName { get; set; }
+        public string Contraseña { get; set; }
+        public decimal Dni { set; get; }
+        public string Tipo_Doc { set; get; }
         public Int16 Cantidad_Intentos { get; set; }
 
         public Usuario() { }
@@ -25,8 +27,13 @@ namespace ClinicaFrba.BD
             if (lector.HasRows)
             {
                 lector.Read();
-                Apellido = user;
+                UserName = user;
                 Cantidad_Intentos = (Int16)lector["Cantidad_Intentos"];
+            }
+            if(UserName!="admin" && UserName!="administrativo")
+            {
+                Dni = getNumeroDoc();
+                Tipo_Doc = getTipoDoc();
             }
             Inicio i = new Inicio();
         }
@@ -35,19 +42,28 @@ namespace ClinicaFrba.BD
         public void DescontarIntento()
         {
             List<SqlParameter> paramlist = new List<SqlParameter>();
-            paramlist.Add(new SqlParameter("@Usuario", Apellido));
-            paramlist.Add(new SqlParameter("@Password", Dni));
+            paramlist.Add(new SqlParameter("@Usuario", UserName));
             BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_ACTUALIZAR_INTENTOS","SP", paramlist);
         }
 
-        public void ReiniciarCantidadIntentos(String dni)
+        public void ReiniciarCantidadIntentos()
         {
-            this.Dni = dni;
             List<SqlParameter> paramlist = new List<SqlParameter>();
-            paramlist.Add(new SqlParameter("@Usuario", Apellido));
-            paramlist.Add(new SqlParameter("@Password", Dni));
+            paramlist.Add(new SqlParameter("@Usuario", UserName));
+            paramlist.Add(new SqlParameter("@Password", Contraseña));
             BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_REINICIAR_INTENTOS","SP", paramlist);
         }
 
+        public decimal getNumeroDoc()
+        {
+            int tamanioUser = this.UserName.Length;
+            return decimal.Parse(this.UserName.Substring(0, (tamanioUser - 3)));
+        }
+
+        public string getTipoDoc()
+        {
+            int tamanioUser = this.UserName.Length;
+            return this.UserName.Substring((tamanioUser - 3), 3);
+        }
     }
 }
