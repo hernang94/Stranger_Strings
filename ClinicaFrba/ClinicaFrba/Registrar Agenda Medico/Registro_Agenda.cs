@@ -102,6 +102,8 @@ namespace ClinicaFrba.Registrar_Agenda_Medico
                 paramlist.Add(new SqlParameter("@Tipo_Doc", prof.Tipo_Doc));
                 paramlist.Add(new SqlParameter("@Especialidad_Codigo", obtenerCodigoEspecialidad()));
                 paramlist.Add(new SqlParameter("@Dia_Semana", cbDia.SelectedIndex + 1));
+                paramlist.Add(new SqlParameter("@Fecha_Desde", dtpFechaDesde.Value));
+                paramlist.Add(new SqlParameter("@Fecha_Hasta", dtpFechaHasta.Value));
                 paramlist.Add(new SqlParameter("@Hora_Desde", dtpHoraDesde.Value.ToLocalTime()));
                 paramlist.Add(new SqlParameter("@Hora_Hasta", dtpHoraHasta.Value.ToLocalTime()));
                 SqlParameter paramRetAux = new SqlParameter("@Retorno", SqlDbType.Int);
