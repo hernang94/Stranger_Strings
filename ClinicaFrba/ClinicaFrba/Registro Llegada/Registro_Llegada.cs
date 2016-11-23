@@ -168,6 +168,7 @@ namespace ClinicaFrba.Registro_Llegada
 
         private void cbProfesional_SelectedIndexChanged(object sender, EventArgs e)
         {
+            cbEspecialidad.ResetText();
             cbEspecialidad.SelectedItem = null;
             cbEspecialidad.Items.Clear();
             

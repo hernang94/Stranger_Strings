@@ -44,6 +44,7 @@ namespace ClinicaFrba.Pedir_Turno
         
         private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
         {
+            cbHorariosDisp.ResetText();
             cbHorariosDisp.Items.Clear();
             obtenerYMostrarHorarios();
         }
@@ -82,6 +83,10 @@ namespace ClinicaFrba.Pedir_Turno
                     lbTurnoSolicitado.Visible = true;
                     timer1.Enabled = true;
                     limpiarCBs();
+                    cbProfesionales.ResetText();
+                    cbEspecialidad.ResetText();
+                    cbFecha.ResetText();
+                    cbHorariosDisp.ResetText();
                 }
                 else 
                 {
@@ -108,14 +113,19 @@ namespace ClinicaFrba.Pedir_Turno
  
         private void cbEspecialidad_SelectedIndexChanged(object sender, EventArgs e)
         {
+            cbFecha.ResetText();
+            cbHorariosDisp.ResetText();
             cbFecha.Items.Clear();
             obtenerYMostrarFechas();
         }
 
         private void cbProfesionales_SelectedIndexChanged(object sender, EventArgs e)
         {
+            cbEspecialidad.ResetText();
             cbEspecialidad.Items.Clear();
+            cbFecha.ResetText();
             cbFecha.Items.Clear();
+            cbHorariosDisp.ResetText();
             cbHorariosDisp.Items.Clear();
             obtenerYMostrarEspecialidades();
             if (cbEspecialidad.Items.Count == 1)

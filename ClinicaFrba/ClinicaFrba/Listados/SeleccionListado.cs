@@ -191,38 +191,46 @@ namespace ClinicaFrba.Listados
 
         private void btAceptar_Click(object sender, EventArgs e)
         {
-            switch(cbListado.SelectedIndex)
+            dtgListado.DataSource = null;
+            if (cbListado.SelectedIndex == -1 || cbAño.SelectedIndex == -1 || cbSemestre.SelectedIndex == -1)
             {
-                case 0: 
-                    crearGrillaTOP5Cancelaciones();
-                    BD.Entidades.TOP5Cancelaciones cancelaciones = new BD.Entidades.TOP5Cancelaciones();
-                    List<BD.Entidades.TOP5Cancelaciones> listaTOP5Cancelaciones = cancelaciones.obtenerLista(this);
-                    dtgListado.DataSource = listaTOP5Cancelaciones;
-                    break;
-                case 1:
-                    crearGrillaTOP5Consultados();
-                    BD.Entidades.TOP5ProfConsultados consultados = new BD.Entidades.TOP5ProfConsultados();
-                    List<BD.Entidades.TOP5ProfConsultados> listaTOP5Consultados = consultados.obtenerLista(this);
-                    dtgListado.DataSource = listaTOP5Consultados;
-                    break;
-                case 2:
-                    crearGrillaTOP5ProfMenosHoras();
-                    BD.Entidades.TOP5ProfMenosHoras menosHoras = new BD.Entidades.TOP5ProfMenosHoras();
-                    List<BD.Entidades.TOP5ProfMenosHoras> listaTOP5menosHoras = menosHoras.obtenerLista(this);
-                    dtgListado.DataSource = listaTOP5menosHoras;
-                    break;
-                case 3:
-                    crearGrillaTOP5BonosComprados();
-                    BD.Entidades.TOP5BonosComprados bonosComprados = new BD.Entidades.TOP5BonosComprados();
-                    List<BD.Entidades.TOP5BonosComprados> listaTOP5bonosComprados = bonosComprados.obtenerLista(this);
-                    dtgListado.DataSource = listaTOP5bonosComprados;
-                    break;
-                case 4:
-                    crearGrillaTOP5EspecialidadMasBonos();
-                    BD.Entidades.TOP5EspecialidadMasBonos especialidadMasBonos = new BD.Entidades.TOP5EspecialidadMasBonos();
-                    List<BD.Entidades.TOP5EspecialidadMasBonos> listaTOP5especialidadMasBonos = especialidadMasBonos.obtenerLista(this);
-                    dtgListado.DataSource = listaTOP5especialidadMasBonos;
-                    break;
+                MessageBox.Show("Debe seleccionar todos los campos.", "Error!", MessageBoxButtons.OK);
+            }
+            else
+            {
+                switch (cbListado.SelectedIndex)
+                {
+                    case 0:
+                        crearGrillaTOP5Cancelaciones();
+                        BD.Entidades.TOP5Cancelaciones cancelaciones = new BD.Entidades.TOP5Cancelaciones();
+                        List<BD.Entidades.TOP5Cancelaciones> listaTOP5Cancelaciones = cancelaciones.obtenerLista(this);
+                        dtgListado.DataSource = listaTOP5Cancelaciones;
+                        break;
+                    case 1:
+                        crearGrillaTOP5Consultados();
+                        BD.Entidades.TOP5ProfConsultados consultados = new BD.Entidades.TOP5ProfConsultados();
+                        List<BD.Entidades.TOP5ProfConsultados> listaTOP5Consultados = consultados.obtenerLista(this);
+                        dtgListado.DataSource = listaTOP5Consultados;
+                        break;
+                    case 2:
+                        crearGrillaTOP5ProfMenosHoras();
+                        BD.Entidades.TOP5ProfMenosHoras menosHoras = new BD.Entidades.TOP5ProfMenosHoras();
+                        List<BD.Entidades.TOP5ProfMenosHoras> listaTOP5menosHoras = menosHoras.obtenerLista(this);
+                        dtgListado.DataSource = listaTOP5menosHoras;
+                        break;
+                    case 3:
+                        crearGrillaTOP5BonosComprados();
+                        BD.Entidades.TOP5BonosComprados bonosComprados = new BD.Entidades.TOP5BonosComprados();
+                        List<BD.Entidades.TOP5BonosComprados> listaTOP5bonosComprados = bonosComprados.obtenerLista(this);
+                        dtgListado.DataSource = listaTOP5bonosComprados;
+                        break;
+                    case 4:
+                        crearGrillaTOP5EspecialidadMasBonos();
+                        BD.Entidades.TOP5EspecialidadMasBonos especialidadMasBonos = new BD.Entidades.TOP5EspecialidadMasBonos();
+                        List<BD.Entidades.TOP5EspecialidadMasBonos> listaTOP5especialidadMasBonos = especialidadMasBonos.obtenerLista(this);
+                        dtgListado.DataSource = listaTOP5especialidadMasBonos;
+                        break;
+                }
             }
         }
 

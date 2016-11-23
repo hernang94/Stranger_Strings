@@ -46,6 +46,7 @@ namespace ClinicaFrba.Compra_Bono
             {
                 MessageBox.Show("Usuario Valido", "", MessageBoxButtons.OK);
                 paciente.Num_Doc = decimal.Parse(txtDNI.Text);
+                paciente.Tipo_Doc = cbTipoDoc.SelectedItem.ToString();
                 obtenerPlan();
                 obtenerPrecioBonoSegunPlan();
             }
@@ -108,6 +109,8 @@ namespace ClinicaFrba.Compra_Bono
                 lbPrecioTotal.Visible = false;
                 lbCompraExito.Visible = true;
                 timer1.Enabled = true;
+                txtDNI.Clear();
+                cbTipoDoc.ResetText();
             }
             else
             {

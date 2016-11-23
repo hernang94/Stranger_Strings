@@ -50,6 +50,7 @@ namespace ClinicaFrba.Abm_Afiliado
                 }
             }
             this.Hide();
+            MessageBox.Show("Afiliado cargado con éxito", "Éxito", MessageBoxButtons.OK);
         }
 
         private void cargar_Datos()

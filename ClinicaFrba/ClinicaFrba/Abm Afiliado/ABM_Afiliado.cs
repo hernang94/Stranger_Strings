@@ -221,7 +221,7 @@ namespace ClinicaFrba.Abm_Afiliado
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             List<BD.Entidades.Paciente> listaPaciente = new List<BD.Entidades.Paciente>();
-            if (txtBMDoc.Text == "" || cbBMTipoMod.SelectedIndex == -1)
+            if (txtBMDoc.Text == "" || cbBMTipoDoc.SelectedIndex == -1)
             {
                 MessageBox.Show("Debe seleccionar e ingresar tipo y número de documento.", "Error", MessageBoxButtons.OK);
             }
@@ -231,7 +231,7 @@ namespace ClinicaFrba.Abm_Afiliado
                 crearGrilla();
                 List<SqlParameter> paramlist = new List<SqlParameter>();
                 paramlist.Add(new SqlParameter("@Num_Doc", int.Parse(txtBMDoc.Text)));
-                paramlist.Add(new SqlParameter("@Tipo_Doc", cbTipoDoc.SelectedItem));
+                paramlist.Add(new SqlParameter("@Tipo_Doc", cbBMTipoDoc.SelectedItem.ToString()));
                 SqlDataReader lector = BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_BUSCAR_AFILIADO", "SP", paramlist);
                 if (lector.HasRows)
                 {
@@ -278,7 +278,7 @@ namespace ClinicaFrba.Abm_Afiliado
            {
                List<SqlParameter> paramlist = new List<SqlParameter>();
                paramlist.Add(new SqlParameter("@Num_Doc", txtBMDoc.Text));
-               paramlist.Add(new SqlParameter("@Tipo_Doc", cbBMTipoMod.SelectedItem));
+               paramlist.Add(new SqlParameter("@Tipo_Doc", cbBMTipoDoc.SelectedItem.ToString()));
                paramlist.Add(new SqlParameter("@Fecha_Baja", ArchivoConfiguracion.Default.FechaActual));
                SqlParameter paramRetAux = new SqlParameter("@Retorno", SqlDbType.Int);
                paramRetAux.Direction = ParameterDirection.Output;
@@ -296,7 +296,7 @@ namespace ClinicaFrba.Abm_Afiliado
                {
                    paramlist.Clear();
                    paramlist.Add(new SqlParameter("@Num_Doc", txtBMDoc.Text));
-                   paramlist.Add(new SqlParameter("@Tipo_Doc", cbBMTipoMod.SelectedItem));
+                   paramlist.Add(new SqlParameter("@Tipo_Doc", cbBMTipoDoc.SelectedItem.ToString()));
                    paramlist.Add(new SqlParameter("@Fecha_Baja", ArchivoConfiguracion.Default.FechaActual));
                    paramlist.Add(paramRetAux);
                    BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_BAJA_AFILIADO", "SP", paramlist);

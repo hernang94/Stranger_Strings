@@ -47,6 +47,8 @@
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.lbConjunto = new System.Windows.Forms.Label();
             this.tpBajaModif = new System.Windows.Forms.TabPage();
+            this.cbBMTipoDoc = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.lbBorradoModificado = new System.Windows.Forms.Label();
             this.lbIngreseNroDoc = new System.Windows.Forms.Label();
             this.button7 = new System.Windows.Forms.Button();
@@ -57,8 +59,6 @@
             this.button2 = new System.Windows.Forms.Button();
             this.txtBMDoc = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.label1 = new System.Windows.Forms.Label();
-            this.cbBMTipoMod = new System.Windows.Forms.ComboBox();
             this.tbABMAfiliado.SuspendLayout();
             this.tpAlta.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nupCantFamilia)).BeginInit();
@@ -249,7 +249,7 @@
             // 
             // tpBajaModif
             // 
-            this.tpBajaModif.Controls.Add(this.cbBMTipoMod);
+            this.tpBajaModif.Controls.Add(this.cbBMTipoDoc);
             this.tpBajaModif.Controls.Add(this.label1);
             this.tpBajaModif.Controls.Add(this.lbBorradoModificado);
             this.tpBajaModif.Controls.Add(this.lbIngreseNroDoc);
@@ -268,6 +268,27 @@
             this.tpBajaModif.TabIndex = 1;
             this.tpBajaModif.Text = "Baja/Modificación";
             this.tpBajaModif.UseVisualStyleBackColor = true;
+            // 
+            // cbBMTipoDoc
+            // 
+            this.cbBMTipoDoc.FormattingEnabled = true;
+            this.cbBMTipoDoc.Items.AddRange(new object[] {
+            "DNI",
+            "LC",
+            "LE"});
+            this.cbBMTipoDoc.Location = new System.Drawing.Point(264, 27);
+            this.cbBMTipoDoc.Name = "cbBMTipoDoc";
+            this.cbBMTipoDoc.Size = new System.Drawing.Size(100, 23);
+            this.cbBMTipoDoc.TabIndex = 49;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(8, 30);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(249, 15);
+            this.label1.TabIndex = 48;
+            this.label1.Text = "Seleccione el tipo de documento del afiliado";
             // 
             // lbBorradoModificado
             // 
@@ -366,27 +387,6 @@
             this.timer1.Interval = 5000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 30);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(249, 15);
-            this.label1.TabIndex = 48;
-            this.label1.Text = "Seleccione el tipo de documento del afiliado";
-            // 
-            // cbBMTipoMod
-            // 
-            this.cbBMTipoMod.FormattingEnabled = true;
-            this.cbBMTipoMod.Items.AddRange(new object[] {
-            "DNI",
-            "LC",
-            "LE"});
-            this.cbBMTipoMod.Location = new System.Drawing.Point(264, 27);
-            this.cbBMTipoMod.Name = "cbBMTipoMod";
-            this.cbBMTipoMod.Size = new System.Drawing.Size(100, 23);
-            this.cbBMTipoMod.TabIndex = 49;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -437,7 +437,7 @@
         private System.Windows.Forms.Label lbBorradoModificado;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ComboBox cbTipoDoc;
-        private System.Windows.Forms.ComboBox cbBMTipoMod;
+        private System.Windows.Forms.ComboBox cbBMTipoDoc;
         private System.Windows.Forms.Label label1;
     }
 }
