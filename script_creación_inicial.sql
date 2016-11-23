@@ -271,6 +271,10 @@ UPDATE STRANGER_STRINGS.Paciente
 SET Cantidad_Consulta = 0
 UPDATE STRANGER_STRINGS.Paciente
 SET Estado_Afiliado = 'A'
+
+IF EXISTS (SELECT * FROM sys.indexes WHERE name='IX_DNI_PACIENTE')
+	DROP INDEX IX_TURNO_MEDESP ON STRANGER_STRINGS.Turno
+GO
 CREATE NONCLUSTERED INDEX IX_DNI_PACIENTE ON STRANGER_STRINGS.Paciente(Num_Doc)
 GO
 ------------------------------------------------
@@ -599,7 +603,7 @@ STRANGER_STRINGS.Especialidad e
 WHERE p.Num_Doc = @Num_Doc AND p.Tipo_Doc = @Tipo_Doc
 AND m.Id_Medico=(SELECT Id_Medico FROM STRANGER_STRINGS.Especialidad_X_Medico es WHERE es.Id=t.Id_Medico_x_Esp) 
 AND e.Especialidad_Codigo=(SELECT es.Especialidad_Codigo FROM STRANGER_STRINGS.Especialidad_X_Medico es WHERE es.Id=t.Id_Medico_x_Esp)
-AND t.Id_Cancelacion IS NULL
+AND t.Id_Cancelacion IS NULL AND t.Id_Horario IS NOT NULL
 END 
 GO
 -----------------------------------------
@@ -842,11 +846,11 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_PEDIR_TURNO_MEDICO_FECHA
 AS
 BEGIN
 SELECT t.Turno_Fecha,p.Nombre,p.Apellido,t.Id_Consulta
-		FROM STRANGER_STRINGS.Turno t JOIN STRANGER_STRINGS.Paciente p ON (p.Id_Paciente=t.Id_Paciente)
+		FROM STRANGER_STRINGS.Turno t JOIN STRANGER_STRINGS.Paciente p ON (p.Id_Paciente=t.Id_Paciente) JOIN STRANGER_STRINGS.Consulta c ON(t.Id_Consulta=c.Id_Consulta)
 		WHERE t.Id_Medico_x_Esp=(SELECT es.Id FROM STRANGER_STRINGS.Especialidad_X_Medico es 
 												WHERE @Especialidad_Codigo=es.Especialidad_Codigo AND es.Id_Medico=(SELECT m.Id_Medico 
 												FROM STRANGER_STRINGS.Medico m WHERE m.Num_Doc=@Num_Doc AND m.Tipo_Doc=@Tipo_Doc))
-		AND DATEDIFF(day,t.Turno_Fecha,@Fecha)=0
+		AND DATEDIFF(day,t.Turno_Fecha,@Fecha)=0 AND c.Fecha_Y_Hora_Atencion IS NULL
 END
 GO
 -----------------------------------------
@@ -902,9 +906,14 @@ DECLARE @Id_Medico_X_Especialidad INT= (SELECT em.Id FROM STRANGER_STRINGS.Espec
 JOIN STRANGER_STRINGS.Especialidad e ON(em.Especialidad_Codigo=e.Especialidad_Codigo)
 WHERE em.Id_Medico=@Id_Medico AND e.Especialidad_Codigo=@Especialidad_Codigo)
 DECLARE @Cant_Horas_A_Insertar INT= (DATEDIFF(HH,@Hora_Desde,@Hora_Hasta))
-DECLARE @Cant_Horas_De_Trabajo INT= (SELECT SUM(DATEDIFF(HH,CONVERT(DATETIME,ha.Hora_Desde,120),CONVERT(DATETIME,ha.Hora_Hasta,120))) FROM STRANGER_STRINGS.Horarios_Agenda ha 
+DECLARE @Cant_Horas_De_Trabajo INT= (SELECT SUM(DATEDIFF(HH,CONVERT(DATETIME,ha.Hora_Desde,120),CONVERT(DATETIME,ha.Hora_Hasta,120))) 
+FROM STRANGER_STRINGS.Horarios_Agenda ha 
 JOIN STRANGER_STRINGS.Especialidad_X_Medico em ON(ha.Id_Especialidad_Medico=em.Id)
-WHERE em.Id_Medico=@Id_Medico)
+WHERE em.Id_Medico=@Id_Medico
+AND (@Fecha_Desde between Fecha_Valida_Desde and Fecha_Valida_Hasta)
+					OR (@Fecha_Hasta between Fecha_Valida_Desde and Fecha_Valida_Hasta) 
+					OR (Fecha_Valida_Desde between @Fecha_Desde and @Fecha_Hasta) 
+					OR (Fecha_Valida_Hasta between @Fecha_Desde and @Fecha_Hasta))
 IF((@Cant_Horas_De_Trabajo+@Cant_Horas_A_Insertar)>48)
 BEGIN
 		SET @Retorno=-1 --El profesional ya posee sus 48hs semanales de trabajo ocupadas'
@@ -948,7 +957,7 @@ INSERT INTO STRANGER_STRINGS.Turno(Id_Paciente,Id_Medico_x_Esp,Turno_Fecha,Id_Ho
 VALUES(@Id_Paciente,@Id_Medico_X_Especialidad,@Fecha_Turno,
 (SELECT a.Id_Horario FROM STRANGER_STRINGS.Horarios_Agenda a 
 WHERE a.Dia=DATEPART(DW,@Fecha_Turno) AND 
-CAST(@Fecha_Turno as Time(0)) BETWEEN a.Hora_Desde AND a.Hora_Hasta 
+CAST(@Fecha_Turno as Time(0)) BETWEEN a.Hora_Desde AND a.Hora_Hasta AND (CONVERT(DATE,@Fecha_Turno) BETWEEN a.Fecha_Valida_Desde AND a.Fecha_Valida_Hasta)
 AND a.Id_Especialidad_Medico=@Id_Medico_X_Especialidad))
 END
 GO
@@ -1099,7 +1108,7 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_TOP5_AFILIADOS_BONOS
 @Fecha_Fin_Semestre DATETIME
 AS
 BEGIN
-SELECT COUNT(c.Cantidad_Bonos)AS Bonos_Comprados,p.Apellido,p.Nombre,
+SELECT SUM(c.Cantidad_Bonos)AS Bonos_Comprados,p.Apellido,p.Nombre,
 CASE WHEN (p.Num_Afiliado_Resto=01 AND p.Familiares_A_Cargo!=0) THEN 'SI'
 	 WHEN (p.Num_Afiliado_Resto>01 AND p.Familiares_A_Cargo=0) THEN 'SI'
 	 ELSE 'NO'
@@ -1240,7 +1249,7 @@ END
 ELSE
 BEGIN
 	INSERT INTO STRANGER_STRINGS.Paciente (Nombre,Apellido,Tipo_Doc,Num_Doc,Direccion,Telefono,Mail,Fecha_Nac,Sexo,Estado_Civil,Familiares_A_Cargo,Codigo_Plan,Num_Afiliado_Raiz,Num_Afiliado_Resto,Cantidad_Consulta,Estado_Afiliado)
-	VALUES(@Nombre,@Apellido,@Tipo_Doc,@Num_Doc,@Direccion,@Telefono,@Mail,@Fecha_Nac,@Sexo,@Estado_Civil,@Familiares_A_Cargo,@Codigo_Plan,@Num_Afiliado_Raiz,STRANGER_STRINGS.FX_OBTENER_RESTO(@Num_Afiliado_Raiz),0,'A')
+	VALUES(@Nombre,@Apellido,@Tipo_Doc,@Num_Doc,@Direccion,@Telefono,@Mail,@Fecha_Nac,@Sexo,@Estado_Civil,0,@Codigo_Plan,@Num_Afiliado_Raiz,STRANGER_STRINGS.FX_OBTENER_RESTO(@Num_Afiliado_Raiz),0,'A')
 END
 INSERT INTO STRANGER_STRINGS.Usuario (Usuario,Pasword,Cantidad_Intentos) VALUES (@Apellido,HASHBYTES('SHA2_256',CONVERT(VARCHAR,@Num_Doc)),3)
 DECLARE @Id_Insert INT = SCOPE_IDENTITY()
@@ -1433,7 +1442,7 @@ WHERE re.Id_Med=@Id_Medico AND @Fecha BETWEEN re.Dia_Desde AND re.Dia_Hasta
 
 SELECT @Turnos_Totales=SUM(DATEDIFF(mi,h.Hora_Desde,h.Hora_Hasta))
 		FROM STRANGER_STRINGS.Horarios_Agenda h
-		WHERE h.Id_Especialidad_Medico=@Id_Med_Esp AND h.Dia=DATEPART(dw,@Fecha)
+		WHERE h.Id_Especialidad_Medico=@Id_Med_Esp AND h.Dia=DATEPART(dw,@Fecha) AND (@Fecha BETWEEN h.Fecha_Valida_Desde AND h.Fecha_Valida_Hasta)
 
 SELECT @Turnos_Ocup=COUNT(DISTINCT t.Turno_Numero)
 		FROM STRANGER_STRINGS.Turno t
@@ -1473,8 +1482,12 @@ DECLARE @Id_Medico_Esp INT = (SELECT Id FROM STRANGER_STRINGS.Especialidad_X_Med
 DECLARE @Fecha DATE,@Contador INT,@iterador INT =0
 
 SET @Contador=DATEDIFF(dd,
-		(SELECT MIN(ha.Fecha_Valida_Desde) FROM STRANGER_STRINGS.Horarios_Agenda ha WHERE ha.Id_Especialidad_Medico=@Id_Medico_Esp),
+		@Fecha_Actual,
 		(SELECT MAX(ha.Fecha_Valida_Hasta) FROM STRANGER_STRINGS.Horarios_Agenda ha WHERE ha.Id_Especialidad_Medico=@Id_Medico_Esp))
+IF @Contador<0
+BEGIN
+SET @Contador=0
+END
 
 WHILE @iterador<@Contador
 BEGIN
@@ -1516,13 +1529,13 @@ CREATE TABLE #HorariosPosibles(hora DATETIME)
 
 SET @Cantidad_Turnos=DATEDIFF(mi,@Hora_Desde,@Hora_Hasta)/30
 
-WHILE @Iterador<@Cantidad_Turnos
+WHILE @Iterador<=@Cantidad_Turnos
 BEGIN
 SET @Hora=DATEADD(mi,@Iterador*30,@Hora_Desde)
 SET @Fecha_Completa = @Fecha+CONVERT(DATETIME,@Hora,120)
 IF NOT EXISTS ( SELECT * FROM STRANGER_STRINGS.Turno t 
 							WHERE t.Id_Medico_x_Esp=@Id_Med_Esp
-							AND DATEDIFF(mi,t.Turno_Fecha,@Fecha_Completa)=0 AND t.Id_Paciente IS NOT NULL
+							AND DATEDIFF(mi,t.Turno_Fecha,@Fecha_Completa)=0 AND t.Id_Paciente IS NOT NULL AND t.Id_Cancelacion IS NULL
 							)
 			BEGIN			
 				INSERT INTO  #HorariosPosibles (hora) VALUES (@Hora)
@@ -1814,4 +1827,14 @@ AS
 BEGIN
 SELECT Descripcion FROM STRANGER_STRINGS.Funcionalidad
 END
+GO
+
+
+IF EXISTS (SELECT * FROM sys.indexes WHERE name='IX_TURNO_MEDESP')
+	DROP INDEX IX_TURNO_MEDESP ON STRANGER_STRINGS.Turno
+GO
+
+CREATE NONCLUSTERED INDEX IX_TURNO_MEDESP
+ON STRANGER_STRINGS.Turno(Id_Medico_x_Esp,Id_Paciente)
+INCLUDE (Turno_Fecha)
 GO

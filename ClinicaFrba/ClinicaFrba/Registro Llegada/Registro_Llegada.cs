@@ -109,7 +109,7 @@ namespace ClinicaFrba.Registro_Llegada
                 dtgTurno.Columns["especialidad"].Visible = false;
                 dtgTurno.Columns["id_Consulta"].Visible = false;
                 dtgTurno.Columns["nro"].Visible = false;
-                dtgTurno.Columns["tipo_Doc"].Visible = false;
+                //dtgTurno.Columns["Tipo_Doc"].Visible = false;
                 dtgTurno.Columns["codigo"].Visible = false;
             }
 

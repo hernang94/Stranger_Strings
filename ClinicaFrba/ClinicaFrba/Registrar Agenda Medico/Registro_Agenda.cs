@@ -115,10 +115,12 @@ namespace ClinicaFrba.Registrar_Agenda_Medico
                     case 0:
                         cbEspecialidad.Items.Clear();
                         cbEspecialidad.Refresh();
+                        cbEspecialidad.ResetText();
                         cbDia.SelectedIndex = -1;
                         reestrablecerHoras();
                         cbProfesionales.Items.Clear();
                         cbProfesionales.Refresh();
+                        cbProfesionales.ResetText();
                         obtenerYMostrarProfesionales();
 
                         lbAgendaRegistrada.Visible = true;

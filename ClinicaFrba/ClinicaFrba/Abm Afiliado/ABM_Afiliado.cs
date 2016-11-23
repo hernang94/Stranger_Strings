@@ -76,7 +76,7 @@ namespace ClinicaFrba.Abm_Afiliado
                 {
                     DialogResult resultadomge1 = DialogResult.No;
                     DialogResult resultadomge2 = DialogResult.No;
-
+                    MessageBox.Show("Afiliado agregado exitosamente", "", MessageBoxButtons.OK);
                     //Si esta casado o en concubinato --------------------------------------------------
                     if (cbEstadoCivil.SelectedIndex == 1 || cbEstadoCivil.SelectedIndex == 2)
                     {
@@ -104,7 +104,7 @@ namespace ClinicaFrba.Abm_Afiliado
                         A_Familia af = new A_Familia(int.Parse(nupCantFamilia.Text), num_raiz);
                         af.Show();
                     }
-                    MessageBox.Show("Afiliado agregado exitosamente", "", MessageBoxButtons.OK);
+                    
                 }
                 else
                 {

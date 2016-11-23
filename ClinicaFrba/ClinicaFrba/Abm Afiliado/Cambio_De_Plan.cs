@@ -39,6 +39,7 @@ namespace ClinicaFrba.Abm_Afiliado
             if (timer1.Enabled == true)
             {
                 lbPlanMod.Visible = false;
+                this.Close();
             }
         }
 
@@ -54,12 +55,17 @@ namespace ClinicaFrba.Abm_Afiliado
 
             lbPlanMod.Visible = true;
             timer1.Enabled = true;
-            this.Close();
+            
         }
 
         private void btVolver_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void lbMotivo_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

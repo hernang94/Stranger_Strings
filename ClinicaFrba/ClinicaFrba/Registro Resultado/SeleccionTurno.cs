@@ -83,7 +83,7 @@ namespace ClinicaFrba.Registro_Resultado
             dtgTurnos.Columns["especialidad"].Visible = false;
             dtgTurnos.Columns["id_Consulta"].Visible = false;
             dtgTurnos.Columns["nro"].Visible = false;
-            dtgTurnos.Columns["tipo_Doc"].Visible = false;
+            //dtgTurnos.Columns["tipo_Doc"].Visible = false;
             dtgTurnos.Columns["Codigo"].Visible = false;
         }
 

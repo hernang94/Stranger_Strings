@@ -56,6 +56,7 @@ namespace ClinicaFrba.Registro_Llegada
         {
             List<SqlParameter> listaParamAux = new List<SqlParameter>();
             listaParamAux.Add(new SqlParameter("@Num_Doc", pac.Num_Doc));
+            listaParamAux.Add(new SqlParameter("@Tipo_Doc", pac.Tipo_Doc));
             SqlParameter paramRetAux = new SqlParameter("@Retorno", SqlDbType.Int);
             paramRetAux.Direction = ParameterDirection.Output;
             listaParamAux.Add(paramRetAux);
@@ -63,6 +64,7 @@ namespace ClinicaFrba.Registro_Llegada
             {
                 List<SqlParameter> listaParam = new List<SqlParameter>();
                 listaParam.Add(new SqlParameter("@Num_Doc", pac.Num_Doc));
+                listaParam.Add(new SqlParameter("@Tipo_Doc", pac.Tipo_Doc));
                 SqlParameter paramRet = new SqlParameter("@Retorno", SqlDbType.Int);
                 paramRet.Direction = ParameterDirection.Output;
                 listaParam.Add(paramRet);
@@ -94,6 +96,7 @@ namespace ClinicaFrba.Registro_Llegada
             List<SqlParameter> listaParam = new List<SqlParameter>();
             listaParam.Add(new SqlParameter("@Fecha", turno.fecha));
             listaParam.Add(new SqlParameter("@Num_Doc", pac.Num_Doc));
+            listaParam.Add(new SqlParameter("@Tipo_Doc", pac.Tipo_Doc));
             listaParam.Add(new SqlParameter("@Nro_Turno", turno.nro));
             listaParam.Add(new SqlParameter("@Id_Bono", bonoSeleccionado.id_Bono));
             SqlParameter paramRet = new SqlParameter("@Retorno", SqlDbType.Int);

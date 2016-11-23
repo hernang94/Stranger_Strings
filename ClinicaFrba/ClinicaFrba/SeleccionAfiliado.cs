@@ -76,5 +76,10 @@ namespace ClinicaFrba
                 this.Hide();
             }
         }
+
+        private void cbTipoDoc_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

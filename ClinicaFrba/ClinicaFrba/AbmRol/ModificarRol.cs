@@ -53,11 +53,9 @@ namespace ClinicaFrba.AbmRol
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (txNombre.Text == "")
+            if (comboBox1.Text=="")
             {
-                AgregarFuncionalidad agregar = new AgregarFuncionalidad(this,comboBox1.Text);
-                agregar.Show();
-                this.Hide();
+                MessageBox.Show("Seleccione un Rol", "Error", MessageBoxButtons.OK);
             }
             else
             {
@@ -69,11 +67,9 @@ namespace ClinicaFrba.AbmRol
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (txNombre.Text == "")
+            if (comboBox1.Text=="")
             {
-                EliminarFuncionalidad eliminar = new EliminarFuncionalidad(this, comboBox1.Text);
-                eliminar.Show();
-                this.Hide();
+                MessageBox.Show("Seleccione un Rol", "Error", MessageBoxButtons.OK);
             }
             else
             {

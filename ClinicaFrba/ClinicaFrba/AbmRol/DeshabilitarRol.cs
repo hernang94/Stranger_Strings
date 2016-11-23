@@ -67,7 +67,7 @@ namespace ClinicaFrba.AbmRol
             }
             for (int i=0;i<roles.Count;i++)
             {
-                if (roles[i].Estado=="E"&& roles[i].Nombre!="Administrador")
+                if (roles[i].Estado=="E"&& roles[i].Nombre!="Administrador General")
                 {
                     cbRoles.Items.Add(roles[i].Nombre);
                 }

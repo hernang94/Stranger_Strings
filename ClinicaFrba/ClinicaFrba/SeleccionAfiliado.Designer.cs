@@ -94,6 +94,7 @@
             this.cbTipoDoc.Name = "cbTipoDoc";
             this.cbTipoDoc.Size = new System.Drawing.Size(100, 21);
             this.cbTipoDoc.TabIndex = 23;
+            this.cbTipoDoc.SelectedIndexChanged += new System.EventHandler(this.cbTipoDoc_SelectedIndexChanged);
             // 
             // SeleccionAfiliado
             // 

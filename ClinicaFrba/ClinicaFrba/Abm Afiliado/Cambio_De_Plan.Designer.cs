@@ -45,9 +45,10 @@
             this.lbMotivo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbMotivo.Location = new System.Drawing.Point(26, 73);
             this.lbMotivo.Name = "lbMotivo";
-            this.lbMotivo.Size = new System.Drawing.Size(243, 18);
+            this.lbMotivo.Size = new System.Drawing.Size(213, 18);
             this.lbMotivo.TabIndex = 49;
-            this.lbMotivo.Text = "Ingrese el motivo de su cancelación";
+            this.lbMotivo.Text = "Ingrese el motivo de su cambio";
+            this.lbMotivo.Click += new System.EventHandler(this.lbMotivo_Click);
             // 
             // tbMotivo
             // 
