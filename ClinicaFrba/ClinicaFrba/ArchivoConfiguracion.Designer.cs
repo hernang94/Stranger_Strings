@@ -61,7 +61,7 @@ namespace ClinicaFrba {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data source=TOMÁS-PC\\SQLSERVER2012;")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data source=HERNAN-PC\\SQLSERVER2012;")]
         public string DataSource {
             get {
                 return ((string)(this["DataSource"]));

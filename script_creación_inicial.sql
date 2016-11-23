@@ -890,6 +890,8 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_ALTA_AGENDA
 @Tipo_Doc VARCHAR(255),
 @Especialidad_Codigo NUMERIC(18,0),
 @Dia_Semana SMALLINT,
+@Fecha_Desde DATETIME,
+@Fecha_Hasta DATETIME,
 @Hora_Desde DATETIME,
 @Hora_Hasta DATETIME,
 @Retorno INT OUTPUT
@@ -910,13 +912,14 @@ BEGIN
 		END
 ELSE IF EXISTS(SELECT * FROM STRANGER_STRINGS.Horarios_Agenda ha JOIN STRANGER_STRINGS.Especialidad_X_Medico em ON(ha.Id_Especialidad_Medico=em.Id) JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
 			   WHERE ha.Id_Especialidad_Medico!=@Id_Medico_X_Especialidad AND m.Id_Medico=@Id_Medico AND ha.Dia=@Dia_Semana 
-			   AND ha.Hora_Desde=CONVERT(TIME,@Hora_Desde) AND ha.Hora_Hasta=CONVERT(TIME,@Hora_Hasta))
+			   AND DATEDIFF(mm,ha.Hora_Desde,CONVERT(TIME,@Hora_Desde))=0 AND DATEDIFF(mm,ha.Hora_Hasta,CONVERT(TIME,@Hora_Hasta))=0
+			   AND DATEDIFF(dd,ha.Fecha_Valida_Desde,@Fecha_Desde)=0 AND DATEDIFF(dd,ha.Fecha_Valida_Hasta,@Fecha_Hasta)=0)
 BEGIN
 		SET @Retorno=-2--El profesional ya atiende otra especialidad en esa franja horaria y dia seleccionado'
 		RETURN
 		END
-INSERT INTO STRANGER_STRINGS.Horarios_Agenda(Dia,Hora_Desde,Hora_Hasta,Id_Especialidad_Medico)
-VALUES(@Dia_Semana,CONVERT(TIME,@Hora_Desde),CONVERT(TIME,@Hora_Hasta),@Id_Medico_X_Especialidad)
+INSERT INTO STRANGER_STRINGS.Horarios_Agenda(Dia,Hora_Desde,Hora_Hasta,Id_Especialidad_Medico,Fecha_Valida_Desde,Fecha_Valida_Hasta)
+VALUES(@Dia_Semana,CONVERT(TIME,@Hora_Desde),CONVERT(TIME,@Hora_Hasta),@Id_Medico_X_Especialidad,CONVERT(DATE,@Fecha_Desde),CONVERT(DATE,@Fecha_Hasta))
 SET @Retorno=0--OK
 END
 GO
@@ -1466,7 +1469,13 @@ CREATE TABLE #Fechas_Futuras(Fecha DATE)
 DECLARE @Id_Medico INT = (SELECT Id_Medico FROM STRANGER_STRINGS.Medico WHERE Num_Doc=@Num_Doc AND Tipo_Doc=@Tipo_Doc)
 DECLARE @Id_Medico_Esp INT = (SELECT Id FROM STRANGER_STRINGS.Especialidad_X_Medico 
 							WHERE Id_Medico=@Id_Medico AND Especialidad_Codigo=@Especialidad_Codigo)
-DECLARE @Fecha DATE,@Contador INT = 30,@iterador INT =0
+
+DECLARE @Fecha DATE,@Contador INT,@iterador INT =0
+
+SET @Contador=DATEDIFF(dd,
+		(SELECT MIN(ha.Fecha_Valida_Desde) FROM STRANGER_STRINGS.Horarios_Agenda ha WHERE ha.Id_Especialidad_Medico=@Id_Medico_Esp),
+		(SELECT MAX(ha.Fecha_Valida_Hasta) FROM STRANGER_STRINGS.Horarios_Agenda ha WHERE ha.Id_Especialidad_Medico=@Id_Medico_Esp))
+
 WHILE @iterador<@Contador
 BEGIN
 SET @Fecha=DATEADD(dd,@iterador,@Fecha_Actual)
@@ -1521,6 +1530,7 @@ IF NOT EXISTS ( SELECT * FROM STRANGER_STRINGS.Turno t
 			SET @Iterador+=1
 			END
 SELECT hora FROM #HorariosPosibles
+ORDER BY hora ASC
 END
 GO
 ----------------------------------------

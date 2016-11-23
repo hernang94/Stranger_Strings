@@ -90,7 +90,7 @@ namespace ClinicaFrba.Registrar_Agenda_Medico
             {
                 MessageBox.Show("El formato del rango horario deber ser 'HH:00' ó 'HH:30'", "Error formato minutos", MessageBoxButtons.OK);
             }
-            else if (dtpFechaHasta.Value > dtpFechaDesde.Value && dtpHoraHasta.Value > dtpHoraDesde.Value)
+            else if (dtpFechaHasta.Value < dtpFechaDesde.Value || dtpHoraHasta.Value < dtpHoraDesde.Value)
             {
                 MessageBox.Show("La hora/fecha hasta debe ser mayor a hora/fecha desde", "Error", MessageBoxButtons.OK);
             }
@@ -104,8 +104,8 @@ namespace ClinicaFrba.Registrar_Agenda_Medico
                 paramlist.Add(new SqlParameter("@Dia_Semana", cbDia.SelectedIndex + 1));
                 paramlist.Add(new SqlParameter("@Fecha_Desde", dtpFechaDesde.Value));
                 paramlist.Add(new SqlParameter("@Fecha_Hasta", dtpFechaHasta.Value));
-                paramlist.Add(new SqlParameter("@Hora_Desde", dtpHoraDesde.Value.ToLocalTime()));
-                paramlist.Add(new SqlParameter("@Hora_Hasta", dtpHoraHasta.Value.ToLocalTime()));
+                paramlist.Add(new SqlParameter("@Hora_Desde", dtpHoraDesde.Value));
+                paramlist.Add(new SqlParameter("@Hora_Hasta", dtpHoraHasta.Value));
                 SqlParameter paramRetAux = new SqlParameter("@Retorno", SqlDbType.Int);
                 paramRetAux.Direction = ParameterDirection.Output;
                 paramlist.Add(paramRetAux);
@@ -114,9 +114,11 @@ namespace ClinicaFrba.Registrar_Agenda_Medico
                 {
                     case 0:
                         cbEspecialidad.Items.Clear();
+                        cbEspecialidad.Refresh();
                         cbDia.SelectedIndex = -1;
                         reestrablecerHoras();
                         cbProfesionales.Items.Clear();
+                        cbProfesionales.Refresh();
                         obtenerYMostrarProfesionales();
 
                         lbAgendaRegistrada.Visible = true;
