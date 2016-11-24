@@ -36,6 +36,7 @@ namespace ClinicaFrba.Abm_Afiliado
             txtTelefono.Text = System.Convert.ToString(paciente.Telefono);
             dtpFechaNac.Value = paciente.Fecha_Nac;
             cbEstadoCivi.Text = paciente.Estado_Civil;
+            txtTelefono.KeyPress += new KeyPressEventHandler(soloNumeros_KeyPress);
         }
 
         private void btCancelar_Click(object sender, EventArgs e)
@@ -73,6 +74,26 @@ namespace ClinicaFrba.Abm_Afiliado
         private void dtpFechaNac_ValueChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void txtTelefono_TextChanged(object sender, EventArgs e)
+        {
+            txtTelefono.KeyPress += new KeyPressEventHandler(soloNumeros_KeyPress);
+        }
+
+        private void soloNumeros_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar != 08)
+            {
+                if (Char.IsDigit(e.KeyChar) && !Char.IsSeparator(e.KeyChar))
+                {
+                    e.Handled = false;
+                }
+                else
+                {
+                    e.Handled = true;
+                }
+            }
         }
     }
 }

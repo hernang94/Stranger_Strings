@@ -30,6 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbTipoDoc = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.btVerificarAfiliado = new System.Windows.Forms.Button();
             this.txtDNI = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -42,8 +44,6 @@
             this.lbSeleccion = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.cbTipoDoc = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudCantidadBonos)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -64,6 +64,28 @@
             this.groupBox1.Text = "Validación de afiliado";
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
+            // cbTipoDoc
+            // 
+            this.cbTipoDoc.FormattingEnabled = true;
+            this.cbTipoDoc.Items.AddRange(new object[] {
+            "DNI",
+            "LC",
+            "LE"});
+            this.cbTipoDoc.Location = new System.Drawing.Point(180, 24);
+            this.cbTipoDoc.Name = "cbTipoDoc";
+            this.cbTipoDoc.Size = new System.Drawing.Size(100, 21);
+            this.cbTipoDoc.TabIndex = 23;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(12, 25);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(158, 15);
+            this.label2.TabIndex = 18;
+            this.label2.Text = "Ingrese tipo DNI del Afiliado";
+            // 
             // btVerificarAfiliado
             // 
             this.btVerificarAfiliado.Location = new System.Drawing.Point(100, 85);
@@ -77,9 +99,11 @@
             // txtDNI
             // 
             this.txtDNI.Location = new System.Drawing.Point(180, 54);
+            this.txtDNI.MaxLength = 15;
             this.txtDNI.Name = "txtDNI";
             this.txtDNI.Size = new System.Drawing.Size(100, 20);
             this.txtDNI.TabIndex = 16;
+            this.txtDNI.TextChanged += new System.EventHandler(this.txtDNI_TextChanged);
             // 
             // label1
             // 
@@ -180,28 +204,6 @@
             this.groupBox2.Size = new System.Drawing.Size(293, 142);
             this.groupBox2.TabIndex = 15;
             this.groupBox2.TabStop = false;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(12, 25);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(158, 15);
-            this.label2.TabIndex = 18;
-            this.label2.Text = "Ingrese tipo DNI del Afiliado";
-            // 
-            // cbTipoDoc
-            // 
-            this.cbTipoDoc.FormattingEnabled = true;
-            this.cbTipoDoc.Items.AddRange(new object[] {
-            "DNI",
-            "LC",
-            "LE"});
-            this.cbTipoDoc.Location = new System.Drawing.Point(180, 24);
-            this.cbTipoDoc.Name = "cbTipoDoc";
-            this.cbTipoDoc.Size = new System.Drawing.Size(100, 21);
-            this.cbTipoDoc.TabIndex = 23;
             // 
             // CompraBonoAdmin
             // 

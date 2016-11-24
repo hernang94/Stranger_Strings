@@ -72,6 +72,7 @@
             // txtSintomas
             // 
             this.txtSintomas.Location = new System.Drawing.Point(27, 158);
+            this.txtSintomas.MaxLength = 250;
             this.txtSintomas.Multiline = true;
             this.txtSintomas.Name = "txtSintomas";
             this.txtSintomas.Size = new System.Drawing.Size(368, 87);
@@ -98,6 +99,7 @@
             // txtEnfermedades
             // 
             this.txtEnfermedades.Location = new System.Drawing.Point(27, 43);
+            this.txtEnfermedades.MaxLength = 250;
             this.txtEnfermedades.Multiline = true;
             this.txtEnfermedades.Name = "txtEnfermedades";
             this.txtEnfermedades.Size = new System.Drawing.Size(368, 87);

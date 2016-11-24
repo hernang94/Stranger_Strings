@@ -389,6 +389,7 @@
             this.txtBMDoc.Name = "txtBMDoc";
             this.txtBMDoc.Size = new System.Drawing.Size(100, 21);
             this.txtBMDoc.TabIndex = 24;
+            this.txtBMDoc.TextChanged += new System.EventHandler(this.txtBMDoc_TextChanged);
             // 
             // timer1
             // 

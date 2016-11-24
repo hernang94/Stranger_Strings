@@ -31,8 +31,9 @@ namespace ClinicaFrba.Abm_Afiliado
         private void Form1_Load(object sender, EventArgs e)
         {
             dateFechaNac.Value = ArchivoConfiguracion.Default.FechaActual;
-            txtNroDoc.KeyPress += new KeyPressEventHandler(txtNroDoc_KeyPress);
-            txtTel.KeyPress += new KeyPressEventHandler(txtNroDoc_KeyPress);
+            txtNroDoc.KeyPress += new KeyPressEventHandler(soloNumeros_KeyPress);
+            txtTel.KeyPress += new KeyPressEventHandler(soloNumeros_KeyPress);
+            txtBMDoc.KeyPress += new KeyPressEventHandler(soloNumeros_KeyPress);
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -342,10 +343,10 @@ namespace ClinicaFrba.Abm_Afiliado
 
        private void txtNroDoc_TextChanged(object sender, EventArgs e)
        {
-           txtNroDoc.KeyPress+=new KeyPressEventHandler(txtNroDoc_KeyPress);
+           txtNroDoc.KeyPress += new KeyPressEventHandler(soloNumeros_KeyPress);
        }
 
-       private void txtNroDoc_KeyPress(object sender, KeyPressEventArgs e)
+       private void soloNumeros_KeyPress(object sender, KeyPressEventArgs e)
        {
            if (e.KeyChar != 08)
            {
@@ -362,7 +363,12 @@ namespace ClinicaFrba.Abm_Afiliado
 
        private void txtTel_TextChanged(object sender, EventArgs e)
        {
-           txtTel.KeyPress += new KeyPressEventHandler(txtNroDoc_KeyPress);
+           txtTel.KeyPress += new KeyPressEventHandler(soloNumeros_KeyPress);
+       }
+
+       private void txtBMDoc_TextChanged(object sender, EventArgs e)
+       {
+           txtBMDoc.KeyPress += new KeyPressEventHandler(soloNumeros_KeyPress);
        }
     }
 } 

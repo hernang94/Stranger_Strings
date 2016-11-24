@@ -31,6 +31,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dtgBono = new System.Windows.Forms.DataGridView();
             this.btAceptar = new System.Windows.Forms.Button();
+            this.btVolver = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgBono)).BeginInit();
             this.SuspendLayout();
@@ -57,7 +58,7 @@
             // 
             // btAceptar
             // 
-            this.btAceptar.Location = new System.Drawing.Point(142, 173);
+            this.btAceptar.Location = new System.Drawing.Point(196, 173);
             this.btAceptar.Name = "btAceptar";
             this.btAceptar.Size = new System.Drawing.Size(75, 23);
             this.btAceptar.TabIndex = 55;
@@ -65,11 +66,22 @@
             this.btAceptar.UseVisualStyleBackColor = true;
             this.btAceptar.Click += new System.EventHandler(this.btAceptar_Click);
             // 
+            // btVolver
+            // 
+            this.btVolver.Location = new System.Drawing.Point(81, 173);
+            this.btVolver.Name = "btVolver";
+            this.btVolver.Size = new System.Drawing.Size(75, 23);
+            this.btVolver.TabIndex = 56;
+            this.btVolver.Text = "Volver";
+            this.btVolver.UseVisualStyleBackColor = true;
+            this.btVolver.Click += new System.EventHandler(this.btVolver_Click);
+            // 
             // SeleccionBono
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(369, 214);
+            this.Controls.Add(this.btVolver);
             this.Controls.Add(this.btAceptar);
             this.Controls.Add(this.groupBox1);
             this.Name = "SeleccionBono";
@@ -86,6 +98,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataGridView dtgBono;
         private System.Windows.Forms.Button btAceptar;
+        private System.Windows.Forms.Button btVolver;
 
     }
 }

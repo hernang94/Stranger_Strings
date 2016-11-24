@@ -49,9 +49,11 @@
             // txtDocumento
             // 
             this.txtDocumento.Location = new System.Drawing.Point(141, 43);
+            this.txtDocumento.MaxLength = 15;
             this.txtDocumento.Name = "txtDocumento";
             this.txtDocumento.Size = new System.Drawing.Size(100, 20);
             this.txtDocumento.TabIndex = 1;
+            this.txtDocumento.TextChanged += new System.EventHandler(this.txtDocumento_TextChanged);
             // 
             // btVolver
             // 

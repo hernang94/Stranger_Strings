@@ -26,6 +26,8 @@ namespace ClinicaFrba.Abm_Afiliado
         private void A_Familia_Load(object sender, EventArgs e)
         {
             dateFechaNac.Value = ArchivoConfiguracion.Default.FechaActual;
+            txtNroDoc.KeyPress += new KeyPressEventHandler(soloNumeros_KeyPress);
+            txtTel.KeyPress += new KeyPressEventHandler(soloNumeros_KeyPress);
         }
 
         private void btVolver_Click(object sender, EventArgs e)
@@ -85,5 +87,30 @@ namespace ClinicaFrba.Abm_Afiliado
                 MessageBox.Show("Afiliado ya existente", "Error", MessageBoxButtons.OK);
             }
         }
+
+        private void txtNroDoc_TextChanged(object sender, EventArgs e)
+        {
+            txtNroDoc.KeyPress += new KeyPressEventHandler(soloNumeros_KeyPress);
+        }
+
+        private void txtTel_TextChanged(object sender, EventArgs e)
+        {
+            txtTel.KeyPress += new KeyPressEventHandler(soloNumeros_KeyPress);
+        }
+
+        private void soloNumeros_KeyPress(object sender, KeyPressEventArgs e)
+       {
+           if (e.KeyChar != 08)
+           {
+               if (Char.IsDigit(e.KeyChar) && !Char.IsSeparator(e.KeyChar))
+               {
+                   e.Handled = false;
+               }
+               else
+               {
+                   e.Handled = true;
+               }
+           }
+       }
     }
 }

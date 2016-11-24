@@ -102,7 +102,7 @@
             // tbMotivo
             // 
             this.tbMotivo.Location = new System.Drawing.Point(41, 229);
-            this.tbMotivo.MaxLength = 225;
+            this.tbMotivo.MaxLength = 250;
             this.tbMotivo.Multiline = true;
             this.tbMotivo.Name = "tbMotivo";
             this.tbMotivo.Size = new System.Drawing.Size(456, 120);

@@ -115,6 +115,11 @@ namespace ClinicaFrba.Registro_Llegada
                 this.Close();
             }
         }
+
+        private void btVolver_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 
 }

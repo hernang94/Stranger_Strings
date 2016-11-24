@@ -26,7 +26,7 @@ namespace ClinicaFrba.Compra_Bono
 
         private void CompraBonoAdmin_Load(object sender, EventArgs e)
         {
-            
+            txtDNI.KeyPress += new KeyPressEventHandler(soloNumeros_KeyPress);
         }
 
         private void btVerificarAfiliado_Click(object sender, EventArgs e)
@@ -137,6 +137,26 @@ namespace ClinicaFrba.Compra_Bono
         private void groupBox1_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void txtDNI_TextChanged(object sender, EventArgs e)
+        {
+            txtDNI.KeyPress += new KeyPressEventHandler(soloNumeros_KeyPress);
+        }
+
+        private void soloNumeros_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar != 08)
+            {
+                if (Char.IsDigit(e.KeyChar) && !Char.IsSeparator(e.KeyChar))
+                {
+                    e.Handled = false;
+                }
+                else
+                {
+                    e.Handled = true;
+                }
+            }
         }
     }
 }
