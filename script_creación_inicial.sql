@@ -1558,6 +1558,7 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_GET_ROLES_ABM_ROL
 AS
 BEGIN
 SELECT Descripcion, Estado FROM STRANGER_STRINGS.Rol
+WHERE Estado='E'
 END
 GO
 ----------------------------------------
