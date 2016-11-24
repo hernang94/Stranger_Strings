@@ -1046,7 +1046,7 @@ BEGIN
 SELECT COUNT(*) AS Cant, e.Especialidad_Descripcion
 FROM STRANGER_STRINGS.Turno t, STRANGER_STRINGS.Especialidad_X_Medico em JOIN STRANGER_STRINGS.Especialidad e ON(em.Especialidad_Codigo=e.Especialidad_Codigo)
 WHERE em.Id=t.Id_Medico_x_Esp AND t.Id_Consulta IS NOT NULL AND t.Turno_Fecha BETWEEN @Fecha_Inicio_Semestre AND @Fecha_Fin_Semestre
-GROUP BY t.Id_Medico_x_Esp, e.Especialidad_Descripcion
+GROUP BY e.Especialidad_Descripcion
 ORDER BY 1 DESC
 END
 GO
