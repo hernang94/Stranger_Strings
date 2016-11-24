@@ -53,11 +53,11 @@ namespace ClinicaFrba.Cancelar_Atencion
                DialogResult msge = MessageBox.Show("¿Esta seguro que desea cancelar el turno seleccionado?", "Confirmar cancelación", MessageBoxButtons.YesNo);
                if (msge == DialogResult.Yes)
                {
+                   tbMotivo.Clear();
                    cancelarTurno((BD.Entidades.Turno)dtgTurnos.CurrentRow.DataBoundItem);
                    actualizarGrilla();
                    lbTurnoCancelado.Visible = true;
                    timer1.Enabled = true;
-
                }
            }
         }
@@ -93,6 +93,7 @@ namespace ClinicaFrba.Cancelar_Atencion
             dtgTurnos.Columns.Add(colFecha);
             dtgTurnos.Columns.Add(colProfesional);
             dtgTurnos.Columns.Add(colEspecialidad);
+
             }
 
         private void actualizarGrilla()
@@ -122,6 +123,11 @@ namespace ClinicaFrba.Cancelar_Atencion
                 }
             }
             dtgTurnos.DataSource = listaTurnos;
+            dtgTurnos.Columns["nro"].Visible = false;
+            dtgTurnos.Columns["codigo"].Visible = false;
+            dtgTurnos.Columns["nombre_pac"].Visible = false;
+            dtgTurnos.Columns["apellido_pac"].Visible = false;
+            dtgTurnos.Columns["id_Consulta"].Visible = false;
         }
 
         private void cancelarTurno(BD.Entidades.Turno Turno)

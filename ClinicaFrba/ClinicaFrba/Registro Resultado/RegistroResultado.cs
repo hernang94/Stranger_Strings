@@ -41,6 +41,7 @@ namespace ClinicaFrba.Registro_Resultado
         private void btAceptar_Click(object sender, EventArgs e)
         {
             lbConsultaRegistrada.Visible = true;
+            btVolver.Enabled = false;
             timer1.Enabled = true;
             if (ckPresento.Checked)
             {
@@ -61,10 +62,6 @@ namespace ClinicaFrba.Registro_Resultado
                 paramList.Add(new SqlParameter("@Diagnostico", txtEnfermedades.Text));
                 BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_REGISTRAR_RESULTADO_CONSULTA", "SP", paramList);
             }
-            fun.Show();
-            sel.Close();
-            sel.selecEsp.Close();
-            this.Close();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -72,6 +69,10 @@ namespace ClinicaFrba.Registro_Resultado
             if (timer1.Enabled)
             {
                 lbConsultaRegistrada.Visible = false;
+                fun.Show();
+                sel.Close();
+                sel.selecEsp.Close();
+                this.Close();
             }
         }
 

@@ -195,6 +195,7 @@
             // txtMail
             // 
             this.txtMail.Location = new System.Drawing.Point(291, 174);
+            this.txtMail.MaxLength = 250;
             this.txtMail.Name = "txtMail";
             this.txtMail.Size = new System.Drawing.Size(100, 20);
             this.txtMail.TabIndex = 8;
@@ -202,13 +203,16 @@
             // txtTel
             // 
             this.txtTel.Location = new System.Drawing.Point(291, 148);
+            this.txtTel.MaxLength = 15;
             this.txtTel.Name = "txtTel";
             this.txtTel.Size = new System.Drawing.Size(100, 20);
             this.txtTel.TabIndex = 7;
+            this.txtTel.TextChanged += new System.EventHandler(this.txtTel_TextChanged);
             // 
             // txtDirec
             // 
             this.txtDirec.Location = new System.Drawing.Point(291, 122);
+            this.txtDirec.MaxLength = 250;
             this.txtDirec.Name = "txtDirec";
             this.txtDirec.Size = new System.Drawing.Size(100, 20);
             this.txtDirec.TabIndex = 6;
@@ -216,6 +220,7 @@
             // txtNroDoc
             // 
             this.txtNroDoc.Location = new System.Drawing.Point(291, 70);
+            this.txtNroDoc.MaxLength = 17;
             this.txtNroDoc.Name = "txtNroDoc";
             this.txtNroDoc.Size = new System.Drawing.Size(100, 20);
             this.txtNroDoc.TabIndex = 4;
@@ -224,6 +229,7 @@
             // txtApellido
             // 
             this.txtApellido.Location = new System.Drawing.Point(291, 44);
+            this.txtApellido.MaxLength = 250;
             this.txtApellido.Name = "txtApellido";
             this.txtApellido.Size = new System.Drawing.Size(100, 20);
             this.txtApellido.TabIndex = 3;
@@ -231,6 +237,7 @@
             // txtNombre
             // 
             this.txtNombre.Location = new System.Drawing.Point(291, 18);
+            this.txtNombre.MaxLength = 250;
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(100, 20);
             this.txtNombre.TabIndex = 2;
@@ -378,6 +385,7 @@
             // txtBMDoc
             // 
             this.txtBMDoc.Location = new System.Drawing.Point(264, 69);
+            this.txtBMDoc.MaxLength = 15;
             this.txtBMDoc.Name = "txtBMDoc";
             this.txtBMDoc.Size = new System.Drawing.Size(100, 21);
             this.txtBMDoc.TabIndex = 24;

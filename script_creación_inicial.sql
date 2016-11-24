@@ -603,7 +603,7 @@ STRANGER_STRINGS.Especialidad e
 WHERE p.Num_Doc = @Num_Doc AND p.Tipo_Doc = @Tipo_Doc
 AND m.Id_Medico=(SELECT Id_Medico FROM STRANGER_STRINGS.Especialidad_X_Medico es WHERE es.Id=t.Id_Medico_x_Esp) 
 AND e.Especialidad_Codigo=(SELECT es.Especialidad_Codigo FROM STRANGER_STRINGS.Especialidad_X_Medico es WHERE es.Id=t.Id_Medico_x_Esp)
-AND t.Id_Cancelacion IS NULL AND t.Id_Horario IS NOT NULL
+AND t.Id_Cancelacion IS NULL AND t.Id_Horario IS NOT NULL AND t.Id_Consulta IS NULL
 END 
 GO
 -----------------------------------------
@@ -704,7 +704,6 @@ CREATE PROCEDURE STRANGER_STRINGS.SP_CANCELAR_TURNOS_RANGO_PROFESIONAL
 @Motivo VARCHAR(225),
 @Num_Doc NUMERIC(18,0),
 @Tipo_Doc VARCHAR(255),
-@Especialidad_Codigo NUMERIC(18,0),
 @Fecha_Desde DATETIME,
 @Fecha_Hasta DATETIME
 AS
@@ -1251,13 +1250,13 @@ BEGIN
 	INSERT INTO STRANGER_STRINGS.Paciente (Nombre,Apellido,Tipo_Doc,Num_Doc,Direccion,Telefono,Mail,Fecha_Nac,Sexo,Estado_Civil,Familiares_A_Cargo,Codigo_Plan,Num_Afiliado_Raiz,Num_Afiliado_Resto,Cantidad_Consulta,Estado_Afiliado)
 	VALUES(@Nombre,@Apellido,@Tipo_Doc,@Num_Doc,@Direccion,@Telefono,@Mail,@Fecha_Nac,@Sexo,@Estado_Civil,0,@Codigo_Plan,@Num_Afiliado_Raiz,STRANGER_STRINGS.FX_OBTENER_RESTO(@Num_Afiliado_Raiz),0,'A')
 END
-INSERT INTO STRANGER_STRINGS.Usuario (Usuario,Pasword,Cantidad_Intentos) VALUES (@Apellido,HASHBYTES('SHA2_256',CONVERT(VARCHAR,@Num_Doc)),3)
+INSERT INTO STRANGER_STRINGS.Usuario (Usuario,Pasword,Cantidad_Intentos) VALUES (CONVERT(VARCHAR,@Num_Doc)+@Tipo_Doc,HASHBYTES('SHA2_256','afiliado'),3)
 DECLARE @Id_Insert INT = SCOPE_IDENTITY()
 UPDATE STRANGER_STRINGS.Paciente
 SET Id_Usuario=@Id_Insert
 WHERE Num_Doc=@Num_Doc
 INSERT INTO STRANGER_STRINGS.Rol_X_Usuario (Id_Usuario,Id_Rol)
-VALUES ((SELECT Id_Usuario FROM STRANGER_STRINGS.Usuario WHERE Pasword=HASHBYTES('SHA2_256',CONVERT(VARCHAR,@Num_Doc))),(SELECT Id_Rol FROM STRANGER_STRINGS.Rol WHERE Descripcion LIKE 'Afiliado'))
+VALUES ((SELECT Id_Usuario FROM STRANGER_STRINGS.Usuario WHERE Usuario=CONVERT(VARCHAR,@Num_Doc)+@Tipo_Doc),(SELECT Id_Rol FROM STRANGER_STRINGS.Rol WHERE Descripcion LIKE 'Afiliado'))
 END
 GO
 
@@ -1839,3 +1838,5 @@ CREATE NONCLUSTERED INDEX IX_TURNO_MEDESP
 ON STRANGER_STRINGS.Turno(Id_Medico_x_Esp,Id_Paciente)
 INCLUDE (Turno_Fecha)
 GO
+
+

@@ -31,6 +31,8 @@ namespace ClinicaFrba.Abm_Afiliado
         private void Form1_Load(object sender, EventArgs e)
         {
             dateFechaNac.Value = ArchivoConfiguracion.Default.FechaActual;
+            txtNroDoc.KeyPress += new KeyPressEventHandler(txtNroDoc_KeyPress);
+            txtTel.KeyPress += new KeyPressEventHandler(txtNroDoc_KeyPress);
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -69,6 +71,10 @@ namespace ClinicaFrba.Abm_Afiliado
             {
                 MessageBox.Show("Todos los campos son obligatorios.", "Error", MessageBoxButtons.OK);
             }
+            else if (dateFechaNac.Value > ArchivoConfiguracion.Default.FechaActual)
+            {
+                MessageBox.Show("Fecha mayor a la actual", "Error", MessageBoxButtons.OK);
+            }
             else
             {
                 decimal num_raiz = cargar_Datos_Afiliados();
@@ -104,13 +110,13 @@ namespace ClinicaFrba.Abm_Afiliado
                         A_Familia af = new A_Familia(int.Parse(nupCantFamilia.Text), num_raiz);
                         af.Show();
                     }
-                    
+
                 }
                 else
                 {
                     MessageBox.Show("Afiliado ya existente", "Error", MessageBoxButtons.OK);
                 }
-               
+
             }
         }
 
@@ -336,7 +342,27 @@ namespace ClinicaFrba.Abm_Afiliado
 
        private void txtNroDoc_TextChanged(object sender, EventArgs e)
        {
+           txtNroDoc.KeyPress+=new KeyPressEventHandler(txtNroDoc_KeyPress);
+       }
 
+       private void txtNroDoc_KeyPress(object sender, KeyPressEventArgs e)
+       {
+           if (e.KeyChar != 08)
+           {
+               if (Char.IsDigit(e.KeyChar) && !Char.IsSeparator(e.KeyChar))
+               {
+                   e.Handled = false;
+               }
+               else
+               {
+                   e.Handled = true;
+               }
+           }
+       }
+
+       private void txtTel_TextChanged(object sender, EventArgs e)
+       {
+           txtTel.KeyPress += new KeyPressEventHandler(txtNroDoc_KeyPress);
        }
     }
-}
+} 

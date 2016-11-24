@@ -35,19 +35,13 @@ namespace ClinicaFrba.Cancelar_Atencion
 
         private void btAceptar_Click(object sender, EventArgs e)
         {
-            if (!lista_turnos.Contains(monthCalendar1.SelectionRange.Start))
-            {
-                MessageBox.Show("Seleccione una fecha valida de atención.", "Error", MessageBoxButtons.OK);
-            }
-            else
-            {
                 DialogResult msge = MessageBox.Show("¿Esta seguro que desea cancelar fecha o período seleccionado?", "Confirmar cancelación", MessageBoxButtons.YesNo);
                 if (msge == DialogResult.Yes)
                 {
                     lbTurnosCancelados.Visible = true;
                     timer1.Enabled = true;
+                    txtMotivo.Clear();
                     cancelarTurnos();
-                }
             }
         }
 

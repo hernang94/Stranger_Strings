@@ -35,22 +35,29 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void btIngresar_Click(object sender, EventArgs e)
         {
-            if (cantFamilia == 1) 
+            if (dateFechaNac.Value > ArchivoConfiguracion.Default.FechaActual)
             {
-                cargar_Datos(); 
+                MessageBox.Show("Fecha mayor a la actual", "Error", MessageBoxButtons.OK);
             }
             else
             {
-                this.cantFamilia--;
-                if (cantFamilia > 0)
+                if (cantFamilia == 1)
                 {
-                    A_Familia af = new A_Familia(cantFamilia, num_raiz);
-                    af.Show();
                     cargar_Datos();
                 }
+                else
+                {
+                    this.cantFamilia--;
+                    if (cantFamilia > 0)
+                    {
+                        A_Familia af = new A_Familia(cantFamilia, num_raiz);
+                        af.Show();
+                        cargar_Datos();
+                    }
+                }
+                this.Hide();
+                MessageBox.Show("Afiliado cargado con éxito", "Éxito", MessageBoxButtons.OK);
             }
-            this.Hide();
-            MessageBox.Show("Afiliado cargado con éxito", "Éxito", MessageBoxButtons.OK);
         }
 
         private void cargar_Datos()
