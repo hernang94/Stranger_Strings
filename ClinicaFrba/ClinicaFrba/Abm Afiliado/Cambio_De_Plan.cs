@@ -54,6 +54,7 @@ namespace ClinicaFrba.Abm_Afiliado
             BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_CAMBIO_PLAN", "SP", listParam);
 
             lbPlanMod.Visible = true;
+            btVolver.Enabled = false;
             timer1.Enabled = true;
             
         }

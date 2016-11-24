@@ -130,7 +130,7 @@ namespace ClinicaFrba.Registrar_Agenda_Medico
                         MessageBox.Show("El profesional ya posee sus 48hs semanales de trabajo ocupadas", "Error", MessageBoxButtons.OK);
                         break;
                     case -2:
-                        MessageBox.Show("El profesional ya atiende otra especialidad en esa franja horaria y dia seleccionado", "Error", MessageBoxButtons.OK);
+                        MessageBox.Show("El profesional ya atiende en esa franja horaria y dia seleccionado", "Error", MessageBoxButtons.OK);
                         break;
                 }
             }
@@ -203,6 +203,7 @@ namespace ClinicaFrba.Registrar_Agenda_Medico
 
         private void cbProfesionales_SelectedIndexChanged(object sender, EventArgs e)
         {
+            cbEspecialidad.ResetText();
             cbEspecialidad.Items.Clear();
             cbEspecialidad.SelectedIndex = -1;
             cbDia.SelectedIndex = -1;

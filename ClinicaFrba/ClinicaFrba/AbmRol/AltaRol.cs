@@ -37,40 +37,45 @@ namespace ClinicaFrba.AbmRol
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            List<SqlParameter> listaParamAux = new List<SqlParameter>();
-            listaParamAux.Add(new SqlParameter("@Rol", txtRol.Text));
-            SqlParameter paramRetAux = new SqlParameter("@Retorno", SqlDbType.Int);
-            paramRetAux.Direction = ParameterDirection.Output;
-            listaParamAux.Add(paramRetAux);
-            if (BDStranger_Strings.ExecStoredProcedure("STRANGER_STRINGS.SP_AGREGAR_ROL", listaParamAux) == 1)
+            if (txtRol.Text == "")
             {
-                MessageBox.Show("El Rol fue creado exitosamente", "Mensaje", MessageBoxButtons.OK);
-                agregarFuncionalidades();
-                this.Close();
-                principal.Show();
-
+                MessageBox.Show("Debe ingresar un nombre para el Rol", "Error", MessageBoxButtons.OK);
             }
             else
             {
-                MessageBox.Show("Este Rol ya existe", "Error", MessageBoxButtons.OK);
-            }
+                List<SqlParameter> listaParamAux = new List<SqlParameter>();
+                listaParamAux.Add(new SqlParameter("@Rol", txtRol.Text));
+                SqlParameter paramRetAux = new SqlParameter("@Retorno", SqlDbType.Int);
+                paramRetAux.Direction = ParameterDirection.Output;
+                listaParamAux.Add(paramRetAux);
+                if (BDStranger_Strings.ExecStoredProcedure("STRANGER_STRINGS.SP_AGREGAR_ROL", listaParamAux) == 1)
+                {
+                    MessageBox.Show("El Rol fue creado exitosamente", "Mensaje", MessageBoxButtons.OK);
+                    agregarFuncionalidades();
+                    this.Close();
+                    principal.Show();
 
+                }
+                else
+                {
+                    MessageBox.Show("Este Rol ya existe", "Error", MessageBoxButtons.OK);
+                }
+            }
         }
         public void agregarFuncionalidades()
         {
             foreach (string descripcion in ckListaFuncionalidades.CheckedItems)
             {
-                List<SqlParameter> listaParamAux = new List<SqlParameter>();
-                listaParamAux.Add(new SqlParameter("@Rol", txtRol.Text));
-                listaParamAux.Add(new SqlParameter("@Funcionalidad_Descripcion", descripcion));
-                SqlParameter paramRetAux = new SqlParameter("@Retorno", SqlDbType.Int);
-                paramRetAux.Direction = ParameterDirection.Output;
-                listaParamAux.Add(paramRetAux);
-                if (BDStranger_Strings.ExecStoredProcedure("STRANGER_STRINGS.SP_AGREGAR_FUNCIONALIDAD_ROL", listaParamAux) == 0)
-                {
+                 List<SqlParameter> listaParamAux = new List<SqlParameter>();
+                 listaParamAux.Add(new SqlParameter("@Rol", txtRol.Text));
+                 listaParamAux.Add(new SqlParameter("@Funcionalidad_Descripcion", descripcion));
+                 SqlParameter paramRetAux = new SqlParameter("@Retorno", SqlDbType.Int);
+                 paramRetAux.Direction = ParameterDirection.Output;
+                 listaParamAux.Add(paramRetAux);
+                 if (BDStranger_Strings.ExecStoredProcedure("STRANGER_STRINGS.SP_AGREGAR_FUNCIONALIDAD_ROL", listaParamAux) == 0)
+                  {
                     MessageBox.Show("Selecciono una funcionalidad existente", "Error", MessageBoxButtons.OK);
-                }
-
+                  }
             }
         }
 

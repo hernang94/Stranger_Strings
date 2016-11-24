@@ -57,9 +57,9 @@ namespace ClinicaFrba.AbmRol
             {
                 MessageBox.Show("Seleccione un Rol", "Error", MessageBoxButtons.OK);
             }
-            else
+            else 
             {
-                AgregarFuncionalidad agregar = new AgregarFuncionalidad(this,txNombre.Text);
+                AgregarFuncionalidad agregar = new AgregarFuncionalidad(this,comboBox1.Text);
                 agregar.Show();
                 this.Hide();
             }
@@ -73,7 +73,7 @@ namespace ClinicaFrba.AbmRol
             }
             else
             {
-                EliminarFuncionalidad eliminar = new EliminarFuncionalidad(this, txNombre.Text);
+                EliminarFuncionalidad eliminar = new EliminarFuncionalidad(this, comboBox1.Text);
                 eliminar.Show();
                 this.Hide();
             }
@@ -81,15 +81,22 @@ namespace ClinicaFrba.AbmRol
 
         private void button3_Click(object sender, EventArgs e)
         {
-             List<SqlParameter> listaParamAux = new List<SqlParameter>();
-             listaParamAux.Add(new SqlParameter("@Nombre", txNombre.Text));
-             listaParamAux.Add(new SqlParameter("@Rol_Descripcion", comboBox1.Text));
-             BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_MODIFICAR_NOMBRE_ROL", "SP", listaParamAux);
-             MessageBox.Show("El nombre ha sido modificado existosamente", "Mensaje", MessageBoxButtons.OK);
-             roles.Clear();
-             comboBox1.Items.Clear();
-             comboBox1.Text = txNombre.Text;
-             cargarRoles();
+            if (txNombre.Text != "")
+            {
+                List<SqlParameter> listaParamAux = new List<SqlParameter>();
+                listaParamAux.Add(new SqlParameter("@Nombre", txNombre.Text));
+                listaParamAux.Add(new SqlParameter("@Rol_Descripcion", comboBox1.Text));
+                BDStranger_Strings.GetDataReader("STRANGER_STRINGS.SP_MODIFICAR_NOMBRE_ROL", "SP", listaParamAux);
+                MessageBox.Show("El nombre ha sido modificado existosamente", "Mensaje", MessageBoxButtons.OK);
+                roles.Clear();
+                comboBox1.Items.Clear();
+                comboBox1.Text = txNombre.Text;
+                cargarRoles();
+            }
+            else
+            {
+                MessageBox.Show("Debe modificar al menos el Nombre para modificar el Rol", "Error", MessageBoxButtons.OK);
+            }
         }
 
         private void ModificarRol_Load(object sender, EventArgs e)

@@ -79,6 +79,7 @@ namespace ClinicaFrba.Registro_Llegada
 
         public void obtenerTurnos()
         {
+            dtgTurno.DataSource = null;
             BD.Entidades.Profesional prof = obtenerProfesionalDeString(cbProfesional.Text);
             List<SqlParameter> listaParam = new List<SqlParameter>();
             listaParam.Add(new SqlParameter("@Num_Doc", prof.Dni));

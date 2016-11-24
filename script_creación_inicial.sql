@@ -920,9 +920,9 @@ BEGIN
 		RETURN
 		END
 ELSE IF EXISTS(SELECT * FROM STRANGER_STRINGS.Horarios_Agenda ha JOIN STRANGER_STRINGS.Especialidad_X_Medico em ON(ha.Id_Especialidad_Medico=em.Id) JOIN STRANGER_STRINGS.Medico m ON(em.Id_Medico=m.Id_Medico)
-			   WHERE ha.Id_Especialidad_Medico!=@Id_Medico_X_Especialidad AND m.Id_Medico=@Id_Medico AND ha.Dia=@Dia_Semana 
-			   AND DATEDIFF(mm,ha.Hora_Desde,CONVERT(TIME,@Hora_Desde))=0 AND DATEDIFF(mm,ha.Hora_Hasta,CONVERT(TIME,@Hora_Hasta))=0
-			   AND DATEDIFF(dd,ha.Fecha_Valida_Desde,@Fecha_Desde)=0 AND DATEDIFF(dd,ha.Fecha_Valida_Hasta,@Fecha_Hasta)=0)
+			   WHERE (ha.Id_Especialidad_Medico=@Id_Medico_X_Especialidad OR ha.Id_Especialidad_Medico!=@Id_Medico_X_Especialidad) AND m.Id_Medico=@Id_Medico AND ha.Dia=@Dia_Semana 
+			   AND (CONVERT(TIME,@Hora_Desde) BETWEEN ha.Hora_Desde AND ha.Hora_Hasta OR CONVERT(TIME,@Hora_Hasta) BETWEEN ha.Hora_Desde AND ha.Hora_Hasta)
+			   AND (CONVERT(DATE,@Fecha_Desde) BETWEEN ha.Fecha_Valida_Desde AND ha.Fecha_Valida_Hasta OR CONVERT(DATE,@Fecha_Hasta) BETWEEN ha.Fecha_Valida_Desde AND ha.Fecha_Valida_Hasta))
 BEGIN
 		SET @Retorno=-2--El profesional ya atiende otra especialidad en esa franja horaria y dia seleccionado'
 		RETURN
@@ -1335,7 +1335,7 @@ WHERE @Num_Doc= Num_Doc AND Tipo_Doc=@Tipo_Doc
 SELECT t.Turno_Numero, p.Nombre,p.Apellido,p.Num_Doc,p.Tipo_Doc,t.Turno_Fecha
 		FROM STRANGER_STRINGS.Turno t JOIN STRANGER_STRINGS.Paciente p ON(t.Id_Paciente=p.Id_Paciente)
 		WHERE t.Id_Medico_x_Esp = (SELECT Id FROM STRANGER_STRINGS.Especialidad_X_Medico WHERE Id_Medico=@Id_Medico
-		AND Especialidad_Codigo=@Especialidad_Codigo) AND DATEDIFF(day,t.Turno_Fecha,@Fecha)=0 AND t.Id_Consulta IS NULL
+		AND Especialidad_Codigo=@Especialidad_Codigo) AND DATEDIFF(day,t.Turno_Fecha,@Fecha)=0 AND t.Id_Consulta IS NULL AND t.Id_Cancelacion IS NULL
 		ORDER BY CONVERT(TIME,t.Turno_Fecha,120) ASC
 END
 GO

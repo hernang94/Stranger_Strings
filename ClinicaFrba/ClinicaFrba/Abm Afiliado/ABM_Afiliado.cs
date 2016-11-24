@@ -323,8 +323,15 @@ namespace ClinicaFrba.Abm_Afiliado
 
        private void button7_Click(object sender, EventArgs e)
        {
-           Abm_Afiliado.ModificacionAfiliado mod = new Abm_Afiliado.ModificacionAfiliado(fun, paciente, lbBorradoModificado, timer1, dtgCliente);
-           mod.Show();
+           if (dtgCliente.DataSource == null)
+           {
+               MessageBox.Show("Debe seleccionar un afiliado", "Error", MessageBoxButtons.OK);
+           }
+           else
+           {
+               Abm_Afiliado.ModificacionAfiliado mod = new Abm_Afiliado.ModificacionAfiliado(fun, paciente, lbBorradoModificado, timer1, dtgCliente);
+               mod.Show();
+           }  
        }
 
        private void txtNroDoc_TextChanged(object sender, EventArgs e)

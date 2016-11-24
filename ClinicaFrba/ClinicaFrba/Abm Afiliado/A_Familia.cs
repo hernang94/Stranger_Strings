@@ -25,7 +25,7 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void A_Familia_Load(object sender, EventArgs e)
         {
-
+            dateFechaNac.Value = ArchivoConfiguracion.Default.FechaActual;
         }
 
         private void btVolver_Click(object sender, EventArgs e)
